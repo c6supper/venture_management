@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ventureManagement.web", "ventureManagement.web\ventureManagement.web.csproj", "{FC1C8CA9-8A88-4A2E-AFFA-9AEF2D2DD780}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ventureManagement.models", "ventureManagement.models\ventureManagement.models.csproj", "{3A6AE133-B76A-43E3-9E19-6CDA8FE8272F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FB18FC17-998D-4DC5-B73B-F67D66AD8E06}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ventureManagement.IDAL", "ventureManagement.IDAL\ventureManagement.IDAL.csproj", "{EDAD29E5-5875-4E55-87AE-9ECDFDEA933A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ventureManagement.DAL", "ventureManagement.DAL\ventureManagement.DAL.csproj", "{96895B00-6729-43E4-A5BA-5CE06FBE7A18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ventureManagement.Common", "ventureManagement.Common\ventureManagement.Common.csproj", "{3543E582-5B83-45A3-8345-62AC69E07924}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ventureManagement.IBLL", "ventureManagement.IBLL\ventureManagement.IBLL.csproj", "{FDC81D2A-62F3-45ED-B6AF-AD1364347B80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ventureManagement.BLL", "ventureManagement.BLL\ventureManagement.BLL.csproj", "{E770AEEE-F6CC-4692-867D-70BC4A741D32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC1C8CA9-8A88-4A2E-AFFA-9AEF2D2DD780}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC1C8CA9-8A88-4A2E-AFFA-9AEF2D2DD780}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC1C8CA9-8A88-4A2E-AFFA-9AEF2D2DD780}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC1C8CA9-8A88-4A2E-AFFA-9AEF2D2DD780}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A6AE133-B76A-43E3-9E19-6CDA8FE8272F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A6AE133-B76A-43E3-9E19-6CDA8FE8272F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A6AE133-B76A-43E3-9E19-6CDA8FE8272F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A6AE133-B76A-43E3-9E19-6CDA8FE8272F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDAD29E5-5875-4E55-87AE-9ECDFDEA933A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDAD29E5-5875-4E55-87AE-9ECDFDEA933A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDAD29E5-5875-4E55-87AE-9ECDFDEA933A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDAD29E5-5875-4E55-87AE-9ECDFDEA933A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96895B00-6729-43E4-A5BA-5CE06FBE7A18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96895B00-6729-43E4-A5BA-5CE06FBE7A18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96895B00-6729-43E4-A5BA-5CE06FBE7A18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96895B00-6729-43E4-A5BA-5CE06FBE7A18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3543E582-5B83-45A3-8345-62AC69E07924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3543E582-5B83-45A3-8345-62AC69E07924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3543E582-5B83-45A3-8345-62AC69E07924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3543E582-5B83-45A3-8345-62AC69E07924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC81D2A-62F3-45ED-B6AF-AD1364347B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC81D2A-62F3-45ED-B6AF-AD1364347B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC81D2A-62F3-45ED-B6AF-AD1364347B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC81D2A-62F3-45ED-B6AF-AD1364347B80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E770AEEE-F6CC-4692-867D-70BC4A741D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E770AEEE-F6CC-4692-867D-70BC4A741D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E770AEEE-F6CC-4692-867D-70BC4A741D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E770AEEE-F6CC-4692-867D-70BC4A741D32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
