@@ -2,11 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Ext.Net.MVC.Examples")]
-[assembly: AssemblyDescription("Ext.Net.MVC.Examples")]
+[assembly: AssemblyTitle("ventureManagement.web")]
+[assembly: AssemblyDescription("ventureManagement.web")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ext.NET, Inc.")]
-[assembly: AssemblyProduct("Ext.Net.MVC.Examples")]
+[assembly: AssemblyProduct("ventureManagement.web")]
 [assembly: AssemblyCopyright("Copyright © 2007-2013 Ext.NET, Inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -3,8 +3,9 @@ using System.Globalization;
 using System.Web;
 using System.Web.Configuration;
 using Ext.Net.Utilities;
+using Ext.Net;
 
-namespace Ext.Net.MVC.Examples
+namespace ventureManagement.web
 {
     public class AnalyticsModule : IHttpModule
     {

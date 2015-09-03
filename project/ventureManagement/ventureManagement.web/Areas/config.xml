@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<example>
+  <order>
+    <folder name="Getting_Started" />
+  </order>
+  <new version="2.2">
+    <folder name="Buttons_Basic\Views\Default_Button" />
+    <folder name="Buttons_Basic\Views\ImageButton" />
+    <folder name="Buttons_Basic\Views\LinkButton" />
+    <folder name="Buttons_Basic\Views\Overview" />    
+  </new>
+</example>

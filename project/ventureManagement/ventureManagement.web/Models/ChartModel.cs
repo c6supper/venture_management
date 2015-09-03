@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Ext.Net.MVC.Examples
+namespace ventureManagement.web
 {
     public class ChartModel
     {

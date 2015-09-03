@@ -4,8 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Net;
+using Ext.Net.MVC;
+using Ext.Net;
 
-namespace Ext.Net.MVC.Examples
+namespace ventureManagement.web
 {
     [DirectController]
     public class MainController : System.Web.Mvc.Controller

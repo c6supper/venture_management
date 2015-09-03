@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Wilco.SyntaxHighlighting;
 
-namespace Ext.Net.MVC.Examples
+namespace ventureManagement.web
 {
     public class HighLighterUtils
     {

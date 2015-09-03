@@ -4,7 +4,7 @@ using System.Text;
 using System.Web;
 using System.Web.Configuration;
 
-namespace Ext.Net.MVC.Examples
+namespace ventureManagement.web
 {
     public class AnalyticsFilter : Stream
     {
