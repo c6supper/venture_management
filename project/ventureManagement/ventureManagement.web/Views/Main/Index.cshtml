@@ -1,0 +1,56 @@
+﻿@{
+    Layout = null;
+    this.Session["Ext.Net.Theme"] = Ext.Net.Theme.Gray;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Ext.NET Examples - ASP.NET (WebForms + MVC) component framework integrating the cross-browser Sencha Ext JS JavaScript Library.</title>
+    <link rel="stylesheet" href="@Url.Content("~/resources/css/main.css")" />
+	<script src="@Url.Content("resources/js/main.js")"></script>
+</head>
+<body>
+    @Html.X().ResourceManager()
+    @Html.X().History().Listeners(l => l.Change.Fn = "change")
+
+    @RenderPage("~/Views/Main/_ViewPort.cshtml")
+    
+    @*this form is required for example downloading*@
+    <form id="downloadForm" class="x-hidden"></form>
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-19135912-3']);
+        _gaq.push(['_setDomainName', '.ext.net']);
+        _gaq.push(['_trackPageview']);
+        _gaq.push(['_setAllowHash', false]);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+
+		var GoSquared = {};
+		GoSquared.acct = "GSN-059453-Q";
+		(function (w){
+			function gs(){
+				w._gstc_lt = +new Date;
+				var d = document, g = d.createElement("script");
+				g.type = "text/javascript";
+				g.src = "//d1l6p2sc9645hc.cloudfront.net/tracker.js";
+				var s = d.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(g, s);
+			}
+			w.addEventListener ?
+			w.addEventListener("load", gs, false) :
+			w.attachEvent("onload", gs);
+		})(window);
+    </script>
+
+</body>
+</html>
