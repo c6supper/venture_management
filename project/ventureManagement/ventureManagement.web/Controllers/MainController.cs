@@ -4,8 +4,6 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Ext.Net;
 using Ext.Net.MVC;
-using ventureManagement.web.Areas.Member.Models;
-using ventureManagement.web.Attributes;
 
 namespace ventureManagement.web.Controllers
 {
@@ -14,10 +12,6 @@ namespace ventureManagement.web.Controllers
     {
         public ActionResult Index()
         {
-            if (Request.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Secure");
-            }
             return View();
         }
 
@@ -72,50 +66,6 @@ namespace ventureManagement.web.Controllers
             Response.Redirect("");
 
             return this.Direct();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult Index(LoginViewModel model, string returnUrl)
-        {
-            // Verify the fields.
-            if (ModelState.IsValid)
-            {
-                // Validate the user login.
-                if (Membership.ValidateUser(model.UserName, model.Password))
-                {
-                    // Create the authentication ticket.
-                    FormsAuthentication.SetAuthCookie(model.UserName, false);
-
-                    // Redirect to the secure area.
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    {
-                        return Redirect(returnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Secure");
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
-                }
-            }
-
-            return View(model);
-        }
-
-        public ActionResult LogOff()
-        {
-            // Delete the user details from cache.
-            System.Web.HttpContext.Current.Cache.Remove(User.Identity.Name);
-
-            // Delete the authentication ticket and sign out.
-            FormsAuthentication.SignOut();
-
-            return RedirectToAction("Index", "Home");
         }
     }
 }

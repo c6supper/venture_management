@@ -4,13 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ventureManagement.web.Areas.Manage.Controllers
+namespace ventureManagement.web.Controllers
 {
-    public class HomeController : Controller
+    public class SecureController : Controller
     {
         public ActionResult Index()
         {
             return View();
         }
-	}
+    }
 }

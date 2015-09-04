@@ -30,9 +30,8 @@ namespace ventureManagement.web
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Main", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Login", action = "TryLogin", id = UrlParameter.Optional } // Parameter defaults
             );
-
         }
 
         protected void Application_Start()
