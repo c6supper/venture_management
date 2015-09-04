@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - 用户中心</title>
+    @Styles.Render("~/Areas/Member/Content/bootstrap.min.css", "~/Areas/Member/Content/member.css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("scripts", required: false)
+</head>
+<body>
+    <header class="navbar navbar-static-top navbar-inverse bs-docs-nav" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <h4>ventureManagement</h4>
+            </div>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="@Url.Action("Details","User")">欢迎 @User.Identity.Name</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        @Html.ActionLink("退出","Logout","User")
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        @RenderBody()
+    </div>
+    <footer>
+        
+    </footer>
+</body>
+</html>
