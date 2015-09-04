@@ -9,22 +9,19 @@ using System.Drawing;
 using ventureManagement.models;
 using ventureManagement.IBLL;
 using ventureManagement.BLL;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity;
+using ventureManagement.web.Attributes;
+//using System.Web.Mvc.Filters;
 
 
-namespace ventureManagement.web.Areas.Member.Controllers
+namespace ventureManagement.Web.Areas.Member.Controllers
 {
-    public static class DefaultAuthenticationTypes
-    {
-        public const string ApplicationCookie = "ApplicationCookie";
-        public const string ExternalBearer = "ExternalBearer";
-        public const string ExternalCookie = "ExternalCookie";
-    }
-
     [Authorize]
     public class UserController : Controller
     {
-        private InterfaceUserService userService;
-        public UserController() { userService = new UserService(); }
+        private readonly InterfaceUserService _userService;
+        public UserController() { _userService = new UserService(); }
 
 
         /// <summary>
@@ -41,13 +38,13 @@ namespace ventureManagement.web.Areas.Member.Controllers
         public ActionResult ChangePassword(ChangePasswordViewModel passwordViewModel)
         {
             AuthenticationManager.User.Claims.First(u => u.ValueType == "");
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var _user = userService.Find(User.Identity.Name);
-                if (_user.Password == Common.Security.Sha256(passwordViewModel.OriginalPassword))
+                var user = _userService.Find(User.Identity.Name);
+                if (user.Password == Common.Security.Sha256(passwordViewModel.OriginalPassword))
                 {
-                    _user.Password = Common.Security.Sha256(passwordViewModel.Password);
-                    if (userService.Update(_user)) ModelState.AddModelError("", "修改密码成功");
+                    user.Password = Common.Security.Sha256(passwordViewModel.Password);
+                    if (_userService.Update(user)) ModelState.AddModelError("", "修改密码成功");
                     else ModelState.AddModelError("", "修改密码失败");
                 }
                 else ModelState.AddModelError("", "原密码错误");
@@ -61,7 +58,7 @@ namespace ventureManagement.web.Areas.Member.Controllers
         /// <returns></returns>
         public ActionResult Details()
         {
-            return View(userService.Find(User.Identity.Name));
+            return View(_userService.Find(User.Identity.Name));
         }
 
 
@@ -70,6 +67,7 @@ namespace ventureManagement.web.Areas.Member.Controllers
         /// </summary>
         /// <param name="returnUrl">返回Url</param>
         /// <returns></returns>
+        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -77,21 +75,22 @@ namespace ventureManagement.web.Areas.Member.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel loginViewModel,string returnUrl)
+        public ActionResult Login(LoginViewModel loginViewModel, string returnUrl)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var _user = userService.Find(loginViewModel.UserName);
-                if (_user == null) ModelState.AddModelError("UserName", "用户名不存在");
-                else if (_user.Password == Common.Security.Sha256(loginViewModel.Password))
+                var user = _userService.Find(loginViewModel.UserName);
+                if (user == null) ModelState.AddModelError("UserName", "用户名不存在");
+                else if (user.Password == Common.Security.Sha256(loginViewModel.Password))
                 {
-                    _user.LoginTime = System.DateTime.Now;
-                    _user.LoginIP = Request.UserHostAddress;
-                    userService.Update(_user);
-                    var _identity = userService.CreateIdentity(_user, DefaultAuthenticationTypes.ApplicationCookie);
+                    user.LoginTime = System.DateTime.Now;
+                    user.LoginIP = Request.UserHostAddress;
+                    _userService.Update(user);
+                    var identity = _userService.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
                     AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-                    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = loginViewModel.RememberMe }, _identity);
+                    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = loginViewModel.RememberMe }, identity);
                     if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Home");
                     else if (Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
                     else return RedirectToAction("Index", "Home");
@@ -129,33 +128,34 @@ namespace ventureManagement.web.Areas.Member.Controllers
         public ActionResult Modify()
         {
 
-            var _user = userService.Find(User.Identity.Name);
-            if (_user == null) ModelState.AddModelError("", "用户不存在");
+            var user = _userService.Find(User.Identity.Name);
+            if (user == null) ModelState.AddModelError("", "用户不存在");
             else
             {
-                if (TryUpdateModel(_user, new string[] { "DisplayName", "Email" }))
+                if (TryUpdateModel(user, new string[] { "DisplayName", "Email" }))
                 {
                     if (ModelState.IsValid)
                     {
-                        if (userService.Update(_user)) ModelState.AddModelError("", "修改成功！");
-                        else ModelState.AddModelError("", "无需要修改的资料");
+                        ModelState.AddModelError("", _userService.Update(user) ? "修改成功！" : "无需要修改的资料");
                     }
                 }
                 else ModelState.AddModelError("", "更新模型数据失败");
             }
-            return View("Details", _user);
+            return View("Details", user);
         }
 
         /// <summary>
         /// 注册
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterViewModel register)
         {
@@ -164,10 +164,10 @@ namespace ventureManagement.web.Areas.Member.Controllers
                 ModelState.AddModelError("VerificationCode", "验证码不正确");
                 return View(register);
             }
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
 
-                if (userService.Exist(register.UserName)) ModelState.AddModelError("UserName", "用户名已存在");
+                if (_userService.Exist(register.UserName)) ModelState.AddModelError("UserName", "用户名已存在");
                 else
                 {
                     User _user = new User()
@@ -182,12 +182,12 @@ namespace ventureManagement.web.Areas.Member.Controllers
                         Status = 0,
                         RegistrationTime = System.DateTime.Now
                     };
-                    _user = userService.Add(_user);
+                    _user = _userService.Add(_user);
                     if (_user.UserID > 0)
                     {
-                        var _identity = userService.CreateIdentity(_user, DefaultAuthenticationTypes.ApplicationCookie);
+                        var identity = _userService.CreateIdentity(_user, DefaultAuthenticationTypes.ApplicationCookie);
                         AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-                        AuthenticationManager.SignIn(_identity);
+                        AuthenticationManager.SignIn(identity);
                         return RedirectToAction("Index", "Home");
                     }
                     else { ModelState.AddModelError("", "注册失败！"); }
@@ -200,11 +200,12 @@ namespace ventureManagement.web.Areas.Member.Controllers
         /// 验证码
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public ActionResult VerificationCode()
         {
             string verificationCode = Security.CreateVerificationText(6);
-            Bitmap _img = Security.CreateVerificationImage(verificationCode, 160, 30);
-            _img.Save(Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+            Bitmap img = Security.CreateVerificationImage(verificationCode, 160, 30);
+            img.Save(Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             TempData["VerificationCode"] = verificationCode.ToUpper();
             return null;
         }

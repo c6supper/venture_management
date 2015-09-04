@@ -49,6 +49,14 @@ namespace ventureManagement.models
         public string Email { get; set; }
 
         /// <summary>
+        /// mobile
+        /// </summary>
+        [Required(ErrorMessage = "必填")]
+        [Display(Name = "手机号码")]
+        [DataType(DataType.PhoneNumber)]
+        public string Mobile { get; set; }
+
+        /// <summary>
         /// 用户状态<br />
         /// 0正常，1锁定，2未通过邮件验证，3未通过管理员确认
         /// </summary>

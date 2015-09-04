@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+//using ventureManagement.web.Filters;
 
 namespace ventureManagement.web
 {
@@ -14,6 +15,7 @@ namespace ventureManagement.web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
+            //filters.Add(new LogonAuthorize());
             filters.Add(new HandleErrorAttribute());
         }
 

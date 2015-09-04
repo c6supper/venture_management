@@ -17,12 +17,7 @@ namespace ventureManagement.web.Areas.Member.Controllers
     {
         public ActionResult Index()
         {
-            if (Request.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Secure");
-            }
-            else
-                return View();
+            return View();
         }
 	}
 }

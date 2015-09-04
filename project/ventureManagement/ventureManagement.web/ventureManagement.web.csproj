@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ext.Net.MVC.Examples</RootNamespace>
-    <AssemblyName>Ext.Net.MVC.Examples</AssemblyName>
+    <RootNamespace>ventureManagement.web</RootNamespace>
+    <AssemblyName>ventureManagement</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
@@ -26,6 +26,8 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,8 +59,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ReferenceAssemblies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>lib\Ext.NET\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.0.2\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
@@ -96,9 +105,19 @@
     <Compile Include="Areas\Buttons_Basic\Controllers\ImageButtonController.cs" />
     <Compile Include="Areas\Buttons_Basic\Controllers\LinkButtonController.cs" />
     <Compile Include="Areas\Buttons_Basic\Controllers\OverviewController.cs" />
+    <Compile Include="Areas\Manage\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Manage\ManageAreaRegistration.cs" />
+    <Compile Include="Areas\Member\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Member\Controllers\UserController.cs" />
+    <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
+    <Compile Include="Areas\Member\Models\ChangePasswordViewModel.cs" />
+    <Compile Include="Areas\Member\Models\LoginViewModel.cs" />
+    <Compile Include="Areas\Member\Models\RegisterViewModel.cs" />
+    <Compile Include="Attributes\AllowAnonymousAttribute.cs" />
+    <Compile Include="Controllers\SourceController.cs" />
+    <Compile Include="Filters\LogonAuthorize.cs" />
     <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Controllers\MainController.cs" />
-    <Compile Include="Controllers\SourceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -125,6 +144,8 @@
     <Content Include="Areas\Buttons_Basic\Views\ImageButton\Index.cshtml" />
     <Content Include="Areas\Buttons_Basic\Views\LinkButton\Index.cshtml" />
     <Content Include="Areas\Buttons_Basic\Views\Overview\Index.cshtml" />
+    <Content Include="Areas\Member\Content\bootstrap.min.css" />
+    <Content Include="Areas\Member\Content\member.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ReferenceAssemblies\ICSharpCode.SharpZipLib.dll" />
@@ -238,6 +259,17 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\_BaseLayoutNoMgr.cshtml" />
+    <Content Include="Areas\Manage\Views\web.config" />
+    <Content Include="Areas\Member\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Member\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Member\Views\User\ChangePassword.cshtml" />
+    <Content Include="Areas\Member\Views\User\Details.cshtml" />
+    <Content Include="Areas\Member\Views\User\Login.cshtml" />
+    <Content Include="Areas\Member\Views\User\Menu.cshtml" />
+    <Content Include="Areas\Member\Views\User\Register.cshtml" />
+    <Content Include="Areas\Member\Views\web.config" />
+    <Content Include="Areas\Member\Views\_ViewStart.cshtml" />
+    <Content Include="packages.config" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />
@@ -264,6 +296,9 @@
   <ItemGroup>
     <Folder Include="Areas\Buttons_Basic\Models\" />
     <Folder Include="Areas\Buttons_Basic\Views\Shared\" />
+    <Folder Include="Areas\Manage\Models\" />
+    <Folder Include="Areas\Manage\Views\Home\" />
+    <Folder Include="Areas\Manage\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_BaseLayout.cshtml" />
@@ -274,6 +309,28 @@
     <Content Include="Views\Main\_West.cshtml" />
     <Content Include="Views\Main\Home.cshtml" />
     <Content Include="Views\Main\_LinkWindow.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ventureManagement.BLL\ventureManagement.BLL.csproj">
+      <Project>{e770aeee-f6cc-4692-867d-70bc4a741d32}</Project>
+      <Name>ventureManagement.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ventureManagement.Common\ventureManagement.Common.csproj">
+      <Project>{3543e582-5b83-45a3-8345-62ac69e07924}</Project>
+      <Name>ventureManagement.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ventureManagement.IBLL\ventureManagement.IBLL.csproj">
+      <Project>{fdc81d2a-62f3-45ed-b6af-ad1364347b80}</Project>
+      <Name>ventureManagement.IBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ventureManagement.IDAL\ventureManagement.IDAL.csproj">
+      <Project>{edad29e5-5875-4e55-87ae-9ecdfdea933a}</Project>
+      <Name>ventureManagement.IDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ventureManagement.models\ventureManagement.models.csproj">
+      <Project>{3a6ae133-b76a-43e3-9e19-6cda8fe8272f}</Project>
+      <Name>ventureManagement.models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -384,4 +441,5 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

@@ -42,6 +42,13 @@ namespace ventureManagement.models
         public bool EnableEmailVerify { get; set; }
 
         /// <summary>
+        /// 启用手机验证
+        /// </summary>
+        [Display(Name = "启用手机验证")]
+        [Required(ErrorMessage = "必填")]
+        public bool EnableMobileVerify { get; set; }
+
+        /// <summary>
         /// 默认用户组Id
         /// </summary>
         [Display(Name = "默认用户组Id")]
