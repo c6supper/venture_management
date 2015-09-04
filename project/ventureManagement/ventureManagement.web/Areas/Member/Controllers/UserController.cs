@@ -9,8 +9,6 @@ using System.Drawing;
 using ventureManagement.models;
 using ventureManagement.IBLL;
 using ventureManagement.BLL;
-using Microsoft.Owin.Security;
-using Microsoft.AspNet.Identity;
 using ventureManagement.web.Attributes;
 //using System.Web.Mvc.Filters;
 
@@ -37,18 +35,15 @@ namespace ventureManagement.Web.Areas.Member.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel passwordViewModel)
         {
-            AuthenticationManager.User.Claims.First(u => u.ValueType == "");
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(passwordViewModel);
+
+            var user = _userService.Find(User.Identity.Name);
+            if (user.Password == Common.Security.Sha256(passwordViewModel.OriginalPassword))
             {
-                var user = _userService.Find(User.Identity.Name);
-                if (user.Password == Common.Security.Sha256(passwordViewModel.OriginalPassword))
-                {
-                    user.Password = Common.Security.Sha256(passwordViewModel.Password);
-                    if (_userService.Update(user)) ModelState.AddModelError("", "修改密码成功");
-                    else ModelState.AddModelError("", "修改密码失败");
-                }
-                else ModelState.AddModelError("", "原密码错误");
+                user.Password = Common.Security.Sha256(passwordViewModel.Password);
+                ModelState.AddModelError("", _userService.Update(user) ? "修改密码成功" : "修改密码失败");
             }
+            else ModelState.AddModelError("", "原密码错误");
             return View(passwordViewModel);
         }
 
@@ -88,9 +83,7 @@ namespace ventureManagement.Web.Areas.Member.Controllers
                     user.LoginTime = System.DateTime.Now;
                     user.LoginIP = Request.UserHostAddress;
                     _userService.Update(user);
-                    var identity = _userService.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
-                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-                    AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = loginViewModel.RememberMe }, identity);
+
                     if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Home");
                     else if (Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
                     else return RedirectToAction("Index", "Home");
@@ -106,7 +99,6 @@ namespace ventureManagement.Web.Areas.Member.Controllers
         /// <returns></returns>
         public ActionResult Logout()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return Redirect(Url.Content("~/"));
         }
 
@@ -170,7 +162,7 @@ namespace ventureManagement.Web.Areas.Member.Controllers
                 if (_userService.Exist(register.UserName)) ModelState.AddModelError("UserName", "用户名已存在");
                 else
                 {
-                    User _user = new User()
+                    User user = new User()
                     {
                         UserName = register.UserName,
                         //默认用户组代码写这里
@@ -182,12 +174,9 @@ namespace ventureManagement.Web.Areas.Member.Controllers
                         Status = 0,
                         RegistrationTime = System.DateTime.Now
                     };
-                    _user = _userService.Add(_user);
-                    if (_user.UserID > 0)
+                    user = _userService.Add(user);
+                    if (user.UserID > 0)
                     {
-                        var identity = _userService.CreateIdentity(_user, DefaultAuthenticationTypes.ApplicationCookie);
-                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-                        AuthenticationManager.SignIn(identity);
                         return RedirectToAction("Index", "Home");
                     }
                     else { ModelState.AddModelError("", "注册失败！"); }
@@ -209,10 +198,5 @@ namespace ventureManagement.Web.Areas.Member.Controllers
             TempData["VerificationCode"] = verificationCode.ToUpper();
             return null;
         }
-
-
-        #region 属性
-        private IAuthenticationManager AuthenticationManager { get { return HttpContext.GetOwinContext().Authentication; } }
-        #endregion
     }
 }

@@ -19,19 +19,9 @@ namespace ventureManagement.BLL
     {
         public UserService() : base(RepositoryFactory.UserRepository) { }
 
-        public ClaimsIdentity CreateIdentity(User user, string authenticationType)
-        {
-            ClaimsIdentity _identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
-            _identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-            _identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()));
-            _identity.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "ASP.NET Identity"));
-            _identity.AddClaim(new Claim("DisplayName", user.DisplayName));
-            return _identity;
-        }
-
         public bool Exist(string userName) { return CurrentRepository.Exist(u => u.UserName == userName); }
 
-        public User Find(int userID) { return CurrentRepository.Find(u => u.UserID == userID); }
+        public User Find(int userId) { return CurrentRepository.Find(u => u.UserID == userId); }
 
         public User Find(string userName) { return CurrentRepository.Find(u => u.UserName == userName); }
 

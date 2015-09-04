@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
+using ventureManagement.web.Filters;
+
 //using ventureManagement.web.Filters;
 
 namespace ventureManagement.web
@@ -15,7 +18,7 @@ namespace ventureManagement.web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            //filters.Add(new LogonAuthorize());
+            filters.Add(new LogonAuthorize());
             filters.Add(new HandleErrorAttribute());
         }
 
@@ -38,6 +41,15 @@ namespace ventureManagement.web
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+        }
+
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            // If the user is logged-in, make sure his cache details are still available, otherwise redirect to login page.
+            if (Request.IsAuthenticated && Membership.GetUser() == null)
+            {
+                FormsAuthentication.SignOut();
+            }
         }
     }
 }

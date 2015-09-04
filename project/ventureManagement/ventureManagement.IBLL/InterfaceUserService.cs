@@ -13,15 +13,6 @@ namespace ventureManagement.IBLL
     /// </summary>
     public interface InterfaceUserService : InterfaceBaseService<User>
     {
-
-        /// <summary>
-        /// 创建基于声明的标识
-        /// </summary>
-        /// <param name="user">用户</param>
-        /// <param name="authenticationType">身份验证类型</param>
-        /// <returns>基于声明的标识</returns>
-        ClaimsIdentity CreateIdentity(User user, string authenticationType);
-
         /// <summary>
         /// 用户是否存在
         /// </summary>
@@ -32,9 +23,9 @@ namespace ventureManagement.IBLL
         /// <summary>
         /// 查找用户
         /// </summary>
-        /// <param name="userID">用户ID</param>
+        /// <param name="userId">用户ID</param>
         /// <returns></returns>
-        User Find(int userID);
+        User Find(int userId);
 
         /// <summary>
         /// 查找用户
