@@ -23,7 +23,7 @@
 
 .left { 
 	position: absolute;
-	background: url(../images/ext.net-logo.png) 0 0 no-repeat;
+	/*background: url(../images/ext.net-logo.png) 0 0 no-repeat;*/
 	background-position: center left;
 }
 
@@ -32,8 +32,9 @@
 }
 
 .title {
-	margin: 8px 0 0 175px;
-	float: left;
+	/*margin: 8px 0 0 175px;*/
+    text-align: center;
+	/*float: left;*/
 	font-size: 30px;
 }
 
@@ -41,11 +42,11 @@
 	margin: 0;
 	color: #0589C7;
 	font-family: 'TitilliumText25L1wt';
+    font-size: 20px;
 }
 
 .badge {
-	margin-left: 10px;
-	float: left;
+	float: right;
 	color: #888888;
 	font-family: 'OpenSansRegular';
 	line-height: 55px;

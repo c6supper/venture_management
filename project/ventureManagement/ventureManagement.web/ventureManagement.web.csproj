@@ -238,7 +238,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\_BaseLayoutNoMgr.cshtml" />
-    <Content Include="Web.sitemap" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />
