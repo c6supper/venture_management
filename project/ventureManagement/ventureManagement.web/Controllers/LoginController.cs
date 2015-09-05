@@ -1,59 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
+using Ext.Net;
 using Ext.Net.MVC;
-using ventureManagement.web.Models;
 using ventureManagement.web.Attributes;
 
 namespace ventureManagement.web.Controllers
 {
-    [DirectController]
+    [DirectController(AreaName = "Member", GenerateProxyForOtherControllers = false, IDMode = DirectMethodProxyIDMode.None)]
     public class LoginController : Controller
     {
         [AllowAnonymous]
-        public ActionResult TryLogin()
+        public ActionResult Index()
         {
-            if (Request.IsAuthenticated)
-            {
-                return RedirectToAction("Index","Main");
-            }
-            return View();
+            if(!Request.IsAuthenticated)
+                return View();
+
+            return RedirectToAction("Index","Main");
         }
 
-        [HttpPost]
         [AllowAnonymous]
-        public ActionResult Index(LogOnModel model, string returnUrl)
+        public ActionResult Login(string txtUsername, string txtPassword, string returnUrl)
         {
-            // Verify the fields.
-            if (ModelState.IsValid)
+            // Validate the user login.
+            if (Membership.ValidateUser(txtUsername, txtPassword))
             {
-                // Validate the user login.
-                if (Membership.ValidateUser(model.UserName, model.Password))
-                {
-                    // Create the authentication ticket.
-                    FormsAuthentication.SetAuthCookie(model.UserName, false);
+                // Create the authentication ticket.
+                FormsAuthentication.SetAuthCookie(txtUsername, false);
 
-                    // Redirect to the secure area.
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    {
-                        return Redirect(returnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Secure");
-                    }
+                // Redirect to the secure area.
+                if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                {
+                    return Redirect(returnUrl);
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    return RedirectToRoute("Default", new { Controller = "Main", Action = "Index" }); ;
                 }
             }
+            else
+            {
+                X.Msg.Alert("提示", "用户名或密码错误,请重新输入").Show();
+            }
 
-            return View(model);
+            return this.Direct();
         }
 
         public ActionResult LogOff()

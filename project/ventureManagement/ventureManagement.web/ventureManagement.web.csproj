@@ -96,8 +96,9 @@
     <Compile Include="Areas\Buttons_Basic\Controllers\ImageButtonController.cs" />
     <Compile Include="Areas\Buttons_Basic\Controllers\LinkButtonController.cs" />
     <Compile Include="Areas\Buttons_Basic\Controllers\OverviewController.cs" />
-    <Compile Include="Attributes\AllowAnonymousAttribute.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
+    <Compile Include="Attributes\AllowAnonymousAttribute.cs" />
     <Compile Include="Controllers\SecureController.cs" />
     <Compile Include="Controllers\SourceController.cs" />
     <Compile Include="Filters\LogonAuthorize.cs" />
@@ -107,7 +108,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ExamplesModel.cs" />
-    <Compile Include="Models\LogOnModel.cs" />
     <Compile Include="Models\SourceModel.cs" />
     <Compile Include="Models\ZipResult.cs" />
     <Compile Include="Module\AnalyticsFilter.cs" />
@@ -245,6 +245,8 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\_BaseLayoutNoMgr.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Areas\Member\Views\Web.config" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />
@@ -267,11 +269,13 @@
     <None Include="resources\fonts\TitilliumText25L005-webfont.ttf" />
     <None Include="resources\fonts\TitilliumText25L005-webfont.woff" />
     <Content Include="Views\Shared\_BaseLayoutClean.cshtml" />
-    <Content Include="Views\Login\TryLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Buttons_Basic\Models\" />
     <Folder Include="Areas\Buttons_Basic\Views\Shared\" />
+    <Folder Include="Areas\Member\Content\" />
+    <Folder Include="Areas\Member\Controllers\" />
+    <Folder Include="Areas\Member\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_BaseLayout.cshtml" />

@@ -4,12 +4,14 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Ext.Net;
 using Ext.Net.MVC;
+using ventureManagement.web.Attributes;
 
 namespace ventureManagement.web.Controllers
 {
     [DirectController]
     public class MainController : System.Web.Mvc.Controller
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();

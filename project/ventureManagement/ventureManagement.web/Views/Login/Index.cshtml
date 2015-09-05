@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "水电工程施工安全隐患排查预警系统";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section example
+{
+    @(
+        Html.X().Window()
+            .Closable(false)
+            .CloseAction(CloseAction.Destroy)
+            .Resizable(false)
+            .Height(150)
+            .Icon(Icon.Lock)
+            .Title("水电工程施工安全隐患排查预警系统")
+            .Draggable(false)
+            .Width(350)
+            .Modal(true)
+            .BodyPadding(5)
+            .Layout(LayoutType.Fit)
+            .Items(
+                Html.X().FormPanel()
+                    .Layout(LayoutType.Form)
+                    .Border(false)
+                    .BodyStyle("background-color:transparent;")
+                    .Items(
+                        Html.X().TextField()
+                            .ID("txtUsername")
+                            .Icon(Icon.User)
+                            .ReadOnly(false)
+                            .FieldLabel("用户名")
+                            .AllowBlank(false)
+                            .BlankText("请输入用户名."),
+                    
+                        Html.X().TextField()
+                            .ID("txtPassword")
+                            .Icon(Icon.ApplicationKey)
+                            .ReadOnly(false)
+                            .InputType(Ext.Net.InputType.Password)
+                            .FieldLabel("密码")
+                            .AllowBlank(false)
+                            .BlankText("请输入密码."),
+                            
+                        Html.X().TagLabel()
+                            .ID("txtStatus")
+                            .TagString("")
+                    )
+            )                
+            .Buttons(
+                Html.X().Button()
+                   .Text("登陆")
+                   .Icon(Icon.Accept)
+                   .DirectEvents(de => {
+                        de.Click.Action = "Login";
+                        de.Click.EventMask.ShowMask = true;
+                        de.Click.EventMask.Msg = "登录中...";
+                        de.Click.EventMask.MinDelay = 1000;
+                        de.Click.FormID = "#(return this.up('window').down('form');)";
+                   })
+            )
+    )
+}
