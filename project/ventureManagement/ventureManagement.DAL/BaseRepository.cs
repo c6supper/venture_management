@@ -14,7 +14,7 @@ namespace ventureManagement.DAL
     /// </summary>
     public class BaseRepository<T> : InterfaceBaseRepository<T> where T : class
     {
-        protected ventureManagementDbContext nContext = ContextFactory.GetCurrentContext();
+        protected VentureManagementDbContext nContext = ContextFactory.GetCurrentContext();
 
         public T Add(T entity)
         {

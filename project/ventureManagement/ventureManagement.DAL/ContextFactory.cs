@@ -24,12 +24,12 @@ namespace ventureManagement.DAL
         /// 获取当前数据上下文
         /// </summary>
         /// <returns></returns>
-        public static ventureManagementDbContext GetCurrentContext()
+        public static VentureManagementDbContext GetCurrentContext()
         {
-            ventureManagementDbContext _nContext = CallContext.GetData("ventureManagementContext") as ventureManagementDbContext;
+            VentureManagementDbContext _nContext = CallContext.GetData("ventureManagementContext") as VentureManagementDbContext;
             if (_nContext == null)
             {
-                _nContext = new ventureManagementDbContext();
+                _nContext = new VentureManagementDbContext();
                 CallContext.SetData("ventureManagementContext", _nContext);
             }
             return _nContext;

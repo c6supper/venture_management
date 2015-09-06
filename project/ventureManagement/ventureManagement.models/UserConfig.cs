@@ -11,7 +11,7 @@ namespace ventureManagement.models
     public class UserConfig
     {
         [Key]
-        public int ConfigID { get; set; }
+        public int ConfigId { get; set; }
 
         /// <summary>
         /// 启用注册

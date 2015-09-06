@@ -14,7 +14,7 @@ namespace ventureManagement.models
     public class User
     {
         [Key]
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// 用户名

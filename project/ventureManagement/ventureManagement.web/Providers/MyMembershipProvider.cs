@@ -4,6 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Web.Caching;
+using ventureManagement.IBLL;
+using ventureManagement.BLL;
+using ventureManagement.IDAL;
+using ventureManagement.IDAL;
+using ventureManagement.models;
 
 namespace ventureManagement.web.Providers
 {
@@ -145,6 +150,9 @@ namespace ventureManagement.web.Providers
 
         #endregion
 
+
+        private InterfaceUserService _userService = new UserService();
+
         /// <summary>
         /// Authenticates the user.
         /// </summary>
@@ -153,7 +161,8 @@ namespace ventureManagement.web.Providers
         /// <returns>bool</returns>
         public override bool ValidateUser(string username, string password)
         {
-            if (username == "testuser" && password == "password")
+            User user = _userService.Find(username);
+            if (user != null && user.Password.Equals(password))
             {
                 // Simulate a user id.
                 int userId = new Random().Next(1, 100);

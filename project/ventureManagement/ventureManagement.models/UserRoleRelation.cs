@@ -11,19 +11,19 @@ namespace ventureManagement.models
     public class UserRoleRelation
     {
         [Key]
-        public int RelationID { get; set; }
+        public int RelationId { get; set; }
 
         /// <summary>
         /// 用户ID
         /// </summary>
         [Required()]
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// 角色ID
         /// </summary>
         [Required()]
-        public int RoelID { get; set; }
+        public int RoelId { get; set; }
 
         public virtual User User { get; set; }
         public virtual Role Role { get; set; }
