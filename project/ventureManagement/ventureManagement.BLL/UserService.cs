@@ -4,8 +4,12 @@ using ventureManagement.IBLL;
 using ventureManagement.models;
 using System.Linq;
 using System;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity.Validation;
 
 namespace ventureManagement.BLL
 {
@@ -17,11 +21,35 @@ namespace ventureManagement.BLL
     /// </summary>
     public class UserService : BaseService<User>, InterfaceUserService
     {
-        public UserService() : base(RepositoryFactory.UserRepository) { }
+        public UserService() : base(RepositoryFactory.UserRepository)
+        {
+            //default 
+            try
+            {
+                if(Find("master") != null) return;
+
+                var user = new User
+                {
+                    UserName = "master",
+                    Password = Common.Utility.DesEncrypt("master"),
+                    Status = 0,
+                    Email = "xxx@163.com",
+                    DisplayName = "master",
+                    Mobile = "11111111",
+                    RegistrationTime = DateTime.Now
+                };
+                Add(user);
+            }
+            catch (Exception ex)
+            {
+                DbEntityValidationException dataEx = (DbEntityValidationException) ex;
+                Debug.Print(ex.StackTrace);
+            }
+        }
 
         public bool Exist(string userName) { return CurrentRepository.Exist(u => u.UserName == userName); }
 
-        public User Find(int userId) { return CurrentRepository.Find(u => u.UserID == userId); }
+        public User Find(int userId) { return CurrentRepository.Find(u => u.UserId == userId); }
 
         public User Find(string userName) { return CurrentRepository.Find(u => u.UserName == userName); }
 

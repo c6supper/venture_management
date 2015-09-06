@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.Web.Security;
 using System.Web.Caching;
-using ventureManagement.IBLL;
+using System.Web.Security;
+using Common;
 using ventureManagement.BLL;
-using ventureManagement.IDAL;
-using ventureManagement.IDAL;
+using ventureManagement.IBLL;
 using ventureManagement.models;
 
 namespace ventureManagement.web.Providers
@@ -151,7 +148,7 @@ namespace ventureManagement.web.Providers
         #endregion
 
 
-        private InterfaceUserService _userService = new UserService();
+        private readonly InterfaceUserService _userService = new UserService();
 
         /// <summary>
         /// Authenticates the user.
@@ -162,7 +159,7 @@ namespace ventureManagement.web.Providers
         public override bool ValidateUser(string username, string password)
         {
             User user = _userService.Find(username);
-            if (user != null && user.Password.Equals(password))
+            if (user != null && user.Password.Equals(Utility.DesEncrypt(password)))
             {
                 // Simulate a user id.
                 int userId = new Random().Next(1, 100);

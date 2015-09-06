@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ventureManagement.Common
+namespace Common
 {
     /// <summary>
     /// 安全

@@ -26,13 +26,13 @@ namespace ventureManagement.DAL
         /// <returns></returns>
         public static VentureManagementDbContext GetCurrentContext()
         {
-            VentureManagementDbContext _nContext = CallContext.GetData("ventureManagementContext") as VentureManagementDbContext;
-            if (_nContext == null)
+            VentureManagementDbContext nContext = CallContext.GetData("ventureManagementContext") as VentureManagementDbContext;
+            if (nContext == null)
             {
-                _nContext = new VentureManagementDbContext();
-                CallContext.SetData("ventureManagementContext", _nContext);
+                nContext = new VentureManagementDbContext();
+                CallContext.SetData("ventureManagementContext", nContext);
             }
-            return _nContext;
+            return nContext;
         }
     }
 }
