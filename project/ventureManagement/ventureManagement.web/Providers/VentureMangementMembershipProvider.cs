@@ -165,7 +165,7 @@ namespace ventureManagement.web.Providers
                 int userId = new Random().Next(1, 100);
 
                 // Add the user details to cache, for quick retrieval later.
-                HttpContext.Current.Cache.Add(username, new MyMembershipUser(userId, username), null, Cache.NoAbsoluteExpiration, FormsAuthentication.Timeout, CacheItemPriority.Default, null);
+                HttpContext.Current.Cache.Add(username, new VentureMangementMembershipUser(userId, username), null, Cache.NoAbsoluteExpiration, FormsAuthentication.Timeout, CacheItemPriority.Default, null);
 
                 return true;
             }
@@ -184,7 +184,7 @@ namespace ventureManagement.web.Providers
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
             // Retrieve the user details from cache.
-            MyMembershipUser membershipUser = (MyMembershipUser)HttpContext.Current.Cache.Get(username);
+            VentureMangementMembershipUser membershipUser = (VentureMangementMembershipUser)HttpContext.Current.Cache.Get(username);
 
             return membershipUser;
         }

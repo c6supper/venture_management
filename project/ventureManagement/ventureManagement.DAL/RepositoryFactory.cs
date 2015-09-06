@@ -12,5 +12,7 @@ namespace ventureManagement.DAL
         /// 用户仓储
         /// </summary>
         public static InterfaceUserRepository UserRepository { get { return new UserRepository(); } }
+
+        public static InterfaceRoleRepository RoleRepository { get { return new RoleRepository(); } }
     }
 }

@@ -42,7 +42,6 @@ namespace ventureManagement.BLL
             }
             catch (Exception ex)
             {
-                DbEntityValidationException dataEx = (DbEntityValidationException) ex;
                 Debug.Print(ex.StackTrace);
             }
         }
@@ -55,39 +54,39 @@ namespace ventureManagement.BLL
 
         public IQueryable<User> FindPageList(int pageIndex, int pageSize, out int totalRecord, int order)
         {
-            bool _isAsc = true;
-            string _orderName = string.Empty;
+            bool isAsc = true;
+            string orderName;
             switch (order)
             {
                 case 0:
-                    _isAsc = true;
-                    _orderName = "UserID";
+                    isAsc = true;
+                    orderName = "UserID";
                     break;
                 case 1:
-                    _isAsc = false;
-                    _orderName = "UserID";
+                    isAsc = false;
+                    orderName = "UserID";
                     break;
                 case 2:
-                    _isAsc = true;
-                    _orderName = "RegistrationTime";
+                    isAsc = true;
+                    orderName = "RegistrationTime";
                     break;
                 case 3:
-                    _isAsc = false;
-                    _orderName = "RegistrationTime";
+                    isAsc = false;
+                    orderName = "RegistrationTime";
                     break;
                 case 4:
-                    _isAsc = true;
-                    _orderName = "LoginTime";
+                    isAsc = true;
+                    orderName = "LoginTime";
                     break;
-                case 5: _isAsc = false;
-                    _orderName = "LoginTime";
+                case 5: isAsc = false;
+                    orderName = "LoginTime";
                     break;
                 default:
-                    _isAsc = false;
-                    _orderName = "UserID";
+                    isAsc = false;
+                    orderName = "UserID";
                     break;
             }
-            return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, u => true, _orderName, _isAsc);
+            return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, u => true, orderName, isAsc);
         }
     }
 }

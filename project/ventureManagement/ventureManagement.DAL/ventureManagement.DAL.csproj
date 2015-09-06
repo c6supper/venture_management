@@ -55,6 +55,7 @@
     <Compile Include="ContextFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryFactory.cs" />
+    <Compile Include="RoleRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="ventureMangementDbContext.cs" />
   </ItemGroup>

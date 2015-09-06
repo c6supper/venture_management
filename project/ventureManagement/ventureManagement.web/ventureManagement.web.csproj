@@ -124,8 +124,9 @@
     <Compile Include="Module\AnalyticsModule.cs" />
     <Compile Include="Module\HighLighterUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\MyMembershipProvider.cs" />
-    <Compile Include="Providers\MyMembershipUser.cs" />
+    <Compile Include="Providers\VentureManagementRoleProvider.cs" />
+    <Compile Include="Providers\VentureMangementMembershipProvider.cs" />
+    <Compile Include="Providers\VentureMangementMembershipUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Buttons_Basic\Content\images\arrow-down.gif" />

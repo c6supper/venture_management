@@ -11,7 +11,7 @@ namespace ventureManagement.BLL
     {
         protected InterfaceBaseRepository<T> CurrentRepository { get; set; }
 
-        public BaseService(InterfaceBaseRepository<T> currentRepository) { CurrentRepository = currentRepository; }
+        protected BaseService(InterfaceBaseRepository<T> currentRepository) { CurrentRepository = currentRepository; }
 
         public T Add(T entity) { return CurrentRepository.Add(entity); }
 
