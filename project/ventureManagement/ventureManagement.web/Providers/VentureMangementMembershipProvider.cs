@@ -9,7 +9,7 @@ using ventureManagement.models;
 
 namespace ventureManagement.web.Providers
 {
-    public class MyMembershipProvider : MembershipProvider
+    public class VentureMangementMembershipProvider : MembershipProvider
     {
         #region Unused Methods
 

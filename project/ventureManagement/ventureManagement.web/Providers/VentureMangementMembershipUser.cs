@@ -6,9 +6,9 @@ using System.Web.Security;
 
 namespace ventureManagement.web.Providers
 {
-    public class MyMembershipUser : MembershipUser
+    public class VentureMangementMembershipUser : MembershipUser
     {
-        public MyMembershipUser(long userId, string userName)
+        public VentureMangementMembershipUser(long userId, string userName)
             : base(Membership.Provider.Name, userName, userId, null, null, null, true, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now)
         {
         }
