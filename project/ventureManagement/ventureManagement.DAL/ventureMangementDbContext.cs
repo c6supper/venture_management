@@ -17,9 +17,13 @@ namespace VentureManagement.DAL
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRoleRelation> UserRoleRelations { get; set; }
         public DbSet<UserConfig> UserConfig { get; set; }
+        public DbSet<OrganizationRoleRelation> UserOrganizationRoleRelation { get; set; }
+        public DbSet<OrganizationRelation> UserOrganizationRelation { get; set; }
+        public DbSet<Organization> Organization { get; set; }
         public VentureManagementDbContext()
             : base("DefaultConnection")
         {
+            base.Configuration.LazyLoadingEnabled = true;
             try
             {
                 Database.CreateIfNotExists();

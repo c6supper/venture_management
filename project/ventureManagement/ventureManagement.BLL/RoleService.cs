@@ -11,21 +11,26 @@ namespace VentureManagement.BLL
     {
         public RoleService() : base(RepositoryFactory.RoleRepository)
         {
-            //default 
+        }
+
+        public override bool Initilization()
+        {
             try
             {
-                if(Find("administrator") != null) return;
+                if (Find(Role.ROLE_ADMIN) != null) return true;
 
                 var adminRole = new Role
                 {
-                    RoleName = "administrator",
-
+                    RoleName = Role.ROLE_ADMIN,
+                    Description = "系统管理员"
                 };
                 Add(adminRole);
+                return true;
             }
             catch (Exception ex)
             {
                 Debug.Print(ex.StackTrace);
+                return false;
             }
         }
 

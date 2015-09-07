@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InterfaceBaseRepository.cs" />
+    <Compile Include="InterfaceOrganizationRepository.cs" />
+    <Compile Include="InterfaceOrganizationRelationRepository.cs" />
+    <Compile Include="InterfaceOrganizationRoleRelationRepository.cs" />
     <Compile Include="InterfaceRoleRepository.cs" />
     <Compile Include="InterfaceUserRepository.cs" />
     <Compile Include="InterfaceUserRoleRelatioRepository.cs" />

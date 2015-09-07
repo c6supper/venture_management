@@ -32,5 +32,8 @@ namespace VentureManagement.Models
         public string Description { get; set; }
 
         public virtual ICollection<UserRoleRelation> UserRoleRelations { get; set; }
+
+        // ReSharper disable once InconsistentNaming
+        public const string ROLE_ADMIN = "administrator";
     }
 }

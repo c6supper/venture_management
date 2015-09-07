@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using VentureManagement.Models;
 
 namespace VentureManagement.Models
@@ -11,13 +12,15 @@ namespace VentureManagement.Models
         /// <summary>
         /// 用户ID
         /// </summary>
-        [Required()]
+        [Required]
+        [ForeignKey("Organization")]
         public int OrganizationId { get; set; }
 
         /// <summary>
         /// 角色ID
         /// </summary>
-        [Required()]
+        [Required]
+        [ForeignKey("Role")]
         public int RoleId { get; set; }
 
         /// <summary>

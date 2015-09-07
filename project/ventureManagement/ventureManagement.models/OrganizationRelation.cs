@@ -11,15 +11,13 @@ namespace VentureManagement.Models
         /// <summary>
         /// 上级部门ID
         /// </summary>
-        [Required()]
-        [ForeignKey("OrganizationId")]
+        [Required]
         public int SuperiorDepartmentId { get; set; }
 
         /// <summary>
         /// 下级部门ID
         /// </summary>
-        [Required()]
-        [ForeignKey("OrganizationId")]
+        [Required]
         public int SubordinateDepartmentId { get; set; }
 
         /// <summary>

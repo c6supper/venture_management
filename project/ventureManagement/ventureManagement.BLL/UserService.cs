@@ -19,26 +19,31 @@ namespace VentureManagement.BLL
     {
         public UserService() : base(RepositoryFactory.UserRepository)
         {
-            //default 
+        }
+
+        public override bool Initilization()
+        {
             try
             {
-                if(Find("master") != null) return;
+                if (Find(User.USER_ADMIN) != null) return true;
 
                 var user = new User
                 {
-                    UserName = "master",
-                    Password = Utility.DesEncrypt("master"),
+                    UserName = User.USER_ADMIN,
+                    Password = Utility.DesEncrypt(User.USER_ADMIN),
                     Status = 0,
                     Email = "xxx@163.com",
-                    DisplayName = "master",
+                    DisplayName = User.USER_ADMIN,
                     Mobile = "11111111",
                     RegistrationTime = DateTime.Now
                 };
                 Add(user);
+                return true;
             }
             catch (Exception ex)
             {
                 Debug.Print(ex.StackTrace);
+                return false;
             }
         }
 

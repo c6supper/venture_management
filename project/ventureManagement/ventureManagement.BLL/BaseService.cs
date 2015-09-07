@@ -18,5 +18,10 @@ namespace VentureManagement.BLL
         public bool Update(T entity) { return CurrentRepository.Update(entity); }
 
         public bool Delete(T entity) { return CurrentRepository.Delete(entity); }
+
+        virtual public bool Initilization()
+        {
+            return true;
+        }
     }
 }

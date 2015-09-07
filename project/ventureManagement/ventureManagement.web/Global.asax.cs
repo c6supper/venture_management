@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using VentureManagement.BLL;
 using VentureManagement.Web.Filters;
 
 //using ventureManagement.web.Filters;
@@ -34,6 +35,8 @@ namespace VentureManagement.Web
 
         protected void Application_Start()
         {
+            DatabaseInitilization.Initilization();
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);

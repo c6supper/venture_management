@@ -35,9 +35,7 @@ namespace VentureManagement.Models
         /// <summary>
         /// 密码
         /// </summary>
-        [Required(ErrorMessage = "必填")]
-        [Display(Name = "密码")]
-        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "必填")] [Display(Name = "密码")] [DataType(DataType.Password)] 
         public string Password { get; set; }
 
         /// <summary>
@@ -100,5 +98,8 @@ namespace VentureManagement.Models
 
 
         public virtual ICollection<UserRoleRelation> UserRoleRelations { get; set; }
+
+        // ReSharper disable once InconsistentNaming
+        public const string USER_ADMIN = "master";
     }
 }

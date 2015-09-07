@@ -27,5 +27,7 @@ namespace VentureManagement.IBLL
         /// <param name="entity">数据实体</param>
         /// <returns>是否成功</returns>
         bool Delete(T entity);
+
+        bool Initilization();
     }
 }
