@@ -11,7 +11,7 @@ namespace VentureManagement.Models
         [Required,ForeignKey("User")]
         public int UserId { get; set; }
 
-        [Required, ForeignKey("Role")]
+        [Required, ForeignKey("Organization")]
         public int OrganizationId { get; set; }
 
         public virtual User User { get; set; }

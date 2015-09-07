@@ -18,8 +18,9 @@ namespace VentureManagement.DAL
         public DbSet<UserRoleRelation> UserRoleRelations { get; set; }
         public DbSet<UserConfig> UserConfig { get; set; }
         public DbSet<OrganizationRoleRelation> UserOrganizationRoleRelation { get; set; }
-        public DbSet<OrganizationRelation> UserOrganizationRelation { get; set; }
+        public DbSet<OrganizationRelation> OrganizationRelation { get; set; }
         public DbSet<Organization> Organization { get; set; }
+        public DbSet<UserOrganizationRelation> UserOrganizationRelation { get; set; }
         public VentureManagementDbContext()
             : base("DefaultConnection")
         {

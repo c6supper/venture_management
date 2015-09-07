@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using VentureManagement.Models;
 using VentureManagement.DAL;
 using VentureManagement.IBLL;
@@ -47,6 +48,32 @@ namespace VentureManagement.BLL
             try
             {
                 return CurrentRepository.Find(u => u.User.UserName == user && u.Role.RoleName == role);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.StackTrace);
+            }
+            return null;
+        }
+
+        public bool Exist(string username, string role)
+        {
+            try
+            {
+                return CurrentRepository.Exist(u => u.User.UserName == username && u.Role.RoleName == role);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.StackTrace);
+                return false;
+            }
+        }
+
+        public IQueryable<UserRoleRelation> FindList(string user)
+        {
+            try
+            {
+                return CurrentRepository.FindList(u => u.User.UserName == user, string.Empty, false);
             }
             catch (Exception ex)
             {

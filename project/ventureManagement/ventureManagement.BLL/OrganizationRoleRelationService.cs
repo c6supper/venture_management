@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using VentureManagement.DAL;
 using VentureManagement.IBLL;
 using VentureManagement.Models;
@@ -50,6 +51,32 @@ namespace VentureManagement.BLL
             try
             {
                 return CurrentRepository.Find(u => u.Role.RoleName == role && u.Organization.OrganizationName == organization);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.StackTrace);
+            }
+            return null;
+        }
+
+        public bool Exist(string organization,string role)
+        {
+            try
+            {
+                return CurrentRepository.Exist(u => u.Role.RoleName == role && u.Organization.OrganizationName == organization);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.StackTrace);
+                return false;
+            }
+        }
+
+        public IQueryable<OrganizationRoleRelation> FindList(string organization)
+        {
+            try
+            {
+                return CurrentRepository.FindList(u => u.Organization.OrganizationName == organization, string.Empty, false);
             }
             catch (Exception ex)
             {
