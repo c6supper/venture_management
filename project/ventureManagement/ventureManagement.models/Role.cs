@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace ventureManagement.Models
+namespace VentureManagement.Models
 {
     /// <summary>
     /// 角色

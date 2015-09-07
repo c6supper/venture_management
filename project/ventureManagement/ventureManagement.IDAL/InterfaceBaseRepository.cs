@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace ventureManagement.IDAL
+namespace VentureManagement.IDAL
 {
     /// <summary>
     /// 接口基类

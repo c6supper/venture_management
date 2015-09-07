@@ -3,11 +3,11 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.Security;
 using Common;
-using ventureManagement.BLL;
-using ventureManagement.IBLL;
-using ventureManagement.Models;
+using VentureManagement.BLL;
+using VentureManagement.IBLL;
+using VentureManagement.Models;
 
-namespace ventureManagement.web.Providers
+namespace VentureManagement.Web.Providers
 {
     public class VentureMangementMembershipProvider : MembershipProvider
     {

@@ -1,7 +1,7 @@
-﻿using ventureManagement.IBLL;
-using ventureManagement.IDAL;
+﻿using VentureManagement.IBLL;
+using VentureManagement.IDAL;
 
-namespace ventureManagement.BLL
+namespace VentureManagement.BLL
 {
     /// <summary>
     /// 服务基类

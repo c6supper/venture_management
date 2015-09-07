@@ -1,9 +1,9 @@
-﻿using ventureManagement.IDAL;
+﻿using VentureManagement.IDAL;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace ventureManagement.DAL
+namespace VentureManagement.DAL
 {
     /// <summary>
     /// 仓储基类

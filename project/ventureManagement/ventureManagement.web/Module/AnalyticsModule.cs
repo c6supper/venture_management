@@ -5,7 +5,7 @@ using System.Web.Configuration;
 using Ext.Net.Utilities;
 using Ext.Net;
 
-namespace ventureManagement.web
+namespace VentureManagement.Web
 {
     public class AnalyticsModule : IHttpModule
     {

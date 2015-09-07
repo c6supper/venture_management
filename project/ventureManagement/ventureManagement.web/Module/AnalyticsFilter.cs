@@ -4,7 +4,7 @@ using System.Text;
 using System.Web;
 using System.Web.Configuration;
 
-namespace ventureManagement.web
+namespace VentureManagement.Web
 {
     public class AnalyticsFilter : Stream
     {

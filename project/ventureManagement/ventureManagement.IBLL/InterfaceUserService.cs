@@ -1,8 +1,8 @@
-﻿using ventureManagement.Models;
+﻿using VentureManagement.Models;
 using System.Linq;
 using System.Security.Claims;
 
-namespace ventureManagement.IBLL
+namespace VentureManagement.IBLL
 {
     /// <summary>
     /// 用户相关接口

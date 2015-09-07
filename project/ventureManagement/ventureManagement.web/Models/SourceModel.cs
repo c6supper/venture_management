@@ -6,7 +6,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Ext.Net;
 
-namespace ventureManagement.web
+namespace VentureManagement.Web
 {
     public class SourceModel
     {

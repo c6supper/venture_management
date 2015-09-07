@@ -1,6 +1,6 @@
-﻿using ventureManagement.Models;
+﻿using VentureManagement.Models;
 
-namespace ventureManagement.IBLL
+namespace VentureManagement.IBLL
 {
     /// <summary>
     /// 用户配置接口

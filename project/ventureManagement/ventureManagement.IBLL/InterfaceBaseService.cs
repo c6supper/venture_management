@@ -1,5 +1,5 @@
 ﻿
-namespace ventureManagement.IBLL
+namespace VentureManagement.IBLL
 {
     /// <summary>
     /// 接口基类

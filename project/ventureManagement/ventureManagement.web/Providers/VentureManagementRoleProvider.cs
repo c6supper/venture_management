@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 
-namespace ventureManagement.web.Providers
+namespace VentureManagement.Web.Providers
 {
     public class VentureManagementRoleProvider : RoleProvider
     {

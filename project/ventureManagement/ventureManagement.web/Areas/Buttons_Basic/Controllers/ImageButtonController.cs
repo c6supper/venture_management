@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
 
-namespace ventureManagement.web.Areas.Buttons_Basic.Controllers
+namespace VentureManagement.Web.Areas.Buttons_Basic.Controllers
 {
     public class ImageButtonController : Controller
     {

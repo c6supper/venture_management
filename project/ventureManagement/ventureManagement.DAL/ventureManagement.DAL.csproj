@@ -7,7 +7,7 @@
     <ProjectGuid>{96895B00-6729-43E4-A5BA-5CE06FBE7A18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ventureManagement.DAL</RootNamespace>
+    <RootNamespace>VentureManagement.DAL</RootNamespace>
     <AssemblyName>ventureManagement.DAL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -64,9 +64,9 @@
       <Project>{edad29e5-5875-4e55-87ae-9ecdfdea933a}</Project>
       <Name>ventureManagement.IDAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ventureManagement.models\ventureManagement.models.csproj">
+    <ProjectReference Include="..\ventureManagement.models\ventureManagement.Models.csproj">
       <Project>{3a6ae133-b76a-43e3-9e19-6cda8fe8272f}</Project>
-      <Name>ventureManagement.models</Name>
+      <Name>ventureManagement.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

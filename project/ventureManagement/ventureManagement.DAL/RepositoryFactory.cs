@@ -1,6 +1,6 @@
-﻿using ventureManagement.IDAL;
+﻿using VentureManagement.IDAL;
 
-namespace ventureManagement.DAL
+namespace VentureManagement.DAL
 {
     /// <summary>
     /// 简单工厂？

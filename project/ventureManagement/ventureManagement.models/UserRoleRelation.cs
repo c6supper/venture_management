@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ventureManagement.Models
+namespace VentureManagement.Models
 {
     /// <summary>
     /// 用户角色关系
@@ -11,7 +11,7 @@ namespace ventureManagement.Models
     public class UserRoleRelation
     {
         [Key]
-        public int RelationId { get; set; }
+        public int UserRelationId { get; set; }
 
         /// <summary>
         /// 用户ID

@@ -1,7 +1,7 @@
-﻿using ventureManagement.IDAL;
-using ventureManagement.DAL;
-using ventureManagement.IBLL;
-using ventureManagement.Models;
+﻿using VentureManagement.IDAL;
+using VentureManagement.DAL;
+using VentureManagement.IBLL;
+using VentureManagement.Models;
 using System.Linq;
 using System;
 using System.Data.Entity.Validation;
@@ -9,9 +9,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
-using System.Data.Entity.Validation;
 
-namespace ventureManagement.BLL
+namespace VentureManagement.BLL
 {
     /// <summary>
     /// 用户服务类

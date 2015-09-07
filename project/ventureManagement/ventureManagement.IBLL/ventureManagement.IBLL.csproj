@@ -7,7 +7,7 @@
     <ProjectGuid>{FDC81D2A-62F3-45ED-B6AF-AD1364347B80}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ventureManagement.IBLL</RootNamespace>
+    <RootNamespace>VentureManagement.IBLL</RootNamespace>
     <AssemblyName>ventureManagement.IBLL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -49,9 +49,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ventureManagement.models\ventureManagement.models.csproj">
+    <ProjectReference Include="..\ventureManagement.models\ventureManagement.Models.csproj">
       <Project>{3a6ae133-b76a-43e3-9e19-6cda8fe8272f}</Project>
-      <Name>ventureManagement.models</Name>
+      <Name>ventureManagement.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ventureManagement.Models
+namespace VentureManagement.Models
 {
     /// <summary>
     /// 用户配置

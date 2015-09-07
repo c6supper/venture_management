@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace ventureManagement.web.Areas.Member
+namespace VentureManagement.Web.Areas.Member
 {
 	public class ButtonsBasicAreaRegistration : AreaRegistration
 	{

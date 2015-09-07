@@ -8,7 +8,7 @@ using Ext.Net;
 
 using Wilco.SyntaxHighlighting;
 
-namespace ventureManagement.web
+namespace VentureManagement.Web
 {
     [DirectController]
     public class SourceController : System.Web.Mvc.Controller

@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.Entity;
 using System.Runtime.Remoting.Messaging;
 
-namespace ventureManagement.DAL
+namespace VentureManagement.DAL
 {
     /// <summary>
     /// 上下文简单工厂

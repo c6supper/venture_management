@@ -4,11 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ventureManagement.DAL;
-using ventureManagement.IBLL;
-using ventureManagement.Models;
+using VentureManagement.DAL;
+using VentureManagement.IBLL;
+using VentureManagement.Models;
 
-namespace ventureManagement.BLL
+namespace VentureManagement.BLL
 {
     public class RoleService : BaseService<Role>, InterfaceRoleService
     {
