@@ -109,8 +109,6 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
     <Compile Include="Attributes\AllowAnonymousAttribute.cs" />
-    <Compile Include="Controllers\SecureController.cs" />
-    <Compile Include="Controllers\SourceController.cs" />
     <Compile Include="Filters\LogonAuthorize.cs" />
     <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Controllers\MainController.cs" />

@@ -3,6 +3,7 @@ using System.Net;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
+using VentureManagement.Models;
 using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Controllers

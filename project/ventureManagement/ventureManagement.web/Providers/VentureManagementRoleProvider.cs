@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Diagnostics;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace VentureManagement.Web.Providers
 
         public override string[] GetRolesForUser(string username)
         {
-            var roles = new ArrayList();
+            var roles = new List<String>();
             try
             {
                 foreach (var userRoleRelation in _userRoleRelationService.FindList(username))
@@ -48,9 +49,9 @@ namespace VentureManagement.Web.Providers
                         roles.Add(userRoleRelation.Role.RoleName);
                 }
 
-                foreach (var userOrganizationRelation in _userOrganizationRelationService.FindList(username))
+                foreach (var userOrganizationRelation in _userOrganizationRelationService.FindList(username).ToArray())
                 {
-                    foreach (var orgRoleRelation in _orgRoleRelationService.FindList(userOrganizationRelation.Organization.OrganizationName))
+                    foreach (var orgRoleRelation in _orgRoleRelationService.FindList(userOrganizationRelation.Organization.OrganizationName).ToArray())
                     {
                         if (!roles.Contains(orgRoleRelation.Role.RoleName))
                             roles.Add(orgRoleRelation.Role.RoleName);
@@ -62,7 +63,7 @@ namespace VentureManagement.Web.Providers
                 Debug.Print(ex.Message);
             }
 
-            return (string[])(roles.ToArray());
+            return roles.ToArray();
         }
 
         public override void CreateRole(string roleName)
