@@ -1,4 +1,4 @@
-﻿using ventureManagement.models;
+﻿using ventureManagement.Models;
 
 namespace ventureManagement.IBLL
 {

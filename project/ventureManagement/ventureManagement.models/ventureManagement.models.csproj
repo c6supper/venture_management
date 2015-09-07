@@ -7,8 +7,8 @@
     <ProjectGuid>{3A6AE133-B76A-43E3-9E19-6CDA8FE8272F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ventureManagement.models</RootNamespace>
-    <AssemblyName>ventureManagement.models</AssemblyName>
+    <RootNamespace>ventureManagement.Models</RootNamespace>
+    <AssemblyName>ventureManagement.Models</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ventureManagement.DAL;
 using ventureManagement.IBLL;
-using ventureManagement.models;
+using ventureManagement.Models;
 
 namespace ventureManagement.BLL
 {
@@ -21,14 +22,8 @@ namespace ventureManagement.BLL
                 var adminRole = new Role
                 {
                     Name = "administrator",
-                    Password = Common.Utility.DesEncrypt("master"),
-                    Status = 0,
-                    Email = "xxx@163.com",
-                    DisplayName = "master",
-                    Mobile = "11111111",
-                    RegistrationTime = DateTime.Now
                 };
-                Add(user);
+                Add(adminRole);
             }
             catch (Exception ex)
             {

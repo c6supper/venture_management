@@ -1,7 +1,7 @@
 ﻿using ventureManagement.IDAL;
 using ventureManagement.DAL;
 using ventureManagement.IBLL;
-using ventureManagement.models;
+using ventureManagement.Models;
 using System.Linq;
 using System;
 using System.Data.Entity.Validation;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ventureManagement.models;
+using ventureManagement.Models;
 
 namespace ventureManagement.IDAL
 {

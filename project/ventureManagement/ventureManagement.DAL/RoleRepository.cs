@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ventureManagement.IDAL;
-using ventureManagement.models;
+using ventureManagement.Models;
 
 namespace ventureManagement.DAL
 {

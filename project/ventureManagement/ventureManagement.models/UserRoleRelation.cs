@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ventureManagement.models
+namespace ventureManagement.Models
 {
     /// <summary>
     /// 用户角色关系

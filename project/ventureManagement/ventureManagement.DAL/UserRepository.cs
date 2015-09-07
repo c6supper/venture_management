@@ -1,5 +1,5 @@
 ﻿using ventureManagement.IDAL;
-using ventureManagement.models;
+using ventureManagement.Models;
 
 namespace ventureManagement.DAL
 {

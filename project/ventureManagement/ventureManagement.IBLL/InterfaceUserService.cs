@@ -1,4 +1,4 @@
-﻿using ventureManagement.models;
+﻿using ventureManagement.Models;
 using System.Linq;
 using System.Security.Claims;
 

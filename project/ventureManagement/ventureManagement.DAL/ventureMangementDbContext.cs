@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Entity;
 using System.Diagnostics;
-using ventureManagement.models;
+using ventureManagement.Models;
 
 namespace ventureManagement.DAL
 {

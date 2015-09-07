@@ -5,7 +5,7 @@ using System.Web.Security;
 using Common;
 using ventureManagement.BLL;
 using ventureManagement.IBLL;
-using ventureManagement.models;
+using ventureManagement.Models;
 
 namespace ventureManagement.web.Providers
 {
