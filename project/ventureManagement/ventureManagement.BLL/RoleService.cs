@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ventureManagement.DAL;
-using ventureManagement.IBLL;
-using ventureManagement.Models;
+using VentureManagement.IBLL;
+using VentureManagement.Models;
 using VentureManagement.BLL;
 using VentureManagement.DAL;
 
-namespace ventureManagement.BLL
+namespace VentureManagement.BLL
 {
     public class RoleService : BaseService<Role>, InterfaceRoleService
     {
@@ -23,7 +18,7 @@ namespace ventureManagement.BLL
 
                 var adminRole = new Role
                 {
-                    Name = "administrator",
+                    RoleName = "administrator",
 
                 };
                 Add(adminRole);
@@ -34,6 +29,6 @@ namespace ventureManagement.BLL
             }
         }
 
-        public Role Find(string role) { return CurrentRepository.Find(u => u.Name == role); }
+        public Role Find(string role) { return CurrentRepository.Find(u => u.RoleName == role); }
     }
 }

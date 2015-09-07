@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace VentureManagement.web
+namespace VentureManagement.Web
 {
     public class ChartModel
     {
@@ -68,12 +68,12 @@ namespace VentureManagement.web
 
         public static List<ChartModel> GenerateData()
         {
-            return ChartModel.GenerateData(12, 20);
+            return GenerateData(12, 20);
         }
 
         public static List<ChartModel> GenerateData(int n)
         {
-            return ChartModel.GenerateData(n, 20);
+            return GenerateData(n, 20);
         }
 
         public static List<ChartModel> GenerateData(int n, int floor)
@@ -104,7 +104,7 @@ namespace VentureManagement.web
 
         public static List<ChartModel> GenerateDataNegative()
         {
-            return ChartModel.GenerateDataNegative(12, 20);
+            return GenerateDataNegative(12, 20);
         }
 
         public static List<ChartModel> GenerateDataNegative(int n, int floor)

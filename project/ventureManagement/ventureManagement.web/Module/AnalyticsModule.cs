@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.Web;
 using System.Web.Configuration;
-using Ext.Net.Utilities;
 using Ext.Net;
+using Ext.Net.Utilities;
 
-namespace VentureManagement.web
+namespace VentureManagement.Web
 {
     public class AnalyticsModule : IHttpModule
     {

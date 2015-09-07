@@ -1,5 +1,4 @@
-﻿using ventureManagement.DAL;
-using ventureManagement.IDAL;
+﻿using VentureManagement.DAL;
 using VentureManagement.IDAL;
 
 namespace VentureManagement.DAL

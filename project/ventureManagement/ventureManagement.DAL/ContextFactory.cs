@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.Entity;
-using System.Runtime.Remoting.Messaging;
-using ventureManagement.DAL;
+﻿using System.Runtime.Remoting.Messaging;
+using VentureManagement.DAL;
 
 namespace VentureManagement.DAL
 {

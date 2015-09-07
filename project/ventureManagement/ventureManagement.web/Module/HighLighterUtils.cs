@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Wilco.SyntaxHighlighting;
 
-namespace VentureManagement.web
+namespace VentureManagement.Web
 {
     public class HighLighterUtils
     {

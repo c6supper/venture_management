@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data.Entity;
 using System.Diagnostics;
-using ventureManagement.Models;
+using VentureManagement.Models;
 
-namespace ventureManagement.DAL
+namespace VentureManagement.DAL
 {
     /// <summary>
     /// 数据上下文

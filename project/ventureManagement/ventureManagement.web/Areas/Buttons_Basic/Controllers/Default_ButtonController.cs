@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace VentureManagement.web.Areas.Buttons_Basic.Controllers
+namespace VentureManagement.Web.Areas.Buttons_Basic.Controllers
 {
     public class Default_ButtonController : Controller
     {

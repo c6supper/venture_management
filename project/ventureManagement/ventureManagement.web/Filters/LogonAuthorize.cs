@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using VentureManagement.web.Attributes;
+﻿using System.Web.Mvc;
+using VentureManagement.Web.Attributes;
 
-namespace VentureManagement.web.Filters
+namespace VentureManagement.Web.Filters
 {
     public sealed class LogonAuthorize : AuthorizeAttribute
     {

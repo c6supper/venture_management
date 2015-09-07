@@ -1,4 +1,5 @@
-﻿@{
+﻿@using InputType = Ext.Net.InputType
+@{
     ViewBag.Title = "水电工程施工安全隐患排查预警系统";
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
 }
@@ -36,7 +37,7 @@
                             .ID("txtPassword")
                             .Icon(Icon.ApplicationKey)
                             .ReadOnly(false)
-                            .InputType(Ext.Net.InputType.Password)
+                            .InputType(InputType.Password)
                             .FieldLabel("密码")
                             .AllowBlank(false)
                             .BlankText("请输入密码."),

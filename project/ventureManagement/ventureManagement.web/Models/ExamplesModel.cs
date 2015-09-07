@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
-using System.IO;
 using System.Xml;
-using Ext.Net.Utilities;
 using Ext.Net;
+using Ext.Net.Utilities;
 
-namespace VentureManagement.web
+namespace VentureManagement.Web
 {
     public class ExamplesModel
     {
@@ -16,9 +16,9 @@ namespace VentureManagement.web
         public static NodeCollection GetExamplesNodes()
         {
             var nodes = new NodeCollection();
-            string path = HttpContext.Current.Server.MapPath(ExamplesModel.ExamplesRoot);
+            string path = HttpContext.Current.Server.MapPath(ExamplesRoot);
 
-            return ExamplesModel.BuildAreasLevel();
+            return BuildAreasLevel();
         }
 
         public static string ApplicationRoot
@@ -34,10 +34,10 @@ namespace VentureManagement.web
 
         private static NodeCollection BuildAreasLevel()
         {
-            string path = HttpContext.Current.Server.MapPath(ExamplesModel.ExamplesRoot);
+            string path = HttpContext.Current.Server.MapPath(ExamplesRoot);
             DirectoryInfo root = new DirectoryInfo(path);
             DirectoryInfo[] folders = root.GetDirectories();
-            folders = ExamplesModel.SortFolders(root, folders);
+            folders = SortFolders(root, folders);
 
             NodeCollection nodes = new NodeCollection(false);
 
@@ -64,7 +64,7 @@ namespace VentureManagement.web
                     nodes.Add(node);
 
                     node.IconCls = iconCls;
-                    if (ExamplesModel.IsNew(folder.FullName))
+                    if (IsNew(folder.FullName))
                     {
                         node.CustomAttributes.Add(new ConfigItem("isNew", "true", ParameterMode.Raw));
                     }
@@ -87,7 +87,7 @@ namespace VentureManagement.web
                         node.IconCls = iconCls;
                     }
 
-                    if (ExamplesModel.IsNew(folder.FullName) && !node.CustomAttributes.Contains("isNew"))
+                    if (IsNew(folder.FullName) && !node.CustomAttributes.Contains("isNew"))
                     {
                         node.CustomAttributes.Add(new ConfigItem("isNew", "true", ParameterMode.Raw));
                     }
@@ -97,7 +97,7 @@ namespace VentureManagement.web
                     groupNode.NodeID = BaseControl.GenerateID();
                     groupNode.Text = folder.Name.Substring(index + 1).Replace("_", " ");
 
-                    if (ExamplesModel.IsNew(folder.FullName) && !groupNode.CustomAttributes.Contains("isNew"))
+                    if (IsNew(folder.FullName) && !groupNode.CustomAttributes.Contains("isNew"))
                     {
                         groupNode.CustomAttributes.Add(new ConfigItem("isNew", "true", ParameterMode.Raw));
                     }
@@ -106,7 +106,7 @@ namespace VentureManagement.web
                     node = groupNode;
                 }
 
-                ExamplesModel.BuildViewsLevel(folder, node);
+                BuildViewsLevel(folder, node);
             }
 
             return nodes;
@@ -116,7 +116,7 @@ namespace VentureManagement.web
         {
             DirectoryInfo[] folders = new DirectoryInfo(area.FullName + "\\Views").GetDirectories();
 
-            folders = ExamplesModel.SortFolders(area, folders);
+            folders = SortFolders(area, folders);
 
             foreach (DirectoryInfo folder in folders)
             {
@@ -135,13 +135,13 @@ namespace VentureManagement.web
 
                 node.Text = folderName;
                 
-                if (ExamplesModel.IsNew(folder.FullName))
+                if (IsNew(folder.FullName))
                 {
                     node.CustomAttributes.Add(new ConfigItem("isNew", "true", ParameterMode.Raw));
                 }
 
                 node.IconCls = iconCls;
-                string url = string.Concat(ExamplesModel.ApplicationRoot, "/", area.Name, "/", folder.Name, "/");
+                string url = string.Concat(ApplicationRoot, "/", area.Name, "/", folder.Name, "/");
                 node.NodeID = "e" + Math.Abs(url.ToLower().GetHashCode());
                 node.Href = url;
 
@@ -155,14 +155,14 @@ namespace VentureManagement.web
 
         private static bool IsNew(string folder)
         {
-            if (ExamplesModel.rootCfg == null)
+            if (rootCfg == null)
             {
-                ExamplesModel.rootCfg = new ExampleConfig(new DirectoryInfo(HttpContext.Current.Server.MapPath(ExamplesModel.ExamplesRoot)) + "\\config.xml");
+                rootCfg = new ExampleConfig(new DirectoryInfo(HttpContext.Current.Server.MapPath(ExamplesRoot)) + "\\config.xml");
             }
 
             foreach (string newFolder in rootCfg.NewFolders)
             {
-                if (string.Concat(HttpContext.Current.Server.MapPath(ExamplesModel.ExamplesRoot), newFolder).StartsWith(folder, StringComparison.CurrentCultureIgnoreCase))
+                if (string.Concat(HttpContext.Current.Server.MapPath(ExamplesRoot), newFolder).StartsWith(folder, StringComparison.CurrentCultureIgnoreCase))
                 {
                     return true;
                 }

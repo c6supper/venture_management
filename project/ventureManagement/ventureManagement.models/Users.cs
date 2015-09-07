@@ -1,8 +1,8 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace ventureManagement.Models
+namespace VentureManagement.Models
 {
     /// <summary>
     /// 用户模型

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Web.Mvc;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace VentureManagement.web
+namespace VentureManagement.Web
 {
     public class ZipResult : ActionResult
     {

@@ -1,17 +1,15 @@
 ﻿using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using Ext.Net.MVC;
 using Ext.Net;
-
+using Ext.Net.MVC;
 using Wilco.SyntaxHighlighting;
 
-namespace VentureManagement.web
+namespace VentureManagement.Web
 {
     [DirectController]
-    public class SourceController : System.Web.Mvc.Controller
+    public class SourceController : Controller
     {
         private string CutFromTo(string str, string start, string end)
         {

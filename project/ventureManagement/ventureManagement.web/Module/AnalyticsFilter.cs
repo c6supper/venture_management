@@ -4,7 +4,7 @@ using System.Text;
 using System.Web;
 using System.Web.Configuration;
 
-namespace VentureManagement.web
+namespace VentureManagement.Web
 {
     public class AnalyticsFilter : Stream
     {
@@ -68,7 +68,7 @@ namespace VentureManagement.web
                 }
             }
 
-            byte[] data = System.Text.Encoding.UTF8.GetBytes(this.html.ToString());
+            byte[] data = Encoding.UTF8.GetBytes(this.html.ToString());
             this.response.Write(data, 0, data.Length);
             this.response.Flush();
         }

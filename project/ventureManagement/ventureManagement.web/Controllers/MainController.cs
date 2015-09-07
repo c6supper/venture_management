@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Net;
 using System.Web.Mvc;
-using System.Web.Security;
 using Ext.Net;
 using Ext.Net.MVC;
-using VentureManagement.web.Attributes;
+using VentureManagement.Web.Attributes;
 
-namespace VentureManagement.web.Controllers
+namespace VentureManagement.Web.Controllers
 {
     [DirectController]
-    public class MainController : System.Web.Mvc.Controller
+    public class MainController : Controller
     {
         [AllowAnonymous]
         public ActionResult Index()
@@ -41,7 +40,7 @@ namespace VentureManagement.web.Controllers
 
             this.Session["Ext.Net.Theme"] = temp;
 
-            return this.Direct(temp == Ext.Net.Theme.Default ? "Default" : MvcResourceManager.GetThemeUrl(temp));
+            return this.Direct(temp == Theme.Default ? "Default" : MvcResourceManager.GetThemeUrl(temp));
         }
 
         [DirectMethod]
@@ -56,12 +55,12 @@ namespace VentureManagement.web.Controllers
         {
             if (debug)
             {
-                this.Session["Ext.Net.ScriptMode"] = Ext.Net.ScriptMode.Debug;
+                this.Session["Ext.Net.ScriptMode"] = ScriptMode.Debug;
                 this.Session["Ext.Net.SourceFormatting"] = true;
             }
             else
             {
-                this.Session["Ext.Net.ScriptMode"] = Ext.Net.ScriptMode.Release;
+                this.Session["Ext.Net.ScriptMode"] = ScriptMode.Release;
                 this.Session["Ext.Net.SourceFormatting"] = false;
             }
 

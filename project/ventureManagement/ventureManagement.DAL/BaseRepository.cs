@@ -1,8 +1,9 @@
-﻿using VentureManagement.IDAL;
-using System;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using ventureManagement.DAL;
+using VentureManagement.DAL;
+using VentureManagement.IDAL;
 
 namespace VentureManagement.DAL
 {
@@ -32,14 +33,14 @@ namespace VentureManagement.DAL
         public bool Update(T entity)
         {
             MContext.Set<T>().Attach(entity);
-            MContext.Entry<T>(entity).State = System.Data.Entity.EntityState.Modified;
+            MContext.Entry<T>(entity).State = EntityState.Modified;
             return MContext.SaveChanges() > 0;
         }
 
         public bool Delete(T entity)
         {
             MContext.Set<T>().Attach(entity);
-            MContext.Entry<T>(entity).State = System.Data.Entity.EntityState.Deleted;
+            MContext.Entry<T>(entity).State = EntityState.Deleted;
             return MContext.SaveChanges() > 0;
         }
 

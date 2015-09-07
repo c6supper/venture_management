@@ -1,18 +1,13 @@
-﻿using ventureManagement.IDAL;
-using ventureManagement.DAL;
-using ventureManagement.IBLL;
-using ventureManagement.Models;
-using System.Linq;
-using System;
-using System.Data.Entity.Validation;
+﻿using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Security.Claims;
-using Microsoft.AspNet.Identity;
+using System.Linq;
+using Common;
+using VentureManagement.IBLL;
+using VentureManagement.Models;
 using VentureManagement.BLL;
 using VentureManagement.DAL;
 
-namespace ventureManagement.BLL
+namespace VentureManagement.BLL
 {
     /// <summary>
     /// 用户服务类
@@ -32,7 +27,7 @@ namespace ventureManagement.BLL
                 var user = new User
                 {
                     UserName = "master",
-                    Password = Common.Utility.DesEncrypt("master"),
+                    Password = Utility.DesEncrypt("master"),
                     Status = 0,
                     Email = "xxx@163.com",
                     DisplayName = "master",

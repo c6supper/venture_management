@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web;
 using Ext.Net;
 
-namespace VentureManagement.web
+namespace VentureManagement.Web
 {
     public class SourceModel
     {
@@ -16,7 +16,7 @@ namespace VentureManagement.web
 
         public static TabPanel BuildSourceTabs(string idSuffix, string url)
         {
-            List<FileInfo> files = SourceModel.GetFiles(url, false);            
+            List<FileInfo> files = GetFiles(url, false);            
 
             TabPanel tabs = new TabPanel
             {
@@ -56,7 +56,7 @@ namespace VentureManagement.web
                 panel.Loader = new ComponentLoader();
                 panel.Loader.Url = ExamplesModel.ApplicationRoot + "/Source/GetSourceFile";
                 panel.Loader.Mode = LoadMode.Frame;
-                panel.Loader.Params.Add(new Parameter("file", SourceModel.PhysicalToVirtual(fileInfo.FullName), ParameterMode.Value));
+                panel.Loader.Params.Add(new Parameter("file", PhysicalToVirtual(fileInfo.FullName), ParameterMode.Value));
                 panel.Loader.LoadMask.ShowMask = true;
 
                 tabs.Items.Add(panel);
@@ -90,7 +90,7 @@ namespace VentureManagement.web
         public static List<FileInfo> GetFiles(string url, bool download)
         {
             var list = new List<FileInfo>();
-            var match = SourceModel.example_RE.Match(url);
+            var match = example_RE.Match(url);
             if(!match.Success){
                 return list;
             }
@@ -144,7 +144,7 @@ namespace VentureManagement.web
                         continue;
                     }
 
-                    SourceModel.GetSubFiles(list, folder);
+                    GetSubFiles(list, folder);
                 }
             }
 
@@ -179,7 +179,7 @@ namespace VentureManagement.web
                     continue;
                 }
 
-                SourceModel.GetSubFiles(fileList, folder);
+                GetSubFiles(fileList, folder);
             }
         }
     }
