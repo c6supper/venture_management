@@ -47,6 +47,7 @@
     <Compile Include="InterfaceOrganizationRelationRepository.cs" />
     <Compile Include="InterfaceOrganizationRoleRelationRepository.cs" />
     <Compile Include="InterfaceRoleRepository.cs" />
+    <Compile Include="InterfaceUserOrganizationRelationRepository.cs" />
     <Compile Include="InterfaceUserRepository.cs" />
     <Compile Include="InterfaceUserRoleRelatioRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

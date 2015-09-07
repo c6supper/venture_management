@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="UserConfig.cs" />
+    <Compile Include="UserOrganizationRelation.cs" />
     <Compile Include="UserRoleRelation.cs" />
     <Compile Include="Users.cs" />
   </ItemGroup>

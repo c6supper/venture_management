@@ -2,7 +2,7 @@
 
 namespace VentureManagement.IDAL
 {
-    public interface InterfaceUserRoleRelatioRepository : InterfaceBaseRepository<UserRoleRelation>
+    public interface InterfaceUserRoleRelationRepository : InterfaceBaseRepository<UserRoleRelation>
     {
     }
 }

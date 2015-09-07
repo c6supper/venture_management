@@ -49,6 +49,7 @@
     <Compile Include="InterfaceRoleRelationService.cs" />
     <Compile Include="InterfaceRoleService.cs" />
     <Compile Include="InterfaceUserConfig.cs" />
+    <Compile Include="InterfaceUserOrganizationRelationService.cs" />
     <Compile Include="InterfaceUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

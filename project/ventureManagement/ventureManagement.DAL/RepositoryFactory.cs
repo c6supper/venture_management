@@ -16,12 +16,14 @@ namespace VentureManagement.DAL
 
         public static InterfaceRoleRepository RoleRepository { get { return new RoleRepository(); } }
 
-        public static InterfaceUserRoleRelatioRepository UserRoleRelationRepository { get { return new UserRoleRelationRepository(); } }
+        public static InterfaceUserRoleRelationRepository UserRoleRelationRepository { get { return new UserRoleRelationRepository(); } }
 
         public static InterfaceOrganizationRelationRepository OrganizationRelationRepository { get { return new OrganizationRelationRepository(); } }
 
         public static InterfaceOrganizationRoleRelationRepository OrganizationRoleRelationRepository { get { return new OrganizationRoleRelationRepository(); } }
 
         public static InterfaceOrganizationRepository OrganizationRepository { get { return new OrganizationRepository(); } }
+
+        public static InterfaceUserOrganizationRelationRepository UserOrganizationRelationRepository { get { return new UserOrganizationRelationRepository(); } }
     }
 }

@@ -4,14 +4,18 @@
     {
         public static void Initilization()
         {
+            var organization = new OrganizationService();
+            organization.Initilization();
+
             var userService = new UserService();
             userService.Initilization();
+
+            var userOrganizationRelationService = new UserOrganizationRelationService();;
+            userOrganizationRelationService.Initilization();
 
             var roleService = new RoleService();
             roleService.Initilization();
 
-            var organization = new OrganizationService();
-            organization.Initilization();
 
             var userRoleRelation = new UserRoleRelationService();
             userRoleRelation.Initilization();

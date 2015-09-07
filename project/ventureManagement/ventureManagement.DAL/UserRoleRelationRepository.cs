@@ -3,7 +3,7 @@ using VentureManagement.IDAL;
 
 namespace VentureManagement.DAL
 {
-    internal class UserRoleRelationRepository : BaseRepository<UserRoleRelation>, InterfaceUserRoleRelatioRepository
+    internal class UserRoleRelationRepository : BaseRepository<UserRoleRelation>, InterfaceUserRoleRelationRepository
     {
     }
 }

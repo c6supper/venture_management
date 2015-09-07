@@ -17,13 +17,13 @@ namespace VentureManagement.Models
         /// <summary>
         /// 用户ID
         /// </summary>
-        [ForeignKey("User")]
+        [Required, ForeignKey("User")]
         public int UserId { get; set; }
 
         /// <summary>
         /// 角色ID
         /// </summary>
-        [ForeignKey("Role")]
+        [Required, ForeignKey("Role")]
         public int RoleId { get; set; }
 
         public virtual User User { get; set; }
