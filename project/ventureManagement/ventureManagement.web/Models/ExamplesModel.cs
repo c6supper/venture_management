@@ -7,7 +7,7 @@ using System.Xml;
 using Ext.Net.Utilities;
 using Ext.Net;
 
-namespace VentureManagement.Web
+namespace VentureManagement.web
 {
     public class ExamplesModel
     {

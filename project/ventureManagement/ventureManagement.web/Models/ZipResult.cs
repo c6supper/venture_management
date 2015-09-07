@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace VentureManagement.Web
+namespace VentureManagement.web
 {
     public class ZipResult : ActionResult
     {

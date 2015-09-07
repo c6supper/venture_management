@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
 
-namespace VentureManagement.Web.Areas.Buttons_Basic.Controllers
+namespace VentureManagement.web.Areas.Buttons_Basic.Controllers
 {
     public class OverviewController : Controller
     {

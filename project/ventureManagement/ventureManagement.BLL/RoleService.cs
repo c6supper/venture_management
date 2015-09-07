@@ -4,11 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ventureManagement.DAL;
+using ventureManagement.IBLL;
+using ventureManagement.Models;
+using VentureManagement.BLL;
 using VentureManagement.DAL;
-using VentureManagement.IBLL;
-using VentureManagement.Models;
 
-namespace VentureManagement.BLL
+namespace ventureManagement.BLL
 {
     public class RoleService : BaseService<Role>, InterfaceRoleService
     {
@@ -22,6 +24,7 @@ namespace VentureManagement.BLL
                 var adminRole = new Role
                 {
                     Name = "administrator",
+
                 };
                 Add(adminRole);
             }

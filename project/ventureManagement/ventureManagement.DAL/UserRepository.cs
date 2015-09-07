@@ -1,7 +1,8 @@
-﻿using VentureManagement.IDAL;
-using VentureManagement.Models;
+﻿using ventureManagement.IDAL;
+using ventureManagement.Models;
+using VentureManagement.DAL;
 
-namespace VentureManagement.DAL
+namespace ventureManagement.DAL
 {
     /// <summary>
     /// 用户仓库

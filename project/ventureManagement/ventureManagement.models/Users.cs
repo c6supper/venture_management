@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace VentureManagement.Models
+namespace ventureManagement.Models
 {
     /// <summary>
     /// 用户模型
@@ -70,12 +70,11 @@ namespace VentureManagement.Models
         /// <summary>
         /// 上次登陆时间
         /// </summary>
-        public DateTime? LoginTime { get; set; }
+        public Nullable<DateTime> LoginTime { get; set; }
 
         /// <summary>
         /// 上次登陆IP
         /// </summary>
-        // ReSharper disable once InconsistentNaming
         public string LoginIP { get; set; }
 
         /// <summary>

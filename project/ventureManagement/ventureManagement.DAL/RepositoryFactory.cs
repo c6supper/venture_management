@@ -1,4 +1,6 @@
-﻿using VentureManagement.IDAL;
+﻿using ventureManagement.DAL;
+using ventureManagement.IDAL;
+using VentureManagement.IDAL;
 
 namespace VentureManagement.DAL
 {
@@ -14,5 +16,7 @@ namespace VentureManagement.DAL
         public static InterfaceUserRepository UserRepository { get { return new UserRepository(); } }
 
         public static InterfaceRoleRepository RoleRepository { get { return new RoleRepository(); } }
+
+        public static InterfaceUserRoleRelatioRepository UserRoleRelationRepository { get { return new UserRoleRelationRepository(); } }
     }
 }

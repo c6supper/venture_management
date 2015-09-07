@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace VentureManagement.Web.Controllers
+namespace VentureManagement.web.Controllers
 {
     public class SecureController : Controller
     {

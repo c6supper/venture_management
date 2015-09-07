@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using VentureManagement.Models;
+using ventureManagement.Models;
+using VentureManagement.IDAL;
 
-namespace VentureManagement.IDAL
+namespace ventureManagement.IDAL
 {
     /// <summary>
     /// 用户接口

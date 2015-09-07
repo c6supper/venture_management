@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using ventureManagement.Models;
 using VentureManagement.IDAL;
 
-namespace ventureManagement.IDAL
+namespace VentureManagement.DAL
 {
-    public interface InterfaceRoleRepository : InterfaceBaseRepository<Role>
+    internal class UserRoleRelationRepository : BaseRepository<UserRoleRelation>, InterfaceUserRoleRelatioRepository
     {
     }
 }

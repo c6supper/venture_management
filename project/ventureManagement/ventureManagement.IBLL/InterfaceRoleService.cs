@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VentureManagement.Models;
+using ventureManagement.Models;
+using VentureManagement.IBLL;
 
-namespace VentureManagement.IBLL
+namespace ventureManagement.IBLL
 {
     public interface InterfaceRoleService : InterfaceBaseService<Role>
     {

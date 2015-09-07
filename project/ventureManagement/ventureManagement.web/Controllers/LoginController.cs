@@ -2,9 +2,9 @@
 using System.Web.Security;
 using Ext.Net;
 using Ext.Net.MVC;
-using VentureManagement.Web.Attributes;
+using VentureManagement.web.Attributes;
 
-namespace VentureManagement.Web.Controllers
+namespace VentureManagement.web.Controllers
 {
     [DirectController(AreaName = "Member", GenerateProxyForOtherControllers = false, IDMode = DirectMethodProxyIDMode.None)]
     public class LoginController : Controller

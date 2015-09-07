@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 
-namespace VentureManagement.Web.Providers
+namespace VentureManagement.web.Providers
 {
     public class VentureMangementMembershipUser : MembershipUser
     {

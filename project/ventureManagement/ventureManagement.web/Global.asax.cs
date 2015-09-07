@@ -5,11 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using VentureManagement.Web.Filters;
+using VentureManagement.web.Filters;
 
-//using VentureManagement.Web.Filters;
+//using ventureManagement.web.Filters;
 
-namespace VentureManagement.Web
+namespace VentureManagement.web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801

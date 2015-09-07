@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Data.Entity;
 using System.Diagnostics;
-using VentureManagement.Models;
+using ventureManagement.Models;
 
-namespace VentureManagement.DAL
+namespace ventureManagement.DAL
 {
     /// <summary>
     /// 数据上下文

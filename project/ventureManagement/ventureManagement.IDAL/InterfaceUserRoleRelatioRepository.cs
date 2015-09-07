@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ventureManagement.Models;
 using VentureManagement.IDAL;
 
-namespace ventureManagement.IDAL
+namespace VentureManagement.IDAL
 {
-    public interface InterfaceRoleRepository : InterfaceBaseRepository<Role>
+    public interface InterfaceUserRoleRelatioRepository : InterfaceBaseRepository<UserRoleRelation>
     {
     }
 }
