@@ -11,6 +11,7 @@ namespace VentureManagement.Web.Areas.Buttons_Basic.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrators")]
 		public ActionResult Button_Click(string Item)
 		{
 			X.Msg.Alert("DirectEvent", string.Format("Item - {0}",  Item)).Show();

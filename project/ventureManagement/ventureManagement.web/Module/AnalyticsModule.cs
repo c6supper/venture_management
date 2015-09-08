@@ -28,9 +28,9 @@ namespace VentureManagement.Web
             {
                 object marker = HttpContext.Current.Items[ResourceManager.FilterMarker];
                 string url = HttpContext.Current.Request.FilePath;
-                bool isExample = HttpContext.Current.Items.Contains("ext.net.mvc.example");
+                bool isMenu = HttpContext.Current.Items.Contains("ext.net.mvc.menu");
                 
-                if (marker != null && (bool)marker && isExample)
+                if (marker != null && (bool)marker && isMenu)
                 {
                     if (response.ContentType.IsNotEmpty() && response.ContentType.Equals("text/html", StringComparison.InvariantCultureIgnoreCase))
                     {

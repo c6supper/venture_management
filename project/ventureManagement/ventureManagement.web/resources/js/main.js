@@ -62,7 +62,7 @@ var makeTab = function (id, url, title) {
                 listeners : {
                     click : {
                         fn : function (el, e) {
-                            App.direct.DownloadExample(url, {
+                            App.direct.DownloadMenu(url, {
                                 isUpload: true,
                                 formId : "downloadForm"
                             });
@@ -76,7 +76,7 @@ var makeTab = function (id, url, title) {
     hostName = window.location.protocol + "//" + window.location.host;
     menuName = url;
     
-    tab = App.ExampleTabs.add(new Ext.panel.Panel({
+    tab = App.MenuTabs.add(new Ext.panel.Panel({
         id   : id,        
         tbar : [{
             text      : "Source Code",
@@ -117,7 +117,7 @@ var makeTab = function (id, url, title) {
                         xtype   : "button",
                         text    : " Open",
                         iconCls : "#ApplicationDouble",
-                        tooltip : "Open Example in the separate window",
+                        tooltip : "Open Menu in the separate window",
                         handler : function () {
                             window.open(hostName + "/#" + menuName);
                         }
@@ -126,7 +126,7 @@ var makeTab = function (id, url, title) {
                         xtype   : "button",
                         text    : " Open (Direct)",
                         iconCls : "#ApplicationGo",
-                        tooltip : "Open Example in the separate window using a direct link",
+                        tooltip : "Open Menu in the separate window using a direct link",
                         handler : function () {
                             window.open(hostName + url, "_blank");
                         }
@@ -179,7 +179,7 @@ var makeTab = function (id, url, title) {
     
     tab.sWin = win;
     setTimeout(function(){
-        App.ExampleTabs.setActiveTab(tab);
+        App.MenuTabs.setActiveTab(tab);
     }, 250);
     
     var node = App.menuTree.getStore().getNodeById(id),
@@ -221,7 +221,7 @@ var onTreeAfterRender = function (tree) {
 var onTreeItemClick = function (record, e) {
     if (record.isLeaf()) { 
         e.stopEvent(); 
-        loadExample(record.get('href'), record.getId(), record.get('text')); 
+        loadMenu(record.get('href'), record.getId(), record.get('text')); 
     } else {
         record[record.isExpanded() ? 'collapse' : 'expand']();
     }
@@ -237,14 +237,14 @@ var treeRenderer = function (value, metadata, record) {
     return value;
 };
 
-var loadExample = function (href, id, title) {
-    var tab = App.ExampleTabs.getComponent(id),
+var loadMenu = function (href, id, title) {
+    var tab = App.MenuTabs.getComponent(id),
         lObj = lookup[href];
         
     if (id == "-") {
         App.direct.GetHashCode(href,{
             success : function (result) {
-                loadExample(href, "e" + result, title);
+                loadMenu(href, "e" + result, title);
             }
         });
                
@@ -254,7 +254,7 @@ var loadExample = function (href, id, title) {
     lookup[href] = id;
 
     if (tab) {
-        App.ExampleTabs.setActiveTab(tab);
+        App.MenuTabs.setActiveTab(tab);
     } else {
         if (Ext.isEmpty(title)) {
             var m = /(\w+)\/$/g.exec(href);
@@ -289,10 +289,10 @@ var change = function (token) {
             if (token.indexOf(SEARCH_URL) === 0) {
                 filterByUrl(token);
             } else {
-                loadExample(token, lookup[token] || "-" );
+                loadMenu(token, lookup[token] || "-" );
             }
         } else {
-            App.ExampleTabs.setActiveTab(0);
+            App.MenuTabs.setActiveTab(0);
         }
     }
     lockHistoryChange = false;
@@ -430,7 +430,7 @@ var changeFilterHash = Ext.Function.createBuffered(
         if (text.length > 2) {
             window.location.hash = SEARCH_URL + text;
         } else {
-            var tab = App.ExampleTabs.getActiveTab(),
+            var tab = App.MenuTabs.getActiveTab(),
                 token = "";
 
             if (tab.loader && tab.loader.url) {
@@ -489,7 +489,7 @@ var themeChange = function (menu, menuItem) {
 																			
             Ext.net.ResourceMgr.setTheme(result, menuItem.text.toLowerCase());
             Ext.defer(v.doLayout, 500, v);
-			App.ExampleTabs.items.each(function (el) {
+			App.MenuTabs.items.each(function (el) {
 				if (!Ext.isEmpty(el.iframe)) {
                     frame = el.getBody();
 					if (frame.Ext) {
@@ -512,7 +512,7 @@ if (window.location.href.indexOf("#") > 0) {
                 filterByUrl(directLink);                
             } else {
                 if (!Ext.isEmpty(directLink, false)) {
-                    loadExample(directLink, "-");
+                    loadMenu(directLink, "-");
                 }
             }
         }, 100, window);        

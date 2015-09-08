@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using Ext.Net;
-using VentureManagement.Web.Models;
 
-namespace VentureManagement.Web
+namespace VentureManagement.Web.Models
 {
     public class SourceModel
     {
@@ -87,11 +86,11 @@ namespace VentureManagement.Web
             return MenusModel.ApplicationRoot + relUrl;
         }
 
-        private static Regex example_RE = new Regex("^/(\\w+)/(\\w+)/$", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static Regex menu_RE = new Regex("^/(\\w+)/(\\w+)/$", RegexOptions.Compiled | RegexOptions.Singleline);
         public static List<FileInfo> GetFiles(string url, bool download)
         {
             var list = new List<FileInfo>();
-            var match = example_RE.Match(url);
+            var match = menu_RE.Match(url);
             if(!match.Success){
                 return list;
             }

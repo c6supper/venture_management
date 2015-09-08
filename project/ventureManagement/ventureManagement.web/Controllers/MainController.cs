@@ -12,7 +12,6 @@ namespace VentureManagement.Web.Controllers
     [DirectController]
     public class MainController : Controller
     {
-        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Xml;
 using Ext.Net;
@@ -49,7 +50,7 @@ namespace VentureManagement.Web.Models
                     continue;
                 }
 
-                ExampleConfig cfg = new ExampleConfig(folder.FullName + "\\config.xml");
+                MenuConfig cfg = new MenuConfig(folder.FullName + "\\config.xml");
 
                 string iconCls = string.IsNullOrEmpty(cfg.IconCls) ? "" : cfg.IconCls;
                 Node node = null;
@@ -126,10 +127,13 @@ namespace VentureManagement.Web.Models
                     continue;
                 }
 
-                ExampleConfig cfg = new ExampleConfig(folder.FullName + "\\config.xml");
+                MenuConfig cfg = new MenuConfig(folder.FullName + "\\config.xml");
 
                 string iconCls = string.IsNullOrEmpty(cfg.IconCls) ? "" : cfg.IconCls;
                 Node node = new Node();
+
+                var type = Type.GetType(Assembly.GetExecutingAssembly().GetName().Name + "." + area.Parent.Name + "." + area.Name + ".Controllers." + folder.Name + "Controller");
+                var attr = Common.ReflectionHelper.GetCustomAttribute<System.Web.Mvc.AuthorizeAttribute>(type);
                 
                 string folderName = folder.Name.Replace("_", " ");
 
@@ -151,13 +155,13 @@ namespace VentureManagement.Web.Models
             }
         }
 
-        private static ExampleConfig rootCfg;
+        private static MenuConfig rootCfg;
 
         private static bool IsNew(string folder)
         {
             if (rootCfg == null)
             {
-                rootCfg = new ExampleConfig(new DirectoryInfo(HttpContext.Current.Server.MapPath(MenusRoot)) + "\\config.xml");
+                rootCfg = new MenuConfig(new DirectoryInfo(HttpContext.Current.Server.MapPath(MenusRoot)) + "\\config.xml");
             }
 
             foreach (string newFolder in rootCfg.NewFolders)
@@ -177,7 +181,7 @@ namespace VentureManagement.Web.Models
 
             if (File.Exists(root.FullName + "\\config.xml"))
             {
-                ExampleConfig rootCfg = new ExampleConfig(cfgPath);
+                MenuConfig rootCfg = new MenuConfig(cfgPath);
 
                 if (rootCfg.OrderFolders.Count > 0)
                 {
@@ -212,11 +216,11 @@ namespace VentureManagement.Web.Models
         }
     }
 
-    public class ExampleConfig
+    public class MenuConfig
     {
         private string path;
 
-        public ExampleConfig(string path)
+        public MenuConfig(string path)
         {
             this.path = path;
             this.Load();
@@ -239,7 +243,7 @@ namespace VentureManagement.Web.Models
                 }
             }
 
-            XmlNode root = xml.SelectSingleNode("example");
+            XmlNode root = xml.SelectSingleNode("menu");
 
             if (root == null)
             {
