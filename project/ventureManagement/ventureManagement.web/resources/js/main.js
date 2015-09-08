@@ -5,7 +5,7 @@ var makeTab = function (id, url, title) {
     var win, 
         tab, 
         hostName, 
-        exampleName, 
+        menuName, 
         node, 
         tabTip;
     
@@ -46,7 +46,7 @@ var makeTab = function (id, url, title) {
                             customTarget : this.body
                         },
                         failure : function (msg, response) {
-                            Ext.Msg.alert("Failure", "The error during example loading:\n" + response.responseText);
+                            Ext.Msg.alert("Failure", "The error during menu loading:\n" + response.responseText);
                         }
                     });
                 },
@@ -74,7 +74,7 @@ var makeTab = function (id, url, title) {
     });
     
     hostName = window.location.protocol + "//" + window.location.host;
-    exampleName = url;
+    menuName = url;
     
     tab = App.ExampleTabs.add(new Ext.panel.Panel({
         id   : id,        
@@ -111,7 +111,7 @@ var makeTab = function (id, url, title) {
                         y     : 10,
                         selectOnFocus : true,
                         readOnly : true,
-                        value    : hostName + "/#" + exampleName
+                        value    : hostName + "/#" + menuName
                     }],
                     buttons: [{
                         xtype   : "button",
@@ -119,7 +119,7 @@ var makeTab = function (id, url, title) {
                         iconCls : "#ApplicationDouble",
                         tooltip : "Open Example in the separate window",
                         handler : function () {
-                            window.open(hostName + "/#" + exampleName);
+                            window.open(hostName + "/#" + menuName);
                         }
                     },
                     {
@@ -182,21 +182,21 @@ var makeTab = function (id, url, title) {
         App.ExampleTabs.setActiveTab(tab);
     }, 250);
     
-    var node = App.exampleTree.getStore().getNodeById(id),
+    var node = App.menuTree.getStore().getNodeById(id),
         expandAndSelect = function (node) {
-            App.exampleTree.animate = false;
+            App.menuTree.animate = false;
             node.bubble(function(node) {
                 node.expand(false);
             }); 
-            App.exampleTree.getSelectionModel().select(node);       
-            App.exampleTree.animate = true;    
+            App.menuTree.getSelectionModel().select(node);       
+            App.menuTree.animate = true;    
         };
          
     if (node) {
         expandAndSelect(node);     
     } else {
-        App.exampleTree.on("load", function (node) {
-            node = App.exampleTree.getStore().getNodeById(id);
+        App.menuTree.on("load", function (node) {
+            node = App.menuTree.getStore().getNodeById(id);
             if (node) {
                 expandAndSelect(node);
             }
@@ -329,7 +329,7 @@ var keyUp = function (field, e) {
 };
 
 var filter = function (field, e) {    
-    var tree = App.exampleTree,
+    var tree = App.menuTree,
         text = field.getRawValue();
     
     if (Ext.isEmpty(text, false)) {
@@ -396,10 +396,10 @@ var filter = function (field, e) {
 
 var filterByUrl = function (url) {
     var field = App.SearchField,
-        tree = App.exampleTree;
+        tree = App.menuTree;
 
     if (!lockHistoryChange) {
-        var tree = App.exampleTree,
+        var tree = App.menuTree,
             store = tree.getStore(),
             fn = function () {
                 field.setValue(url.substr(SEARCH_URL.length));
@@ -415,7 +415,7 @@ var filterByUrl = function (url) {
 };
 
 var clearFilter = function (field, trigger, index, e) {
-    var tree = App.exampleTree;
+    var tree = App.menuTree;
     
     field.setValue("");
     changeFilterHash("");
@@ -444,21 +444,21 @@ var changeFilterHash = Ext.Function.createBuffered(
 
 var filterSpecialKey = function (field, e) {
     if (e.getKey() === e.DOWN) {
-        var n = App.exampleTree.getRootNode().findChildBy(function (node) {
+        var n = App.menuTree.getRootNode().findChildBy(function (node) {
             return node.isLeaf() && !node.data.hidden;
-        }, App.exampleTree, true);
+        }, App.menuTree, true);
         
         if (n) {
-            App.exampleTree.expandPath(n.getPath(), null, null, function(){
-                App.exampleTree.getSelectionModel().select(n);
-                App.exampleTree.getView().focus();
+            App.menuTree.expandPath(n.getPath(), null, null, function(){
+                App.menuTree.getSelectionModel().select(n);
+                App.menuTree.getView().focus();
             });
         }
     }
 };
 
-var filterNewExamples = function (checkItem, checked) {
-    var tree = App.exampleTree,
+var filterNewMenus = function (checkItem, checked) {
+    var tree = App.menuTree,
         regex;
         
     if (checked) {

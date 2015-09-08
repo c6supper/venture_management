@@ -12,7 +12,7 @@
     {
         items.Add(new TreePanel
         {
-            ID = "exampleTree",
+            ID = "menuTree",
             Header = false,
             AutoScroll = true,
             Lines = false,
@@ -33,7 +33,7 @@
                             AutoFocus = true,
                             EnableKeyEvents = true,
                             Flex = 1,
-                            EmptyText = "Filter Examples...",
+                            EmptyText = "请输入想查找的页面...",
                             Triggers = 
                             {
                                 new FieldTrigger
@@ -91,7 +91,7 @@
                                         new CheckMenuItem
                                         {
                                             Text = "NEW Only",
-                                            CheckHandler = "filterNewExamples",
+                                            CheckHandler = "filterNewMenus",
                                             Hidden = true
                                         },
                                         
@@ -174,7 +174,7 @@
                         {
                             API = 
                             {
-                                Read = Url.Action("GetExamplesNodes")
+                                Read = Url.Action("GetMenuNodes")
                             },
                             
                             ActionMethods = 

@@ -7,16 +7,16 @@ using System.Xml;
 using Ext.Net;
 using Ext.Net.Utilities;
 
-namespace VentureManagement.Web
+namespace VentureManagement.Web.Models
 {
-    public class ExamplesModel
+    public class MenusModel
     {
-        internal static string ExamplesRoot = "~/Areas/";
+        internal static string MenusRoot = "~/Areas/";
         
-        public static NodeCollection GetExamplesNodes()
+        public static NodeCollection GetMenuNodes()
         {
             var nodes = new NodeCollection();
-            string path = HttpContext.Current.Server.MapPath(ExamplesRoot);
+            string path = HttpContext.Current.Server.MapPath(MenusRoot);
 
             return BuildAreasLevel();
         }
@@ -34,7 +34,7 @@ namespace VentureManagement.Web
 
         private static NodeCollection BuildAreasLevel()
         {
-            string path = HttpContext.Current.Server.MapPath(ExamplesRoot);
+            string path = HttpContext.Current.Server.MapPath(MenusRoot);
             DirectoryInfo root = new DirectoryInfo(path);
             DirectoryInfo[] folders = root.GetDirectories();
             folders = SortFolders(root, folders);
@@ -157,12 +157,12 @@ namespace VentureManagement.Web
         {
             if (rootCfg == null)
             {
-                rootCfg = new ExampleConfig(new DirectoryInfo(HttpContext.Current.Server.MapPath(ExamplesRoot)) + "\\config.xml");
+                rootCfg = new ExampleConfig(new DirectoryInfo(HttpContext.Current.Server.MapPath(MenusRoot)) + "\\config.xml");
             }
 
             foreach (string newFolder in rootCfg.NewFolders)
             {
-                if (string.Concat(HttpContext.Current.Server.MapPath(ExamplesRoot), newFolder).StartsWith(folder, StringComparison.CurrentCultureIgnoreCase))
+                if (string.Concat(HttpContext.Current.Server.MapPath(MenusRoot), newFolder).StartsWith(folder, StringComparison.CurrentCultureIgnoreCase))
                 {
                     return true;
                 }

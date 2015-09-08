@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using Ext.Net;
+using VentureManagement.Web.Models;
 
 namespace VentureManagement.Web
 {
@@ -54,7 +55,7 @@ namespace VentureManagement.Web
                         break;
                 }
                 panel.Loader = new ComponentLoader();
-                panel.Loader.Url = ExamplesModel.ApplicationRoot + "/Source/GetSourceFile";
+                panel.Loader.Url = MenusModel.ApplicationRoot + "/Source/GetSourceFile";
                 panel.Loader.Mode = LoadMode.Frame;
                 panel.Loader.Params.Add(new Parameter("file", PhysicalToVirtual(fileInfo.FullName), ParameterMode.Value));
                 panel.Loader.LoadMask.ShowMask = true;
@@ -83,7 +84,7 @@ namespace VentureManagement.Web
 
             relUrl = relUrl.Replace("\\", "/");
 
-            return ExamplesModel.ApplicationRoot + relUrl;
+            return MenusModel.ApplicationRoot + relUrl;
         }
 
         private static Regex example_RE = new Regex("^/(\\w+)/(\\w+)/$", RegexOptions.Compiled | RegexOptions.Singleline);
@@ -98,7 +99,7 @@ namespace VentureManagement.Web
             var area = match.Groups[1].Value;
             var controller = match.Groups[2].Value;
 
-            string path = HttpContext.Current.Server.MapPath(ExamplesModel.ExamplesRoot+area);
+            string path = HttpContext.Current.Server.MapPath(MenusModel.MenusRoot+area);
             list.Add(new FileInfo(string.Concat(path, "/Controllers/", controller, "Controller.cs")));
 
             var model = string.Concat(path, "/Models/", controller, "Model.cs");

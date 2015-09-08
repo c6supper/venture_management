@@ -5,6 +5,7 @@ using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.Models;
 using VentureManagement.Web.Attributes;
+using VentureManagement.Web.Models;
 
 namespace VentureManagement.Web.Controllers
 {
@@ -23,11 +24,11 @@ namespace VentureManagement.Web.Controllers
         }
 
         [OutputCache(Duration = 3600)]
-        public ActionResult GetExamplesNodes(string node)
+        public ActionResult GetMenuNodes(string node)
         {
             if (node == "Root")
             {
-                return this.Content(ExamplesModel.GetExamplesNodes().ToJson());
+                return this.Content(MenusModel.GetMenuNodes().ToJson());
             }
 
             return new HttpStatusCodeResult((int)HttpStatusCode.BadRequest);

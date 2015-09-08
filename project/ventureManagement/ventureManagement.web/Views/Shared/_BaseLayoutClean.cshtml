@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    HttpContext.Current.Items["ext.net.mvc.example"] = true;
+    HttpContext.Current.Items["ext.net.mvc.menu"] = true;
 }
 
 <!DOCTYPE html>
@@ -13,6 +13,6 @@
 </head>
 <body>
       @Html.X().ResourceManager(ViewBag.ManagerConfig as MvcResourceManagerConfig)
-      @RenderSection("example", true)
+      @RenderSection("menu", true)
 </body>
 </html>

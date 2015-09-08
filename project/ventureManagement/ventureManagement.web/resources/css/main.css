@@ -332,17 +332,17 @@ td.alt2{
 /*  TreePanel
     -----------------------------------------------------------------------------------------------*/
 
-#exampleTree .x-grid-cell-inner .x-tree-node-text span {
+#menuTree .x-grid-cell-inner .x-tree-node-text span {
     margin-left  : 8px;
     padding-left : 25px;
     background   : transparent url(../images/new.gif) no-repeat 0px 4px;
 }
 
-#exampleTree .x-grid-tree-node-expanded .x-grid-cell-inner .x-tree-node-text span {
+#menuTree .x-grid-tree-node-expanded .x-grid-cell-inner .x-tree-node-text span {
     background : transparent url(../images/newgray.gif) no-repeat 0px 4px;
 }
 
-#exampleTree-body div {
+#menuTree-body div {
 	font-family : 'TitilliumText25L400wt';
     font-size   : 15px;
 	color       : #444444;
@@ -536,7 +536,7 @@ tr.x-grid-row-selected td div.x-grid-cell-inner {
 /*  Font Awesome
 		the iconic font designed for use with Twitter Bootstrap
 		-------------------------------------------------------
-		The full suite of pictographic icons, examples, and documentation
+		The full suite of pictographic icons, menus, and documentation
 		can be found at: http://fortawesome.github.com/Font-Awesome/
 
 		License
@@ -1368,7 +1368,7 @@ tr.x-grid-row-selected td div.x-grid-cell-inner {
 	color:#f2f2f2;
 }
 
-.x-theme-access #exampleTree-body div
+.x-theme-access #menuTree-body div
 {
 	color:#0589C7;
 }

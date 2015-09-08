@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    HttpContext.Current.Items["ext.net.mvc.example"] = true;
+    HttpContext.Current.Items["ext.net.mvc.menu"] = true;
 }
 
 <!DOCTYPE html>
@@ -8,10 +8,10 @@
 <html>
 <head>
     <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href="@Url.Content("~/resources/css/examples.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/resources/css/menus.css")" />
 	@RenderSection("headtag", false)
 </head>
 <body>
-      @RenderSection("example", true)
+      @RenderSection("menu", true)
 </body>
 </html>
