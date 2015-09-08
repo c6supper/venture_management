@@ -106,6 +106,7 @@
     <Compile Include="Areas\Buttons_Basic\Controllers\ImageButtonController.cs" />
     <Compile Include="Areas\Buttons_Basic\Controllers\LinkButtonController.cs" />
     <Compile Include="Areas\Buttons_Basic\Controllers\OverviewController.cs" />
+    <Compile Include="Areas\Member\Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
     <Compile Include="Attributes\AllowAnonymousAttribute.cs" />
@@ -146,9 +147,8 @@
     <Content Include="ReferenceAssemblies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ReferenceAssemblies\ReadMe.txt" />
     <Content Include="ReferenceAssemblies\Wilco.SyntaxHighlighter.dll" />
-    <Content Include="resources\css\examples.css" />
     <Content Include="resources\css\main.css" />
-    <Content Include="resources\examples.js" />
+    <Content Include="resources\css\menus.css" />
     <Content Include="resources\fonts\fontawesome-webfont.svg" />
     <Content Include="resources\fonts\LICENSE_TITILLIUMTEXT.txt" />
     <Content Include="resources\fonts\OpenSans-Italic-webfont.svg" />
@@ -243,6 +243,7 @@
     <Content Include="resources\images\welcome-bullet.png" />
     <Content Include="resources\images\welcome-screens.png" />
     <Content Include="resources\js\main.js" />
+    <Content Include="resources\menus.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -257,6 +258,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Areas\Member\Views\Web.config" />
     <Content Include="packages.config" />
+    <Content Include="Areas\Member\Views\Organization\Index.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />
@@ -284,7 +286,6 @@
     <Folder Include="Areas\Buttons_Basic\Models\" />
     <Folder Include="Areas\Buttons_Basic\Views\Shared\" />
     <Folder Include="Areas\Member\Content\" />
-    <Folder Include="Areas\Member\Controllers\" />
     <Folder Include="Areas\Member\Models\" />
   </ItemGroup>
   <ItemGroup>

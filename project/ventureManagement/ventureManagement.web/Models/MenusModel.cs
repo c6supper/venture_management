@@ -17,7 +17,7 @@ namespace VentureManagement.Web.Models
         public static NodeCollection GetMenuNodes()
         {
             var nodes = new NodeCollection();
-            string path = HttpContext.Current.Server.MapPath(MenusRoot);
+            HttpContext.Current.Server.MapPath(MenusRoot);
 
             return BuildAreasLevel();
         }

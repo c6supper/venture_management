@@ -8,14 +8,14 @@ namespace VentureManagement.Web.Areas.Member
 		{
 			get
 			{
-				return "Member";
+                return "Member";
 			}
 		}
 
 		public override void RegisterArea(AreaRegistrationContext context)
 		{
 			context.MapRoute(
-				"Member",
+				"Member_default",
 				"Member/{controller}/{action}/{id}",
 				new { action = "Index", id = UrlParameter.Optional }
 			);
