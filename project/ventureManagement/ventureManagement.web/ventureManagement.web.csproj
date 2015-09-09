@@ -117,6 +117,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\MenusModel.cs" />
+    <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\SourceModel.cs" />
     <Compile Include="Models\ZipResult.cs" />
     <Compile Include="Module\AnalyticsFilter.cs" />

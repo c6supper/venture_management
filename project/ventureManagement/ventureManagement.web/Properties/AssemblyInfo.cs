@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("VentureManagement.Web")]
+[assembly: AssemblyTitle("水电工程施工安全隐患排查预警系统")]
 [assembly: AssemblyDescription("VentureManagement.Web")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Ext.NET, Inc.")]
+[assembly: AssemblyCompany("有用科技")]
 [assembly: AssemblyProduct("VentureManagement.Web")]
-[assembly: AssemblyCopyright("Copyright © 2007-2013 Ext.NET, Inc.")]
+[assembly: AssemblyCopyright("Copyright © 2015-2016 有用科技")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

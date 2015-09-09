@@ -20,7 +20,7 @@ namespace VentureManagement.Web.Providers
         {
             try
             {
-                if (_userRoleRelationService.Exist(username, roleName))
+                if (_userRoleRelationService.Exist(username, roleName) || _userRoleRelationService.IsAdmin(username))
                     return true;
 
                 foreach (var userOrganizationRelation in _userOrganizationRelationService.FindList(username))

@@ -1,7 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using System.Web.Security;
 using Ext.Net;
 using Ext.Net.MVC;
+using VentureManagement.BLL;
+using VentureManagement.Models;
 using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Controllers
@@ -9,6 +13,10 @@ namespace VentureManagement.Web.Controllers
     [DirectController(AreaName = "Member", GenerateProxyForOtherControllers = false, IDMode = DirectMethodProxyIDMode.None)]
     public class LoginController : Controller
     {
+        readonly UserService _userService = new UserService();
+        readonly OrganizationService _orgService = new OrganizationService();
+        readonly UserOrganizationRelationService _uorgService = new UserOrganizationRelationService();
+
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -21,11 +29,17 @@ namespace VentureManagement.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string txtUsername, string txtPassword, string returnUrl)
         {
+#if DEBUG
+            txtUsername = txtPassword = "master";
+#endif
             // Validate the user login.
             if (Membership.ValidateUser(txtUsername, txtPassword))
             {
                 // Create the authentication ticket.
                 FormsAuthentication.SetAuthCookie(txtUsername, false);
+
+                Session["User"] = _userService.Find(txtUsername);
+                Session["Organization"] = _uorgService.FindList(txtUsername).First().Organization;
 
                 // Redirect to the secure area.
                 if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")

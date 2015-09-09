@@ -43,6 +43,11 @@ namespace VentureManagement.BLL
             }
         }
 
+        public bool IsAdmin(string user)
+        {
+            return Exist(user, Role.ROLE_ADMIN);
+        }
+
         public UserRoleRelation Find(string user, string role)
         {
             try

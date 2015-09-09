@@ -26,6 +26,26 @@ namespace VentureManagement.BLL
                     Description = "系统管理组"
                 };
                 Add(organization);
+
+#if DEBUG
+                Add( new Organization
+                {
+                    OrganizationName = "集团公司安全部",
+                    Description = "debug"
+                });
+
+                Add(new Organization
+                {
+                    OrganizationName = "第一分局",
+                    Description = "debug"
+                });
+
+                Add(new Organization
+                {
+                    OrganizationName = "第一工程项目部",
+                    Description = "debug"
+                });
+#endif
                 return true;
             }
             catch (Exception ex)
