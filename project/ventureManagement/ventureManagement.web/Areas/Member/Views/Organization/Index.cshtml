@@ -4,86 +4,111 @@
     var X = Html.X();
 }
 
-@section headtag
-{
-    <script>
-        var formatHours = function (v) {
-            if (v < 1) {
-                return Math.round(v * 60) + " mins";
-            } else if (Math.floor(v) !== v) {
-                var min = v - Math.floor(v);
-                return Math.floor(v) + "h " + Math.round(min * 60) + "m";
-            } else {
-                return v + " hour" + (v === 1 ? "" : "s");
-            }
-        };
-
-        var handler = function (grid, rowIndex, colIndex, actionItem, event, record, row) {
-            Ext.Msg.alert('Editing' + (record.get('done') ? ' completed task' : ''), record.get('task'));
-        };
-    </script>
-}
-
 @section menu
 {
     @(
-        X.TreePanel()
-            .ID("OrganizationTreePanel")
-            .Title("Core Team Projects")
-            .Layout(LayoutType.Fit)
-            .Collapsible(false)
-            .UseArrows(true)
-            .RootVisible(true)
-            .MultiSelect(true)
-            .SingleExpand(true)
-            .FolderSort(true)
-            .TopBar(Html.X().Toolbar()
-                            .Items(Html.X().Button()
-                                .Text("Save All Events")
-                                .Icon(Icon.Disk)
-                            )
-                        )
-            //.Tools(X.Tool()
-            //.Type(ToolType.Refresh)
-            //.Handler("Ext.Msg.alert('Message','Refresh Tool Clicked!');")
-            //)
-            .Fields(
-                X.ModelField().Name("organizationName"),
-                X.ModelField().Name("Description"),
-                X.ModelField().Name("checked").Type(ModelFieldType.Boolean)
-                
-            )
-            .ColumnModel(    
-                X.CheckColumn()
-                    .Text("选中")
-                    .DataIndex("checked")
-                    .Width(40)
-                    .Editable(true)
-                    .StopSelection(false),
-            
-                X.TreeColumn()
-                    .Text("部门")
-                    .DataIndex("organizationName"),
-                    
-                X.Column()
-                    .Text("备注")
-                    .DataIndex("Description"),                    
-        
-                X.ActionColumn()
-                    .Text("编辑")
-                    .Width(40)
-                    .MenuDisabled(true)
-                    .Align(Alignment.Center)
-                    .Items(
-                        X.ActionItem()
-                            .Tooltip("Edit task")
-                            .Icon(Icon.PageWhiteEdit)
-                            .Handler("handler")
-                            .IsDisabled(func => {
-                                func.Handler = "return !record.data.leaf;";
-                            })
+    X.FormPanel()
+        .Title("")
+        .BodyPadding(5)
+        .AutoScroll(true)
+        .Height(400)
+        .ManageHeight(true)
+        .Layout(LayoutType.Auto)
+        .FieldDefaults(fd => {
+            fd.LabelAlign = LabelAlign.Left;
+            fd.MsgTarget = MessageTarget.Side;
+        })
+        .Items(
+            X.FieldSet()
+                .Hidden(true)
+                .ID("newOrganization")
+                .Title("新增部门信息")
+                .Width(400)
+                .MarginSpec("10 10 10 10")
+                .Defaults(d => {
+                    d.Add(new Parameter("Width", "240"));
+                    d.Add(new Parameter("LabelWidth", "90"));
+                })
+                .Items(
+                    X.TextField()
+                        .ReadOnly(true)
+                        .ID("SuperiorDepartment")
+                        .Name("organizationName")
+                        .EmptyText("请选择上级部门")
+                        .FieldLabel("上级部门"),
+                    X.TextField()
+                        .ID("SubordinateDepartment")
+                        .Name("SubordinateDepartment")
+                        .EmptyText("请输入部门名")
+                        .FieldLabel("下级部门"),
+                    X.TextField()
+                        .Name("Description")
+                        .FieldLabel("备注"),                        
+                    X.Button(
+                        Html.X().Button()
+                        .Text("提交")
+                        .Width(80)
+                        .Icon(Icon.Lightning)
+                        .FormBind(true)
+                        .Handler("#{DirectMethods}.CreateOrganization(App.SuperiorDepartment.getValue(), App.SubordinateDepartment.getValue());")
                     )
+                ),
+            X.TreePanel()
+                .ID("OrganizationTreePanel")
+                .Title("系统组织结构")
+                .Layout(LayoutType.Fit)
+                .Collapsible(false)
+                .UseArrows(true)
+                .RootVisible(true)
+                .MultiSelect(true)
+                .SingleExpand(true)
+                .FolderSort(true)
+                .AutoScroll(true)
+                .TopBar(Html.X().Toolbar()
+                                .Items(Html.X().Button()
+                                    .Text("新增部门")
+                                    .Icon(Icon.CommentAdd)
+                                    .Handler("App.newOrganization.show();")
+                                )
+                            )
+                .Fields(
+                    X.ModelField().Name("organizationName"),
+                    X.ModelField().Name("Description")
+                )
+                .ColumnModel(    
+                    X.TreeColumn()
+                        .Flex(3)
+                        .Text("部门")
+                        .DataIndex("organizationName"),
+                    
+                    X.Column()
+                        .Flex(2)
+                        .Text("备注")
+                        .DataIndex("Description")                  
+                )
+                .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                .Root(Model)
             )
-            .Root(Model)
     )
+
+    @*@(
+        Html.X().FormPanel()
+            .ID("NewPanel")
+            .Title("新增部门信息")
+            .Width(350)
+            .BodyPadding(5)
+            .Frame(true)
+            .Layout(LayoutType.Form)
+            .Items(
+                  Html.X().TextField().ID("SuperiorDepartment").FieldLabel("上级部门").AllowBlank(false).ReadOnly(true),
+                  Html.X().TextField().ID("SubordinateDepartment").FieldLabel("部门名称").AllowBlank(false)
+            )
+            .Buttons(
+                Html.X().Button()
+                    .Text("提交")
+                    .Icon(Icon.Lightning)
+                    .FormBind(true)
+                    .Handler("#{DirectMethods}.CreateOrganization(App.SuperiorDepartment.getValue(), App.SubordinateDepartment.getValue());")
+            )
+     )*@
 }

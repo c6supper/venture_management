@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
@@ -10,6 +11,7 @@ using VentureManagement.Models;
 namespace VentureManagement.Web.Areas.Member.Controllers
 {
     //[Authorize(Roles = "OrganizationControllerRead")]
+    [DirectController(AreaName = "Member")]
     public class OrganizationController : Controller
     {
         readonly OrganizationService _orgSerivce = new OrganizationService();
@@ -32,15 +34,16 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                     Description = org.Description
                 }
             };
+            node.CustomAttributes.Add(new ConfigItem("organizationName", "0", ParameterMode.Raw));
 
-            foreach (var childOrgr in _orgrService.FindList(org.OrganizationName))
+            foreach (var childOrgr in _orgrService.FindList(org.OrganizationName).ToArray())
             {
                 node.Children.Add(RecursiveAddNode(childOrgr.SubordinateDepartment));
             }
 
             if (node.Children.Count > 0)
             {
-                node.Icon = Icon.Add;
+                node.Icon = Icon.ApplicationAdd;
                 node.Expanded = true;
             }
             else
@@ -57,5 +60,14 @@ namespace VentureManagement.Web.Areas.Member.Controllers
 
             return org != null ? RecursiveAddNode(org) : new Node();
         }
+
+        [DirectMethod]
+        public ActionResult CreateOrganization(string name, string count)
+        {
+            X.Msg.Confirm("提示", "创建成功").Show();
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
