@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Ext.Net;
@@ -11,7 +12,7 @@ using VentureManagement.Models;
 namespace VentureManagement.Web.Areas.Member.Controllers
 {
     //[Authorize(Roles = "OrganizationControllerRead")]
-    [DirectController(AreaName = "Member")]
+
     public class OrganizationController : Controller
     {
         readonly OrganizationService _orgSerivce = new OrganizationService();
@@ -30,11 +31,13 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                 Text = org.OrganizationName,
                 AttributesObject = new
                 {
+                    organizationId = org.OrganizationId,
                     organizationName = org.OrganizationName,
                     Description = org.Description
                 }
             };
-            node.CustomAttributes.Add(new ConfigItem("organizationName", "0", ParameterMode.Raw));
+            node.CustomAttributes.Add(new ConfigItem("organizationId", "0", ParameterMode.Raw));
+            node.CustomAttributes.Add(new ConfigItem("organizationName", "1", ParameterMode.Raw));
 
             foreach (var childOrgr in _orgrService.FindList(org.OrganizationName).ToArray())
             {
@@ -61,12 +64,37 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return org != null ? RecursiveAddNode(org) : new Node();
         }
 
-        [DirectMethod]
-        public ActionResult CreateOrganization(string name, string count)
+        public ActionResult CreateOrganization(int superiorDepartmentId, string subordinateDepartment,string description)
         {
-            X.Msg.Confirm("提示", "创建成功").Show();
+            string infoMessage = "创建成功";
 
-            return RedirectToAction("Index");
+            if (_orgSerivce.Exist(subordinateDepartment,superiorDepartmentId))
+            {
+                infoMessage = "部门已存在";
+            }
+            else
+            {
+                var sub = _orgSerivce.Add(new Organization
+                {
+                    OrganizationName = subordinateDepartment,
+                    Description = description
+                });
+
+                var super = _orgSerivce.Find(superiorDepartmentId);
+                _orgrService.Add(new OrganizationRelation
+                {
+                    SuperiorDepartmentId = super.OrganizationId,
+                    SubordinateDepartmentId = sub.OrganizationId,
+                    SuperiorDepartment = super,
+                    SubordinateDepartment = sub,
+                    Description = description
+                });
+
+                return RedirectToAction("Index");
+            }
+            X.Msg.Alert("提示",infoMessage).Show();
+
+            return this.Direct();
         }
 
     }

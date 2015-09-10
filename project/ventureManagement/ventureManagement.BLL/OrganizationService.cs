@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using VentureManagement.DAL;
 using VentureManagement.IBLL;
 using VentureManagement.IDAL;
@@ -18,7 +19,7 @@ namespace VentureManagement.BLL
         {
             try
             {
-                if (Find(Organization.ORGANIZATION_STSTEM) != null) return true;
+                if (Have(Organization.ORGANIZATION_STSTEM) != null) return true;
 
                 var organization = new Organization
                 {
@@ -55,9 +56,33 @@ namespace VentureManagement.BLL
             }
         }
 
-        public Organization Find(string organization)
+#if DEBUG
+        public Organization Have(string organization)
         {
             return CurrentRepository.Find(u => u.OrganizationName == organization);
+        }
+#endif
+
+        public bool Exist(string organization,int superiorDepartmentId)
+        {
+            return
+                (CurrentRepository.FindList(u => u.OrganizationName == organization, String.Empty, false)
+                    .ToArray()
+                    .SelectMany(org => org.OrganizationRelation)
+                    .Any(orgr => orgr.SuperiorDepartmentId == superiorDepartmentId));
+        }
+
+        public Organization Find(string organization, int superiorDepartmentId)
+        {
+            return CurrentRepository.FindList(u => u.OrganizationName == organization, String.Empty, false)
+                .ToArray()
+                .FirstOrDefault(org => org.OrganizationRelation
+                    .Any(orgr => orgr.SuperiorDepartmentId == superiorDepartmentId));
+        }
+
+        public Organization Find(int organizationId)
+        {
+            return CurrentRepository.Find(org => org.OrganizationId == organizationId);
         }
     }
 }

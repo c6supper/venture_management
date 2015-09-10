@@ -25,7 +25,7 @@ namespace VentureManagement.BLL
             {
                 if (Find(User.USER_ADMIN, Role.ROLE_ADMIN) != null) return true;
 
-                var organization = _organizationService.Find(Organization.ORGANIZATION_STSTEM);
+                var organization = _organizationService.Have(Organization.ORGANIZATION_STSTEM);
                 var role = _roleService.Find(Role.ROLE_ADMIN);
 
                 var organizationRoleRelation = new OrganizationRoleRelation

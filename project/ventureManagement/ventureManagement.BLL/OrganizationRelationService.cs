@@ -43,28 +43,28 @@ namespace VentureManagement.BLL
             {
                 Add(new OrganizationRelation
                 {
-                    SuperiorDepartmentId = _organizationService.Find(Organization.ORGANIZATION_STSTEM).OrganizationId,
-                    SubordinateDepartmentId = _organizationService.Find("集团公司安全部").OrganizationId,
-                    SuperiorDepartment = _organizationService.Find(Organization.ORGANIZATION_STSTEM),
-                    SubordinateDepartment = _organizationService.Find("集团公司安全部"),
+                    SuperiorDepartmentId = _organizationService.Have(Organization.ORGANIZATION_STSTEM).OrganizationId,
+                    SubordinateDepartmentId = _organizationService.Have("集团公司安全部").OrganizationId,
+                    SuperiorDepartment = _organizationService.Have(Organization.ORGANIZATION_STSTEM),
+                    SubordinateDepartment = _organizationService.Have("集团公司安全部"),
                     Description = "debug"
                 });
 
                 Add(new OrganizationRelation
                 {
-                    SuperiorDepartmentId = _organizationService.Find("集团公司安全部").OrganizationId,
-                    SubordinateDepartmentId = _organizationService.Find("第一分局").OrganizationId,
-                    SuperiorDepartment = _organizationService.Find("集团公司安全部"),
-                    SubordinateDepartment = _organizationService.Find("第一分局"),
+                    SuperiorDepartmentId = _organizationService.Have("集团公司安全部").OrganizationId,
+                    SubordinateDepartmentId = _organizationService.Have("第一分局").OrganizationId,
+                    SuperiorDepartment = _organizationService.Have("集团公司安全部"),
+                    SubordinateDepartment = _organizationService.Have("第一分局"),
                     Description = "debug"
                 });
 
                 Add(new OrganizationRelation
                 {
-                    SuperiorDepartmentId = _organizationService.Find("第一分局").OrganizationId,
-                    SubordinateDepartmentId = _organizationService.Find("第一工程项目部").OrganizationId,
-                    SuperiorDepartment = _organizationService.Find("第一分局"),
-                    SubordinateDepartment = _organizationService.Find("第一工程项目部"),
+                    SuperiorDepartmentId = _organizationService.Have("第一分局").OrganizationId,
+                    SubordinateDepartmentId = _organizationService.Have("第一工程项目部").OrganizationId,
+                    SuperiorDepartment = _organizationService.Have("第一分局"),
+                    SubordinateDepartment = _organizationService.Have("第一工程项目部"),
                     Description = "debug"
                 });
 

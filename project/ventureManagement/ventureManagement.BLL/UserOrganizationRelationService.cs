@@ -25,7 +25,7 @@ namespace VentureManagement.BLL
                 if (Find(User.USER_ADMIN,Organization.ORGANIZATION_STSTEM) != null) return true;
 
                 var user = _userService.Find(User.USER_ADMIN);
-                var organization = _organizationService.Find(Organization.ORGANIZATION_STSTEM);
+                var organization = _organizationService.Have(Organization.ORGANIZATION_STSTEM);
 
                 var adminUserOrganizationRelation = new UserOrganizationRelation
                 {
