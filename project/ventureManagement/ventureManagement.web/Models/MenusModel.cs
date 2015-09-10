@@ -60,8 +60,7 @@ namespace VentureManagement.Web.Models
                 {
                     node = new Node();
                     node.NodeID = BaseControl.GenerateID();
-                    node.Text = folder.Name.Replace("_", " ");
-
+                    node.Text = GetDisplayName(folder.Name);
                     nodes.Add(node);
 
                     node.IconCls = iconCls;
@@ -72,7 +71,7 @@ namespace VentureManagement.Web.Models
                 }
                 else
                 {
-                    var mainGroupName = folder.Name.Substring(0, index);
+                    var mainGroupName = GetDisplayName(folder.Name.Substring(0, index));
                     node = nodes.FirstOrDefault(n => n.Text == mainGroupName);
 
                     if (node == null)
@@ -96,7 +95,7 @@ namespace VentureManagement.Web.Models
                     var groupNode = new Node();
 
                     groupNode.NodeID = BaseControl.GenerateID();
-                    groupNode.Text = folder.Name.Substring(index + 1).Replace("_", " ");
+                    groupNode.Text = GetDisplayName(folder.Name.Substring(index + 1).Replace("_", " "));
 
                     if (IsNew(folder.FullName) && !groupNode.CustomAttributes.Contains("isNew"))
                     {
@@ -134,10 +133,8 @@ namespace VentureManagement.Web.Models
 
                 var type = Type.GetType(Assembly.GetExecutingAssembly().GetName().Name + "." + area.Parent.Name + "." + area.Name + ".Controllers." + folder.Name + "Controller");
                 var attr = Common.ReflectionHelper.GetCustomAttribute<System.Web.Mvc.AuthorizeAttribute>(type);
-                
-                string folderName = folder.Name.Replace("_", " ");
 
-                node.Text = folderName;
+                node.Text = GetDisplayName(folder.Name.Replace("_", " "));
                 
                 if (IsNew(folder.FullName))
                 {
@@ -156,6 +153,20 @@ namespace VentureManagement.Web.Models
         }
 
         private static MenuConfig rootCfg;
+
+        private static string GetDisplayName(string name)
+        {
+            string display = String.Empty;
+            if (rootCfg == null)
+            {
+                rootCfg = new MenuConfig(new DirectoryInfo(HttpContext.Current.Server.MapPath(MenusRoot)) + "\\config.xml");
+            }
+
+            if (rootCfg.MenuDisplays.ContainsKey(name))
+                return rootCfg.MenuDisplays[name];
+
+            return name;
+        }
 
         private static bool IsNew(string folder)
         {
@@ -287,18 +298,19 @@ namespace VentureManagement.Web.Models
                 }
             }
 
-            folders = root.SelectNodes("new/folder");
+            folders = root.SelectNodes("menuAttribute/menu");
 
             if (folders != null)
             {
                 foreach (XmlNode folder in folders)
                 {
-                    XmlAttribute urlAttr = folder.Attributes["name"];
+                    XmlAttribute nameAttribute = folder.Attributes["name"];
+                    XmlAttribute displayAttribute = folder.Attributes["display"];
 
-                    if (urlAttr != null && !string.IsNullOrEmpty(urlAttr.InnerText))
+                    if (nameAttribute != null && !string.IsNullOrEmpty(nameAttribute.InnerText)
+                        && displayAttribute != null && !string.IsNullOrEmpty(displayAttribute.InnerText))
                     {
-                        string folderName = urlAttr.InnerText;
-                        this.NewFolders.Add(folderName.ToLower());
+                        this.MenuDisplays.Add(nameAttribute.InnerText, displayAttribute.InnerText);
                     }
                 }
             }
@@ -336,6 +348,12 @@ namespace VentureManagement.Web.Models
                 }
                 return this.newFolders;
             }
+        }
+
+        private Dictionary<string,string> _menuDisplays;
+        public Dictionary<string, string> MenuDisplays
+        {
+            get { return this._menuDisplays ?? (this._menuDisplays = new Dictionary<string, string>()); }
         }
     }
 }

@@ -9,4 +9,10 @@
     <folder name="Buttons_Basic\Views\LinkButton" />
     <folder name="Buttons_Basic\Views\Overview" />    
   </new>
+
+  <menuAttribute version="2.2">
+    <menu name="Member" display = "系统管理" />
+    <menu name="Organization" display = "集团组织结构" />
+  </menuAttribute>
+  
 </menu>
