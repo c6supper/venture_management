@@ -94,7 +94,7 @@
 
               X.TreePanel()
                   .ID("OrganizationTreePanel")
-                  .Title("系统组织结构")
+                  .Title("集团组织结构")
                   .ColumnWidth(0.7)
                   .Collapsible(false)
                   .UseArrows(true)
@@ -104,10 +104,22 @@
                   .FolderSort(true)
                   .AutoScroll(true)
                   .TopBar(Html.X().Toolbar()
-                      .Items(Html.X().Button()
-                          .Text("新增部门")
+                      .Items(
+                          Html.X().Button()
+                          .Text("新增")
                           .Icon(Icon.CommentAdd)
                           .Handler("App.newOrganization.show();")
+                          //Html.X().Button()
+                          //.Text("删除")
+                          //.Icon(Icon.CommentDelete)
+                          //.DirectEvents(de =>
+                          //{
+                          //    de.Click.Url = Url.Action("DeleteOrganization");
+                          //    de.Click.ExtraParams.Add(new Parameter("organizationId", "App.SuperiorDepartmentId.getValue()", ParameterMode.Raw));
+                          //    de.Click.Success = "resetCreateForm();";
+                          //    de.Click.Confirmation.ConfirmRequest = true;
+                          //    de.Click.Confirmation.BeforeConfirm = "config.confirmation.message = '是否确定要删除[' + App.SuperiorDepartment.getValue() + ']及其子部门'";
+                          //})
                       )
                   )
                   .Fields(

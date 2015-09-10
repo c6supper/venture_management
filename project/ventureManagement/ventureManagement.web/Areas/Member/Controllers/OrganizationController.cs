@@ -97,5 +97,10 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return this.Direct();
         }
 
+        public ActionResult DeleteOrganization(int organizationId)
+        {
+            return this.Direct();
+        }
+
     }
 }
