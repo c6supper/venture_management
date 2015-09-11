@@ -29,7 +29,7 @@ namespace VentureManagement.Models
         /// </summary>
         [Required(ErrorMessage = "必填")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "{2}到{2}个字符")]
-        [Display(Name = "显示名")]
+        [Display(Name = "昵称")]
         public string DisplayName { get; set; }
 
         /// <summary>
@@ -55,12 +55,6 @@ namespace VentureManagement.Models
         public string Mobile { get; set; }
 
         /// <summary>
-        /// 用户状态<br />
-        /// 0正常，1锁定，2未通过邮件验证，3未通过管理员确认
-        /// </summary>
-        public int Status { get; set; }
-
-        /// <summary>
         /// 注册时间
         /// </summary>
         public DateTime RegistrationTime { get; set; }
@@ -73,33 +67,55 @@ namespace VentureManagement.Models
         /// <summary>
         /// 上次登陆IP
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public string LoginIP { get; set; }
 
+
         /// <summary>
-        /// 用户状态文字说明
+        /// 用户状态<br />
         /// </summary>
-        /// <returns></returns>
-        public string StatusToString()
+        private string _status = STATUS_INVALID;
+
+        public string Status
         {
-            switch (Status)
+            get
             {
-                case 0:
-                    return "正常";
-                case 1:
-                    return "已锁定";
-                case 2:
-                    return "未通过邮件验证";
-                case 3:
-                    return "未通过管理员确认";
-                default:
-                    return "未知";
+                switch (_status)
+                {
+                    case STATUS_INVALID:
+                    case STATUS_VALID:
+                    case STATUS_LOCKED:
+                    case STATUS_UNAUTH:
+                        return _status;
+                    default:
+                        _status = STATUS_INVALID;
+                        return _status;
+                }
+            }
+            set
+            {
+                switch (value)
+                {
+                    case STATUS_INVALID:
+                    case STATUS_VALID:
+                    case STATUS_LOCKED:
+                    case STATUS_UNAUTH:
+                        _status = value;
+                        break;
+                    default:
+                        _status = STATUS_INVALID;
+                        break;
+                }
             }
         }
-
 
         public virtual ICollection<UserRoleRelation> UserRoleRelations { get; set; }
 
         // ReSharper disable once InconsistentNaming
         public const string USER_ADMIN = "master";
+        public const string STATUS_INVALID= "未验证";
+        public const string STATUS_UNAUTH = "管理员未确认";
+        public const string STATUS_LOCKED = "锁定";
+        public const string STATUS_VALID = "已验证";
     }
 }

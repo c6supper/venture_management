@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "TreeGrid - Ext.NET MVC Examples";
+    ViewBag.Title = "集团组织结构";
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
     var X = Html.X();
 }
@@ -139,7 +139,7 @@
                           .Text("部门")
                           .DataIndex("organizationName"),
                     
-                      X.Column()
+                      X.TreeColumn()
                           .Flex(2)
                           .Text("备注")
                           .DataIndex("Description")                  

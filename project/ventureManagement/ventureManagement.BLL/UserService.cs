@@ -31,7 +31,7 @@ namespace VentureManagement.BLL
                 {
                     UserName = User.USER_ADMIN,
                     Password = Utility.DesEncrypt(User.USER_ADMIN),
-                    Status = 0,
+                    Status = User.STATUS_VALID,
                     Email = "xxx@163.com",
                     DisplayName = User.USER_ADMIN,
                     Mobile = "11111111",
@@ -52,6 +52,11 @@ namespace VentureManagement.BLL
         public User Find(int userId) { return CurrentRepository.Find(u => u.UserId == userId); }
 
         public User Find(string userName) { return CurrentRepository.Find(u => u.UserName == userName); }
+
+        public int Count()
+        {
+            return CurrentRepository.Count(u => true);
+        }
 
         public IQueryable<User> FindPageList(int pageIndex, int pageSize, out int totalRecord, int order)
         {

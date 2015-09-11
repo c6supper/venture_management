@@ -107,6 +107,7 @@
     <Compile Include="Areas\Buttons_Basic\Controllers\LinkButtonController.cs" />
     <Compile Include="Areas\Buttons_Basic\Controllers\OverviewController.cs" />
     <Compile Include="Areas\Member\Controllers\OrganizationController.cs" />
+    <Compile Include="Areas\Member\Controllers\UserController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
     <Compile Include="Attributes\AllowAnonymousAttribute.cs" />
@@ -260,6 +261,7 @@
     <Content Include="Areas\Member\Views\Web.config" />
     <Content Include="packages.config" />
     <Content Include="Areas\Member\Views\Organization\Index.cshtml" />
+    <Content Include="Areas\Member\Views\User\Index.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />

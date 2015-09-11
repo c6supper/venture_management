@@ -34,6 +34,8 @@ namespace VentureManagement.IBLL
         /// <returns></returns>
         User Find(string userName);
 
+        int Count();
+
         /// <summary>
         /// 用户列表
         /// </summary>
