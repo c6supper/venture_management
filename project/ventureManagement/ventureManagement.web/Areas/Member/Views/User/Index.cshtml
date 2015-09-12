@@ -7,10 +7,63 @@
 @section headtag
 {
     <script>
-        var resetCreateForm = function() {
-            App.SubordinateDepartment.setValue('');
-            App.Description.setValue('');
-            App.newOrganization.hide();
+        var template = 'color:{0};';
+
+        var emptyCheck = function (value, meta) {
+            meta.style = Ext.String.format(template, (value === "") ? "green" : "red");
+            if(value === "")
+                value = "不能为空";
+            return value;
+        };
+
+        var change = function (value, meta) {
+            meta.style = Ext.String.format(template, (value > 0) ? "green" : "red");
+            return value;
+        };
+
+        var beforeEdit = function(editor, e) {
+            if (e.field !== "DisplayName" && e.filed !== "Email" && e.filed !== "Status" &&
+                e.field !== "Status")
+                return false;
+        }
+
+        var edit = function (editor, e) {
+            /*
+                "e" is an edit event with the following properties:
+
+                    grid - The grid
+                    record - The record that was edited
+                    field - The field name that was edited
+                    value - The value being set
+                    originalValue - The original value for the field, before the edit.
+                    row - The grid table row
+                    column - The grid Column defining the column that was edited.
+                    rowIdx - The row index that was edited
+                    colIdx - The column index that was edited
+            */
+
+            // Call DirectMethod
+            if (!(e.value === e.originalValue || (Ext.isDate(e.value) && Ext.Date.isEqual(e.value, e.originalValue)))) {
+                Ext.net.DirectMethod.request({
+                    url: '@(Url.Action("Edit"))',
+                    params: {
+                        id: e.record.data.UserId,
+                        field: e.field,
+                        oldValue: e.originalValue,
+                        newValue: e.value,
+                        customer: e.record.data
+                    }
+                });
+            }
+        };
+
+
+        var addRecord = function (grid) {
+            var r = Ext.create({
+                Status: "已验证"
+            });
+            grid.store.insert(0, r);
+            form.getForm().reset();
         };
     </script>
 }
@@ -22,10 +75,41 @@
     @(
         X.GridPanel()
             .Title("用户列表")
+            .ID("UserGrid")
             .Frame(true)
             .Height(400)
+            .TopBar(
+                Html.X().Toolbar()
+                    .Items(
+                        Html.X().Button()
+                            .Text("保存")
+                            .Icon(Icon.Disk)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("UpdateUsers");
+                                de.Click.ExtraParams.Add(new Parameter
+                                {
+                                    Name = "data",
+                                    Value = "this.up('grid').store.getChangedData()",
+                                    Mode = ParameterMode.Raw,
+                                    Encode = true
+                                });
+                            }),
+                            
+                        Html.X().Button()
+                            .Text("增加")
+                            .Icon(Icon.UserAdd)
+                            .Handler("addRecord(App.UserGrid);"),
+                            
+                        Html.X().Button()
+                            .Text("删除")
+                            .Icon(Icon.UserAdd)
+                            .Handler("this.up('grid').deleteSelected(); App.UserForm.getForm().reset();")
+                        )
+                    )
             .Store(
                 Html.X().Store()
+                    .ID("UserGridStore")
                     .Proxy(Html.X().AjaxProxy()
                         .Url(Url.Action("Read"))
                         .Reader(Html.X().JsonReader().Root("data"))
@@ -51,14 +135,29 @@
                     
             .ColumnModel(
                 Html.X().Column().DataIndex("UserId").Text("Id").Hidden(true),
-                Html.X().Column().DataIndex("UserName").Text("用户名"),
-                Html.X().Column().DataIndex("DisplayName").Text("昵称"),
-                Html.X().Column().DataIndex("Email").Text("Email"),
-                Html.X().Column().DataIndex("Mobile").Text("手机号"),
+                Html.X().ComponentColumn().DataIndex("UserName").Text("用户名").EmptyCellText("不能为空")
+                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
+                Html.X().ComponentColumn().DataIndex("DisplayName").Text("昵称")
+                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
+                    Html.X().ComponentColumn().DataIndex("Email").Text("Email").EmptyCellText("不能为空")
+                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
+                Html.X().ComponentColumn().DataIndex("Mobile").Text("手机号").EmptyCellText("不能为空")
+                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
                 Html.X().DateColumn().DataIndex("RegistrationTime").Text("注册时间").Format("yyyy-MM-dd"),
                 Html.X().DateColumn().DataIndex("LoginTime").Text("最近登录时间").Format("yyyy-MM-dd"),
                 Html.X().Column().DataIndex("LoginIP").Text("最近登录的IP"),
-                Html.X().Column().DataIndex("Status").Text("状态"))
+                Html.X().ComponentColumn().DataIndex("Status").Text("状态")
+                    .UnpinEvents("collapse").PinEvents("expand")
+                    .OverOnly(true).Editor(true).Component(Html.X().ComboBox()
+                        .Items(
+                                    new ListItem("未验证"),
+                                    new ListItem("管理员未确认"),
+                                    new ListItem("锁定"),
+                                    new ListItem("已验证")
+                                )
+                    ))
+            .SelectionModel(Html.X().CellSelectionModel())
+                
             .BottomBar(
                 Html.X().PagingToolbar()
                     .BeforePageText("页")

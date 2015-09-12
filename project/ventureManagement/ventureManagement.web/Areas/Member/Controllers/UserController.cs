@@ -67,5 +67,100 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return new Paging<User>(rangeUsers, users.Count);
         }
 
+        public DirectResult Edit(int id, string field, string oldValue, string newValue, object customer)
+        {
+            string message = "<b>Property:</b> {0}<br /><b>Field:</b> {1}<br /><b>Old Value:</b> {2}<br /><b>New Value:</b> {3}";
+
+            // Send Message...
+            X.Msg.Notify(new NotificationConfig()
+            {
+                Title = "Edit Record #" + id.ToString(),
+                Html = string.Format(message, id, field, oldValue, newValue),
+                Width = 250
+            }).Show();
+
+            X.GetCmp<Store>("UserGridStore").GetById(id).Commit();
+
+            return this.Direct();
+        }
+
+        public ActionResult UpdateUsers(StoreDataHandler handler)
+        {
+            var users = handler.BatchObjectData<User>();
+
+            var store = this.GetCmp<Store>("UserGridStore");
+
+            foreach (var createdUser in users.Created)
+            {
+                if(string.IsNullOrEmpty(createdUser.UserName) ||
+                    string.IsNullOrEmpty(createdUser.Email) ||
+                    string.IsNullOrEmpty(createdUser.Mobile) ||
+                    string.IsNullOrEmpty(createdUser.DisplayName))
+                {
+                    var record = store.GetById(createdUser.UserId);
+                    X.Msg.Alert("", "用户名/昵称/邮箱/手机号不能为空，请重试").Show();
+                    record.Reject();
+                    return this.Direct();
+                }
+
+                var user = _userService.Find(createdUser.UserName);
+
+                if (user != null)
+                {
+                    var record = store.GetById(createdUser.UserId);
+                    X.Msg.Alert("", "用户名冲突，请重试").Show();
+                    record.Destroy();
+                    return this.Direct();
+                }
+
+                user = new User();
+                user = createdUser;
+                user.RegistrationTime = DateTime.Now;
+                user.Password = Common.Utility.DesEncrypt(user.UserName);
+
+                // ReSharper disable once InvertIf
+                if (_userService.Add(user) != null)
+                {
+                    var record = store.GetById(createdUser.UserId);
+                    record.Commit();
+                }
+            }
+
+            foreach (var updatedUser in users.Updated)
+            {
+                var user = _userService.Find(updatedUser.UserId);
+
+                if (user.UserName != updatedUser.UserName)
+                {
+                    var record = store.GetById(updatedUser.UserId);
+                    record.Reject();
+                    X.Msg.Alert("", "用户名不能更改").Show();
+                    return this.Direct();
+                }
+
+                if (string.IsNullOrEmpty(updatedUser.DisplayName) ||
+                    string.IsNullOrEmpty(updatedUser.Email) ||
+                    string.IsNullOrEmpty(updatedUser.Mobile))
+                {
+                    var record = store.GetById(updatedUser.UserId);
+                    X.Msg.Alert("", "昵称/邮箱/手机号不能为空，请重试").Show();
+                    record.Reject();
+                    return this.Direct();
+                }
+
+                user.DisplayName = updatedUser.DisplayName;
+                user.Email = updatedUser.Email;
+                user.Mobile = updatedUser.Mobile;
+                user.Status = updatedUser.Status;
+
+                if (_userService.Update(user))
+                {
+                    var record = store.GetById(updatedUser.UserId);
+                    record.Commit();
+                }
+            }
+
+            return this.Direct();
+        }
     }
 }
