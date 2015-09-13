@@ -101,12 +101,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Areas\Buttons_Basic\Buttons_BasicAreaRegistration.cs" />
-    <Compile Include="Areas\Buttons_Basic\Controllers\Default_ButtonController.cs" />
-    <Compile Include="Areas\Buttons_Basic\Controllers\ImageButtonController.cs" />
-    <Compile Include="Areas\Buttons_Basic\Controllers\LinkButtonController.cs" />
-    <Compile Include="Areas\Buttons_Basic\Controllers\OverviewController.cs" />
     <Compile Include="Areas\Member\Controllers\OrganizationController.cs" />
+    <Compile Include="Areas\Member\Controllers\PermissionController.cs" />
     <Compile Include="Areas\Member\Controllers\UserController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
@@ -130,20 +126,9 @@
     <Compile Include="Providers\VentureMangementMembershipUser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Buttons_Basic\Content\images\arrow-down.gif" />
-    <Content Include="Areas\Buttons_Basic\Content\images\button.gif" />
-    <Content Include="Areas\Buttons_Basic\Content\images\disabled.gif" />
-    <Content Include="Areas\Buttons_Basic\Content\images\overButton.gif" />
-    <Content Include="Areas\Buttons_Basic\Content\images\pressed.gif" />
-    <Content Include="Areas\Buttons_Basic\Content\images\thumbnail.gif" />
     <Content Include="Areas\config.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Areas\Buttons_Basic\Views\Web.config" />
-    <Content Include="Areas\Buttons_Basic\Views\Default_Button\Index.cshtml" />
-    <Content Include="Areas\Buttons_Basic\Views\ImageButton\Index.cshtml" />
-    <Content Include="Areas\Buttons_Basic\Views\LinkButton\Index.cshtml" />
-    <Content Include="Areas\Buttons_Basic\Views\Overview\Index.cshtml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ReferenceAssemblies\ICSharpCode.SharpZipLib.dll" />
@@ -262,6 +247,7 @@
     <Content Include="packages.config" />
     <Content Include="Areas\Member\Views\Organization\Index.cshtml" />
     <Content Include="Areas\Member\Views\User\Index.cshtml" />
+    <Content Include="Areas\Member\Views\Permission\Index.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />
@@ -286,8 +272,6 @@
     <Content Include="Views\Shared\_BaseLayoutClean.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Buttons_Basic\Models\" />
-    <Folder Include="Areas\Buttons_Basic\Views\Shared\" />
     <Folder Include="Areas\Member\Content\" />
     <Folder Include="Areas\Member\Models\" />
   </ItemGroup>

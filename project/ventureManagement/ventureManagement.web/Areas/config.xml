@@ -14,6 +14,7 @@
     <menu name="Member" display = "系统管理" />
     <menu name="Organization" display = "集团组织结构" />
     <menu name="User" display = "用户管理" />
+    <menu name="Permission" display = "权限管理管理" />
   </menuAttribute>
   
 </menu>

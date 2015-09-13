@@ -55,6 +55,7 @@
     <Compile Include="InterfaceOrganizationRepository.cs" />
     <Compile Include="InterfaceOrganizationRelationRepository.cs" />
     <Compile Include="InterfaceOrganizationRoleRelationRepository.cs" />
+    <Compile Include="InterfacePermissionRepository.cs" />
     <Compile Include="InterfaceRoleRepository.cs" />
     <Compile Include="InterfaceUserOrganizationRelationRepository.cs" />
     <Compile Include="InterfaceUserRepository.cs" />

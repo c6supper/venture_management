@@ -11,8 +11,7 @@ using VentureManagement.Models;
 
 namespace VentureManagement.Web.Areas.Member.Controllers
 {
-    //[Authorize(Roles = "OrganizationControllerRead")]
-
+    [Authorize(Roles = Role.PERIMISSION_ORGANIZATION)]
     public class OrganizationController : Controller
     {
         readonly OrganizationService _orgSerivce = new OrganizationService();

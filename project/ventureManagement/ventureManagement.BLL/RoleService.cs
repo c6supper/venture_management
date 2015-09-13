@@ -22,7 +22,8 @@ namespace VentureManagement.BLL
                 var adminRole = new Role
                 {
                     RoleName = Role.ROLE_ADMIN,
-                    Description = "系统管理员"
+                    Description = "系统管理员",
+                    RoleValue = int.MaxValue
                 };
                 Add(adminRole);
                 return true;

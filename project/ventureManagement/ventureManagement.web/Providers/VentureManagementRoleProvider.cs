@@ -40,30 +40,32 @@ namespace VentureManagement.Web.Providers
 
         public override string[] GetRolesForUser(string username)
         {
-            var roles = new List<String>();
+            var perimissionList = new List<string>();
             try
             {
                 foreach (var userRoleRelation in _userRoleRelationService.FindList(username))
                 {
-                    if (!roles.Contains(userRoleRelation.Role.RoleName))
-                        roles.Add(userRoleRelation.Role.RoleName);
-                }
-
-                foreach (var userOrganizationRelation in _userOrganizationRelationService.FindList(username).ToArray())
-                {
-                    foreach (var orgRoleRelation in _orgRoleRelationService.FindList(userOrganizationRelation.Organization.OrganizationName).ToArray())
+                    foreach (var permission in Role.RoleValueToPermissions(userRoleRelation.Role.RoleValue).Where(permission => !perimissionList.Contains(permission)))
                     {
-                        if (!roles.Contains(orgRoleRelation.Role.RoleName))
-                            roles.Add(orgRoleRelation.Role.RoleName);
+                        perimissionList.Add(permission);
                     }
                 }
+
+                //foreach (var userOrganizationRelation in _userOrganizationRelationService.FindList(username).ToArray())
+                //{
+                //    foreach (var orgRoleRelation in _orgRoleRelationService.FindList(userOrganizationRelation.Organization.OrganizationName).ToArray())
+                //    {
+                //        if (!roles.Contains(orgRoleRelation.Role.RoleName))
+                //            roles.Add(orgRoleRelation.Role.RoleName);
+                //    }
+                //}
             }
             catch (Exception ex)
             {
                 Debug.Print(ex.Message);
             }
 
-            return roles.ToArray();
+            return perimissionList.ToArray();
         }
 
         public override void CreateRole(string roleName)
