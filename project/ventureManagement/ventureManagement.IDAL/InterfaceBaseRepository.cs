@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Data.Entity;
 
 namespace VentureManagement.IDAL
 {
@@ -77,5 +78,6 @@ namespace VentureManagement.IDAL
         /// <returns></returns>
         IQueryable<T> FindPageList(int pageIndex, int pageSize, out int totalRecord, Expression<Func<T, bool>> whereLamdba, string orderName, bool isAsc);
 
+        DbContextTransaction BeginTransaction();
     }
 }

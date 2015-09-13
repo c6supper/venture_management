@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using VentureManagement.Models;
@@ -85,6 +86,28 @@ namespace VentureManagement.BLL
                 Debug.Print(ex.StackTrace);
             }
             return null;
+        }
+
+        public bool DeleteByUser(string userName)
+        {
+            using (var transaction = CurrentRepository.BeginTransaction())
+            {
+                try
+                {
+                    if (FindList(userName).ToArray().Any(userRelation => !Delete(userRelation)))
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Debug.Print(ex.Message);
+                }
+            }
+
+            return true;
         }
     }
 }

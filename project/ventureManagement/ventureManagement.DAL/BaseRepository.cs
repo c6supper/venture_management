@@ -1,5 +1,8 @@
 ﻿using System;
+using System.CodeDom;
+using System.Data.Common;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure.Interception;
 using System.Linq;
 using System.Linq.Expressions;
 using VentureManagement.DAL;
@@ -17,6 +20,11 @@ namespace VentureManagement.DAL
     public class BaseRepository<T> : InterfaceBaseRepository<T> where T : class
     {
         protected VentureManagementDbContext MContext = ContextFactory.GetCurrentContext();
+
+        public DbContextTransaction BeginTransaction()
+        {
+            return MContext.Database.BeginTransaction();
+        }
 
         public T Add(T entity)
         {

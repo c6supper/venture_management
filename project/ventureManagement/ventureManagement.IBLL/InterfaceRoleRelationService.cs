@@ -4,5 +4,6 @@ namespace VentureManagement.IBLL
 {
     public interface InterfaceRoleRelationService : InterfaceBaseService<UserRoleRelation>
     {
+        bool DeleteByUser(string userName);
     }
 }

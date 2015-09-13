@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -57,14 +58,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                 });
             }
 
-            if ((start + limit) > users.Count)
-            {
-                limit = users.Count - start;
-            }
-
-            var rangeUsers = (start < 0 || limit < 0) ? users : users.GetRange(start, limit);
-
-            return new Paging<User>(rangeUsers, users.Count);
+            return new Paging<User>(users, count);
         }
 
         public DirectResult Edit(int id, string field, string oldValue, string newValue, object customer)
@@ -119,11 +113,19 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                 user.Password = Common.Utility.DesEncrypt(user.UserName);
 
                 // ReSharper disable once InvertIf
-                if (_userService.Add(user) != null)
+                try
                 {
-                    var record = store.GetById(createdUser.UserId);
-                    record.Commit();
+                    if (_userService.Add(user) != null)
+                    {
+                        var record = store.Find("UserName",createdUser.UserName);
+                        record.Commit();
+                    }
                 }
+                catch (System.Exception ex)
+                {
+                    Debug.Print(ex.Message);
+                }
+                
             }
 
             foreach (var updatedUser in users.Updated)
@@ -157,6 +159,23 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                 {
                     var record = store.GetById(updatedUser.UserId);
                     record.Commit();
+                }
+            }
+
+            foreach (var deletedUser in users.Deleted)
+            {
+                if (null == _userService.Find(deletedUser.UserName))
+                {
+                    store.CommitRemoving(deletedUser.UserId);
+                    continue;
+                }
+
+                if (_userRoleRelationService.DeleteByUser(deletedUser.UserName))
+                {
+                    if (_userService.Delete(_userService.Find(deletedUser.UserName)))
+                    {
+                        store.CommitRemoving(deletedUser.UserId);
+                    }
                 }
             }
 
