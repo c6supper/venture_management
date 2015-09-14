@@ -62,17 +62,49 @@ namespace VentureManagement.Models
             return permissions.ToArray();
         }
 
+        public IEnumerable RoleValueToAllPermissions()
+        {
+            var permissions = new List<object> {RoleId,RoleName};
+
+            var permissionStringsIndex = 0;
+            int[] value = { Convert.ToInt32(RoleValue >> 8), Convert.ToInt32(RoleValue) };
+
+            var bitValue = new BitArray(value);
+
+            foreach (bool bit in bitValue)
+            {
+                if (permissionStringsIndex == 31 || permissionStringsIndex == 63)
+                    continue;
+
+                permissions.Add(bit);
+
+                if (++permissionStringsIndex >= PerimissionStrings.Count())
+                    break;
+            }
+
+            return permissions.ToArray();
+        }
+
         // ReSharper disable InconsistentNaming
         //beware of the 31 bit and 63bit is always 0 because of the BitArray only takes int
         public static readonly string[] PerimissionStrings =
         {
-            PERIMISSION_ORGANIZATION ,
-            PERIMISSION_USER,
-            PERIMISSION_PERMISSION
+            PERIMISSION_ORGANIZATION_WRITE ,
+            PERIMISSION_ORGANIZATION_READ,
+            PERIMISSION_USER_WRITE,
+            PERIMISSION_USER_READ,
+            PERIMISSION_PERMISSION_WRITE,
+            PERIMISSION_PERMISSION_READ,
+
+            PERIMISSION_UNKOWN
         };
-        public const string PERIMISSION_ORGANIZATION = "组织结构管理";
-        public const string PERIMISSION_USER = "用户管理";
-        public const string PERIMISSION_PERMISSION = "用户权限管理";
+
+        public const string PERIMISSION_ORGANIZATION_WRITE = "组织结构管理(写)";
+        public const string PERIMISSION_ORGANIZATION_READ = "组织结构管理(读)";
+        public const string PERIMISSION_USER_WRITE = "用户管理(写)";
+        public const string PERIMISSION_USER_READ = "用户管理(读)";
+        public const string PERIMISSION_PERMISSION_WRITE = "用户权限管理(写)";
+        public const string PERIMISSION_PERMISSION_READ = "用户权限管理(读)";
         public const string PERIMISSION_UNKOWN = "权限错误";
 
         public const string ROLE_ADMIN = "系统管理员";

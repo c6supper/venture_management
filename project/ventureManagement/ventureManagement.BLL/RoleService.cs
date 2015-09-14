@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
 using VentureManagement.IBLL;
 using VentureManagement.Models;
 using VentureManagement.BLL;
@@ -36,5 +38,15 @@ namespace VentureManagement.BLL
         }
 
         public Role Find(string role) { return CurrentRepository.Find(u => u.RoleName == role); }
+
+        public IQueryable<Role> FindPageList(int pageIndex, int pageSize, out int totalRecord, string orderName)
+        {
+            return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, u => true, orderName, false);
+        }
+
+        public IQueryable<Role> FindList(Expression<Func<Role, bool>> whereLamdba, string orderName, bool isAsc)
+        {
+            return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
+        }
     }
 }

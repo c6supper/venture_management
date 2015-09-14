@@ -111,7 +111,7 @@ namespace VentureManagement.Models
 
         public virtual ICollection<UserRoleRelation> UserRoleRelations { get; set; }
 
-        // ReSharper disable once InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public const string USER_ADMIN = "master";
         public const string STATUS_INVALID= "未验证";
         public const string STATUS_UNAUTH = "管理员未确认";

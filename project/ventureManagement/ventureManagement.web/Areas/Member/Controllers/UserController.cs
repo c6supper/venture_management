@@ -13,7 +13,7 @@ using VentureManagement.Models;
 
 namespace VentureManagement.Web.Areas.Member.Controllers
 {
-    [Authorize(Roles = Role.PERIMISSION_USER)]
+    [Authorize(Roles = Role.PERIMISSION_USER_WRITE+","+Role.PERIMISSION_ORGANIZATION_READ)]
     public class UserController : Controller
     {
         readonly InterfaceUserService _userService = new UserService();
