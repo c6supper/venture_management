@@ -59,19 +59,22 @@
                     )
             .Store(
                     Html.X().Store()
-                    .PageSize(10)
+                    .PageSize(15)
                     .DataSource(Model)
+                    .ID("UserGridStore")
                     .Model(
                         Html.X().Model()
+                        .IDProperty("RoleId")
                         .Fields(
                             new ModelField("RoleId",ModelFieldType.Int),
                             new ModelField("RoleName",ModelFieldType.String),
-                            new ModelField(Role.PerimissionStrings[0], ModelFieldType.Boolean),
-                            new ModelField(Role.PerimissionStrings[1], ModelFieldType.Boolean),
-                            new ModelField(Role.PerimissionStrings[2], ModelFieldType.Boolean),
-                            new ModelField(Role.PerimissionStrings[3], ModelFieldType.Boolean),
-                            new ModelField(Role.PerimissionStrings[4], ModelFieldType.Boolean),
-                            new ModelField(Role.PerimissionStrings[5], ModelFieldType.Boolean)
+                            new ModelField("Description",ModelFieldType.String),
+                            new ModelField(Role.PermissionStrings[0], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[1], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[2], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[3], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[4], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[5], ModelFieldType.Boolean)
                         )
                     )
                     .ServerProxy(
@@ -85,12 +88,15 @@
                 Html.X().ComponentColumn().Text("角色名").DataIndex("RoleName").EmptyCellText("不能为空")
                     .OverOnly(true).Editor(true).Component(Html.X().TextField()
                     .AllowBlank(false).EmptyText("角色名最少两个字")),
-                Html.X().CheckColumn().Text(Role.PerimissionStrings[0]).DataIndex(Role.PerimissionStrings[0]).Editable(true),
-                Html.X().CheckColumn().Text(Role.PerimissionStrings[1]).DataIndex(Role.PerimissionStrings[1]).Editable(true),
-                Html.X().CheckColumn().Text(Role.PerimissionStrings[2]).DataIndex(Role.PerimissionStrings[2]).Editable(true),
-                Html.X().CheckColumn().Text(Role.PerimissionStrings[3]).DataIndex(Role.PerimissionStrings[3]).Editable(true),
-                Html.X().CheckColumn().Text(Role.PerimissionStrings[4]).DataIndex(Role.PerimissionStrings[4]).Editable(true),
-                Html.X().CheckColumn().Text(Role.PerimissionStrings[5]).DataIndex(Role.PerimissionStrings[5]).Editable(true)
+                Html.X().ComponentColumn().Text("备注").DataIndex("Description").EmptyCellText("不能为空")
+                    .OverOnly(true).Editor(true).Component(Html.X().TextField()
+                    .AllowBlank(false).EmptyText("不能为空")),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[0]).DataIndex(Role.PermissionStrings[0]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[1]).DataIndex(Role.PermissionStrings[1]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[2]).DataIndex(Role.PermissionStrings[2]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[3]).DataIndex(Role.PermissionStrings[3]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[4]).DataIndex(Role.PermissionStrings[4]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[5]).DataIndex(Role.PermissionStrings[5]).Editable(true)
             )
             .View(Html.X().GridView().StripeRows(true))   
             .BottomBar(

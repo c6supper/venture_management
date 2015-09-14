@@ -11,6 +11,9 @@ using Ext.Net.MVC;
 using VentureManagement.IBLL;
 using VentureManagement.BLL;
 using VentureManagement.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using VentureManagement.IDAL;
 
 namespace VentureManagement.Web.Areas.Member.Controllers
 {
@@ -21,7 +24,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
         // GET: /Member/Permission/
 
         private readonly InterfaceRoleService _roleService = new VentureManagement.BLL.RoleService();
-
+        private readonly InterfaceRoleRelationService _userRoleRelationService = new UserRoleRelationService();
         public ActionResult Index()
         {
             return View(PermissionPaging());
@@ -44,46 +47,58 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return permissions;
         }
 
+        private BitArray ParseJsonToPermission(JObject jsons)
+        {
+            var bitArray = new BitArray(new int[]{0,0});
+            var permissionStrings = Role.PermissionStrings.ToList();
+
+            foreach (var json in jsons)
+            {
+                if (permissionStrings.Contains(json.Key))
+                {
+                    bitArray.Set(permissionStrings.IndexOf(json.Key), jsons[json.Key].ToObject<bool>());
+                }
+            }
+
+            return bitArray;
+        }
+
         public ActionResult UpdatePermissions(StoreDataHandler handler)
         {
             var roles = handler.BatchObjectData<Role>();
+            var jsonResult = JsonConvert.DeserializeObject<JObject>(handler.JsonData);
 
             var store = this.GetCmp<Store>("UserGridStore");
 
-            foreach (var createdUser in users.Created)
+            foreach (var createdRole in roles.Created)
             {
-                if (string.IsNullOrEmpty(createdUser.UserName) ||
-                    string.IsNullOrEmpty(createdUser.Email) ||
-                    string.IsNullOrEmpty(createdUser.Mobile) ||
-                    string.IsNullOrEmpty(createdUser.DisplayName))
+                if(!TryValidateModel(createdRole))
                 {
-                    var record = store.GetById(createdUser.UserId);
-                    X.Msg.Alert("", "用户名/昵称/邮箱/手机号不能为空，请重试").Show();
+                    var record = store.GetById(createdRole.RoleId);
+                    X.Msg.Alert("", "角色名（不少于两个字）/备注/不能为空，请重试").Show();
                     record.Reject();
                     return this.Direct();
                 }
 
-                var user = _userService.Find(createdUser.UserName);
+                var role = _roleService.Find(createdRole.RoleName);
 
-                if (user != null)
+                if (role != null)
                 {
-                    var record = store.GetById(createdUser.UserId);
-                    X.Msg.Alert("", "用户名冲突，请重试").Show();
+                    var record = store.Find("RoleName", createdRole.RoleName);
+                    X.Msg.Alert("", "角色名冲突，请重试").Show();
                     record.Destroy();
                     return this.Direct();
                 }
 
-                user = new User();
-                user = createdUser;
-                user.RegistrationTime = DateTime.Now;
-                user.Password = Common.Utility.DesEncrypt(user.UserName);
-
+                role = new Role();
+                role = createdRole;
+                role.PermissionsToRoleValue(ParseJsonToPermission(jsonResult["Created"].ToObject<JArray>()[0].ToObject<JObject>()));
                 // ReSharper disable once InvertIf
                 try
                 {
-                    if (_userService.Add(user) != null)
+                    if (_roleService.Add(role) != null)
                     {
-                        var record = store.Find("UserName", createdUser.UserName);
+                        var record = store.Find("RoleName", role.RoleName);
                         record.Commit();
                     }
                 }
@@ -91,56 +106,52 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                 {
                     Debug.Print(ex.Message);
                 }
-
             }
 
-            foreach (var updatedUser in users.Updated)
+            foreach (var updatedRole in roles.Updated)
             {
-                var user = _userService.Find(updatedUser.UserId);
+                var role = _roleService.Find(updatedRole.RoleId);
 
-                if (user.UserName != updatedUser.UserName)
+                if (role.RoleName != updatedRole.RoleName)
                 {
-                    var record = store.GetById(updatedUser.UserId);
+                    var record = store.GetById(updatedRole.RoleId);
                     record.Reject();
-                    X.Msg.Alert("", "用户名不能更改").Show();
+                    X.Msg.Alert("", "角色名不能更改").Show();
                     return this.Direct();
                 }
 
-                if (string.IsNullOrEmpty(updatedUser.DisplayName) ||
-                    string.IsNullOrEmpty(updatedUser.Email) ||
-                    string.IsNullOrEmpty(updatedUser.Mobile))
+                if (!TryValidateModel(updatedRole))
                 {
-                    var record = store.GetById(updatedUser.UserId);
-                    X.Msg.Alert("", "昵称/邮箱/手机号不能为空，请重试").Show();
+                    var record = store.GetById(updatedRole.RoleId);
+                    X.Msg.Alert("", "角色名（不少于两个字）/备注/不能为空，请重试").Show();
                     record.Reject();
                     return this.Direct();
                 }
 
-                user.DisplayName = updatedUser.DisplayName;
-                user.Email = updatedUser.Email;
-                user.Mobile = updatedUser.Mobile;
-                user.Status = updatedUser.Status;
+                role.Description = updatedRole.Description;
+                role.RoleName = updatedRole.RoleName;
+                role.PermissionsToRoleValue(ParseJsonToPermission(jsonResult["Updated"].ToObject<JArray>()[0].ToObject<JObject>()));
 
-                if (_userService.Update(user))
+                if (_roleService.Update(role))
                 {
-                    var record = store.GetById(updatedUser.UserId);
+                    var record = store.GetById(role.RoleId);
                     record.Commit();
                 }
             }
 
-            foreach (var deletedUser in users.Deleted)
+            foreach (var deletedRole in roles.Deleted)
             {
-                if (null == _userService.Find(deletedUser.UserName))
+                if (null == _roleService.Find(deletedRole.RoleId))
                 {
-                    store.CommitRemoving(deletedUser.UserId);
+                    store.CommitRemoving(deletedRole.RoleId);
                     continue;
                 }
 
-                if (_userRoleRelationService.DeleteByUser(deletedUser.UserName))
+                if (_userRoleRelationService.DeleteByRole(deletedRole.RoleId))
                 {
-                    if (_userService.Delete(_userService.Find(deletedUser.UserName)))
+                    if (_roleService.Delete(_roleService.Find(deletedRole.RoleId)))
                     {
-                        store.CommitRemoving(deletedUser.UserId);
+                        store.CommitRemoving(deletedRole.RoleId);
                     }
                 }
             }

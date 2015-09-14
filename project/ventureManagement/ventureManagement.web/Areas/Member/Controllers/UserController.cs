@@ -116,9 +116,10 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                 // ReSharper disable once InvertIf
                 try
                 {
-                    if (_userService.Add(user) != null)
+                    if ((user = _userService.Add(user)) != null)
                     {
                         var record = store.Find("UserName",createdUser.UserName);
+                        record.Set("UserId", user.UserId);
                         record.Commit();
                     }
                 }

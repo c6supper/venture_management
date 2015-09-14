@@ -37,7 +37,7 @@ namespace VentureManagement.BLL
             }
         }
 
-        public Role Find(string role) { return CurrentRepository.Find(u => u.RoleName == role); }
+        public Role Find(string roleName) { return CurrentRepository.Find(u => u.RoleName == roleName); }
 
         public IQueryable<Role> FindPageList(int pageIndex, int pageSize, out int totalRecord, string orderName)
         {
@@ -48,5 +48,7 @@ namespace VentureManagement.BLL
         {
             return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
         }
+
+        public Role Find(int roleId) { return CurrentRepository.Find(u => u.RoleId == roleId); }
     }
 }

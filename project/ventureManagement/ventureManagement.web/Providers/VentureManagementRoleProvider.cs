@@ -43,7 +43,7 @@ namespace VentureManagement.Web.Providers
             var perimissionList = new List<string>();
             try
             {
-                foreach (var userRoleRelation in _userRoleRelationService.FindList(username))
+                foreach (var userRoleRelation in _userRoleRelationService.FindListByUser(username))
                 {
                     foreach (var permission in Role.RoleValueToPermissions(userRoleRelation.Role.RoleValue).Where(permission => !perimissionList.Contains(permission)))
                     {

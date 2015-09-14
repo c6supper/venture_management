@@ -51,11 +51,11 @@ namespace VentureManagement.Models
             foreach (bool bit in bitValue)
             {
                 if(bit)
-                    permissions.Add(PerimissionStrings[permissionStringsIndex]);
+                    permissions.Add(PermissionStrings[permissionStringsIndex]);
 
                 permissionStringsIndex++;
 
-                if (permissionStringsIndex >= PerimissionStrings.Count())
+                if (permissionStringsIndex >= PermissionStrings.Count())
                     return permissions.ToArray();
             }
 
@@ -64,10 +64,10 @@ namespace VentureManagement.Models
 
         public IEnumerable RoleValueToAllPermissions()
         {
-            var permissions = new List<object> {RoleId,RoleName};
+            var permissions = new List<object> {RoleId,RoleName,Description};
 
             var permissionStringsIndex = 0;
-            int[] value = { Convert.ToInt32(RoleValue >> 8), Convert.ToInt32(RoleValue) };
+            int[] value = { Convert.ToInt32(RoleValue), Convert.ToInt32(RoleValue >> 8) };
 
             var bitValue = new BitArray(value);
 
@@ -78,16 +78,24 @@ namespace VentureManagement.Models
 
                 permissions.Add(bit);
 
-                if (++permissionStringsIndex >= PerimissionStrings.Count())
+                if (++permissionStringsIndex >= PermissionStrings.Count())
                     break;
             }
 
             return permissions.ToArray();
         }
 
+        public void PermissionsToRoleValue(BitArray bitValue)
+        {
+            var intByBitArray = new int[2];
+            bitValue.CopyTo(intByBitArray,0);
+            RoleValue = (Convert.ToInt64(intByBitArray[1]) << 8) + intByBitArray[0];
+        }
+
         // ReSharper disable InconsistentNaming
         //beware of the 31 bit and 63bit is always 0 because of the BitArray only takes int
-        public static readonly string[] PerimissionStrings =
+        //31 63 should be PERIMISSION_UNKOWN
+        public static readonly string[] PermissionStrings =
         {
             PERIMISSION_ORGANIZATION_WRITE ,
             PERIMISSION_ORGANIZATION_READ,

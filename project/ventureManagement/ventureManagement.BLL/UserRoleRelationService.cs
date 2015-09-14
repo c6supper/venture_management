@@ -75,11 +75,24 @@ namespace VentureManagement.BLL
             }
         }
 
-        public IQueryable<UserRoleRelation> FindList(string user)
+        public IQueryable<UserRoleRelation> FindListByUser(string user)
         {
             try
             {
                 return CurrentRepository.FindList(u => u.User.UserName == user, string.Empty, false);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.StackTrace);
+            }
+            return null;
+        }
+
+        public IQueryable<UserRoleRelation> FindListByRole(int roleId)
+        {
+            try
+            {
+                return CurrentRepository.FindList(u => u.RoleId == roleId, string.Empty, false);
             }
             catch (Exception ex)
             {
@@ -94,7 +107,7 @@ namespace VentureManagement.BLL
             {
                 try
                 {
-                    if (FindList(userName).ToArray().Any(userRelation => !Delete(userRelation)))
+                    if (FindListByUser(userName).ToArray().Any(userRelation => !Delete(userRelation)))
                     {
                         transaction.Rollback();
                         return false;
@@ -105,6 +118,30 @@ namespace VentureManagement.BLL
                     transaction.Rollback();
                     Debug.Print(ex.Message);
                 }
+                transaction.Commit();
+            }
+
+            return true;
+        }
+
+        public bool DeleteByRole(int roleId)
+        {
+            using (var transaction = CurrentRepository.BeginTransaction())
+            {
+                try
+                {
+                    if (FindListByRole(roleId).ToArray().Any(userRelation => !Delete(userRelation)))
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Debug.Print(ex.Message);
+                }
+                transaction.Commit();
             }
 
             return true;
