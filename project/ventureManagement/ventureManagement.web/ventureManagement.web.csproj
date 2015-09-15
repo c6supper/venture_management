@@ -105,9 +105,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\LucenceEngine\LucenceEngineAreaRegistration.cs" />
     <Compile Include="Areas\Member\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Member\Controllers\PermissionController.cs" />
     <Compile Include="Areas\Member\Controllers\UserController.cs" />
+    <Compile Include="Areas\Project\ProjectAreaRegistration.cs" />
+    <Compile Include="Areas\Threat\ThreatAreaRegistration.cs" />
     <Compile Include="Attributes\AccessDeniedAuthorize.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
@@ -253,6 +256,9 @@
     <Content Include="Areas\Member\Views\Organization\Index.cshtml" />
     <Content Include="Areas\Member\Views\User\Index.cshtml" />
     <Content Include="Areas\Member\Views\Permission\Index.cshtml" />
+    <Content Include="Areas\Threat\Views\Web.config" />
+    <Content Include="Areas\Project\Views\Web.config" />
+    <Content Include="Areas\LucenceEngine\Views\Web.config" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />
@@ -277,8 +283,17 @@
     <Content Include="Views\Shared\_BaseLayoutClean.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\LucenceEngine\Controllers\" />
+    <Folder Include="Areas\LucenceEngine\Models\" />
+    <Folder Include="Areas\LucenceEngine\Views\Shared\" />
     <Folder Include="Areas\Member\Content\" />
     <Folder Include="Areas\Member\Models\" />
+    <Folder Include="Areas\Project\Controllers\" />
+    <Folder Include="Areas\Project\Models\" />
+    <Folder Include="Areas\Project\Views\Shared\" />
+    <Folder Include="Areas\Threat\Controllers\" />
+    <Folder Include="Areas\Threat\Models\" />
+    <Folder Include="Areas\Threat\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_BaseLayout.cshtml" />
