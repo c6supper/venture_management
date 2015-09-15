@@ -7,11 +7,12 @@ using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.BLL;
 using VentureManagement.Models;
+using VentureManagement.Web.Attributes;
 
 
 namespace VentureManagement.Web.Areas.Member.Controllers
 {
-    [Authorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE + "," + Role.PERIMISSION_ORGANIZATION_READ)]
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE + "," + Role.PERIMISSION_ORGANIZATION_READ)]
     public class OrganizationController : Controller
     {
         readonly OrganizationService _orgSerivce = new OrganizationService();
@@ -63,7 +64,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return org != null ? RecursiveAddNode(org) : new Node();
         }
 
-        [Authorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
+        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public ActionResult CreateOrganization(int superiorDepartmentId, string subordinateDepartment,string description)
         {
             string infoMessage = "创建成功";
@@ -97,7 +98,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return this.Direct();
         }
 
-        [Authorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
+        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public ActionResult DeleteOrganization(int organizationId)
         {
             return this.Direct();

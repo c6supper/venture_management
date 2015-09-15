@@ -10,10 +10,11 @@ using Ext.Net.MVC;
 using VentureManagement.BLL;
 using VentureManagement.IBLL;
 using VentureManagement.Models;
+using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Areas.Member.Controllers
 {
-    [Authorize(Roles = Role.PERIMISSION_USER_WRITE+","+Role.PERIMISSION_ORGANIZATION_READ)]
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_USER_WRITE+","+Role.PERIMISSION_ORGANIZATION_READ)]
     public class UserController : Controller
     {
         readonly InterfaceUserService _userService = new UserService();

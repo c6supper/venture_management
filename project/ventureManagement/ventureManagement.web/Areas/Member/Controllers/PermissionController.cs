@@ -14,10 +14,11 @@ using VentureManagement.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VentureManagement.IDAL;
+using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Areas.Member.Controllers
 {
-    [Authorize(Roles = Role.PERIMISSION_PERMISSION_READ+","+Role.PERIMISSION_PERMISSION_WRITE)]
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_PERMISSION_READ+","+Role.PERIMISSION_PERMISSION_WRITE)]
     public class PermissionController : Controller
     {
         //

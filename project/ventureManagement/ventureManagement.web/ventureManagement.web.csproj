@@ -108,6 +108,7 @@
     <Compile Include="Areas\Member\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Member\Controllers\PermissionController.cs" />
     <Compile Include="Areas\Member\Controllers\UserController.cs" />
+    <Compile Include="Attributes\AccessDeniedAuthorize.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
     <Compile Include="Attributes\AllowAnonymousAttribute.cs" />
