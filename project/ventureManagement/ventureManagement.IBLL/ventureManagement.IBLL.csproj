@@ -49,10 +49,13 @@
     <Compile Include="InterfaceOrganizationRelationService.cs" />
     <Compile Include="InterfaceOrganizationRoleRelationService.cs" />
     <Compile Include="InterfaceOrganizationService.cs" />
+    <Compile Include="InterfaceProjectRelationService.cs" />
+    <Compile Include="InterfaceProjectService.cs" />
     <Compile Include="InterfaceRoleRelationService.cs" />
     <Compile Include="InterfaceRoleService.cs" />
     <Compile Include="InterfaceUserConfig.cs" />
     <Compile Include="InterfaceUserOrganizationRelationService.cs" />
+    <Compile Include="InterfaceUserProjectRelationService.cs" />
     <Compile Include="InterfaceUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
