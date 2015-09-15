@@ -50,11 +50,14 @@
     <Compile Include="OrganizationRelation.cs" />
     <Compile Include="OrganizationRoleRelation.cs" />
     <Compile Include="Permission.cs" />
+    <Compile Include="Project.cs" />
+    <Compile Include="ProjectRelation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="ThreatCase.cs" />
     <Compile Include="UserConfig.cs" />
     <Compile Include="UserOrganizationRelation.cs" />
+    <Compile Include="UserProjectRelation.cs" />
     <Compile Include="UserRoleRelation.cs" />
     <Compile Include="Users.cs" />
   </ItemGroup>

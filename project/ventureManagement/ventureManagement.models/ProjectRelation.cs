@@ -7,9 +7,18 @@ using System.Threading.Tasks;
 
 namespace VentureManagement.Models
 {
-    class ProjectRelation
+    public class ProjectRelation
     {
         [Key]
         public int ProjectRelationId { get; set; }
+
+        [Required]
+        public int SubProjectId { get; set; }
+
+        [Required]
+        public int SuperProjectId { get; set; }
+
+        public virtual Project SubProject { get; set; }
+        public virtual Project SuperProject { get; set; }
     }
 }

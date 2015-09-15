@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace VentureManagement.Models
 {
@@ -10,5 +11,49 @@ namespace VentureManagement.Models
     {
         [Key]
         public int ThreatCaseId { get; set; }
+
+        [Required]
+        public int ProjectId { get; set;}
+
+        [Required]
+        public string ThreatCaseLocation { get; set; }
+
+        public DateTime ThreatCaseFoundTime { get; set; }
+
+        public DateTime ThreatCaseCorrectionTime{ get; set; }
+
+        public string ThreatCaseCategory { get; set; }
+
+        public string ThreatCaseType { get; set; }
+
+        public string ThreatCaseDescription { get; set; }
+
+        public int ThreatCaseSeverity { get; set; }
+
+        public int ThreatCasePassibility { get; set; }
+
+        public int ThreatCaseRisk { get; set; }
+
+        public int ThreatCaseReporterId { get; set; }
+
+        public int ThreatCaseOwnerId { get; set; }
+
+        public int ThreatCaseRiviewerId { get; set; }
+
+        public string ThreatCaseSuggestion { get; set; }
+
+        public string ThreatCaseCorrection { get; set; }
+
+        public int ThreatCaseCorrectionValue { get; set; }
+
+        public string ThreatCaseCorrectionResult { get; set; }
+
+        public int ThreadCaseConfirmerId { get; set; }
+
+        public virtual Project Project { get; set; }
+        public virtual User ThreatCaseReporter { get; set; }
+        public virtual User ThreatCaseOwner { get; set; }
+        public virtual User ThreatCaseRiviewer { get; set; }
+        public virtual User ThreadCaseConfirmer { get; set; }
     }
 }

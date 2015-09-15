@@ -7,9 +7,20 @@ using System.Threading.Tasks;
 
 namespace VentureManagement.Models
 {
-    class Project
+    public class Project
     {
         [Key]
         public int ProjectId { get; set; }
+
+        [Required]
+        public string ProjectLocation { get; set; }
+
+        [Required]
+        public string ProjectName { get; set; }
+
+        [Required]
+        public int  OrganizationId { get; set; }
+
+        public virtual Organization Organization { get; set; }
     }
 }
