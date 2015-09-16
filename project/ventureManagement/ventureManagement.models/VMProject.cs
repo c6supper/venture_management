@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace VentureManagement.Models
 {
-    public class Project
+    // ReSharper disable once InconsistentNaming
+    public class VMProject
     {
         [Key]
         public int ProjectId { get; set; }
 
-        [Required]
         public string ProjectLocation { get; set; }
 
         [Required]
@@ -26,5 +26,8 @@ namespace VentureManagement.Models
         public virtual Organization Organization { get; set; }
 
         public virtual ICollection<ProjectRelation> ProjectRelation { get; set; }
+
+        // ReSharper disable once InconsistentNaming
+        public const string PROJECT_ROOT = "工程项目列表";
     }
 }

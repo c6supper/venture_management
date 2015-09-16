@@ -9,6 +9,7 @@ using Ext.Net.MVC;
 using VentureManagement.BLL;
 using VentureManagement.IBLL;
 using VentureManagement.Models;
+using VentureManagement.Web.Areas.Member.Controllers;
 using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Areas.Project.Controllers
@@ -24,24 +25,35 @@ namespace VentureManagement.Web.Areas.Project.Controllers
 
         public ActionResult Index()
         {
-            Debug.Print(Url.Action("GetData"));
             return View(GetProject());
         }
 
-        private Node RecursiveAddNode(VentureManagement.Models.Project project)
+        public ActionResult GetAllOrganizations(int start, int limit, int page, string query)
+        {
+            var orgController = new OrganizationController();
+            var orgs = orgController.GetOrganizations(start, limit, page, query);
+            return this.Store(orgs.Data, orgs.TotalRecords);
+        }
+
+        private Node RecursiveAddNode(VentureManagement.Models.VMProject project)
         {
             var node = new Node
             {
                 Text = project.ProjectName,
                 AttributesObject = new
                 {
-                    projectId = project.ProjectId,
-                    projectName = project.ProjectName,
-                    Description = project.Description
+                    ProjectId = project.ProjectId,
+                    ProjectName = project.ProjectName,
+                    Description = project.Description,
+                    ProjectLocation = project.ProjectLocation,
+                    OrganizationName = project.Organization.OrganizationName
                 }
             };
-            node.CustomAttributes.Add(new ConfigItem("projectId", "0", ParameterMode.Raw));
-            node.CustomAttributes.Add(new ConfigItem("projectName", "1", ParameterMode.Raw));
+            //node.CustomAttributes.Add(new ConfigItem("ProjectId", project.ProjectId.ToString(), ParameterMode.Raw));
+            //node.CustomAttributes.Add(new ConfigItem("ProjectName", project.ProjectName, ParameterMode.Raw));
+            //node.CustomAttributes.Add(new ConfigItem("Description", project.Description, ParameterMode.Raw));
+            //node.CustomAttributes.Add(new ConfigItem("ProjectLocation", project.ProjectLocation, ParameterMode.Raw));
+            //node.CustomAttributes.Add(new ConfigItem("OrganizationName", project.Organization.OrganizationName, ParameterMode.Raw));
 
             foreach (var subProject in _projectRelationService.FindList(project.ProjectName).ToArray())
             {
@@ -63,22 +75,45 @@ namespace VentureManagement.Web.Areas.Project.Controllers
 
         private Node GetProject()
         {
+            var root = _projectService.Find(1);
             var node = new Node
             {
-                Text = string.Empty
+                Text = VMProject.PROJECT_ROOT,
+                NodeID = VMProject.PROJECT_ROOT
             };
 
-            foreach (var project in _projectService.FindList(prj => prj.ProjectRelation.Count <= 0, string.Empty, false))
-            {
-                node.Children.Add(RecursiveAddNode(project));
-            }
+            node.Children.Add(RecursiveAddNode(root));
 
             return node;
         }
 
-        public ActionResult CreateProject(int? superProjectId, string subProject, string description)
+        public ActionResult CreateProject(int? superProjectId, string subProject, string description,
+            string projectLocation,int? organizationid)
         {
             string infoMessage = "创建成功";
+
+            if(superProjectId == null)
+                superProjectId = 1;
+
+            if (organizationid == null)
+            {
+                X.Msg.Alert("提示", "请检查参数是否正确，项目名/备注/部门名/项目地点不能为空").Show();
+                return this.Direct();
+            }
+
+            var project = new VentureManagement.Models.VMProject
+            {
+                ProjectName = subProject,
+                Description = description,
+                ProjectLocation = projectLocation,
+                OrganizationId = (int)organizationid
+            };
+
+            if (!TryValidateModel(project))
+            {
+                X.Msg.Alert("提示", "请检查参数是否正确，项目名/备注/部门名/项目地点不能为空").Show();
+                return this.Direct();
+            }
 
             if (_projectService.Exist(subProject, superProjectId))
             {
@@ -86,26 +121,17 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             }
             else
             {
-                var sub = _projectService.Add(new VentureManagement.Models.Project
+                var sub = _projectService.Add(project);
+
+                var super = _projectService.Find((int)superProjectId);
+                _projectRelationService.Add(new ProjectRelation
                 {
-                    ProjectName = subProject,
+                    SuperProjectId = super.ProjectId,
+                    SubProjectId = sub.ProjectId,
+                    SuperProject = super,
+                    SubProject = sub,
                     Description = description
                 });
-
-                if (superProjectId != null)
-                {
-                    var super = _projectService.Find((int) superProjectId);
-                    _projectRelationService.Add(new ProjectRelation
-                    {
-                        SuperProjectId = super.ProjectId,
-                        SubProjectId = sub.ProjectId,
-                        SuperProject = super,
-                        SubProject = sub,
-                        Description = description
-                    });
-                }
-
-                return RedirectToAction("Index");
             }
             X.Msg.Alert("提示", infoMessage).Show();
 

@@ -3,7 +3,7 @@ using VentureManagement.Models;
 
 namespace VentureManagement.DAL
 {
-    public class ProjectRepository : BaseRepository<Project>, InterfaceProjectRepository
+    public class ProjectRepository : BaseRepository<VMProject>, InterfaceProjectRepository
     {
          
     }

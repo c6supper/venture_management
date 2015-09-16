@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using VentureManagement.DAL;
@@ -7,7 +8,7 @@ using VentureManagement.Models;
 
 namespace VentureManagement.BLL
 {
-    public class ProjectService : BaseService<Project>, InterfaceProjectService
+    public class ProjectService : BaseService<VMProject>, InterfaceProjectService
     {
         public ProjectService()
             : base(RepositoryFactory.ProjectRepository)
@@ -23,7 +24,7 @@ namespace VentureManagement.BLL
                     .Any(prjr => prjr.SuperProjectId == superProjectId));
         }
 
-        public Project Find(string project, int superProjectId)
+        public VMProject Find(string project, int superProjectId)
         {
             return CurrentRepository.FindList(u => u.ProjectName == project, string.Empty, false)
                 .ToArray()
@@ -31,14 +32,36 @@ namespace VentureManagement.BLL
                     .Any(prjr => prjr.SuperProjectId == superProjectId));
         }
 
-        public Project Find(int projectId)
+        public VMProject Find(int projectId)
         {
             return CurrentRepository.Find(org => org.ProjectId == projectId);
         }
 
-        public IQueryable<Project> FindList(Expression<Func<Project, bool>> whereLamdba, string orderName, bool isAsc)
+        public IQueryable<VMProject> FindList(Expression<Func<VMProject, bool>> whereLamdba, string orderName, bool isAsc)
         {
             return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
+        }
+
+        public override bool Initilization()
+        {
+            try
+            {
+                if (Find(1) != null) return true;
+
+                var project = new VMProject
+                {
+                    ProjectName = VMProject.PROJECT_ROOT,
+                    ProjectLocation = "",
+                    OrganizationId = 1
+                };
+                Add(project);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.StackTrace);
+                return false;
+            }
         }
     }
 }

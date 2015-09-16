@@ -66,7 +66,7 @@
                   .Hidden(true)
                   .ID("newOrganization")
                   .Title("新增部门信息")
-                  .ColumnWidth(0.2)
+                  .ColumnWidth(0.3)
                   .MarginSpec("10 10 10 10")
                   .Defaults(d => {
                                      d.Add(new Parameter("Width", "240"));
@@ -126,7 +126,8 @@
               X.TreePanel()
                   .ID("OrganizationTreePanel")
                   .Title("集团组织结构")
-                  .ColumnWidth(0.7)
+                  .ColumnWidth(0.6)
+                  .ColumnLines(true)
                   .Collapsible(true)
                   .UseArrows(true)
                   .RootVisible(true)
@@ -159,7 +160,7 @@
                       X.ModelField().Name("Description")
                   )
                   .ColumnModel(    
-                      X.TreeColumn()
+                      X.Column()
                           .Flex(0)
                           .Hidden(true)
                           .Text("部门Id")
@@ -170,7 +171,7 @@
                           .Text("部门")
                           .DataIndex("organizationName"),
                     
-                      X.TreeColumn()
+                      X.Column()
                           .Flex(2)
                           .Text("备注")
                           .DataIndex("Description")                  

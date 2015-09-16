@@ -16,7 +16,8 @@ namespace VentureManagement.BLL
 
         public IQueryable<ProjectRelation> FindList(string projectName)
         {
-            return CurrentRepository.FindList(prjr => prjr.SuperProject.ProjectName == projectName, string.Empty, false);
+            return CurrentRepository.FindList(prjr => prjr.SuperProject.ProjectName == projectName,
+                "ProjectRelationId", false);
         }
 
         public bool Exist(string superiorProject, string subordinateProject)

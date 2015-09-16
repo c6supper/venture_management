@@ -90,5 +90,11 @@ namespace VentureManagement.BLL
         {
             return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
         }
+
+        public IQueryable<Organization> FindPageList(int pageIndex, int pageSize, out int totalRecord,
+            Expression<Func<Organization, bool>> whereLamdba)
+        {
+            return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, whereLamdba, "OrganizationName", false);
+        }
     }
 }

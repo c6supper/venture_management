@@ -20,7 +20,7 @@ namespace VentureManagement.Models
 
         public string Description { get; set; }
 
-        public virtual Project SubProject { get; set; }
-        public virtual Project SuperProject { get; set; }
+        public virtual VMProject SubProject { get; set; }
+        public virtual VMProject SuperProject { get; set; }
     }
 }

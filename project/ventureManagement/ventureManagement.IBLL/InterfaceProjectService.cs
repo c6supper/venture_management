@@ -5,11 +5,11 @@ using VentureManagement.Models;
 
 namespace VentureManagement.IBLL
 {
-    public interface InterfaceProjectService : InterfaceBaseService<Project>
+    public interface InterfaceProjectService : InterfaceBaseService<VMProject>
     {
         bool Exist(string project, int? superProjectId);
-        Project Find(string project, int superProjectId);
-        Project Find(int projectId);
-        IQueryable<Project> FindList(Expression<Func<Project, bool>> whereLamdba, string orderName, bool isAsc);
+        VMProject Find(string project, int superProjectId);
+        VMProject Find(int projectId);
+        IQueryable<VMProject> FindList(Expression<Func<VMProject, bool>> whereLamdba, string orderName, bool isAsc);
     }
 }

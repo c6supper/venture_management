@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
+using System.Web.UI;
 using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.BLL;
@@ -57,9 +59,25 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return node;
         }
 
-        public ActionResult GetAllOrganizations()
+        public Paging<Organization> GetOrganizations(int start, int limit, int page,string filter)
         {
-            return View(_orgSerivce.FindList(org => true,string.Empty,false).ToArray());
+            var pageIndex = start / limit + ((start % limit > 0) ? 1 : 0) + 1;
+            var count = 0;
+            List<Organization> orgs;
+            if (!string.IsNullOrEmpty(filter) && filter != "*")
+            {
+                orgs =
+                    _orgSerivce.FindPageList(pageIndex, limit, out count,
+                        org => org.OrganizationName.StartsWith(filter.ToLower())).ToList();
+            }
+            else
+            {
+                orgs =
+                    _orgSerivce.FindPageList(pageIndex, limit, out count,
+                        org => true).ToList();
+            }
+
+            return new Paging<Organization>(orgs, count);
         }
 
         private Node GetOrganization()

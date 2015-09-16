@@ -19,6 +19,6 @@ namespace VentureManagement.Models
         public int ProjectId { get; set; }
 
         public virtual UserRoleRelation UserRoleRelation { get; set; }
-        public virtual Project Project { get; set; }
+        public virtual VMProject Project { get; set; }
     }
 }

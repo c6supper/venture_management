@@ -55,7 +55,7 @@ namespace VentureManagement.Models
         //复查人
         public int ThreatCaseRiviewerId { get; set; }
 
-        public virtual Project Project { get; set; }
+        public virtual VMProject Project { get; set; }
         public virtual User ThreatCaseReporter { get; set; }
         public virtual User ThreatCaseOwner { get; set; }
         public virtual User ThreatCaseRiviewer { get; set; }
