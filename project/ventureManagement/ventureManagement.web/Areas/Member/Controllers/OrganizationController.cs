@@ -57,14 +57,18 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return node;
         }
 
+        public ActionResult GetAllOrganizations()
+        {
+            return View(_orgSerivce.FindList(org => true,string.Empty,false).ToArray());
+        }
+
         private Node GetOrganization()
         {
-            Organization org = Session["Organization"] as Organization;
+            var org = Session["Organization"] as Organization;
 
             return org != null ? RecursiveAddNode(org) : new Node();
         }
 
-        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public ActionResult CreateOrganization(int superiorDepartmentId, string subordinateDepartment,string description)
         {
             string infoMessage = "创建成功";
@@ -98,7 +102,6 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return this.Direct();
         }
 
-        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public ActionResult DeleteOrganization(int organizationId)
         {
             return this.Direct();

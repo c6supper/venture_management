@@ -18,6 +18,8 @@ namespace VentureManagement.Models
         [Required]
         public int SuperProjectId { get; set; }
 
+        public string Description { get; set; }
+
         public virtual Project SubProject { get; set; }
         public virtual Project SuperProject { get; set; }
     }

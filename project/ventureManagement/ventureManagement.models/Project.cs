@@ -21,6 +21,10 @@ namespace VentureManagement.Models
         [Required]
         public int  OrganizationId { get; set; }
 
+        public string Description { get; set; }
+
         public virtual Organization Organization { get; set; }
+
+        public virtual ICollection<ProjectRelation> ProjectRelation { get; set; }
     }
 }

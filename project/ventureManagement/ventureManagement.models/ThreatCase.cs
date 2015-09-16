@@ -34,21 +34,26 @@ namespace VentureManagement.Models
 
         public int ThreatCaseRisk { get; set; }
 
+        //上报人
         public int ThreatCaseReporterId { get; set; }
-
+        //资质证明情况
+        public string ThreatCaseCertification { get; set; }
+        //责任人
         public int ThreatCaseOwnerId { get; set; }
 
-        public int ThreatCaseRiviewerId { get; set; }
-
+        //整改方案建议
         public string ThreatCaseSuggestion { get; set; }
 
+        //实际整改方案
         public string ThreatCaseCorrection { get; set; }
-
+        //整改投入
         public int ThreatCaseCorrectionValue { get; set; }
-
+        //整改效果评估
         public string ThreatCaseCorrectionResult { get; set; }
-
+        //确认人
         public int ThreadCaseConfirmerId { get; set; }
+        //复查人
+        public int ThreatCaseRiviewerId { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual User ThreatCaseReporter { get; set; }

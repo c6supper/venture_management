@@ -1,16 +1,50 @@
-﻿@{
-    ViewBag.Title = "集团组织结构";
+﻿@using Ext.Net
+@using Ext.Net.MVC
+@{
+    ViewBag.Title = "工程项目";
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
     var X = Html.X();
 }
 
 @section headtag
 {
+    <style>
+        .search-item {
+            font          : normal 11px tahoma, arial, helvetica, sans-serif;
+            padding       : 3px 10px 3px 10px;
+            border        : 1px solid #fff;
+            border-bottom : 1px solid #eeeeee;
+            white-space   : normal;
+            color         : #555;
+        }
+        
+        .search-item h3 {
+            display     : block;
+            font        : inherit;
+            font-weight : bold;
+            color       : #222;
+            margin      :0px;
+        }
+
+        .search-item h3 span {
+            float       : right;
+            font-weight : normal;
+            margin      : 0 0 5px 5px;
+            width       : 100px;
+            display     : block;
+            clear       : none;
+        } 
+        
+        p { width: 650px; }
+        
+        .ext-ie .x-form-text { position : static !important; }
+    </style>    
+
     <script>
         var resetCreateForm = function() {
-            App.SubordinateDepartment.setValue('');
+            App.SupeProjectId.setValue('');
             App.Description.setValue('');
-            App.newOrganization.hide();
+            App.newProject.hide();
         };
 
         var filterTree = function (tf, e) {
@@ -64,8 +98,8 @@
           .Items(
               X.FieldSet()
                   .Hidden(true)
-                  .ID("newOrganization")
-                  .Title("新增部门信息")
+                  .ID("newProject")
+                  .Title("新增工程信息")
                   .ColumnWidth(0.2)
                   .MarginSpec("10 10 10 10")
                   .Defaults(d => {
@@ -76,24 +110,64 @@
                        X.TextField()
                           .ReadOnly(true)
                           .Hidden(true)
-                          .ID("SuperiorDepartmentId")
-                          .Name("organizationId")
-                          .FieldLabel("上级部门Id"),
+                          .ID("SupeProjectId")
+                          .Name("projectId")
+                          .FieldLabel("上级工程Id"),
                       X.TextField()
                           .ReadOnly(true)
-                          .ID("SuperiorDepartment")
-                          .Name("organizationName")
-                          .EmptyText("请选择上级部门")
-                          .FieldLabel("上级部门"),
+                          .ID("SuperiorProject")
+                          .Name("projectName")
+                          .EmptyText("请选择上级工程")
+                          .FieldLabel("上级工程"),
                       X.TextField()
-                          .ID("SubordinateDepartment")
-                          .Name("SubordinateDepartment")
-                          .EmptyText("请输入新建部门名")
-                          .FieldLabel("下级部门"),
+                          .ID("SubProject")
+                          .Name("SubProject")
+                          .EmptyText("请输入新建工程名")
+                          .FieldLabel("下级工程"),
                       X.TextField()
                           .ID("Description")
                           .Name("Description")
                           .FieldLabel("备注"),  
+                      X.TextField()
+                          .ID("ProjectLocation")
+                          .Name("ProjectLocation")
+                          .EmptyText("请输入施工地点")
+                          .FieldLabel("施工地点"),
+                      X.ComboBox()
+                        .DisplayField("OrganizationName")
+                        .ValueField("OrganizationId")
+                        .TypeAhead(false)
+                        .PageSize(15)
+                        .HideBaseTrigger(true)
+                        .MinChars(0)
+                        .TriggerAction(TriggerAction.Query)
+                        .ListConfig(Html.X().BoundList()
+                            .LoadingText("搜索...")
+                            .ItemTpl(Html.X().XTemplate()
+                                .Html(@<text>
+                                    <div class="search-item">
+							            <h3><span>${OrganizationName}</span>{OrganizationName}</h3>
+							            {OrganizationName}
+						            </div>
+                                </text>)
+                            )
+                        )
+                        .Store(Html.X().Store()
+                            .AutoLoad(false)
+                            .Proxy(Html.X().AjaxProxy()
+                                .Url("/Member/Organization/GetAllOrganizations")
+                                //.Url(Url.Action("GetData"))
+                                .ActionMethods(am => am.Read = HttpMethod.POST)
+                                .Reader(Html.X().JsonReader().Root("data"))
+                            )
+                            .Model(Html.X().Model()
+                                .Fields(
+                                    Html.X().ModelField().Name("OrganizationId"),
+                                    Html.X().ModelField().Name("OrganizationName"),
+                                    Html.X().ModelField().Name("Description")
+                                )
+                            )
+                        ),
                       X.InfoPanel()
                           .Layout(LayoutType.HBox)
                           .LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle}) 
@@ -106,9 +180,9 @@
                                     .FormBind(true)
                                     .ColSpan(1)
                                     .DirectEvents(de => {
-                                        de.Click.Url = Url.Action("CreateOrganization");
-                                        de.Click.ExtraParams.Add(new Parameter("superiorDepartmentId", "App.SuperiorDepartmentId.getValue()", ParameterMode.Raw));
-                                        de.Click.ExtraParams.Add(new Parameter("subordinateDepartment", "App.SubordinateDepartment.getValue()", ParameterMode.Raw));
+                                        de.Click.Url = Url.Action("CreateProject");
+                                        de.Click.ExtraParams.Add(new Parameter("superProjectId", "App.SupeProjectId.getValue()", ParameterMode.Raw));
+                                        de.Click.ExtraParams.Add(new Parameter("subProject", "App.SubProject.getValue()", ParameterMode.Raw));
                                         de.Click.ExtraParams.Add(new Parameter("description", "App.Description.getValue()", ParameterMode.Raw));
                                         de.Click.Success = "resetCreateForm();";
                                     }),
@@ -124,51 +198,51 @@
                   ),
 
               X.TreePanel()
-                  .ID("OrganizationTreePanel")
-                  .Title("集团组织结构")
+                  .ID("ProjectTreePanel")
+                  .Title("工程项目")
                   .ColumnWidth(0.7)
                   .Collapsible(true)
                   .UseArrows(true)
                   .RootVisible(true)
                   .MultiSelect(true)
                   .SingleExpand(true)
-                  .FolderSort(true)
+                  //.FolderSort(true)
                   .AutoScroll(true)
                   .TopBar(Html.X().Toolbar()
                       .Items(
                           Html.X().Button()
                           .Text("新增")
                           .Icon(Icon.CommentAdd)
-                          .Handler("App.newOrganization.show();")
+                          .Handler("App.newProject.show();")
                           //Html.X().Button()
                           //.Text("删除")
                           //.Icon(Icon.CommentDelete)
                           //.DirectEvents(de =>
                           //{
-                          //    de.Click.Url = Url.Action("DeleteOrganization");
-                          //    de.Click.ExtraParams.Add(new Parameter("organizationId", "App.SuperiorDepartmentId.getValue()", ParameterMode.Raw));
+                          //    de.Click.Url = Url.Action("DeleteProject");
+                          //    de.Click.ExtraParams.Add(new Parameter("projectId", "App.SupeProjectId.getValue()", ParameterMode.Raw));
                           //    de.Click.Success = "resetCreateForm();";
                           //    de.Click.Confirmation.ConfirmRequest = true;
-                          //    de.Click.Confirmation.BeforeConfirm = "config.confirmation.message = '是否确定要删除[' + App.SuperiorDepartment.getValue() + ']及其子部门'";
+                          //    de.Click.Confirmation.BeforeConfirm = "config.confirmation.message = '是否确定要删除[' + App.SuperiorProject.getValue() + ']及其子工程'";
                           //})
                       )
                   )
                   .Fields(
-                      X.ModelField().Name("organizationId"),
-                      X.ModelField().Name("organizationName"),
+                      X.ModelField().Name("projectId"),
+                      X.ModelField().Name("projectName"),
                       X.ModelField().Name("Description")
                   )
                   .ColumnModel(    
                       X.TreeColumn()
                           .Flex(0)
                           .Hidden(true)
-                          .Text("部门Id")
-                          .DataIndex("organizationId"),
+                          .Text("工程Id")
+                          .DataIndex("projectId"),
                           
                       X.TreeColumn()
                           .Flex(3)
-                          .Text("部门")
-                          .DataIndex("organizationName"),
+                          .Text("工程")
+                          .DataIndex("projectName"),
                     
                       X.TreeColumn()
                           .Flex(2)
