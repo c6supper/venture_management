@@ -18,6 +18,9 @@ namespace VentureManagement.Models
         [Required]
         public string ThreatCaseLocation { get; set; }
 
+        [Required]
+        public DateTime ThreatCaseReportTime { get; set; }
+
         public DateTime ThreatCaseFoundTime { get; set; }
 
         public DateTime ThreatCaseCorrectionTime{ get; set; }
@@ -51,7 +54,7 @@ namespace VentureManagement.Models
         //整改效果评估
         public string ThreatCaseCorrectionResult { get; set; }
         //确认人
-        public int ThreadCaseConfirmerId { get; set; }
+        public int ThreatCaseConfirmerId { get; set; }
         //复查人
         public int ThreatCaseRiviewerId { get; set; }
 
