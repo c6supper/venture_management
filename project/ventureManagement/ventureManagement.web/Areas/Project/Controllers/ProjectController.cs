@@ -133,7 +133,15 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                     Description = description
                 });
             }
-            X.Msg.Alert("提示", infoMessage).Show();
+
+            X.Msg.Confirm("提示", infoMessage, new MessageBoxButtonsConfig
+            {
+                Yes = new MessageBoxButtonConfig
+                {
+                    Handler = "document.location.reload();",
+                    Text = "确定"
+                }
+            }).Show();
 
             return this.Direct();
         }
