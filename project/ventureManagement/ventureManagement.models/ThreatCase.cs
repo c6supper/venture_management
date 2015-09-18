@@ -86,5 +86,8 @@ namespace VentureManagement.Models
         public virtual User ThreatCaseOwner { get; set; }
         public virtual User ThreatCaseRiviewer { get; set; }
         public virtual User ThreadCaseConfirmer { get; set; }
+
+        // ReSharper disable once InconsistentNaming
+        public const string VALIDATION_MESSAGE = "\"工程名/隐患地点/发现隐患时间\"不能为空";
     }
 }

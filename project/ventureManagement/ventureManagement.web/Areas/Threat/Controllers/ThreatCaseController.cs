@@ -72,7 +72,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             //    if(!TryValidateModel(createdThreatCase))
             //    {
             //        var record = store.GetById(createdThreatCase.ThreatCaseId);
-            //        X.Msg.Alert("", "用户名/昵称/邮箱/手机号不能为空，请重试").Show();
+            //        X.Msg.Alert("", ThreatCase.VALIDATION_MESSAGE).Show();
             //        record.Reject();
             //        return this.Direct();
             //    }
