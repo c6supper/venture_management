@@ -30,5 +30,7 @@ namespace VentureManagement.DAL
         public static InterfaceOrganizationRepository OrganizationRepository { get { return new OrganizationRepository(); } }
 
         public static InterfaceUserOrganizationRelationRepository UserOrganizationRelationRepository { get { return new UserOrganizationRelationRepository(); } }
+
+        public static InterfaceThreatCaseRepository ThreatCaseRepository { get { return new ThreatCaseRepository(); } }
     }
 }

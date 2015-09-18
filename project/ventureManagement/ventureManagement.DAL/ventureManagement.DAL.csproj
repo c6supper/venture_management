@@ -61,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryFactory.cs" />
     <Compile Include="RoleRepository.cs" />
+    <Compile Include="ThreatCaseRepository.cs" />
     <Compile Include="UserOrganizationRelationRepository.cs" />
     <Compile Include="UserProjectRelationRepository.cs" />
     <Compile Include="UserRepository.cs" />

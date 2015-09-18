@@ -105,6 +105,8 @@ namespace VentureManagement.Models
             PERIMISSION_PERMISSION_READ,
             PERIMISSION_PROJECT_WRITE,
             PERIMISSION_PROJECT_READ,
+            PERIMISSION_THREATCASE_WRITE,
+            PERIMISSION_THREATCASE_READ,
 
             PERIMISSION_UNKOWN
         };
@@ -117,6 +119,8 @@ namespace VentureManagement.Models
         public const string PERIMISSION_PERMISSION_READ = "用户权限管理(读)";
         public const string PERIMISSION_PROJECT_WRITE = "工程项目管理(写)";
         public const string PERIMISSION_PROJECT_READ = "工程项目管理(读)";
+        public const string PERIMISSION_THREATCASE_WRITE = "隐患排查预警(写)";
+        public const string PERIMISSION_THREATCASE_READ = "隐患排查预警(读)";
         public const string PERIMISSION_UNKOWN = "权限错误";
 
         public const string ROLE_ADMIN = "系统管理员";

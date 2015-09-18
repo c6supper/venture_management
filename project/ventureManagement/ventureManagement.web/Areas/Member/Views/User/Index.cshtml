@@ -291,6 +291,10 @@
                                     new ListItem("已验证")
                                 )
                     ))
+                    
+            .Plugins(
+                    X.FilterHeader()
+                )
             .SelectionModel(
                 X.CheckboxSelectionModel()                
                 .Mode(SelectionMode.Multi)

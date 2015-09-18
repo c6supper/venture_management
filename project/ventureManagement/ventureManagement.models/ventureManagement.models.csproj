@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstructionProject.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="OrganizationRelation.cs" />
     <Compile Include="OrganizationRoleRelation.cs" />

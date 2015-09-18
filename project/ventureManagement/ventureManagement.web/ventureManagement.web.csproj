@@ -111,6 +111,7 @@
     <Compile Include="Areas\Member\Controllers\UserController.cs" />
     <Compile Include="Areas\Project\Controllers\ProjectController.cs" />
     <Compile Include="Areas\Project\ProjectAreaRegistration.cs" />
+    <Compile Include="Areas\Threat\Controllers\ThreatCaseController.cs" />
     <Compile Include="Areas\Threat\ThreatAreaRegistration.cs" />
     <Compile Include="Attributes\AccessDeniedAuthorize.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -261,6 +262,7 @@
     <Content Include="Areas\Project\Views\Web.config" />
     <Content Include="Areas\LucenceEngine\Views\Web.config" />
     <Content Include="Areas\Project\Views\Project\Index.cshtml" />
+    <Content Include="Areas\Threat\Views\ThreatCase\Index.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />
@@ -292,7 +294,6 @@
     <Folder Include="Areas\Member\Models\" />
     <Folder Include="Areas\Project\Models\" />
     <Folder Include="Areas\Project\Views\Shared\" />
-    <Folder Include="Areas\Threat\Controllers\" />
     <Folder Include="Areas\Threat\Models\" />
     <Folder Include="Areas\Threat\Views\Shared\" />
   </ItemGroup>
