@@ -1,0 +1,47 @@
+﻿@model VentureManagement.Web.Areas.LucenceEngine.Models.AlarmGridModel
+
+@{
+    ViewBag.Title = "预警管理";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Search", "Alarm", FormMethod.Get))
+{
+    <p>
+        请输入您要搜索的关键字:
+        @Html.TextBox("keyword")
+        <input type="submit" value="搜索" />
+    </p>
+}
+
+<h2>搜索结果：</h2>
+
+<table border="1" width="100%" style="text-align: center; border-collapse: collapse">
+    <tr>
+        <th style = "width:5%;" >编号</th>
+        <th style = "width:15%;" >文件名</th>
+        <th style = "width:68%;" >文件内容</th>
+        <th style = "width:12%;" >文件时间</th>
+    </tr>
+    @foreach (var item in Model.Alarms)
+    {
+        <tr>
+            <td>@item.AlarmId</td> 
+            <td>@Html.ActionLink(item.FileName, "DownloadFile", new {filePath = item.FilePath})</td> 
+            <td>@item.Content</td>
+            <td>@string.Format("{0:yyyy年MM月dd日}", item.FileDate)</td> 
+        </tr>     
+    }
+
+    <tr>
+        <td colspan="5">
+            @Html.Partial("_Pager", Model)
+        </td>
+    </tr>
+</table>
+
+<p>
+    <i>总共有 @Model.TotalRecordCount 条记录，每页显示 @Model.PageSize 条</i> 
+    <i>你正在查看的是 @Model.PageCount 页的第 @Model.CurrentPageIndex 页</i>
+</p>
+	

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alarm.cs" />
     <Compile Include="ConstructionProject.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="OrganizationRelation.cs" />

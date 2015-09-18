@@ -62,13 +62,27 @@
     <Reference Include="Ext.Net.Utilities">
       <HintPath>lib\Ext.NET\Ext.Net.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>ReferenceAssemblies\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Ext.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PanGu">
+      <HintPath>..\lib\PanGu.dll</HintPath>
+    </Reference>
+    <Reference Include="PanGu.HighLight">
+      <HintPath>..\lib\PanGu.HighLight.dll</HintPath>
+    </Reference>
+    <Reference Include="PanGu.Lucene.Analyzer">
+      <HintPath>..\lib\PanGu.Lucene.Analyzer.dll</HintPath>
     </Reference>
     <Reference Include="RVcommon, Version=3.1.2.20902, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -105,7 +119,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\LucenceEngine\Controllers\AlarmController.cs" />
+    <Compile Include="Areas\LucenceEngine\Controllers\FileManageController.cs" />
     <Compile Include="Areas\LucenceEngine\LucenceEngineAreaRegistration.cs" />
+    <Compile Include="Areas\LucenceEngine\Models\AlarmGridModel.cs" />
     <Compile Include="Areas\Member\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Member\Controllers\PermissionController.cs" />
     <Compile Include="Areas\Member\Controllers\UserController.cs" />
@@ -259,6 +276,11 @@
     <Content Include="Areas\Threat\Views\Web.config" />
     <Content Include="Areas\Project\Views\Web.config" />
     <Content Include="Areas\LucenceEngine\Views\Web.config" />
+    <Content Include="Areas\LucenceEngine\Views\Alarm\Index.cshtml" />
+    <Content Include="Areas\LucenceEngine\Views\Shared\_PagerLink.cshtml" />
+    <Content Include="Areas\LucenceEngine\Views\Shared\_Pager.cshtml" />
+    <Content Include="Areas\LucenceEngine\Views\Alarm\Search.cshtml" />
+    <Content Include="Areas\LucenceEngine\Views\FileManage\Index.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />
@@ -283,9 +305,6 @@
     <Content Include="Views\Shared\_BaseLayoutClean.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\LucenceEngine\Controllers\" />
-    <Folder Include="Areas\LucenceEngine\Models\" />
-    <Folder Include="Areas\LucenceEngine\Views\Shared\" />
     <Folder Include="Areas\Member\Content\" />
     <Folder Include="Areas\Member\Models\" />
     <Folder Include="Areas\Project\Controllers\" />
