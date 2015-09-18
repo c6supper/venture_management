@@ -1,0 +1,293 @@
+﻿@using Ext.Net
+@using Ext.Net.MVC
+@{
+    ViewBag.Title = "工程项目";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    var X = Html.X();
+}
+
+@section headtag
+{
+    <style>
+        .search-item {
+            font          : normal 11px tahoma, arial, helvetica, sans-serif;
+            padding       : 3px 10px 3px 10px;
+            border        : 1px solid #fff;
+            border-bottom : 1px solid #eeeeee;
+            white-space   : normal;
+            color         : #555;
+        }
+        
+        .search-item h3 {
+            display     : block;
+            font        : inherit;
+            font-weight : bold;
+            color       : #222;
+            margin      :0px;
+        }
+
+        .search-item h3 span {
+            float       : right;
+            font-weight : normal;
+            margin      : 0 0 5px 5px;
+            width       : 100px;
+            display     : block;
+            clear       : none;
+        } 
+        
+        p { width: 650px; }
+        
+        .ext-ie .x-form-text { position : static !important; }
+    </style>    
+
+    <script>
+        var resetCreateForm = function() {
+            App.SupeProjectId.setValue('');
+            App.Description.setValue('');
+            App.newProject.hide();
+        };
+
+        var filterTree = function (tf, e) {
+            var tree = this.up("treepanel"),
+                text = tf.getRawValue();
+
+            tree.clearFilter();
+
+            if (Ext.isEmpty(text, false)) {
+                return;
+            }
+
+            if (e.getKey() === Ext.EventObject.ESC) {
+                clearFilter();
+            } else {
+                var re = new RegExp(".*" + text + ".*", "i");
+
+                tree.filterBy(function (node) {
+                    return re.test(node.data.text);
+                });
+            }
+        };
+
+        var clearFilter = function () {
+            var field = this,
+                tree = this.up("treepanel");
+
+            field.setValue("");
+            tree.clearFilter(true);
+            tree.getView().focus();
+        };
+
+    </script>
+}
+
+    
+
+@section menu
+{
+    @(X.FormPanel()
+          .Title("")
+          .AutoScroll(true)
+          .BodyPadding(5)
+          .Layout(LayoutType.Column)
+          .FieldDefaults(fd => {
+                                   fd.LabelAlign = LabelAlign.Left;
+                                   fd.MsgTarget = MessageTarget.Side;
+          })
+          .Items(
+              X.FieldSet()
+                  .Hidden(true)
+                  .ID("newProject")
+                  .Title("新增工程信息")
+                  .ColumnWidth(0.3)
+                  .MarginSpec("10 10 10 10")
+                  .Defaults(d => {
+                                    d.Add(new Parameter("Width", "240"));
+                                    d.Add(new Parameter("LabelWidth", "90"));
+                  })
+                  .Items(
+                       X.TextField()
+                          .ReadOnly(true)
+                          .Hidden(true)
+                          .ID("SupeProjectId")
+                          .Name("projectId")
+                          .FieldLabel("上级工程Id"),
+                      X.TextField()
+                          .ReadOnly(true)
+                          .ID("SuperiorProject")
+                          .Name("projectName")
+                          .EmptyText("请选择上级工程")
+                          .FieldLabel("上级工程"),
+                      X.TextField()
+                          .ID("SubProject")
+                          .Name("subProject")
+                          .EmptyText("请输入新建工程名")
+                          .FieldLabel("下级工程"),
+                      X.TextField()
+                          .ID("Description")
+                          .Name("description")
+                          .FieldLabel("备注"),  
+                      X.TextField()
+                          .ID("ProjectLocation")
+                          .Name("projectLocation")
+                          .EmptyText("请输入施工地点")
+                          .FieldLabel("施工地点"),
+                      X.ComboBox()
+                        .ID("OrganizationId")
+                        .FieldLabel("部门")
+                        .EmptyText("请输入关键字或*")
+                        .DisplayField("OrganizationName")
+                        .ValueField("OrganizationId")
+                        .TypeAhead(true)
+                        .PageSize(15)
+                        .HideBaseTrigger(true)
+                        .MinChars(0)
+                        .TriggerAction(TriggerAction.All)
+                        .ListConfig(Html.X().BoundList()
+                            .LoadingText("搜索...")
+                            .ItemTpl(Html.X().XTemplate()
+                                .Html(@<text>
+                                    <div class="search-item">
+							            <h3><span>{OrganizationName}</span></h3>
+							            {Description}
+						            </div>
+                                </text>)
+                            )
+                        )
+                        .Store(Html.X().Store()
+                            .AutoLoad(true)
+                            .Proxy(Html.X().AjaxProxy()
+                                .Url(Url.Action("GetAllOrganizations"))
+                                //.Url(Url.Action("GetData"))
+                                .ActionMethods(am => am.Read = HttpMethod.POST)
+                                .Reader(Html.X().JsonReader().Root("data"))
+                            )
+                            .Model(Html.X().Model()
+                                .Fields(
+                                    Html.X().ModelField().Name("OrganizationId"),
+                                    Html.X().ModelField().Name("OrganizationName"),
+                                    Html.X().ModelField().Name("Description")
+                                )
+                            )
+                        ),
+                      X.InfoPanel()
+                          .Layout(LayoutType.HBox)
+                          .LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle}) 
+                          .Items(              
+                              X.Button()
+                                    .Text("提交")
+                                    .Margin(10)
+                                    .Width(80)
+                                    .Icon(Icon.Lightning)
+                                    .FormBind(true)
+                                    .ColSpan(1)
+                                    .DirectEvents(de => {
+                                        de.Click.Url = Url.Action("CreateProject");
+                                        de.Click.ExtraParams.Add(new Parameter("superProjectId", "App.SupeProjectId.getValue()", ParameterMode.Raw));
+                                        de.Click.ExtraParams.Add(new Parameter("subProject", "App.SubProject.getValue()", ParameterMode.Raw));
+                                        de.Click.ExtraParams.Add(new Parameter("description", "App.Description.getValue()", ParameterMode.Raw));
+                                        de.Click.ExtraParams.Add(new Parameter("projectLocation", "App.ProjectLocation.getValue()", ParameterMode.Raw));
+                                        de.Click.ExtraParams.Add(new Parameter("organizationId", "App.OrganizationId.getValue()", ParameterMode.Raw));
+                                        de.Click.Success = "resetCreateForm();";
+                                    }),
+                              X.Button()
+                                  .Text("取消")
+                                  .Width(80)
+                                  .Margin(10)
+                                  .ColSpan(1)
+                                  .Icon(Icon.Lightning)
+                                  .FormBind(true)
+                                  .Handler("resetCreateForm();")
+                          )
+                  ),
+
+              X.TreePanel()
+                  .ID("ProjectTreePanel")
+                  .Title("工程项目")
+                  .Expand(true)
+                  .ColumnWidth(0.6)
+                  .Collapsible(true)
+                  .UseArrows(true)
+                  .RootVisible(false)
+                  .MultiSelect(true)
+                  .SingleExpand(true)
+                  .FolderSort(true)
+                  .AutoScroll(true)
+                  .TopBar(Html.X().Toolbar()
+                      .Items(
+                          Html.X().Button()
+                          .Text("新增")
+                          .Icon(Icon.CommentAdd)
+                          .Handler("App.newProject.show();")
+                          //Html.X().Button()
+                          //.Text("删除")
+                          //.Icon(Icon.CommentDelete)
+                          //.DirectEvents(de =>
+                          //{
+                          //    de.Click.Url = Url.Action("DeleteProject");
+                          //    de.Click.ExtraParams.Add(new Parameter("projectId", "App.SupeProjectId.getValue()", ParameterMode.Raw));
+                          //    de.Click.Success = "resetCreateForm();";
+                          //    de.Click.Confirmation.ConfirmRequest = true;
+                          //    de.Click.Confirmation.BeforeConfirm = "config.confirmation.message = '是否确定要删除[' + App.SuperiorProject.getValue() + ']及其子工程'";
+                          //})
+                      )
+                  )
+                  .Fields(
+                        X.ModelField().Name("projectName"),
+                        X.ModelField().Name("projectId"),
+                        X.ModelField().Name("description"),
+                        X.ModelField().Name("projectLocation"),
+                        X.ModelField().Name("organizationName")
+                  )
+                  .ColumnLines(true)
+                  .ColumnModel(    
+                      X.TreeColumn()
+                          .Flex(1)
+                          .Text("工程名")
+                          .DataIndex("projectName"),
+                          
+                      X.Column()
+                          .Width(0)
+                          .Text("工程Id")
+                          .DataIndex("projectId"),
+                          
+                      X.Column()
+                        .Text("备注")
+                        .DataIndex("description"),
+                    
+                      X.Column()
+                          .Text("施工地")
+                          .DataIndex("projectLocation"),   
+                          
+                      X.Column()
+                          .Text("部门")
+                          .DataIndex("organizationName")            
+                  )
+                //.Store(
+                //    Html.X().TreeStore()
+                //        .Proxy(
+                //            Html.X().AjaxProxy()
+                //                .Url(Url.Action("GetProject"))
+                //        )
+                //        //.Root(
+                //        //    Html.X().Node().NodeID("Root")
+                //        //)            
+                //)
+                  .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
+                  .Root(Model)
+                  .TopBarItem(
+                    Html.X().ToolbarTextItem().Text("关键字:"),
+                    Html.X().ToolbarSpacer(),
+                    Html.X().TriggerField()
+                        .EnableKeyEvents(true)
+                        .Triggers(
+                            Html.X().FieldTrigger().Icon(TriggerIcon.Clear)
+                        )
+                        .Listeners(l => {
+                            l.KeyUp.Fn = "filterTree";
+                            l.KeyUp.Buffer = 250;
+
+                            l.TriggerClick.Fn = "clearFilter";
+                        })
+                )
+          ))
+}

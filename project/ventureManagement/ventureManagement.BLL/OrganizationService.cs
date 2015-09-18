@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using VentureManagement.DAL;
 using VentureManagement.IBLL;
 using VentureManagement.IDAL;
@@ -83,6 +84,17 @@ namespace VentureManagement.BLL
         public Organization Find(int organizationId)
         {
             return CurrentRepository.Find(org => org.OrganizationId == organizationId);
+        }
+
+        public IQueryable<Organization> FindList(Expression<Func<Organization, bool>> whereLamdba, string orderName, bool isAsc)
+        {
+            return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
+        }
+
+        public IQueryable<Organization> FindPageList(int pageIndex, int pageSize, out int totalRecord,
+            Expression<Func<Organization, bool>> whereLamdba)
+        {
+            return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, whereLamdba, "OrganizationName", false);
         }
     }
 }

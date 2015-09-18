@@ -1,5 +1,7 @@
-﻿@{
-    ViewBag.Title = "用户管理";
+﻿@using Ext.Net
+@using Ext.Net.MVC
+@{
+    ViewBag.Title = "隐患预警管理";
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
     var X = Html.X();
 }
@@ -173,20 +175,6 @@
                     rowIdx - The row index that was edited
                     colIdx - The column index that was edited
             */
-
-            // Call DirectMethod
-            if (!(e.value === e.originalValue || (Ext.isDate(e.value) && Ext.Date.isEqual(e.value, e.originalValue)))) {
-                Ext.net.DirectMethod.request({
-                    url: '@(Url.Action("Edit"))',
-                    params: {
-                        id: e.record.data.UserId,
-                        field: e.field,
-                        oldValue: e.originalValue,
-                        newValue: e.value,
-                        customer: e.record.data
-                    }
-                });
-            }
         };
 
 
@@ -206,8 +194,8 @@
 {
     @(
         X.GridPanel()
-            .Title("用户列表")
-            .ID("UserGrid")
+            .Title("隐患列表")
+            .ID("ThreatGrid")
             .Frame(true)
             .Height(400)
             .TopBar(
@@ -218,7 +206,7 @@
                             .Icon(Icon.Disk)
                             .DirectEvents(de =>
                             {
-                                de.Click.Url = Url.Action("UpdateUsers");
+                                de.Click.Url = Url.Action("UpdateThreats");
                                 de.Click.ExtraParams.Add(new Parameter
                                 {
                                     Name = "data",
@@ -231,17 +219,17 @@
                         Html.X().Button()
                             .Text("增加")
                             .Icon(Icon.UserAdd)
-                            .Handler("addRecord(App.UserGrid);"),
+                            .Handler("addRecord(App.ThreatGrid);"),
                             
                         Html.X().Button()
                             .Text("删除")
-                            .Icon(Icon.UserAdd)
-                            .Handler("this.up('grid').deleteSelected(); App.UserForm.getForm().reset();")
+                            .Icon(Icon.UserDelete)
+                            .Handler("this.up('grid').deleteSelected(); App.ThreatForm.getForm().reset();")
                         )
                     )
             .Store(
                 Html.X().Store()
-                    .ID("UserGridStore")
+                    .ID("ThreatGridStore")
                     .Proxy(Html.X().AjaxProxy()
                         .Url(Url.Action("Read"))
                         .Reader(Html.X().JsonReader().Root("data"))
@@ -250,10 +238,10 @@
                     .PageSize(15)
                     .Model(
                             Html.X().Model()
-                                .IDProperty("UserId")
+                                .IDProperty("ThreatId")
                                 .Fields(
-                                    Html.X().ModelField().Name("UserId"),
-                                    Html.X().ModelField().Name("UserName"),
+                                    Html.X().ModelField().Name("ThreatId"),
+                                    Html.X().ModelField().Name("ThreatName"),
                                     Html.X().ModelField().Name("DisplayName"),
                                     Html.X().ModelField().Name("Email"),
                                     Html.X().ModelField().Name("Mobile"),
@@ -266,10 +254,10 @@
                     )
                     
             .ColumnModel(
-                Html.X().Column().DataIndex("UserId").Text("Id").Hidden(true),
-                Html.X().ComponentColumn().DataIndex("UserName").Text("用户名").EmptyCellText("不能为空")
+                Html.X().Column().DataIndex("ThreatId").Text("Id").Hidden(true),
+                Html.X().ComponentColumn().DataIndex("ThreatName").Text("隐患名").EmptyCellText("不能为空")
                     .OverOnly(true).Editor(true).Component(Html.X().TextField()
-                    .AllowBlank(false).EmptyText("用户名最少五个字")),
+                    .AllowBlank(false).EmptyText("隐患名最少五个字")),
                 Html.X().ComponentColumn().DataIndex("DisplayName").Text("昵称")
                     .OverOnly(true).Editor(true).Component(Html.X().TextField()),
                     Html.X().ComponentColumn().DataIndex("Email").Text("Email").EmptyCellText("不能为空")
@@ -305,7 +293,7 @@
                     .BeforePageText("页")
                     .AfterPageText("第{0}页")
                     .DisplayInfo(true)
-                    .DisplayMsg("显示用户 {0} - {1} 共 {2}")
-                    .EmptyMsg("没有用户"))
+                    .DisplayMsg("显示隐患 {0} - {1} 共 {2}")
+                    .EmptyMsg("没有隐患"))
     )
 }

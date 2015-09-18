@@ -126,7 +126,9 @@
     <Compile Include="Areas\Member\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Member\Controllers\PermissionController.cs" />
     <Compile Include="Areas\Member\Controllers\UserController.cs" />
+    <Compile Include="Areas\Project\Controllers\ProjectController.cs" />
     <Compile Include="Areas\Project\ProjectAreaRegistration.cs" />
+    <Compile Include="Areas\Threat\Controllers\ThreatCaseController.cs" />
     <Compile Include="Areas\Threat\ThreatAreaRegistration.cs" />
     <Compile Include="Attributes\AccessDeniedAuthorize.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -281,6 +283,8 @@
     <Content Include="Areas\LucenceEngine\Views\Shared\_Pager.cshtml" />
     <Content Include="Areas\LucenceEngine\Views\Alarm\Search.cshtml" />
     <Content Include="Areas\LucenceEngine\Views\FileManage\Index.cshtml" />
+    <Content Include="Areas\Project\Views\Project\Index.cshtml" />
+    <Content Include="Areas\Threat\Views\ThreatCase\Index.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />

@@ -12,6 +12,37 @@
             App.Description.setValue('');
             App.newOrganization.hide();
         };
+
+        var filterTree = function (tf, e) {
+            var tree = this.up("treepanel"),
+                text = tf.getRawValue();
+
+            tree.clearFilter();
+
+            if (Ext.isEmpty(text, false)) {
+                return;
+            }
+
+            if (e.getKey() === Ext.EventObject.ESC) {
+                clearFilter();
+            } else {
+                var re = new RegExp(".*" + text + ".*", "i");
+
+                tree.filterBy(function (node) {
+                    return re.test(node.data.text);
+                });
+            }
+        };
+
+        var clearFilter = function () {
+            var field = this,
+                tree = this.up("treepanel");
+
+            field.setValue("");
+            tree.clearFilter(true);
+            tree.getView().focus();
+        };
+
     </script>
 }
 
@@ -35,7 +66,7 @@
                   .Hidden(true)
                   .ID("newOrganization")
                   .Title("新增部门信息")
-                  .ColumnWidth(0.2)
+                  .ColumnWidth(0.3)
                   .MarginSpec("10 10 10 10")
                   .Defaults(d => {
                                      d.Add(new Parameter("Width", "240"));
@@ -95,8 +126,9 @@
               X.TreePanel()
                   .ID("OrganizationTreePanel")
                   .Title("集团组织结构")
-                  .ColumnWidth(0.7)
-                  .Collapsible(false)
+                  .ColumnWidth(0.6)
+                  .ColumnLines(true)
+                  .Collapsible(true)
                   .UseArrows(true)
                   .RootVisible(true)
                   .MultiSelect(true)
@@ -128,7 +160,7 @@
                       X.ModelField().Name("Description")
                   )
                   .ColumnModel(    
-                      X.TreeColumn()
+                      X.Column()
                           .Flex(0)
                           .Hidden(true)
                           .Text("部门Id")
@@ -139,12 +171,27 @@
                           .Text("部门")
                           .DataIndex("organizationName"),
                     
-                      X.TreeColumn()
+                      X.Column()
                           .Flex(2)
                           .Text("备注")
                           .DataIndex("Description")                  
                   )
                   .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
                   .Root(Model)
+                  .TopBarItem(
+                    Html.X().ToolbarTextItem().Text("关键字:"),
+                    Html.X().ToolbarSpacer(),
+                    Html.X().TriggerField()
+                        .EnableKeyEvents(true)
+                        .Triggers(
+                            Html.X().FieldTrigger().Icon(TriggerIcon.Clear)
+                        )
+                        .Listeners(l => {
+                            l.KeyUp.Fn = "filterTree";
+                            l.KeyUp.Buffer = 250;
+
+                            l.TriggerClick.Fn = "clearFilter";
+                        })
+                )
           ))
 }

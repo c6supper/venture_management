@@ -3,7 +3,7 @@ using VentureManagement.Models;
 
 namespace VentureManagement.DAL
 {
-    public class ProjectRepository : BaseRepository<VMProject>, InterfaceProjectRepository
+    public class ThreatCaseRepository : BaseRepository<ThreatCase>, InterfaceThreatCaseRepository
     {
          
     }
