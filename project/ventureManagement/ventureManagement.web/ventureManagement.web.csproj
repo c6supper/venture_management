@@ -123,6 +123,7 @@
     <Compile Include="Areas\LucenceEngine\Controllers\FileManageController.cs" />
     <Compile Include="Areas\LucenceEngine\LucenceEngineAreaRegistration.cs" />
     <Compile Include="Areas\LucenceEngine\Models\AlarmGridModel.cs" />
+    <Compile Include="Areas\Member\Controllers\MemberBaseController.cs" />
     <Compile Include="Areas\Member\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Member\Controllers\PermissionController.cs" />
     <Compile Include="Areas\Member\Controllers\UserController.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Areas\Threat\Controllers\ThreatCaseController.cs" />
     <Compile Include="Areas\Threat\ThreatAreaRegistration.cs" />
     <Compile Include="Attributes\AccessDeniedAuthorize.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
     <Compile Include="Attributes\AllowAnonymousAttribute.cs" />
@@ -311,10 +313,8 @@
   <ItemGroup>
     <Folder Include="Areas\Member\Content\" />
     <Folder Include="Areas\Member\Models\" />
-    <Folder Include="Areas\Project\Controllers\" />
     <Folder Include="Areas\Project\Models\" />
     <Folder Include="Areas\Project\Views\Shared\" />
-    <Folder Include="Areas\Threat\Controllers\" />
     <Folder Include="Areas\Threat\Models\" />
     <Folder Include="Areas\Threat\Views\Shared\" />
   </ItemGroup>

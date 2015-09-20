@@ -110,6 +110,7 @@ namespace VentureManagement.Models
         }
 
         public virtual ICollection<UserRoleRelation> UserRoleRelations { get; set; }
+        public virtual ICollection<UserOrganizationRelation> UserOrganizationRelations { get; set; }
 
         // ReSharper disable InconsistentNaming
         public const string USER_ADMIN = "master";

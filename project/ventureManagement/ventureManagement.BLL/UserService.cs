@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using Common;
 using VentureManagement.IBLL;
 using VentureManagement.Models;
 using VentureManagement.BLL;
 using VentureManagement.DAL;
+using VentureManagement.IDAL;
 
 namespace VentureManagement.BLL
 {
@@ -17,8 +20,32 @@ namespace VentureManagement.BLL
     /// </summary>
     public class UserService : BaseService<User>, InterfaceUserService
     {
-        public UserService() : base(RepositoryFactory.UserRepository)
+        private readonly List<int> _currentOrgList;
+        public UserService(List<int> currentOrgList)
+            : base(RepositoryFactory.UserRepository)
         {
+            _currentOrgList = currentOrgList;
+            CurrentRepository.EntityFilterEvent += UserFilterEvent;
+        }
+
+        public UserService()
+            : base(RepositoryFactory.UserRepository)
+        {
+        }
+
+        private object UserFilterEvent(object sender, FileterEventArgs e)
+        {
+            var users = e.EventArg as IQueryable<User>;
+            var user = e.EventArg as User;
+
+            if (users != null)
+            {
+                return _currentOrgList.Aggregate(users, (current, orgId) => current.Where(u => u.UserOrganizationRelations.Any(uorgr => uorgr.OrganizationId == orgId)));
+            }
+
+            if (user == null) return null;
+
+            return _currentOrgList.Any(orgId => user.UserOrganizationRelations.Any(u => u.OrganizationId == orgId)) ? user : null;
         }
 
         public override bool Initilization()

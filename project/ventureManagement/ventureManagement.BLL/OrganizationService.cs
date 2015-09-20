@@ -69,7 +69,7 @@ namespace VentureManagement.BLL
             return
                 (CurrentRepository.FindList(u => u.OrganizationName == organization, String.Empty, false)
                     .ToArray()
-                    .SelectMany(org => org.OrganizationRelation)
+                    .SelectMany(org => org.OrganizationRelations)
                     .Any(orgr => orgr.SuperiorDepartmentId == superiorDepartmentId));
         }
 
@@ -77,7 +77,7 @@ namespace VentureManagement.BLL
         {
             return CurrentRepository.FindList(u => u.OrganizationName == organization, String.Empty, false)
                 .ToArray()
-                .FirstOrDefault(org => org.OrganizationRelation
+                .FirstOrDefault(org => org.OrganizationRelations
                     .Any(orgr => orgr.SuperiorDepartmentId == superiorDepartmentId));
         }
 

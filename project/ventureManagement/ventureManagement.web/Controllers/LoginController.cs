@@ -5,6 +5,7 @@ using System.Web.Security;
 using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.BLL;
+using VentureManagement.IBLL;
 using VentureManagement.Models;
 using VentureManagement.Web.Attributes;
 
@@ -13,9 +14,10 @@ namespace VentureManagement.Web.Controllers
     [DirectController(AreaName = "Member", GenerateProxyForOtherControllers = false, IDMode = DirectMethodProxyIDMode.None)]
     public class LoginController : Controller
     {
-        readonly UserService _userService = new UserService();
-        readonly OrganizationService _orgService = new OrganizationService();
-        readonly UserOrganizationRelationService _uorgService = new UserOrganizationRelationService();
+        readonly InterfaceUserService _userService = new UserService();
+        readonly InterfaceOrganizationService _orgService = new OrganizationService();
+        readonly InterfaceOrganizationRelationService _orgrService = new OrganizationRelationService();
+        readonly InterfaceUserOrganizationRelationService _uorgService = new UserOrganizationRelationService();
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -30,7 +32,8 @@ namespace VentureManagement.Web.Controllers
         public ActionResult Login(string txtUsername, string txtPassword, string returnUrl)
         {
 #if DEBUG
-            txtUsername = txtPassword = "master";
+            if (string.IsNullOrEmpty(txtUsername))
+                txtUsername = txtPassword = "master";
 #endif
             // Validate the user login.
             if (Membership.ValidateUser(txtUsername, txtPassword))
@@ -39,8 +42,15 @@ namespace VentureManagement.Web.Controllers
                 FormsAuthentication.SetAuthCookie(txtUsername, false);
 
                 Session["User"] = _userService.Find(txtUsername);
-                Session["Organization"] = _uorgService.FindList(txtUsername).First().Organization;
-
+                var orgs = _uorgService.FindList(txtUsername).Select(uorg=>uorg.Organization).ToList();
+                Session["Organization"] = orgs;
+                var currentOrgList = new List<int>();
+                foreach (var org in orgs)
+                {
+                    currentOrgList.Add(org.OrganizationId);
+                    currentOrgList.AddRange(_orgrService.GetChildrenOrgList(org.OrganizationName));
+                }
+                Session["currentOrgList"] = currentOrgList;
                 // Redirect to the secure area.
                 if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                     && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))

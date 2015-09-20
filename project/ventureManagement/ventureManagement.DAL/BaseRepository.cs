@@ -26,6 +26,8 @@ namespace VentureManagement.DAL
             return MContext.Database.BeginTransaction();
         }
 
+        public event FilterEvent EntityFilterEvent;
+
         public T Add(T entity)
         {
             MContext.Set<T>().Add(entity);
@@ -35,7 +37,11 @@ namespace VentureManagement.DAL
 
         public int Count(Expression<Func<T, bool>> predicate)
         {
-            return MContext.Set<T>().Count(predicate);
+            var users = MContext.Set<T>().Where(predicate);
+            if (EntityFilterEvent != null)
+                users = EntityFilterEvent(this, new FileterEventArgs(users)) as IQueryable<T>;
+
+            return users.Count();
         }
 
         public bool Update(T entity)
@@ -54,18 +60,28 @@ namespace VentureManagement.DAL
 
         public bool Exist(Expression<Func<T, bool>> anyLambda)
         {
-            return MContext.Set<T>().Any(anyLambda);
+            var entity = MContext.Set<T>().FirstOrDefault<T>(anyLambda);
+            if (EntityFilterEvent != null)
+                entity = EntityFilterEvent(this, new FileterEventArgs(entity)) as T;
+
+            return entity!=null;
         }
 
         public T Find(Expression<Func<T, bool>> whereLambda)
         {
             T entity = MContext.Set<T>().FirstOrDefault<T>(whereLambda);
+
+            if (EntityFilterEvent != null)
+                entity = EntityFilterEvent(this, new FileterEventArgs(entity)) as T;
+
             return entity;
         }
 
         public IQueryable<T> FindList(Expression<Func<T, bool>> whereLamdba, string orderName, bool isAsc)
         {
             var list = MContext.Set<T>().Where(whereLamdba);
+            if (EntityFilterEvent != null)
+                list = EntityFilterEvent(this, new FileterEventArgs(list)) as IQueryable<T>;
             list = OrderBy(list, orderName, isAsc);
             return list;
         }
@@ -73,6 +89,8 @@ namespace VentureManagement.DAL
         public IQueryable<T> FindPageList(int pageIndex, int pageSize, out int totalRecord, Expression<Func<T, bool>> whereLamdba, string orderName, bool isAsc)
         {
             var list = MContext.Set<T>().Where<T>(whereLamdba);
+            if (EntityFilterEvent != null)
+                list = EntityFilterEvent(this, new FileterEventArgs(list)) as IQueryable<T>;
             totalRecord = list.Count();
             list = OrderBy(list, orderName, isAsc).Skip<T>((pageIndex - 1) * pageSize).Take<T>(pageSize);
             return list;

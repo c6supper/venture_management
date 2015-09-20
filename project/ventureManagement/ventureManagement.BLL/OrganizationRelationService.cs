@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using VentureManagement.IBLL;
@@ -78,5 +79,20 @@ namespace VentureManagement.BLL
 #endif
         }
 
+        public List<int> GetChildrenOrgList(string org)
+        {
+            var childrenList = new List<int>();
+
+            foreach (var orgr in CurrentRepository.FindList(orgr => orgr.SuperiorDepartment.OrganizationName == org,
+                "OrganizationRelationId", false).ToArray())
+            {
+                if (orgr.SubordinateDepartment != null)
+                    childrenList.AddRange(GetChildrenOrgList(orgr.SubordinateDepartment.OrganizationName));
+
+                childrenList.Add(orgr.SubordinateDepartmentId);
+            }
+
+            return childrenList;
+        }
     }
 }

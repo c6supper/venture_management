@@ -15,12 +15,8 @@ using VentureManagement.Web.Attributes;
 namespace VentureManagement.Web.Areas.Member.Controllers
 {
     [AccessDeniedAuthorize(Roles = Role.PERIMISSION_USER_WRITE+","+Role.PERIMISSION_ORGANIZATION_READ)]
-    public class UserController : Controller
+    public class UserController : MemberBaseController
     {
-        readonly InterfaceUserService _userService = new UserService();
-        readonly InterfaceRoleRelationService _userRoleRelationService = new UserRoleRelationService();
-        readonly InterfaceUserOrganizationRelationService _userOrgRelationService = new UserOrganizationRelationService();
-
         public ActionResult Index()
         {
             return View();

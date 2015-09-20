@@ -26,7 +26,7 @@ namespace VentureManagement.Models
 
         public virtual ICollection<OrganizationRoleRelation> OrganizationRoleRelations { get; set; }
 
-        public virtual ICollection<OrganizationRelation> OrganizationRelation { get; set; }
+        public virtual ICollection<OrganizationRelation> OrganizationRelations { get; set; }
 
         // ReSharper disable once InconsistentNaming
         public const string ORGANIZATION_STSTEM = "系统管理部门";

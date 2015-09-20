@@ -69,7 +69,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
             //foreach (var createdThreatCase in threatCases.Created)
             //{
-            //    if(!TryValidateModel(createdThreatCase))
+            //    if (!TryValidateModel(createdThreatCase))
             //    {
             //        var record = store.GetById(createdThreatCase.ThreatCaseId);
             //        X.Msg.Alert("", ThreatCase.VALIDATION_MESSAGE).Show();

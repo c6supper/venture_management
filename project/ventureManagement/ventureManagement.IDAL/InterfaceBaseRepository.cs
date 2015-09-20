@@ -13,6 +13,7 @@ namespace VentureManagement.IDAL
     /// <typeparam name="T">类型</typeparam>
     public interface InterfaceBaseRepository<T>
     {
+        event FilterEvent EntityFilterEvent;
         /// <summary>
         /// 添加
         /// </summary>
@@ -79,5 +80,17 @@ namespace VentureManagement.IDAL
         IQueryable<T> FindPageList(int pageIndex, int pageSize, out int totalRecord, Expression<Func<T, bool>> whereLamdba, string orderName, bool isAsc);
 
         DbContextTransaction BeginTransaction();
+    }
+
+    public delegate object FilterEvent(object sender, FileterEventArgs e);
+
+    public class FileterEventArgs : EventArgs
+    {
+        public object EventArg { get; set; }
+        public FileterEventArgs(object obj)
+            : base()
+        {
+            EventArg = obj;
+        }
     }
 }

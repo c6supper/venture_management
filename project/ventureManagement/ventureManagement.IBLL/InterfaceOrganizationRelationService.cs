@@ -9,5 +9,6 @@ namespace VentureManagement.IBLL
 {
     public interface InterfaceOrganizationRelationService : InterfaceBaseService<OrganizationRelation>
     {
+        List<int> GetChildrenOrgList(string org);
     }
 }
