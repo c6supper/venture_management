@@ -132,6 +132,7 @@
     <Compile Include="Areas\Project\ProjectAreaRegistration.cs" />
     <Compile Include="Areas\Threat\Controllers\ThreatBaseController.cs" />
     <Compile Include="Areas\Threat\Controllers\ThreatCaseController.cs" />
+    <Compile Include="Areas\Threat\Controllers\ThreatCorrectionTemplateController.cs" />
     <Compile Include="Areas\Threat\ThreatAreaRegistration.cs" />
     <Compile Include="Attributes\AccessDeniedAuthorize.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -160,7 +161,9 @@
     <Content Include="Areas\config.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Areas\Threat\Content\CorrectionDataBase.xml" />
+    <Content Include="Areas\Threat\Content\CorrectionTemplate.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ReferenceAssemblies\ICSharpCode.SharpZipLib.dll" />
@@ -290,6 +293,7 @@
     <Content Include="Areas\LucenceEngine\Views\FileManage\Index.cshtml" />
     <Content Include="Areas\Project\Views\Project\Index.cshtml" />
     <Content Include="Areas\Threat\Views\ThreatCase\Index.cshtml" />
+    <Content Include="Areas\Threat\Views\ThreatCorrectionTemplate\Index.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />
