@@ -295,6 +295,11 @@
             .Plugins(
                     X.FilterHeader()
                 )
+            .Listeners(l =>
+                {
+                    l.AfterRender.Handler = "this.filterHeader.fields[0].setIconCls('#Magnifier')";
+                    l.AfterRender.Delay = 10;
+                })
             .SelectionModel(
                 X.CheckboxSelectionModel()                
                 .Mode(SelectionMode.Multi)

@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alarm.cs" />
+    <Compile Include="ThreatCorrection.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="OrganizationRelation.cs" />
     <Compile Include="OrganizationRoleRelation.cs" />
@@ -63,6 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\CorrectionDataBaseTemplate.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

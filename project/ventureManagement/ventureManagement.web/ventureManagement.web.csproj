@@ -158,6 +158,7 @@
     <Content Include="Areas\config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Areas\Threat\Content\CorrectionDataBase.xml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ReferenceAssemblies\ICSharpCode.SharpZipLib.dll" />

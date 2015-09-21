@@ -86,9 +86,9 @@
                     .PageSize(15)
                     .Model(
                             Html.X().Model()
-                                .IDProperty("ThreatId")
+                                .IDProperty("ThreatCaseId")
                                 .Fields(
-                                    Html.X().ModelField().Name("ThreatId"),
+                                    Html.X().ModelField().Name("ThreatCaseId"),
                                     Html.X().ModelField().Name("ThreatName"),
                                     Html.X().ModelField().Name("DisplayName"),
                                     Html.X().ModelField().Name("Email"),
@@ -139,5 +139,10 @@
                     .DisplayInfo(true)
                     .DisplayMsg("显示隐患预警 {0} - {1} 共 {2}")
                     .EmptyMsg("没有隐患预警"))
+             .Listeners(l =>
+                {
+                    l.AfterRender.Handler = "this.filterHeader.fields[0].setIconCls('#Magnifier')";
+                    l.AfterRender.Delay = 10;
+                })
     )
 }
