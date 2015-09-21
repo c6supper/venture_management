@@ -80,9 +80,16 @@ namespace VentureManagement.Web.Areas.Member.Controllers
 
         private Node GetOrganization()
         {
-            var org = Session["Organization"] as Organization;
+            var orgs = Session["Organization"] as List<Organization>;
+            var root = new Node();
 
-            return org != null ? RecursiveAddNode(org) : new Node();
+            if (orgs == null) return root;
+            foreach (var org in orgs)
+            {
+                root.Children.Add(RecursiveAddNode(org));
+            }
+
+            return root;
         }
 
         public ActionResult CreateOrganization(int superiorDepartmentId, string subordinateDepartment,string description)
