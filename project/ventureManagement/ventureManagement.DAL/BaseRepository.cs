@@ -41,7 +41,7 @@ namespace VentureManagement.DAL
             if (EntityFilterEvent != null)
                 users = EntityFilterEvent(this, new FileterEventArgs(users)) as IQueryable<T>;
 
-            return users.Count();
+            return users != null ? users.Count() : 0;
         }
 
         public bool Update(T entity)
@@ -88,9 +88,11 @@ namespace VentureManagement.DAL
 
         public IQueryable<T> FindPageList(int pageIndex, int pageSize, out int totalRecord, Expression<Func<T, bool>> whereLamdba, string orderName, bool isAsc)
         {
+            totalRecord = 0;
             var list = MContext.Set<T>().Where<T>(whereLamdba);
             if (EntityFilterEvent != null)
                 list = EntityFilterEvent(this, new FileterEventArgs(list)) as IQueryable<T>;
+            if (list == null) return null;
             totalRecord = list.Count();
             list = OrderBy(list, orderName, isAsc).Skip<T>((pageIndex - 1) * pageSize).Take<T>(pageSize);
             return list;

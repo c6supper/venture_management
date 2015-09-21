@@ -27,9 +27,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
 
         protected MemberBaseController()
         {
-            var currentOrgList = System.Web.HttpContext.Current.Session["currentOrgList"] as List<int>;
-
-            _userService = new UserService(currentOrgList);
+            _userService = new UserService(_currentOrgList);
         }
 
     }

@@ -22,6 +22,5 @@ namespace VentureManagement.Web.Controllers
             _currentUser = System.Web.HttpContext.Current.Session["User"] as User;
             _currentOrgList = System.Web.HttpContext.Current.Session["currentOrgList"] as List<int>;
         }
-
     }
 }

@@ -36,16 +36,9 @@ namespace VentureManagement.BLL
         private object UserFilterEvent(object sender, FileterEventArgs e)
         {
             var users = e.EventArg as IQueryable<User>;
-            var user = e.EventArg as User;
 
-            if (users != null)
-            {
-                return _currentOrgList.Aggregate(users, (current, orgId) => current.Where(u => u.UserOrganizationRelations.Any(uorgr => uorgr.OrganizationId == orgId)));
-            }
-
-            if (user == null) return null;
-
-            return _currentOrgList.Any(orgId => user.UserOrganizationRelations.Any(u => u.OrganizationId == orgId)) ? user : null;
+            return _currentOrgList.Aggregate(users, (current, orgId) => 
+                current.Where(u => u.UserOrganizationRelations.Any(uorgr => uorgr.OrganizationId == orgId)).Concat(current));
         }
 
         public override bool Initilization()
