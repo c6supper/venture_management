@@ -38,7 +38,7 @@ namespace VentureManagement.BLL
             var users = e.EventArg as IQueryable<User>;
 
             return _currentOrgList.Aggregate(users, (current, orgId) => 
-                current.Where(u => u.UserOrganizationRelations.Any(uorgr => uorgr.OrganizationId == orgId)).Concat(current));
+                current.Where(u => u.UserOrganizationRelations.Any(uorgr => uorgr.OrganizationId == orgId)).Concat(current)).Distinct();
         }
 
         public override bool Initilization()

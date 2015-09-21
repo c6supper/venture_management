@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
-using VentureManagement.BLL;
-using VentureManagement.IBLL;
 using VentureManagement.Models;
 using VentureManagement.Web.Areas.Member.Controllers;
 using VentureManagement.Web.Attributes;
@@ -31,7 +25,7 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             return this.Store(orgs.Data, orgs.TotalRecords);
         }
 
-        private Node RecursiveAddNode(VentureManagement.Models.VMProject project)
+        private Node RecursiveAddNode(VMProject project)
         {
             var node = new Node
             {
@@ -97,7 +91,7 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                 return this.Direct();
             }
 
-            var project = new VentureManagement.Models.VMProject
+            var project = new VMProject
             {
                 ProjectName = subProject,
                 Description = description,

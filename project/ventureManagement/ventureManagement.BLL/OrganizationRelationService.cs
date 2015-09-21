@@ -31,7 +31,7 @@ namespace VentureManagement.BLL
             var orgrs = e.EventArg as IQueryable<OrganizationRelation>;
 
             return _currentOrgList.Aggregate(orgrs, (current, orgId) =>
-                current.Where(orgr => orgr.SubordinateDepartment.OrganizationId == orgId).Concat(current));
+                current.Where(orgr => orgr.SuperiorDepartmentId == orgId).Concat(current)).Distinct();
         }
 
         public IQueryable<OrganizationRelation> FindList(string organization)

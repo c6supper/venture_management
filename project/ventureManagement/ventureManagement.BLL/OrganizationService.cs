@@ -30,7 +30,7 @@ namespace VentureManagement.BLL
             var orgs = e.EventArg as IQueryable<Organization>;
 
             return _currentOrgList.Aggregate(orgs, (current, orgId) =>
-                current.Where(org=>org.OrganizationId == orgId).Concat(current));
+                current.Where(org => org.OrganizationId == orgId).Concat(current)).Distinct();
         }
 
         public override bool Initilization()
