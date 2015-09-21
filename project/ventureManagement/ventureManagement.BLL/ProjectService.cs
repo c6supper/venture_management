@@ -30,7 +30,7 @@ namespace VentureManagement.BLL
             var vmps = e.EventArg as IQueryable<VMProject>;
 
             return _currentOrgList.Aggregate(vmps, (current, orgId) =>
-                current.Where(vmp => vmp.OrganizationId == orgId).Concat(current));
+                current.Where(vmp => vmp.OrganizationId == orgId).Concat(current).Distinct());
         }
 
         public bool Exist(string project, int? superProjectId)

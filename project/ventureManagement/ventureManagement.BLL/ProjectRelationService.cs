@@ -23,13 +23,13 @@ namespace VentureManagement.BLL
             : base(RepositoryFactory.ProjectRelationRepository)
         {
         }
-
+        
         private object ProjectRelationFilterEvent(object sender, FileterEventArgs e)
         {
             var prs = e.EventArg as IQueryable<ProjectRelation>;
 
             return _currentOrgList.Aggregate(prs, (current, orgId) =>
-               current.Where(pr => pr.SuperProject.OrganizationId == orgId).Concat(current));
+               current.Where(pr => pr.SuperProject.OrganizationId == orgId).Concat(current).Distinct());
         }
 
         public IQueryable<ProjectRelation> FindList(string projectName)

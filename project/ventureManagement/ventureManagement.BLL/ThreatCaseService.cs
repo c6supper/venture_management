@@ -29,7 +29,7 @@ namespace VentureManagement.BLL
             var tcs = e.EventArg as IQueryable<ThreatCase>;
 
             return _currentOrgList.Aggregate(tcs, (current, orgId) =>
-                current.Where(tc => tc.Project.OrganizationId == orgId).Concat(current));
+                current.Where(tc => tc.Project.OrganizationId == orgId).Concat(current).Distinct());
         }
 
         public bool Exist(int threatCaseId) { return CurrentRepository.Exist(t => t.ThreatCaseId == threatCaseId); }
