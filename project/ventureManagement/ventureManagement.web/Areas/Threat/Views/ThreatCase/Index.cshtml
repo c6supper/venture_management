@@ -71,7 +71,7 @@
                         Html.X().Button()
                             .Text("增加")
                             .Icon(Icon.UserAdd)
-                            .Handler("addRecord(App.ThreatGrid);")
+                            .Handler("addRecord(App.ThreatGridStore);")
                             
                         )
                     )
@@ -86,47 +86,33 @@
                     .PageSize(15)
                     .Model(
                             Html.X().Model()
-                                .IDProperty("ThreatCaseId")
+                                .IDProperty("ThreatCaseGrid")
                                 .Fields(
                                     Html.X().ModelField().Name("ThreatCaseId"),
-                                    Html.X().ModelField().Name("ThreatName"),
-                                    Html.X().ModelField().Name("DisplayName"),
-                                    Html.X().ModelField().Name("Email"),
-                                    Html.X().ModelField().Name("Mobile"),
-                                    Html.X().ModelField().Name("RegistrationTime").Type(ModelFieldType.Date),
-                                    Html.X().ModelField().Name("LoginTime").Type(ModelFieldType.Date),
-                                    Html.X().ModelField().Name("LoginIP"),
-                                    Html.X().ModelField().Name("Status")
+                                    Html.X().ModelField().Name("ProjectName"),
+                                    Html.X().ModelField().Name("ThreatCaseLocation"),
+                                    Html.X().ModelField().Name("ThreatCaseCategory"),
+                                    Html.X().ModelField().Name("ThreatCaseType"),
+                                    Html.X().ModelField().Name("ThreatCaseSeverity"),
+                                    Html.X().ModelField().Name("ThreatCaseFoundTime").Type(ModelFieldType.Date),
+                                    Html.X().ModelField().Name("ThreatCaseStatus")
                                 )
                             )
                     )
                     
             .ColumnModel(
-                Html.X().Column().DataIndex("ThreatId").Text("Id").Hidden(true),
-                Html.X().ComponentColumn().DataIndex("ThreatName").Text("隐患名").EmptyCellText("不能为空")
-                    .OverOnly(true).Editor(true).Component(Html.X().TextField()
-                    .AllowBlank(false).EmptyText("隐患名最少五个字")),
-                Html.X().ComponentColumn().DataIndex("DisplayName").Text("昵称")
+                Html.X().Column().DataIndex("ThreatCaseId").Text("Id").Hidden(true),
+                Html.X().ComponentColumn().DataIndex("ProjectName").Text("工程项目")
                     .OverOnly(true).Editor(true).Component(Html.X().TextField()),
-                    Html.X().ComponentColumn().DataIndex("Email").Text("Email").EmptyCellText("不能为空")
-                    .OverOnly(true).Editor(true).Component(Html.X().TextField()
-                        .AllowBlank(false).StandardVtype(ValidationType.Email)),
-                Html.X().ComponentColumn().DataIndex("Mobile").Text("手机号").EmptyCellText("不能为空")
-                    .OverOnly(true).Editor(true).Component(Html.X().TextField()
-                        .AllowBlank(false).StandardVtype(ValidationType.AlphaNum)),
-                Html.X().DateColumn().DataIndex("RegistrationTime").Text("注册时间").Format("yyyy-MM-dd"),
+                Html.X().ComponentColumn().DataIndex("ThreatCaseLocation").Text("隐患地点")
+                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
+                    Html.X().ComponentColumn().DataIndex("ThreatCaseCategory").Text("隐患大类")
+                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
+                Html.X().ComponentColumn().DataIndex("ThreatCaseType").Text("隐患小类")
+                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
+                Html.X().DateColumn().DataIndex("ThreatCaseFoundTime").Text("隐患上报时间").Format("yyyy-MM-dd"),
                 Html.X().DateColumn().DataIndex("LoginTime").Text("最近登录时间").Format("yyyy-MM-dd"),
-                Html.X().Column().DataIndex("LoginIP").Text("最近登录的IP"),
-                Html.X().ComponentColumn().DataIndex("Status").Text("状态")
-                    .UnpinEvents("collapse").PinEvents("expand")
-                    .OverOnly(true).Editor(true).Component(Html.X().ComboBox()
-                        .Items(
-                                    new ListItem("未验证"),
-                                    new ListItem("管理员未确认"),
-                                    new ListItem("锁定"),
-                                    new ListItem("已验证")
-                                )
-                    ))
+                Html.X().Column().DataIndex("ThreatCaseStatus").Text("状态"))
                     
             .Plugins(
                     X.FilterHeader()
