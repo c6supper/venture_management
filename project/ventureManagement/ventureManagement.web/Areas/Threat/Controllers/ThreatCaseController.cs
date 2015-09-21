@@ -15,10 +15,8 @@ using VentureManagement.Web.Attributes;
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
     [AccessDeniedAuthorize(Roles = Role.PERIMISSION_THREATCASE_WRITE + "," + Role.PERIMISSION_THREATCASE_READ)]
-    public class ThreatCaseController : Controller
+    public class ThreatCaseController : ThreatBaseController
     {
-        readonly InterfaceThreatCaseService _threatCaseService = new ThreatCaseService();
-
         public ActionResult Index()
         {
             return View();

@@ -54,7 +54,7 @@
                         .ID("ComboBoxCity")
                         .TypeAhead(true)
                         .QueryMode(DataLoadMode.Local)
-                        .ForceSelection(true)
+                        .ForceSelection(false)
                         .TriggerAction(TriggerAction.All)
                         .DisplayField("name")
                         .ValueField("id")
@@ -80,12 +80,12 @@
                 X.Button()
                     .ID("SaveButton")
                     .Text("Save")
-                    .Disabled(true)
+                    .Disabled(false)
                     .DirectEvents(de => {
                         de.Click.Url = Url.Action("UploadClick");
                         de.Click.FormID = "fileUpload";
                         de.Click.Before = @"if (!#{BasicForm}.getForm().isValid()) { return false; } 
-                            Ext.Msg.wait('Uploading your photo...', 'Uploading');";
+                            Ext.Msg.wait('Uploading your file...', 'Uploading');";
                         de.Click.Failure = @"Ext.Msg.show({ 
                                 title   : 'Error', 
                                 msg     : 'Error during uploading', 

@@ -15,10 +15,8 @@ using VentureManagement.Web.Attributes;
 namespace VentureManagement.Web.Areas.Member.Controllers
 {
     [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE + "," + Role.PERIMISSION_ORGANIZATION_READ)]
-    public class OrganizationController : Controller
+    public class OrganizationController : MemberBaseController
     {
-        readonly OrganizationService _orgSerivce = new OrganizationService();
-        readonly OrganizationRelationService _orgrService = new OrganizationRelationService();
         //
         // GET: /Member/Organization/
         public ActionResult Index()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,9 +12,25 @@ namespace VentureManagement.BLL
 {
     public class OrganizationService : BaseService<Organization>, InterfaceOrganizationService
     {
+        private readonly List<int> _currentOrgList;
+        public OrganizationService(List<int> currentOrgList)
+            : base(RepositoryFactory.OrganizationRepository)
+        {
+            _currentOrgList = currentOrgList;
+            CurrentRepository.EntityFilterEvent += OrganizationFilterEvent;
+        }
+
         public OrganizationService()
             : base(RepositoryFactory.OrganizationRepository)
         {
+        }
+
+        private object OrganizationFilterEvent(object sender, FileterEventArgs e)
+        {
+            var orgs = e.EventArg as IQueryable<Organization>;
+
+            return _currentOrgList.Aggregate(orgs, (current, orgId) =>
+                current.Where(org=>org.OrganizationId == orgId).Concat(current));
         }
 
         public override bool Initilization()
@@ -63,7 +80,7 @@ namespace VentureManagement.BLL
             return CurrentRepository.Find(u => u.OrganizationName == organization);
         }
 #endif
-
+        
         public bool Exist(string organization,int superiorDepartmentId)
         {
             return
@@ -72,7 +89,7 @@ namespace VentureManagement.BLL
                     .SelectMany(org => org.OrganizationRelations)
                     .Any(orgr => orgr.SuperiorDepartmentId == superiorDepartmentId));
         }
-
+        
         public Organization Find(string organization, int superiorDepartmentId)
         {
             return CurrentRepository.FindList(u => u.OrganizationName == organization, String.Empty, false)

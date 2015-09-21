@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using VentureManagement.DAL;
@@ -10,9 +11,25 @@ namespace VentureManagement.BLL
 {
     public class ThreatCaseService : BaseService<ThreatCase>, InterfaceThreatCaseService
     {
+        private readonly List<int> _currentOrgList;
+        public ThreatCaseService(List<int> currentOrgList)
+            : base(RepositoryFactory.ThreatCaseRepository)
+        {
+            _currentOrgList = currentOrgList;
+            CurrentRepository.EntityFilterEvent += ThreatCaseFilterEvent;
+        }
+
         public ThreatCaseService()
             : base(RepositoryFactory.ThreatCaseRepository)
         {
+        }
+
+        private object ThreatCaseFilterEvent(object sender, FileterEventArgs e)
+        {
+            var tcs = e.EventArg as IQueryable<ThreatCase>;
+
+            return _currentOrgList.Aggregate(tcs, (current, orgId) =>
+                current.Where(tc => tc.Project.OrganizationId == orgId).Concat(current));
         }
 
         public bool Exist(int threatCaseId) { return CurrentRepository.Exist(t => t.ThreatCaseId == threatCaseId); }

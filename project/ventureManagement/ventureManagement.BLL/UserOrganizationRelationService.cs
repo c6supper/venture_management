@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using VentureManagement.DAL;
@@ -13,9 +14,25 @@ namespace VentureManagement.BLL
         private readonly UserService _userService = new UserService();
         private readonly OrganizationService _organizationService = new OrganizationService();
 
+        private readonly List<int> _currentOrgList;
+        public UserOrganizationRelationService(List<int> currentOrgList)
+            : base(RepositoryFactory.UserOrganizationRelationRepository)
+        {
+            _currentOrgList = currentOrgList;
+            CurrentRepository.EntityFilterEvent += UserOrganizationRelationFilterEvent;
+        }
+
         public UserOrganizationRelationService()
             : base(RepositoryFactory.UserOrganizationRelationRepository)
         {
+        }
+
+        private object UserOrganizationRelationFilterEvent(object sender, FileterEventArgs e)
+        {
+            var uors = e.EventArg as IQueryable<UserOrganizationRelation>;
+
+            return _currentOrgList.Aggregate(uors, (current, orgId) =>
+                current.Where(uor => uor.OrganizationId == orgId).Concat(current));
         }
 
         public override bool Initilization()

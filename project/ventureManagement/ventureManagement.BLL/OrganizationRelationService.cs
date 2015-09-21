@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using VentureManagement.IBLL;
 using VentureManagement.DAL;
+using VentureManagement.IDAL;
 using VentureManagement.Models;
 
 namespace VentureManagement.BLL
@@ -12,9 +13,25 @@ namespace VentureManagement.BLL
     {
         readonly OrganizationService _organizationService = new OrganizationService();
 
+        private readonly List<int> _currentOrgList;
+        public OrganizationRelationService(List<int> currentOrgList)
+            : base(RepositoryFactory.OrganizationRelationRepository)
+        {
+            _currentOrgList = currentOrgList;
+            CurrentRepository.EntityFilterEvent += OrganizationRelationFilterEvent;
+        }
+
         public OrganizationRelationService()
             : base(RepositoryFactory.OrganizationRelationRepository)
         {
+        }
+
+        private object OrganizationRelationFilterEvent(object sender, FileterEventArgs e)
+        {
+            var orgrs = e.EventArg as IQueryable<OrganizationRelation>;
+
+            return _currentOrgList.Aggregate(orgrs, (current, orgId) =>
+                current.Where(orgr => orgr.SubordinateDepartment.OrganizationId == orgId).Concat(current));
         }
 
         public IQueryable<OrganizationRelation> FindList(string organization)

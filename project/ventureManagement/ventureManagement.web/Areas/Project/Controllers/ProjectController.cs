@@ -15,14 +15,10 @@ using VentureManagement.Web.Attributes;
 namespace VentureManagement.Web.Areas.Project.Controllers
 {
     [AccessDeniedAuthorize(Roles = Role.PERIMISSION_PROJECT_WRITE + "," + Role.PERIMISSION_PROJECT_READ)]
-    public class ProjectController : Controller
+    public class ProjectController : ProjectBaseController
     {
         //
         // GET: /Project/Project/
-
-        private readonly InterfaceProjectService _projectService = new ProjectService();
-        private readonly InterfaceProjectRelationService _projectRelationService = new ProjectRelationService();
-
         public ActionResult Index()
         {
             return View(GetProject());

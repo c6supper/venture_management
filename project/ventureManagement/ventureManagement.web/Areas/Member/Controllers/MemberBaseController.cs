@@ -19,15 +19,18 @@ namespace VentureManagement.Web.Areas.Member.Controllers
         // GET: /Member/MemberBase/
 
         protected readonly InterfaceUserService _userService;
-        protected readonly InterfaceOrganizationService _orgSerivce = new OrganizationService();
+        protected readonly InterfaceOrganizationService _orgSerivce;
         protected readonly InterfaceRoleService _roleSerivce = new RoleService();
-        protected readonly InterfaceOrganizationRelationService _orgrService = new OrganizationRelationService();
+        protected readonly InterfaceOrganizationRelationService _orgrService;
         protected readonly InterfaceRoleRelationService _userRoleRelationService = new UserRoleRelationService();
-        protected readonly InterfaceUserOrganizationRelationService _userOrgRelationService = new UserOrganizationRelationService();
+        protected readonly InterfaceUserOrganizationRelationService _userOrgRelationService;
 
         protected MemberBaseController()
         {
             _userService = new UserService(_currentOrgList);
+            _orgSerivce = new OrganizationService(_currentOrgList);
+            _orgrService = new OrganizationRelationService(_currentOrgList);
+            _userOrgRelationService = new UserOrganizationRelationService(_currentOrgList);
         }
 
     }

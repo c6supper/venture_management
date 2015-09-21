@@ -100,6 +100,7 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
         {
             if (!System.IO.Directory.Exists(_filesDir))
             {
+                System.IO.Directory.CreateDirectory(_filesDir);
                 return;
             }
 
