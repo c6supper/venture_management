@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using VentureManagement.DAL;
@@ -60,21 +61,23 @@ namespace VentureManagement.DAL
 
         public bool Exist(Expression<Func<T, bool>> anyLambda)
         {
-            var entity = MContext.Set<T>().FirstOrDefault<T>(anyLambda);
-            if (EntityFilterEvent != null)
-                entity = EntityFilterEvent(this, new FileterEventArgs(entity)) as T;
+            var entity = MContext.Set<T>().Where(anyLambda);
 
-            return entity!=null;
+            if (EntityFilterEvent != null)
+                entity = EntityFilterEvent(this, new FileterEventArgs(entity)) as IQueryable<T>;
+
+            Debug.Assert(entity != null, "entity != null");
+            return entity.Any();
         }
 
         public T Find(Expression<Func<T, bool>> whereLambda)
         {
-            T entity = MContext.Set<T>().FirstOrDefault<T>(whereLambda);
+            var entity = MContext.Set<T>().Where(whereLambda);
 
             if (EntityFilterEvent != null)
-                entity = EntityFilterEvent(this, new FileterEventArgs(entity)) as T;
+                entity = EntityFilterEvent(this, new FileterEventArgs(entity)) as IQueryable<T>;
 
-            return entity;
+            return entity != null ? entity.FirstOrDefault() : null;
         }
 
         public IQueryable<T> FindList(Expression<Func<T, bool>> whereLamdba, string orderName, bool isAsc)

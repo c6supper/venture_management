@@ -28,9 +28,15 @@ namespace VentureManagement.BLL
         private object ProjectFilterEvent(object sender, FileterEventArgs e)
         {
             var vmps = e.EventArg as IQueryable<VMProject>;
+            Debug.Assert(vmps != null, "vmps != null");
 
-            return _currentOrgList.Aggregate(vmps, (current, orgId) =>
-                current.Where(vmp => vmp.OrganizationId == orgId).Concat(current).Distinct());
+            var filteredVMProject = new List<VMProject>();
+            foreach (var orgId in _currentOrgList)
+            {
+                filteredVMProject.AddRange(vmps.Where(vmp => vmp.OrganizationId == orgId));
+            }
+
+            return filteredVMProject.AsQueryable();
         }
 
         public bool Exist(string project, int? superProjectId)

@@ -27,9 +27,15 @@ namespace VentureManagement.BLL
         private object ProjectRelationFilterEvent(object sender, FileterEventArgs e)
         {
             var prs = e.EventArg as IQueryable<ProjectRelation>;
+            Debug.Assert(prs != null, "prs != null");
 
-            return _currentOrgList.Aggregate(prs, (current, orgId) =>
-               current.Where(pr => pr.SuperProject.OrganizationId == orgId).Concat(current).Distinct());
+            var filteredProjectRelation = new List<ProjectRelation>();
+            foreach (var orgId in _currentOrgList)
+            {
+                filteredProjectRelation.AddRange(prs.Where(pr => pr.SuperProject.OrganizationId == orgId));
+            }
+
+            return filteredProjectRelation.AsQueryable();
         }
 
         public IQueryable<ProjectRelation> FindList(string projectName)

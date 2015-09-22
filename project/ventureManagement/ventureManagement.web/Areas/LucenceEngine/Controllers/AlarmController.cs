@@ -101,6 +101,13 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
             if (!System.IO.Directory.Exists(_filesDir))
             {
                 System.IO.Directory.CreateDirectory(_filesDir);
+                System.IO.Directory.CreateDirectory(Path.Combine(_filesDir, "法律及法规"));
+                System.IO.Directory.CreateDirectory(Path.Combine(_filesDir, "法律及法规/国家"));
+                System.IO.Directory.CreateDirectory(Path.Combine(_filesDir, "法律及法规/行业"));
+                System.IO.Directory.CreateDirectory(Path.Combine(_filesDir, "法律及法规/地方"));
+
+                System.IO.Directory.CreateDirectory(Path.Combine(_filesDir, "企业内部管理制度"));
+
                 return;
             }
 
