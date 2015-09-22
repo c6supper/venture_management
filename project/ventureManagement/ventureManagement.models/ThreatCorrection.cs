@@ -1,72 +1,85 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Xml.Serialization;
 
 namespace VentureManagement.Models
 {
     public class ThreatCorrection
     {
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-        public partial class CorrectionDataBase
+        public static ThreatCorrection Deserialize(string templateFile)
         {
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Catgory")]
+            try
+            {
+                using (TextReader reader = new StreamReader(templateFile))
+                {
+                    var serializer = new XmlSerializer(typeof(ThreatCorrection));
+                    return serializer.Deserialize(reader) as ThreatCorrection;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
+
+            return null;
+        }
+
+        /// <remarks />
+        [XmlType(AnonymousType = true)]
+        [XmlRoot(Namespace = "", IsNullable = false)]
+        public class CorrectionDataBase
+        {
+            /// <remarks />
+            [XmlElement("Catgory")]
             public CorrectionDataBaseCatgory[] Catgory { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            /// <remarks />
+            [XmlAttribute]
             public decimal Version { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
-            public System.DateTime ModifyDate { get; set; }
+            /// <remarks />
+            [XmlAttribute(DataType = "date")]
+            public DateTime ModifyDate { get; set; }
         }
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        public partial class CorrectionDataBaseCatgory
+        /// <remarks />
+        [XmlType(AnonymousType = true)]
+        public class CorrectionDataBaseCatgory
         {
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Type")]
+            /// <remarks />
+            [XmlElement("Type")]
             public CorrectionDataBaseCatgoryType[] Type { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlTextAttribute()]
+            /// <remarks />
+            [XmlText]
             public string[] Text { get; set; }
         }
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        public partial class CorrectionDataBaseCatgoryType
+        /// <remarks />
+        [XmlType(AnonymousType = true)]
+        public class CorrectionDataBaseCatgoryType
         {
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Cause")]
+            /// <remarks />
+            [XmlElement("Cause")]
             public CorrectionDataBaseCatgoryTypeCause[] Cause { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlTextAttribute()]
+            /// <remarks />
+            [XmlText]
             public string[] Text { get; set; }
         }
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        public partial class CorrectionDataBaseCatgoryTypeCause
+        /// <remarks />
+        [XmlType(AnonymousType = true)]
+        public class CorrectionDataBaseCatgoryTypeCause
         {
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Correction")]
+            /// <remarks />
+            [XmlElement("Correction")]
             public string[] Correction { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlTextAttribute()]
+            /// <remarks />
+            [XmlText]
             public string[] Text { get; set; }
-        }
-
-        public static ThreatCorrection Deserialize(TextReader reader)
-        {
-            var serializer = new XmlSerializer(typeof(ThreatCorrection));
-
-            return serializer.Deserialize(reader) as ThreatCorrection; 
         }
     }
 }
