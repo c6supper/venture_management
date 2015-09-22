@@ -38,6 +38,7 @@
             .Items(
                 X.ComboBox()
                         .ID("ComboBoxCountry")
+                        .FieldLabel("")
                         .Editable(false)
                         .QueryMode(DataLoadMode.Local)
                         .TriggerAction(TriggerAction.All)
@@ -52,6 +53,8 @@
                         ),
                 X.ComboBox()
                         .ID("ComboBoxCity")
+                        .FieldLabel("")
+                        .Editable(false)
                         .TypeAhead(true)
                         .QueryMode(DataLoadMode.Local)
                         .ForceSelection(false)
@@ -64,10 +67,6 @@
                             new ListItem("行业"),
                             new ListItem("地方")
                           ),
-                X.TextField()
-                    .ID("FileName")
-                    .FieldLabel("FileName"),
-                
                 X.FileUploadField()
                     .ID("FileUploadField1")
                     .EmptyText("Select a file")
@@ -75,7 +74,6 @@
                     .ButtonText("")
                     .Icon(Icon.ImageAdd)
             )
-            .Listeners(l => l.ValidityChange.Handler = "#{SaveButton}.setDisabled(!valid);")
             .Buttons(
                 X.Button()
                     .ID("SaveButton")
@@ -84,8 +82,7 @@
                     .DirectEvents(de => {
                         de.Click.Url = Url.Action("UploadClick");
                         de.Click.FormID = "fileUpload";
-                        de.Click.Before = @"if (!#{BasicForm}.getForm().isValid()) { return false; } 
-                            Ext.Msg.wait('Uploading your file...', 'Uploading');";
+                        de.Click.Before = @"Ext.Msg.wait('Uploading your file...', 'Uploading');";
                         de.Click.Failure = @"Ext.Msg.show({ 
                                 title   : 'Error', 
                                 msg     : 'Error during uploading', 

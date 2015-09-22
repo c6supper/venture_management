@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using VentureManagement.DAL;
@@ -27,9 +28,15 @@ namespace VentureManagement.BLL
         private object ThreatCaseFilterEvent(object sender, FileterEventArgs e)
         {
             var tcs = e.EventArg as IQueryable<ThreatCase>;
+            Debug.Assert(tcs != null, "tcs != null");
 
-            return _currentOrgList.Aggregate(tcs, (current, orgId) =>
-                current.Where(tc => tc.Project.OrganizationId == orgId).Concat(current).Distinct());
+            var filteredThreatCase = new List<ThreatCase>();
+            foreach (var orgId in _currentOrgList)
+            {
+                filteredThreatCase.AddRange(tcs.Where(tc => tc.Project.OrganizationId == orgId));
+            }
+
+            return filteredThreatCase.AsQueryable();
         }
 
         public bool Exist(int threatCaseId) { return CurrentRepository.Exist(t => t.ThreatCaseId == threatCaseId); }

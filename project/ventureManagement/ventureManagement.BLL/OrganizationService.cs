@@ -28,9 +28,15 @@ namespace VentureManagement.BLL
         private object OrganizationFilterEvent(object sender, FileterEventArgs e)
         {
             var orgs = e.EventArg as IQueryable<Organization>;
+            Debug.Assert(orgs != null, "orgs != null");
 
-            return _currentOrgList.Aggregate(orgs, (current, orgId) =>
-                current.Where(org => org.OrganizationId == orgId).Concat(current)).Distinct();
+            var filteredOrganization = new List<Organization>();
+            foreach (var orgId in _currentOrgList)
+            {
+                filteredOrganization.AddRange(orgs.Where(org => org.OrganizationId == orgId));
+            }
+
+            return filteredOrganization.AsQueryable();
         }
 
         public override bool Initilization()

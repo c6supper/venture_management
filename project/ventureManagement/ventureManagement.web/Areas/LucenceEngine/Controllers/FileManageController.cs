@@ -29,13 +29,30 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
 
         private string _filesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files");
 
-        public ActionResult UploadClick()
+        public ActionResult UploadClick(string ComboBoxCountry, string ComboBoxCity)
         {
             string tpl = "Uploaded file: {0}<br/>Size: {1} bytes";
 
             if (this.GetCmp<FileUploadField>("FileUploadField1").HasFile)
             {
-                this.GetCmp<FileUploadField>("FileUploadField1").PostedFile.SaveAs(Path.Combine(_filesDir, this.GetCmp<FileUploadField>("FileUploadField1").PostedFile.FileName));
+                string strSavePath = _filesDir;
+                if (!string.IsNullOrEmpty(ComboBoxCountry))
+                {
+                    strSavePath = Path.Combine(strSavePath, ComboBoxCountry);
+                    if (!string.IsNullOrEmpty(ComboBoxCity) && ComboBoxCountry != "企业内部管理制度")
+                    {
+                        strSavePath = Path.Combine(strSavePath, ComboBoxCity);
+                    }
+                }
+
+                if (!System.IO.Directory.Exists(strSavePath))
+                {
+                    System.IO.Directory.CreateDirectory(strSavePath);
+                }
+
+                strSavePath = Path.Combine(strSavePath, this.GetCmp<FileUploadField>("FileUploadField1").PostedFile.FileName);
+
+                this.GetCmp<FileUploadField>("FileUploadField1").PostedFile.SaveAs(strSavePath);
                 X.Msg.Show(new MessageBoxConfig
                 {
                     Buttons = MessageBox.Button.OK,
