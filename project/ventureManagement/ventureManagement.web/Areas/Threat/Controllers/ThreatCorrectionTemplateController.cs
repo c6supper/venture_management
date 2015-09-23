@@ -37,18 +37,11 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
         public ActionResult UploadClick()
         {
-            const string tpl = "Uploaded file: {0}<br/>Size: {1} bytes";
+            const string tpl = "模板文件: {0}<br/>大小: {1} 字节";
 
             if (this.GetCmp<FileUploadField>("FileUploadField").HasFile)
             {
                 this.GetCmp<FileUploadField>("FileUploadField").PostedFile.SaveAs(Path.Combine(_filesDir, this.GetCmp<FileUploadField>("FileUploadField").PostedFile.FileName));
-                X.Msg.Show(new MessageBoxConfig
-                {
-                    Buttons = MessageBox.Button.OK,
-                    Icon = MessageBox.Icon.INFO,
-                    Title = "Success",
-                    Message = string.Format(tpl, this.GetCmp<FileUploadField>("FileUploadField").PostedFile.FileName, this.GetCmp<FileUploadField>("FileUploadField").PostedFile.ContentLength)
-                });
             }
             else
             {
@@ -56,8 +49,9 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                 {
                     Buttons = MessageBox.Button.OK,
                     Icon = MessageBox.Icon.ERROR,
-                    Title = "Fail",
-                    Message = "No file uploaded"
+                    Title = "上传失败",
+                    Message = "请重新选择文件",
+                    Handler = "#{BasicForm}.getForm().reset();"
                 });
             }
 
@@ -73,7 +67,25 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                 if(!template.Serialize(fileStream))
                 {
                     fileStream.Close();
-                    X.Msg.Alert("", "请检查上传的隐患整改措施文件以及数据格式").Show();
+                    X.Msg.Show(new MessageBoxConfig
+                    {
+                        Buttons = MessageBox.Button.OK,
+                        Icon = MessageBox.Icon.ERROR,
+                        Title = "上传失败",
+                        Message = "请检查上传的隐患整改措施文件以及数据格式",
+                        Handler = "#{BasicForm}.getForm().reset();"
+                    });
+                }
+                else
+                {
+                    X.Msg.Show(new MessageBoxConfig
+                    {
+                        Buttons = MessageBox.Button.OK,
+                        Icon = MessageBox.Icon.INFO,
+                        Title = "上传成功",
+                        Message = string.Format(tpl, this.GetCmp<FileUploadField>("FileUploadField").PostedFile.FileName, this.GetCmp<FileUploadField>("FileUploadField").PostedFile.ContentLength),
+                        Handler = "#{BasicForm}.getForm().reset();"
+                    });
                 }
             }
             
@@ -153,7 +165,14 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             catch (Exception ex)
             {
                 Debug.Print(ex.Message);
-                X.Msg.Alert("", "请检查上传的隐患整改措施文件以及数据格式").Show();
+                X.Msg.Show(new MessageBoxConfig
+                {
+                    Buttons = MessageBox.Button.OK,
+                    Icon = MessageBox.Icon.ERROR,
+                    Title = "上传失败",
+                    Message = "请检查上传的隐患整改措施文件以及数据格式",
+                    Handler = "#{BasicForm}.getForm().reset();"
+                });
             }
 
             return template;
