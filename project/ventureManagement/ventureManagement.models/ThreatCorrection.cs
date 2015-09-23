@@ -28,6 +28,23 @@ namespace VentureManagement.Models
             return null;
         }
 
+        public bool Serialize(FileStream file)
+        {
+            try
+            {
+                var serializer = new XmlSerializer(typeof(ThreatCorrection));
+                serializer.Serialize(file,this);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
+
+            return false;
+        }
+
         /// <remarks />
         [XmlElement("Catgory")]
         public ThreatCorrectionCatgory[] Catgory { get; set; }
