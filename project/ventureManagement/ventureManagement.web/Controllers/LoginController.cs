@@ -70,6 +70,12 @@ namespace VentureManagement.Web.Controllers
             return this.Direct();
         }
 
+        [AllowAnonymous]
+        public ActionResult Register()
+        {          
+            return RedirectToAction("Index", "Register");
+        }
+
         public ActionResult LogOff()
         {
             // Delete the user details from cache.
@@ -78,7 +84,7 @@ namespace VentureManagement.Web.Controllers
             // Delete the authentication ticket and sign out.
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Main");
         }
     }
 }

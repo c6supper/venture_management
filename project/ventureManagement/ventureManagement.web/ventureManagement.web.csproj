@@ -139,6 +139,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
     <Compile Include="Attributes\AllowAnonymousAttribute.cs" />
+    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Filters\LogonAuthorize.cs" />
     <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -316,6 +317,7 @@
     <None Include="resources\fonts\TitilliumText25L005-webfont.ttf" />
     <None Include="resources\fonts\TitilliumText25L005-webfont.woff" />
     <Content Include="Views\Shared\_BaseLayoutClean.cshtml" />
+    <Content Include="Views\Register\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Member\Content\" />
