@@ -61,12 +61,13 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                 });
             }
 
-            ParseExcel(Path.Combine(_filesDir,this.GetCmp<FileUploadField>("FileUploadField").PostedFile.FileName));
+            var template = ParseExcel(Path.Combine(_filesDir,this.GetCmp<FileUploadField>("FileUploadField").PostedFile.FileName));
             
             var result = new DirectResult {IsUpload = true};
             return result;
         }
 
+        //0 隐患大类	1隐患小类	2可能的原因	3整改措施	4备注
         protected virtual ThreatCorrection ParseExcel(string file)
         {
             var template = new ThreatCorrection();
@@ -77,28 +78,74 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                 using (var excelReader = ExcelReaderFactory.CreateBinaryReader(stream))
                 {
                     excelReader.IsFirstRowAsColumnNames = true;
-
                     var table = excelReader.AsDataSet();
-
+                    var catgoryList = new List<ThreatCorrectionCatgory>();
+                    var catgory = new ThreatCorrectionCatgory();
                     for (var rowIndex = 0; rowIndex < table.Tables[0].Rows.Count; rowIndex++)
                     {
+                        var threatTypeList = new List<ThreatCorrectionCatgoryType>();
                         var row = table.Tables[0].Rows[rowIndex];
-                        foreach (var cellValue in row.ItemArray.Where(cellValue => cellValue.GetType() == string.Empty.GetType()))
+                        var columnIndex = 0;
+                        var catgoryText = "";
+                        var threatType = new ThreatCorrectionCatgoryType();
+                        foreach (string cellValue in row.ItemArray.Where(cellValue => cellValue.GetType() == string.Empty.GetType()))
                         {
-                            //template.Catgory = new T;
-                            //template.Catgory.Concat()
+                            switch (columnIndex++)
+                            {
+                                case 0:
+                                    if (catgoryText != cellValue)
+                                    {
+                                        catgory.Type = threatTypeList.ToArray();
+                                        threatTypeList.Clear();
+                                        catgoryList.Add(catgory);
+                                        catgory = new ThreatCorrectionCatgory
+                                        {
+                                            Text = cellValue.ToCharArray().Select(c => c.ToString()).ToArray()
+                                        };
+                                    }
+                                    catgoryText = cellValue;
+                                    break;
+                                case 1:
+                                    threatType.Text = cellValue.ToCharArray().Select(c=>c.ToString()).ToArray();
+                                    break;
+                                case 2:
+                                    threatType.Cause = cellValue;
+                                    break;
+                                case 3:
+                                    threatType.Correction = cellValue;
+                                    break;
+                                case 4:
+                                    threatType.Description = cellValue;
+                                    break;
+                            }
                         }
+                        threatTypeList.Add(threatType);
+
+                        if (!string.Concat(catgory.Text).Equals(catgoryText) || rowIndex == table.Tables[0].Rows.Count)
+                        {
+                            catgory.Type = threatTypeList.ToArray();
+                            threatTypeList.Clear();
+                            catgoryList.Add(catgory);
+                            catgory = new ThreatCorrectionCatgory();
+                            threatTypeList.Add(threatType);
+                        }
+                        else
+                        {
+                            threatTypeList.Add(threatType);
+                        }   
                     }
 
                     excelReader.Close();
+                    template.Catgory = catgoryList.ToArray();
+                    template.ModifyDate = DateTime.Now;
+                    template.Version += 1;
                 }
             }
             catch (Exception ex)
             {
                 Debug.Print(ex.Message);
+                X.Msg.Alert("", "请检查上传的隐患整改措施文件以及数据格式").Show();
             }
-
-            X.Msg.Alert("", "请检查上传的隐患整改措施文件以及数据格式").Show();
 
             return template;
         }

@@ -59,21 +59,13 @@ namespace VentureManagement.Models
     public class ThreatCorrectionCatgoryType
     {
         /// <remarks />
-        [XmlElement("Cause")]
-        public ThreatCorrectionCatgoryTypeCause[] Cause { get; set; }
+        public string Cause { get; set; }
 
         /// <remarks />
-        [XmlText]
-        public string[] Text { get; set; }
-    }
+        public string Correction { get; set; }
 
-    /// <remarks />
-    [XmlType(AnonymousType = true)]
-    public class ThreatCorrectionCatgoryTypeCause
-    {
         /// <remarks />
-        [XmlElement("Correction")]
-        public string[] Correction { get; set; }
+        public object Description { get; set; }
 
         /// <remarks />
         [XmlText]
