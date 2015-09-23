@@ -53,10 +53,6 @@
                    .Icon(Icon.New)
                    .DirectEvents(de => {
                         de.Click.Action = "Register";
-                        de.Click.EventMask.ShowMask = true;
-                        de.Click.EventMask.Msg = "跳转...";
-                        de.Click.EventMask.MinDelay = 1000;
-                        de.Click.FormID = "#(return this.up('window').down('form');)";
                    }),            
                 Html.X().Button()
                    .Text("登陆")

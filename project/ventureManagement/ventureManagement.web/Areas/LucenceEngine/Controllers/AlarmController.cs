@@ -98,6 +98,11 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
 
         private void GetAllIndex()
         {
+            if (!System.IO.Directory.Exists(_luceneDir))
+            {
+                System.IO.Directory.CreateDirectory(_luceneDir);
+            }
+
             if (!System.IO.Directory.Exists(_filesDir))
             {
                 System.IO.Directory.CreateDirectory(_filesDir);
@@ -112,23 +117,17 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
             }
 
             DirectoryInfo dirInfo = new DirectoryInfo(_filesDir);
-            FileInfo[] files = dirInfo.GetFiles();
-            if (files.Count() == 0)
+            List<FileInfo> list = getFileInfoList(dirInfo);
+            if (list.Count == 0)
             {
                 //MessageBox.Show("Files目录下没有*.txt文件");
                 return;
             }
 
-            if (!System.IO.Directory.Exists(_luceneDir))
-            {
-                System.IO.Directory.CreateDirectory(_luceneDir);
-            }
-
             IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(_luceneDir)), _analyzer, true, IndexWriter.MaxFieldLength.LIMITED);
 
-            for (int i = 0; i < files.Count(); i++)
+            foreach (FileInfo fileInfo in list)
             {
-                FileInfo fileInfo = files[i];
                 StreamReader reader = new StreamReader(fileInfo.FullName);
 
                 //OutputMessage("正在索引文件[" + fileInfo.Name + "]");
@@ -143,6 +142,18 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
                 writer.Optimize();
             }
             writer.Dispose();
+        }
+
+        private List<FileInfo> getFileInfoList(System.IO.DirectoryInfo dir)
+        {
+            List<FileInfo> list = new List<FileInfo>();
+            foreach (var subdir in dir.GetDirectories())
+            {
+                list.AddRange(getFileInfoList(subdir));
+            }
+            list.AddRange(dir.GetFiles().ToList());
+
+            return list;
         }
 
         public ActionResult Search(string keyword, int page = 1, int pageSize = 5)
@@ -165,7 +176,14 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
             IndexSearcher searcher = null;
             try
             {
-                reader = IndexReader.Open(FSDirectory.Open(new DirectoryInfo(_luceneDir)), true);
+                FSDirectory fsDir = FSDirectory.Open(new DirectoryInfo(_luceneDir));
+                if (fsDir.Directory.GetFiles().Count() == 0)
+                {
+                    Paged(page, pageSize);
+                    return View();
+                }
+
+                reader = IndexReader.Open(fsDir, true);
                 searcher = new IndexSearcher(reader);
 
                 PerFieldAnalyzerWrapper wrapper = new PerFieldAnalyzerWrapper(_analyzer);
