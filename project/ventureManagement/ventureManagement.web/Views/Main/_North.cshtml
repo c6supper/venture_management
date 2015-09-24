@@ -1,24 +1,32 @@
 ﻿@(Html.X().Panel()
-    .Header(false)
-    .Region(Region.North)
-    .Border(true)
-    .Height(90)
-    .Content(
-        @<text>
-		    <div class="header">
-			    @*<div class="left">*@
-				    <div class="title">
-					    水电工程施工安全隐患排查预警系统 <span class="title-sub">(Version 1.0)</span>
-				    </div>
-			    @*</div>*@
-			    @*<div class="right">
-                    <div class="button-group">
-					    <a class="button" style="" href="http://menus.ext.net/">主页</a>
-					    <a class="button" href="http://menus1.ext.net">注册</a>
-					    <a class="button" href="http://ext.net">退出</a>
-                    </div>
-			    </div>*@
-		    </div>
-        </text>
-    )
-)
+      .Header(false)
+      .Region(Region.North)
+      .Border(true)
+      .Height(90)
+      .Layout(LayoutType.Column)
+      .Items(items =>
+      {
+          items.Add(Html.X().Container()
+              .Height(90)
+              .ColumnWidth(0.95)
+              .Content(
+                @<text>
+		            <div class="header">
+				            <div class="title">
+					            水电工程施工安全隐患排查预警系统 <span class="title-sub">(Version 1.0)</span>
+				            </div>
+		            </div>
+                </text>
+              ));
+          items.Add(Html.X().LinkButton()
+              .Icon(Icon.ControlPowerBlue)
+              .IconAlign(IconAlign.Left)
+              .Text("退出")
+              .TextAlign(ButtonTextAlign.Center)
+              .Height(90)
+              .ColumnWidth(0.05)
+              .DirectEvents(de =>
+                  de.Click.Url = Url.Action("LogOff", "Login")
+              ));              
+
+      }))

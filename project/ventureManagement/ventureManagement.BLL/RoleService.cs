@@ -44,6 +44,12 @@ namespace VentureManagement.BLL
             return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, u => true, orderName, false);
         }
 
+        public IQueryable<Role> FindPageList(int pageIndex, int pageSize, out int totalRecord,
+            Expression<Func<Role, bool>> whereLamdba)
+        {
+            return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, whereLamdba, "RoleName", false);
+        }
+
         public IQueryable<Role> FindList(Expression<Func<Role, bool>> whereLamdba, string orderName, bool isAsc)
         {
             return CurrentRepository.FindList(whereLamdba, orderName, isAsc);

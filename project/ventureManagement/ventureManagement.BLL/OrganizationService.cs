@@ -17,7 +17,10 @@ namespace VentureManagement.BLL
             : base(RepositoryFactory.OrganizationRepository)
         {
             _currentOrgList = currentOrgList;
-            CurrentRepository.EntityFilterEvent += OrganizationFilterEvent;
+            if (currentOrgList != null)
+            {
+                CurrentRepository.EntityFilterEvent += OrganizationFilterEvent;                
+            }
         }
 
         public OrganizationService()

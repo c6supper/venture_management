@@ -76,6 +76,7 @@ namespace VentureManagement.Web.Controllers
             return RedirectToAction("Index", "Register");
         }
 
+        [AllowAnonymous]
         public ActionResult LogOff()
         {
             // Delete the user details from cache.
