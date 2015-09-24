@@ -8,6 +8,37 @@
 
 @section headtag
 {
+    <style>
+        .search-item {
+            font          : normal 11px tahoma, arial, helvetica, sans-serif;
+            padding       : 3px 10px 3px 10px;
+            border        : 1px solid #fff;
+            border-bottom : 1px solid #eeeeee;
+            white-space   : normal;
+            color         : #555;
+        }
+        
+        .search-item h3 {
+            display     : block;
+            font        : inherit;
+            font-weight : bold;
+            color       : #222;
+            margin      :0px;
+        }
+
+        .search-item h3 span {
+            float       : right;
+            font-weight : normal;
+            margin      : 0 0 5px 5px;
+            width       : 100px;
+            display     : block;
+            clear       : none;
+        } 
+        
+        p { width: 650px; }
+        
+        .ext-ie .x-form-text { position : static !important; }
+    </style>  
     <script>
         var CreateThreatCase = function(extraParams) {
             if (!this.up('form').isValid())
@@ -44,236 +75,129 @@
 
 @section menu
 {
-    @(X.FormPanel()
-        .ID("ThreatCasePanel")
-        .Title("隐患详细信息")
-        .Frame(true)
-        .Width(600)
-        .BodyPadding(10)
-        .FieldDefaults(fd => { fd.LabelWidth = 110; fd.LabelStyle = "color:green;padding-left:4px;"; })
-        .Buttons(
-            X.Button()
-                .ID("CreateButton")
-                .Text("新建")
-                .Icon(Icon.Disk)
-                .DirectEvents(de => {
-                    de.Click.Url = Url.Action("CreateThreatCase");
-                    de.Click.Before = "CreateThreatCase.call(this, extraParams);";
-                }),
-                
-            X.Button()
-                .Text("取消")
-                .OnClientClick("this.up('form').reset();")
-        )
+    @(X.Viewport()
+        .Layout(LayoutType.Column)
         .Items(
-            X.Container()
-                .Layout(LayoutType.HBox)
-                .MarginSpec("0 0 10"),
-            
-            X.FieldSet()
-                .Title("Checkbox Groups (initially collapsed)")
-                .Layout(LayoutType.Anchor)
-                .Collapsible(true)
-                .Collapsed(true)
-                .DefaultAnchor("100%")
-                .Items(
-                    X.TextField().FieldLabel("Alignment Test"),
-                    
-                    X.CheckboxGroup()
-                        .ID("CheckboxGroup1")
-                        .Cls("x-check-group-alt")
-                        .FieldLabel("Auto Layout")
-                        .Items(
-                            X.Checkbox().ID("Checkbox4").BoxLabel("Item 1"),
-                            X.Checkbox().ID("Checkbox5").BoxLabel("Item 2").Checked(true),
-                            X.Checkbox().ID("Checkbox6").BoxLabel("Item 3"),
-                            X.Checkbox().ID("Checkbox7").BoxLabel("Item 4"),
-                            X.Checkbox().ID("Checkbox8").BoxLabel("Item 5")
-                        ),
-                    
-                    X.CheckboxGroup()
-                        .ID("CheckboxGroup2")
-                        .FieldLabel("Single Column")
-                        .ColumnsNumber(1)
-                        .Items(
-                            X.Checkbox().ID("Checkbox9").BoxLabel("Item 1"),
-                            X.Checkbox().ID("Checkbox10").BoxLabel("Item 2").Checked(true),
-                            X.Checkbox().ID("Checkbox11").BoxLabel("Item 3")
-                        ),
-                    
-                    X.CheckboxGroup()
-                        .ID("CheckboxGroup3")
-                        .FieldLabel("Multi-Column (Horizontal)")
-                        .ColumnsNumber(3)
-                        .Cls("x-check-group-alt")
-                        .Items(
-                            X.Checkbox().ID("Checkbox12").BoxLabel("Item 1"),
-                            X.Checkbox().ID("Checkbox13").BoxLabel("Item 2").Checked(true),
-                            X.Checkbox().ID("Checkbox14").BoxLabel("Item 3"),
-                            X.Checkbox().ID("Checkbox15").BoxLabel("Item 4"),
-                            X.Checkbox().ID("Checkbox16").BoxLabel("Item 5")
-                        ),
-                    
-                    X.CheckboxGroup()
-                        .ID("CheckboxGroup4")
-                        .FieldLabel("Multi-Column (Vertical)")
-                        .ColumnsNumber(3)
-                        .Vertical(true)
-                        .Items(
-                            X.Checkbox().ID("Checkbox17").BoxLabel("Item 1"),
-                            X.Checkbox().ID("Checkbox18").BoxLabel("Item 2").Checked(true),
-                            X.Checkbox().ID("Checkbox19").BoxLabel("Item 3"),
-                            X.Checkbox().ID("Checkbox20").BoxLabel("Item 4"),
-                            X.Checkbox().ID("Checkbox21").BoxLabel("Item 5")
-                        ),
-                    
-                    X.CheckboxGroup()
-                        .ID("CheckboxGroup5")
-                        .FieldLabel("Multi-Column<br />(Custom Widths)")
-                        .ColumnsWidths(new double[] { 100, 100 })
-                        .Vertical(true)
-                        .Cls("x-check-group-alt")
-                        .Items(
-                            X.Checkbox().ID("Checkbox22").BoxLabel("Item 1"),
-                            X.Checkbox().ID("Checkbox23").BoxLabel("Item 2").Checked(true),
-                            X.Checkbox().ID("Checkbox24").BoxLabel("Item 3"),
-                            X.Checkbox().ID("Checkbox25").BoxLabel("Item 4"),
-                            X.Checkbox().ID("Checkbox26").BoxLabel("Item 5")
-                        ),
-                    
-                    X.CheckboxGroup()
-                        .ID("CheckboxGroup6")
-                        .MsgTarget(MessageTarget.Side)
-                        .FieldLabel("Custom Layout<br />(w/ validation)")
-                        .AllowBlank(false)
-                        .AutoFitErrors(false)
-                        .Layout(LayoutType.Column)
-                        .AnchorHorizontal("-18")
-                        .Items(
-                            X.Container().ColumnWidth(0.25)
-                                .Items(
-                                    X.Component().Html("Heading 1").Cls("x-form-check-group-label"),
-                                    X.Checkbox().ID("Checkbox27").BoxLabel("Item 1").Checked(true),
-                                    X.Checkbox().ID("Checkbox28").BoxLabel("Item 2").Checked(true)
-                                ),
-                                
-                            X.Container().ColumnWidth(0.5)
-                                .Items(
-                                    X.Component().Html("Heading 2").Cls("x-form-check-group-label"),
-                                    X.Checkbox().ID("Checkbox29").BoxLabel("A long item just for fun")
-                                ),
-                                
-                            X.Container().ColumnWidth(0.25)
-                                .Items(
-                                    X.Component().Html("Heading 3").Cls("x-form-check-group-label"),
-                                    X.Checkbox().ID("Checkbox1").BoxLabel("Item 4").Checked(true),
-                                    X.Checkbox().ID("Checkbox2").BoxLabel("Item 5")
-                                )
-                        )
-                ),
+            X.FormPanel()
+                .ID("ThreatCasePanel")
+                .Title("隐患详细信息")
+                .Frame(true)
+                .Width(600)
+                .BodyPadding(10)
+                .FieldDefaults(fd => { fd.LabelWidth = 110; fd.LabelStyle = "color:green;padding-left:4px;"; })
+                .Buttons(
+                    X.Button()
+                        .ID("CreateButton")
+                        .Text("新建")
+                        .Icon(Icon.Disk)
+                        .DirectEvents(de => {
+                            de.Click.Url = Url.Action("CreateThreatCase");
+                            de.Click.Before = "CreateThreatCase.call(this, extraParams);";
+                        }),
                 
-            X.FieldSet()
-                .Title("Radio Groups")
-                .Layout(LayoutType.Anchor)
-                .Collapsible(true)
-                .DefaultAnchor("100%")
+                    X.Button()
+                        .Text("取消")
+                        .OnClientClick("this.up('form').reset();")
+                )
                 .Items(
-                    X.TextField().FieldLabel("Alignment Test"),
-                    
-                    X.RadioGroup()
-                        .ID("RadioGroup1")
-                        .FieldLabel("Auto Layout")
-                        .Cls("x-check-group-alt")
+                    X.Container()
+                        .Layout(LayoutType.HBox)
+                        .MarginSpec("0 0 10"),
+            
+                    X.FieldSet()
+                        .Title("工程信息")
+                        .Layout(LayoutType.Anchor)
+                        .Collapsible(true)
+                        .Collapsed(false)
+                        .DefaultAnchor("100%")
                         .Items(
-                            X.Radio().ID("Radio4").BoxLabel("Item 1"),
-                            X.Radio().ID("Radio5").BoxLabel("Item 2").Checked(true),
-                            X.Radio().ID("Radio6").BoxLabel("Item 3"),
-                            X.Radio().ID("Radio7").BoxLabel("Item 4"),
-                            X.Radio().ID("Radio8").BoxLabel("Item 5")
-                        ),
-                    
-                    X.RadioGroup()
-                        .ID("RadioGroup2")
-                        .FieldLabel("Single Column")
-                        .ColumnsNumber(1)
-                        .Items(
-                            X.Radio().ID("Radio9").BoxLabel("Item 1"),
-                            X.Radio().ID("Radio10").BoxLabel("Item 2").Checked(true),
-                            X.Radio().ID("Radio11").BoxLabel("Item 3")
-                        ),
-                    
-                    X.RadioGroup()
-                        .ID("RadioGroup3")
-                        .FieldLabel("Multi-Column (Horizontal)")
-                        .ColumnsNumber(3)
-                        .Cls("x-check-group-alt")
-                        .Items(
-                            X.Radio().ID("Radio12").BoxLabel("Item 1"),
-                            X.Radio().ID("Radio13").BoxLabel("Item 2").Checked(true),
-                            X.Radio().ID("Radio14").BoxLabel("Item 3"),
-                            X.Radio().ID("Radio15").BoxLabel("Item 4"),
-                            X.Radio().ID("Radio16").BoxLabel("Item 5")
-                        ),
-                    
-                    X.RadioGroup()
-                        .ID("RadioGroup4")
-                        .FieldLabel("Multi-Column(Vertical)")
-                        .ColumnsNumber(3)
-                        .Vertical(true)
-                        .Items(
-                            X.Radio().ID("Radio17").BoxLabel("Item 1"),
-                            X.Radio().ID("Radio18").BoxLabel("Item 2").Checked(true),
-                            X.Radio().ID("Radio19").BoxLabel("Item 3"),
-                            X.Radio().ID("Radio20").BoxLabel("Item 4"),
-                            X.Radio().ID("Radio21").BoxLabel("Item 5")
-                        ),
-                    
-                    X.RadioGroup()
-                        .ID("RadioGroup5")
-                        .FieldLabel("Multi-Column<br />(Custom Widths)")
-                        .ColumnsWidths(new double[] { 100, 100 })
-                        .Vertical(true)
-                        .Cls("x-check-group-alt")
-                        .Items(
-                            X.Radio().ID("Radio22").BoxLabel("Item 1"),
-                            X.Radio().ID("Radio23").BoxLabel("Item 2").Checked(true),
-                            X.Radio().ID("Radio24").BoxLabel("Item 3"),
-                            X.Radio().ID("Radio25").BoxLabel("Item 4"),
-                            X.Radio().ID("Radio26").BoxLabel("Item 5")
-                        ),
-                    
-                    X.RadioGroup()
-                        .ID("RadioGroup6")
-                        .MsgTarget(MessageTarget.Side)
-                        .FieldLabel("Custom Layout<br />(w/ validation)")
-                        .AllowBlank(false)
-                        .AutoFitErrors(false)
-                        .Layout(LayoutType.Column)
-                        .AnchorHorizontal("-18")
-                        .Items(
-                            X.Container()
-                                .ColumnWidth(0.25)
-                                .ID("RadioColumn1")
-                                .Items(
-                                    X.Component().Html("Heading 1").Cls("x-form-check-group-label"),
-                                    X.Radio().ID("Radio27").BoxLabel("Item 1"),
-                                    X.Radio().ID("Radio28").BoxLabel("Item 2").Checked(true)
-                                ),
-                                
-                            X.Container().ColumnWidth(0.5)
-                                .Items(
-                                    X.Component().Html("Heading 2").Cls("x-form-check-group-label"),
-                                    X.Radio().ID("Radio29").BoxLabel("A long item just for fun")
-                                ),
-                                
-                            X.Container().ColumnWidth(0.25)
-                                .Items(
-                                    X.Component().Html("Heading 3").Cls("x-form-check-group-label"),
-                                    X.Radio().ID("Radio30").BoxLabel("Item 4"),
-                                    X.Radio().ID("Radio31").BoxLabel("Item 5")
+                            X.ComboBox()
+                            .ID("ProjectId")
+                            .FieldLabel("工程")
+                            .EmptyText("请输入关键字或*")
+                            .DisplayField("ProjectName")
+                            .ValueField("ProjectId")
+                            .TypeAhead(true)
+                            .PageSize(15)
+                            .HideBaseTrigger(true)
+                            .MinChars(0)
+                            .TriggerAction(TriggerAction.All)
+                            .ListConfig(Html.X().BoundList()
+                                .LoadingText("搜索中...")
+                                .ItemTpl(Html.X().XTemplate()
+                                    .Html(@<text>
+                                        <div class="search-item">
+							                <h3><span>{ProjectName}</span></h3>
+							                {ProjectLocation}
+						                </div>
+                                    </text>)
+                                ))
+                                .Store(Html.X().Store()
+                                .AutoLoad(true)
+                                .Proxy(Html.X().AjaxProxy()
+                                    .Url(Url.Action("GetAllProjects"))
+                                    //.Url(Url.Action("GetData"))
+                                    .ActionMethods(am => am.Read = HttpMethod.POST)
+                                    .Reader(Html.X().JsonReader().Root("data"))
                                 )
+                                .Model(Html.X().Model()
+                                    .Fields(
+                                        Html.X().ModelField().Name("ProjectId"),
+                                        Html.X().ModelField().Name("ProjectName"),
+                                        Html.X().ModelField().Name("ProjectLocation")
+                                    )
+                                )
+                            ),
+                            X.TextField().DataIndex("ProjectLocation").FieldLabel("施工地点")
+                        ),
+                        X.FieldSet()
+                        .Title("施工队信息")
+                        .Layout(LayoutType.Anchor)
+                        .Collapsible(true)
+                        .Collapsed(false)
+                        .DefaultAnchor("100%")
+                        .Items(
+                            X.ComboBox()
+                            .ID("OrgnizationId")
+                            .FieldLabel("工程")
+                            .EmptyText("请输入关键字或*")
+                            .DisplayField("ProjectName")
+                            .ValueField("ProjectId")
+                            .TypeAhead(true)
+                            .PageSize(15)
+                            .HideBaseTrigger(true)
+                            .MinChars(0)
+                            .TriggerAction(TriggerAction.All)
+                            .ListConfig(Html.X().BoundList()
+                                .LoadingText("搜索中...")
+                                .ItemTpl(Html.X().XTemplate()
+                                    .Html(@<text>
+                                        <div class="search-item">
+							                <h3><span>{ProjectName}</span></h3>
+							                {ProjectLocation}
+						                </div>
+                                    </text>)
+                                ))
+                                .Store(Html.X().Store()
+                                .AutoLoad(true)
+                                .Proxy(Html.X().AjaxProxy()
+                                    .Url(Url.Action("GetAllProjects"))
+                                    //.Url(Url.Action("GetData"))
+                                    .ActionMethods(am => am.Read = HttpMethod.POST)
+                                    .Reader(Html.X().JsonReader().Root("data"))
+                                )
+                                .Model(Html.X().Model()
+                                    .Fields(
+                                        Html.X().ModelField().Name("ProjectId"),
+                                        Html.X().ModelField().Name("ProjectName"),
+                                        Html.X().ModelField().Name("ProjectLocation")
+                                    )
+                                )
+                            ),
+                            X.TextField().DataIndex("ProjectLocation").FieldLabel("施工地点")
+                        )
                         )
                 )
-        )
+            )
     )
 }

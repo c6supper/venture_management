@@ -66,6 +66,12 @@ namespace VentureManagement.BLL
             return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
         }
 
+        public IQueryable<VMProject> FindPageList(int pageIndex, int pageSize, out int totalRecord,
+            Expression<Func<VMProject, bool>> whereLamdba)
+        {
+            return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, whereLamdba, "projectName", false);
+        }
+
         public override bool Initilization()
         {
             try

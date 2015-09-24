@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
+using VentureManagement.Web.Areas.Project.Controllers;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
@@ -18,6 +19,14 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
         {
             return View();
         }
+
+        public ActionResult GetAllProjects(int start, int limit, int page, string query)
+        {
+            var projectController = new ProjectController();
+            var projects = projectController.GetProjects(start, limit, page, query);
+            return this.Store(projects.Data, projects.TotalRecords);
+        }
+
 
         [ValidateInput(true)]
 		public ActionResult CreateThreatCase(List<FieldsGroupModel> groups1, List<FieldsGroupModel> groups2)

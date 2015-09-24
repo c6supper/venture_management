@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
@@ -16,6 +17,27 @@ namespace VentureManagement.Web.Areas.Project.Controllers
         public ActionResult Index()
         {
             return View(GetProject());
+        }
+
+        public Paging<VMProject> GetProjects(int start, int limit, int page, string filter)
+        {
+            var pageIndex = start / limit + ((start % limit > 0) ? 1 : 0) + 1;
+            var count = 0;
+            List<VMProject> projects;
+            if (!string.IsNullOrEmpty(filter) && filter != "*")
+            {
+                projects =
+                    _projectService.FindPageList(pageIndex, limit, out count,
+                        prj => prj.ProjectName.StartsWith(filter.ToLower())).ToList();
+            }
+            else
+            {
+                projects =
+                    _projectService.FindPageList(pageIndex, limit, out count,
+                        prj => true).ToList();
+            }
+
+            return new Paging<VMProject>(projects, count);
         }
 
         public ActionResult GetAllOrganizations(int start, int limit, int page, string query)

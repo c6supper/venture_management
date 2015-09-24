@@ -11,5 +11,8 @@ namespace VentureManagement.IBLL
         VMProject Find(string project, int superProjectId);
         VMProject Find(int projectId);
         IQueryable<VMProject> FindList(Expression<Func<VMProject, bool>> whereLamdba, string orderName, bool isAsc);
+
+        IQueryable<VMProject> FindPageList(int pageIndex, int pageSize, out int totalRecord,
+            Expression<Func<VMProject, bool>> whereLamdba);
     }
 }
