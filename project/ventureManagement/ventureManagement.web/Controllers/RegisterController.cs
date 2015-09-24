@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
@@ -27,20 +28,19 @@ namespace VentureManagement.Web.Controllers
         [AllowAnonymous]
         public ActionResult GetAllOrganizations(int start, int limit, int page, string query)
         {
-            /*
             var orgController = new OrganizationController();
             var orgs = orgController.GetOrganizations(start, limit, page, query);
+
             return this.Store(orgs.Data, orgs.TotalRecords);
-            */
-            return this.Store(null);
         }
 
         [AllowAnonymous]
-        public ActionResult GetAllRoles()
+        public ActionResult GetAllRoles(int start, int limit, int page, string query)
         {
-            //TODO:
+            var permissionController = new PermissionController();
+            var rules = permissionController.GetRoles(start, limit, page, query);
             
-            return this.Store(null);
+            return this.Store(rules.Data, rules.TotalRecords);
         }
 
         [HttpPost]
@@ -53,9 +53,11 @@ namespace VentureManagement.Web.Controllers
                 || string.IsNullOrEmpty(userPassword)
                 || string.IsNullOrEmpty(userConfirmPassword)
                 || string.IsNullOrEmpty(userEmail)
-                || string.IsNullOrEmpty(userMobile))
+                || string.IsNullOrEmpty(userMobile)
+                || (OrganizationId == null)
+                || (RoleId == null))
             {
-                X.Msg.Alert("", "用户名/昵称/密码/邮箱/手机号不能为空，请重试").Show();
+                X.Msg.Alert("", "用户名/昵称/密码/邮箱/手机号/部门/角色不能为空，<br/>请重试").Show();
                 return this.Direct();
             }
             
@@ -65,9 +67,7 @@ namespace VentureManagement.Web.Controllers
                 return this.Direct();
             }
 
-            //var user = _userService.Find(userName);
-            UserService us = new UserService();
-            var user = us.Find(userName);
+            var user = _userService.Find(userName);
             if (user != null)
             {
                 X.Msg.Alert("", "用户名冲突，请重试").Show();
@@ -85,8 +85,7 @@ namespace VentureManagement.Web.Controllers
 
             try
             {
-                //if ((user = _userService.Add(user)) == null)
-                if ((user = us.Add(user)) == null)
+                if ((user = _userService.Add(user)) == null)
                 {
                     X.Msg.Alert("", "用户名注册失败，请重试").Show();
                     return this.Direct();
@@ -97,23 +96,26 @@ namespace VentureManagement.Web.Controllers
                 Debug.Print(ex.Message);
             }
 
-            UserRoleRelation urr = new UserRoleRelation();
+            var urr = new UserRoleRelation();
             urr.UserId = user.UserId;
-            urr.RoleId = 1;//(int)RoleId;
-            //_userRoleRelationService.Add(urr);
-            UserRoleRelationService urrs = new UserRoleRelationService();
-            urrs.Add(urr);
+            urr.RoleId = (int)RoleId;
+            _userRoleRelationService.Add(urr);
             
-            UserOrganizationRelation uor = new UserOrganizationRelation();
+            var uor = new UserOrganizationRelation();
             uor.UserId = user.UserId;
-            uor.OrganizationId = 1;//(int)OrganizationId;
-            //_userOrgRelationService.Add(uor);
-            UserOrganizationRelationService uors = new UserOrganizationRelationService();
-            uors.Add(uor);
+            uor.OrganizationId = (int)OrganizationId;
+            _userOrgRelationService.Add(uor);
 
-            X.Msg.Alert("", "用户名注册成功，请登录").Show();
-            
-            return RedirectToAction("Index", "Main");
+            X.Msg.Confirm("提示", "用户名注册成功，请登录", new MessageBoxButtonsConfig
+            {
+                Yes = new MessageBoxButtonConfig
+                {
+                    Handler = "document.location.href='login';",
+                    Text = "确定"
+                }
+            }).Show();
+
+            return this.Direct();
         }
 
         [AllowAnonymous]

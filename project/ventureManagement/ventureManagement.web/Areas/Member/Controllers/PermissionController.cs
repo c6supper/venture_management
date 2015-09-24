@@ -160,5 +160,24 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return this.Direct();
         }
 
+        [AllowAnonymous]
+        public Paging<Role> GetRoles(int start, int limit, int page, string filter)
+        {
+            var pageIndex = start / limit + ((start % limit > 0) ? 1 : 0) + 1;
+            var count = 0;
+            List<Role> roles;
+            if (!string.IsNullOrEmpty(filter) && filter != "*")
+            {
+                roles = _roleService.FindPageList(pageIndex, limit, out count,
+                    role => role.RoleName.StartsWith(filter.ToLower())).ToList();
+            }
+            else
+            {
+                roles = _roleService.FindPageList(pageIndex, limit, out count,
+                    role => true).ToList();
+            }
+
+            return new Paging<Role>(roles, count);
+        }
     }
 }

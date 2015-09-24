@@ -50,13 +50,13 @@
             .Buttons(
                 Html.X().Button()
                    .Text("注册")
-                   .Icon(Icon.New)
+                   .Icon(Icon.UserAdd)
                    .DirectEvents(de => {
                         de.Click.Action = "Register";
                    }),            
                 Html.X().Button()
                    .Text("登陆")
-                   .Icon(Icon.Accept)
+                   .Icon(Icon.UserTick)
                    .DirectEvents(de => {
                         de.Click.Action = "Login";
                         de.Click.EventMask.ShowMask = true;

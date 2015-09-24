@@ -57,6 +57,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return node;
         }
 
+        [AllowAnonymous]
         public Paging<Organization> GetOrganizations(int start, int limit, int page,string filter)
         {
             var pageIndex = start / limit + ((start % limit > 0) ? 1 : 0) + 1;

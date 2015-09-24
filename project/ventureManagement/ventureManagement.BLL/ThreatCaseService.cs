@@ -17,7 +17,10 @@ namespace VentureManagement.BLL
             : base(RepositoryFactory.ThreatCaseRepository)
         {
             _currentOrgList = currentOrgList;
-            CurrentRepository.EntityFilterEvent += ThreatCaseFilterEvent;
+            if (currentOrgList != null)
+            {
+                CurrentRepository.EntityFilterEvent += ThreatCaseFilterEvent;                
+            }
         }
 
         public ThreatCaseService()

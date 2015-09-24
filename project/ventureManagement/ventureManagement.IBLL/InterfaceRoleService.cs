@@ -10,6 +10,9 @@ namespace VentureManagement.IBLL
     {
         IQueryable<Role> FindPageList(int pageIndex, int pageSize, out int totalRecord, string orderName);
 
+        IQueryable<Role> FindPageList(int pageIndex, int pageSize, out int totalRecord,
+            Expression<Func<Role, bool>> whereLamdba);
+
         Role Find(string roleName);
 
         Role Find(int roleId);

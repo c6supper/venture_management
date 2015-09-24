@@ -19,7 +19,10 @@ namespace VentureManagement.BLL
             : base(RepositoryFactory.UserOrganizationRelationRepository)
         {
             _currentOrgList = currentOrgList;
-            CurrentRepository.EntityFilterEvent += UserOrganizationRelationFilterEvent;
+            if (currentOrgList != null)
+            {
+                CurrentRepository.EntityFilterEvent += UserOrganizationRelationFilterEvent;                
+            }
         }
 
         public UserOrganizationRelationService()
