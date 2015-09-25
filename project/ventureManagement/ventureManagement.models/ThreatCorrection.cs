@@ -5,9 +5,10 @@ using System.Xml.Serialization;
 
 namespace VentureManagement.Models
 {
-    /// <remarks />
-    [XmlType(AnonymousType = true)]
-    [XmlRoot(Namespace = "", IsNullable = false)]
+
+    /// <remarks/>
+    [XmlTypeAttribute(AnonymousType = true)]
+    [XmlRootAttribute(Namespace = "", IsNullable = false)]
     public class ThreatCorrection
     {
         public static ThreatCorrection Deserialize(string templateFile)
@@ -33,7 +34,7 @@ namespace VentureManagement.Models
             try
             {
                 var serializer = new XmlSerializer(typeof(ThreatCorrection));
-                serializer.Serialize(file,this);
+                serializer.Serialize(file, this);
 
                 return true;
             }
@@ -45,47 +46,45 @@ namespace VentureManagement.Models
             return false;
         }
 
-        /// <remarks />
-        [XmlElement("Catgory")]
-        public ThreatCorrectionCatgory[] Catgory { get; set; }
+        /// <remarks/>
+        [XmlElementAttribute("Category")]
+        public ThreatCorrectionCategory[] Category { get; set; }
 
-        /// <remarks />
-        [XmlAttribute]
+        /// <remarks/>
+        [XmlAttributeAttribute]
         public decimal Version { get; set; }
 
-        /// <remarks />
-        [XmlAttribute(DataType = "date")]
+        /// <remarks/>
+        [XmlAttributeAttribute(DataType = "date")]
         public DateTime ModifyDate { get; set; }
     }
 
-    /// <remarks />
-    [XmlType(AnonymousType = true)]
-    public class ThreatCorrectionCatgory
+    /// <remarks/>
+    [XmlTypeAttribute(AnonymousType = true)]
+    public class ThreatCorrectionCategory
     {
-        /// <remarks />
-        [XmlElement("Type")]
-        public ThreatCorrectionCatgoryType[] Type { get; set; }
+        /// <remarks/>
+        public string CategoryName { get; set; }
 
-        /// <remarks />
-        [XmlText]
-        public string[] Text { get; set; }
+        /// <remarks/>
+        [XmlElementAttribute("Type")]
+        public ThreatCorrectionCategoryType[] Type { get; set; }
     }
 
-    /// <remarks />
-    [XmlType(AnonymousType = true)]
-    public class ThreatCorrectionCatgoryType
+    /// <remarks/>
+    [XmlTypeAttribute(AnonymousType = true)]
+    public class ThreatCorrectionCategoryType
     {
-        /// <remarks />
+        /// <remarks/>
+        public string TypeName { get; set; }
+
+        /// <remarks/>
         public string Cause { get; set; }
 
-        /// <remarks />
+        /// <remarks/>
         public string Correction { get; set; }
 
-        /// <remarks />
-        public object Description { get; set; }
-
-        /// <remarks />
-        [XmlText]
-        public string[] Text { get; set; }
+        /// <remarks/>
+        public string Description { get; set; }
     }
 }

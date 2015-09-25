@@ -6,15 +6,15 @@ using System.Web;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
+using VentureManagement.Models;
 using VentureManagement.Web.Areas.Project.Controllers;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
-    public class CreateThreatCaseController : Controller
+    public class CreateThreatCaseController : ThreatBaseController
     {
         //
         // GET: /Threat/CreateThreatCase/
-
         public ActionResult Index()
         {
             return View();
@@ -27,6 +27,27 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return this.Store(projects.Data, projects.TotalRecords);
         }
 
+        public ActionResult GetThreatCategory()
+        {
+            return this.Store(_correctionTemplate.Category);
+        }
+
+        public ActionResult GetThreatType(string category)
+        {
+            if (string.IsNullOrEmpty(category))
+            {
+                var threatCorrectionCategory = _correctionTemplate.Category.FirstOrDefault();
+                if (threatCorrectionCategory != null)
+                    return this.Store(threatCorrectionCategory.Type);
+            }
+
+            foreach (var cat in _correctionTemplate.Category.Where(cat => cat.CategoryName == category))
+            {
+                return this.Store(cat.Type);
+            }
+
+            return this.Store("隐患数据库破坏，请联系系统管理员。");
+        }
 
         [ValidateInput(true)]
 		public ActionResult CreateThreatCase(List<FieldsGroupModel> groups1, List<FieldsGroupModel> groups2)
