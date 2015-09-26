@@ -40,6 +40,15 @@ namespace VentureManagement.Web.Controllers
             var permissionController = new PermissionController();
             var roles = permissionController.GetRoles(start, limit, page, query);
 
+            foreach (var role in roles.Data)
+            {
+                if (role.RoleName == Role.ROLE_ADMIN)
+                {
+                    roles.Data.Remove(role);
+                    break;
+                }   
+            }
+
             return this.Store(roles.Data, roles.TotalRecords);
         }
 
