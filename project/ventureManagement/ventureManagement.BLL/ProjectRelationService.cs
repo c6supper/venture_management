@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using VentureManagement.DAL;
 using VentureManagement.IBLL;
 using VentureManagement.IDAL;
@@ -32,16 +33,16 @@ namespace VentureManagement.BLL
             var filteredProjectRelation = new List<ProjectRelation>();
             foreach (var orgId in _currentOrgList)
             {
-                filteredProjectRelation.AddRange(prs.Where(pr => pr.SuperProject.OrganizationId == orgId));
+                filteredProjectRelation.AddRange(prs.Where(pr => pr.SuperProject.OrganizationId == orgId || 
+                    pr.SubProject.OrganizationId == orgId));
             }
 
             return filteredProjectRelation.AsQueryable();
         }
 
-        public IQueryable<ProjectRelation> FindList(string projectName)
+        public IQueryable<ProjectRelation> FindList(Expression<Func<ProjectRelation, bool>> whereLamdba, string orderName, bool isAsc)
         {
-            return CurrentRepository.FindList(prjr => prjr.SuperProject.ProjectName == projectName,
-                "ProjectRelationId", false);
+            return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
         }
 
         public bool Exist(string superiorProject, string subordinateProject)

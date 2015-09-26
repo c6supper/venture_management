@@ -1,11 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using VentureManagement.Models;
 
 namespace VentureManagement.IBLL
 {
     public interface InterfaceProjectRelationService : InterfaceBaseService<ProjectRelation>
     {
-        IQueryable<ProjectRelation> FindList(string projectName);
+        IQueryable<ProjectRelation> FindList(Expression<Func<ProjectRelation, bool>> whereLamdba, string orderName, bool isAsc);
         bool Exist(string superiorProject, string subordinateProject);
     }
 }

@@ -41,7 +41,14 @@
         .ext-ie .x-form-text { position : static !important; }
     </style>
     <script>
-        var calcRisk = function() {
+        var SelectProject = function(record)
+        {
+            App.ProjectLocationId.setValue(record.get('ProjectLocation'));
+            App.ThreatCaseLocation.setValue(record.get('ProjectLocation'));
+            App.OrganizationName.setValue(record.get('OrganizationName'));
+        }
+
+        var CalcRisk = function() {
             var risk = App.ThreatCaseSeverityId.getValue() * App.ThreatCasePassibilityId.getValue();
             App.ThreatCaseRiskId.setValue(risk);
             if (risk >= 100)
@@ -91,6 +98,7 @@
           .ID("ThreatCasePanel")
           .Title("隐患申报")
           .Frame(true)
+          .Url(Url.Action("Submit"))
           .Width(600)
           .BodyPadding(10)
           .FieldDefaults(fd =>
@@ -103,11 +111,12 @@
                   .ID("CreateButton")
                   .Text("预警")
                   .Icon(Icon.Disk)
-                  .DirectEvents(de =>
-                  {
-                      de.Click.Url = Url.Action("CreateThreatCase");
-                      de.Click.Before = "CreateThreatCase.call(this, extraParams);";
-                  }),
+                  .Handler("this.up('form').submit();"),
+              //.DirectEvents(de =>
+              //{
+              //    de.Click.Url = Url.Action("CreateThreatCase");
+              //    de.Click.Before = "CreateThreatCase.call(this, extraParams);";
+              //}),
 
               X.Button()
                   .Text("取消")
@@ -158,11 +167,13 @@
                                   .Fields(
                                       Html.X().ModelField().Name("ProjectId"),
                                       Html.X().ModelField().Name("ProjectName"),
-                                      Html.X().ModelField().Name("ProjectLocation")
+                                      Html.X().ModelField().Name("ProjectLocation"),
+                                      Html.X().ModelField().Name("OrganizationName")
                                   )
                               )
-                          ),
-                      X.TextField().DataIndex("ProjectLocation").FieldLabel("施工地点")
+                          )
+                          .Listeners(ls => ls.Select.Handler = "SelectProject(records[0]);"),
+                      X.TextField().ID("ProjectLocationId").DataIndex("ProjectLocation").FieldLabel("施工地点")
                   ),
 
               X.FieldSet()
@@ -172,8 +183,7 @@
                   .Collapsed(false)
                   .DefaultAnchor("100%")
                   .Items(
-                      X.TextField().DataIndex("OrgnizationName").FieldLabel("工程部"),
-                      X.TextField().DataIndex("Description").FieldLabel("备注")
+                      X.TextField().ID("OrganizationName").DataIndex("OrganizationName").FieldLabel("施工方")
                   ),
 
               X.FieldSet()
@@ -199,9 +209,10 @@
                           .Layout(LayoutType.Column)
                           .MarginSpec("0 0 10")
                           .Items(
-                              X.TextField().DataIndex("ThreatCaseLocation").FieldLabel("隐患发现地"),
-                              X.TextField().InputType(InputType.DateTime).DataIndex("ThreatCaseFoundTime").FieldLabel("隐患发现时间")),
-                              X.TextArea().DataIndex("ThreatCaseDescription").FieldLabel("隐患描述").Height(60), 
+                              X.TextField().ID("ThreatCaseLocation").DataIndex("ThreatCaseLocation").FieldLabel("隐患发现地"),
+                              X.DateField().ID("ThreatCaseFoundTime").DataIndex("ThreatCaseFoundTime").FieldLabel("隐患发现时间")
+                                .Value(DateTime.Now)),
+                      X.TextArea().DataIndex("ThreatCaseDescription").FieldLabel("隐患描述").Height(60),
                       X.Container()
                           .Layout(LayoutType.Column)
                           .MarginSpec("0 0 10")
@@ -284,7 +295,7 @@
                                 .TriggerAction(TriggerAction.All)
                                 .SelectOnFocus(true)
                                 .EmptyText("")
-                                .Listeners(ls=>ls.Select.Handler="calcRisk();")
+                                .Listeners(ls=>ls.Select.Handler="CalcRisk();")
                                 .Items(
                                     new ListItem("灾难的",10),
                                     new ListItem("严重的",7),
@@ -298,7 +309,7 @@
                                 .TriggerAction(TriggerAction.All)
                                 .SelectOnFocus(true)
                                 .EmptyText("")
-                                .Listeners(ls=>ls.Select.Handler="calcRisk();")
+                                .Listeners(ls=>ls.Select.Handler="CalcRisk();")
                                 .Items(
                                     new ListItem("很可能",10),
                                     new ListItem("可能的",7),

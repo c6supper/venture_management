@@ -13,6 +13,7 @@ namespace VentureManagement.Models
         [Key]
         public int ProjectId { get; set; }
 
+        [Required]
         public string ProjectLocation { get; set; }
 
         [Required]
@@ -29,5 +30,8 @@ namespace VentureManagement.Models
 
         // ReSharper disable once InconsistentNaming
         public const string PROJECT_ROOT = "工程项目列表";
+
+        // ReSharper disable once InconsistentNaming
+        public const int INVALID_PROJECT = -1;
     }
 }

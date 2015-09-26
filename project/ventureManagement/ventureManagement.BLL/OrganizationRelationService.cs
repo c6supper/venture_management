@@ -37,7 +37,8 @@ namespace VentureManagement.BLL
             var filteredOrganizationRelations = new List<OrganizationRelation>();
             foreach (var orgId in _currentOrgList)
             {
-                filteredOrganizationRelations.AddRange(orgrs.Where(orgr => orgr.SuperiorDepartmentId == orgId));
+                filteredOrganizationRelations.AddRange(orgrs.Where(orgr => orgr.SuperiorDepartmentId == orgId ||
+                    orgr.SubordinateDepartmentId == orgId));
             }
 
             return filteredOrganizationRelations.AsQueryable();

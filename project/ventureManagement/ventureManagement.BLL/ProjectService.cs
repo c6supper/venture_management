@@ -30,22 +30,21 @@ namespace VentureManagement.BLL
             var vmps = e.EventArg as IQueryable<VMProject>;
             Debug.Assert(vmps != null, "vmps != null");
 
-            var filteredVMProject = new List<VMProject>();
+            var filteredVmProject = new List<VMProject>();
             foreach (var orgId in _currentOrgList)
             {
-                filteredVMProject.AddRange(vmps.Where(vmp => vmp.OrganizationId == orgId));
+                filteredVmProject.AddRange(vmps.Where(vmp => vmp.OrganizationId == orgId));
             }
 
-            return filteredVMProject.AsQueryable();
+            return filteredVmProject.AsQueryable();
         }
 
-        public bool Exist(string project, int? superProjectId)
+        public bool Exist(string project, int superProjectId)
         {
             return
-                (CurrentRepository.FindList(u => u.ProjectName == project, string.Empty, false)
-                    .ToArray()
-                    .SelectMany(prj => prj.ProjectRelation)
-                    .Any(prjr => prjr.SuperProjectId == superProjectId));
+                CurrentRepository.FindList(u => u.ProjectName == project, "ProjectName", false)
+                .ToArray().SelectMany(prj => prj.ProjectRelation)
+                    .Any(prjr => prjr.SuperProjectId == superProjectId);
         }
 
         public VMProject Find(string project, int superProjectId)
@@ -70,28 +69,6 @@ namespace VentureManagement.BLL
             Expression<Func<VMProject, bool>> whereLamdba)
         {
             return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, whereLamdba, "projectName", false);
-        }
-
-        public override bool Initilization()
-        {
-            try
-            {
-                if (Find(1) != null) return true;
-
-                var project = new VMProject
-                {
-                    ProjectName = VMProject.PROJECT_ROOT,
-                    ProjectLocation = "",
-                    OrganizationId = 1
-                };
-                Add(project);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Debug.Print(ex.StackTrace);
-                return false;
-            }
         }
     }
 }

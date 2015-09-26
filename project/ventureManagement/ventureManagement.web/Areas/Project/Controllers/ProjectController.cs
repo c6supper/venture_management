@@ -19,6 +19,12 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             return View(GetProject());
         }
 
+        public ActionResult GetAllProjects(int start, int limit, int page, string query)
+        {
+            var projects = GetProjects(start, limit, page, query);
+            return this.Store(projects.Data, projects.TotalRecords);
+        }
+
         public Paging<VMProject> GetProjects(int start, int limit, int page, string filter)
         {
             var pageIndex = start / limit + ((start % limit > 0) ? 1 : 0) + 1;
@@ -61,13 +67,8 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                     OrganizationName = project.Organization.OrganizationName
                 }
             };
-            //node.CustomAttributes.Add(new ConfigItem("ProjectId", project.ProjectId.ToString(), ParameterMode.Raw));
-            //node.CustomAttributes.Add(new ConfigItem("ProjectName", project.ProjectName, ParameterMode.Raw));
-            //node.CustomAttributes.Add(new ConfigItem("Description", project.Description, ParameterMode.Raw));
-            //node.CustomAttributes.Add(new ConfigItem("ProjectLocation", project.ProjectLocation, ParameterMode.Raw));
-            //node.CustomAttributes.Add(new ConfigItem("OrganizationName", project.Organization.OrganizationName, ParameterMode.Raw));
 
-            foreach (var subProject in _projectRelationService.FindList(project.ProjectName).ToArray())
+            foreach (var subProject in _projectRelationService.FindList(r => r.SuperProjectId == project.ProjectId,"ProjectRelationId",false).ToArray())
             {
                 node.Children.Add(RecursiveAddNode(subProject.SubProject));
             }
@@ -87,14 +88,17 @@ namespace VentureManagement.Web.Areas.Project.Controllers
 
         private Node GetProject()
         {
-            var root = _projectService.Find(1);
             var node = new Node
             {
                 Text = VMProject.PROJECT_ROOT,
                 NodeID = VMProject.PROJECT_ROOT
             };
 
-            node.Children.Add(RecursiveAddNode(root));
+            foreach (var prj in _projectRelationService.FindList(r=>r.SuperProjectId == VMProject.INVALID_PROJECT,"ProjectRelationId",false)
+                .ToArray().Select(r=>r.SubProject))
+            {
+                node.Children.Add(RecursiveAddNode(prj));
+            }
 
             return node;
         }
@@ -102,10 +106,10 @@ namespace VentureManagement.Web.Areas.Project.Controllers
         public ActionResult CreateProject(int? superProjectId, string subProject, string description,
             string projectLocation,int? organizationid)
         {
-            string infoMessage = "创建成功";
+            var infoMessage = "创建成功";
 
             if(superProjectId == null)
-                superProjectId = 1;
+                superProjectId = VMProject.INVALID_PROJECT;
 
             if (organizationid == null)
             {
@@ -121,13 +125,18 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                 OrganizationId = (int)organizationid
             };
 
+            ModelState.Clear();
             if (!TryValidateModel(project))
             {
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => new { x.Key, x.Value.Errors })
+                    .ToArray();
                 X.Msg.Alert("提示", "请检查参数是否正确，项目名/备注/部门名/项目地点不能为空").Show();
                 return this.Direct();
             }
 
-            if (_projectService.Exist(subProject, superProjectId))
+            if (_projectService.Exist(subProject, (int)superProjectId))
             {
                 infoMessage = "工程已存在";
             }
@@ -138,7 +147,7 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                 var super = _projectService.Find((int)superProjectId);
                 _projectRelationService.Add(new ProjectRelation
                 {
-                    SuperProjectId = super.ProjectId,
+                    SuperProjectId = (int)superProjectId,
                     SubProjectId = sub.ProjectId,
                     SuperProject = super,
                     SubProject = sub,

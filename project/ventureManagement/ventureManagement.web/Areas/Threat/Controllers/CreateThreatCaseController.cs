@@ -17,7 +17,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
         // GET: /Threat/CreateThreatCase/
         public ActionResult Index()
         {
-            return View();
+            return View(new ThreatCase());
         }
 
         public ActionResult GetAllProjects(int start, int limit, int page, string query)
@@ -25,6 +25,12 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             var projectController = new ProjectController();
             var projects = projectController.GetProjects(start, limit, page, query);
             return this.Store(projects.Data, projects.TotalRecords);
+        }
+
+        public ActionResult Submit(ThreatCase threatCase)
+        {
+            X.Msg.Alert("Customer Submit", JSON.Serialize(threatCase)).Show();
+            return this.FormPanel();
         }
 
         public ActionResult GetThreatCategory()
@@ -49,82 +55,67 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return this.Store("隐患数据库破坏，请联系系统管理员。");
         }
 
-        [ValidateInput(true)]
-		public ActionResult CreateThreatCase(List<FieldsGroupModel> groups1, List<FieldsGroupModel> groups2)
-		{
-			StringBuilder sb = new StringBuilder(255);
+        //[ValidateInput(true)]
+        //public ActionResult CreateThreatCase(List<FieldsGroupModel> groups1, List<FieldsGroupModel> groups2)
+        //{
+        //    StringBuilder sb = new StringBuilder(255);
 
-			sb.Append("<h1>Checked Items</h1>");
-			sb.Append("<h2>CheckboxGroups</h2>");
-			sb.Append("<blockquote>");
+        //    sb.Append("<h1>Checked Items</h1>");
+        //    sb.Append("<h2>CheckboxGroups</h2>");
+        //    sb.Append("<blockquote>");
 
-			groups1.ForEach(delegate(FieldsGroupModel group)
-			{
-				int count = 0;
+        //    groups1.ForEach(delegate(FieldsGroupModel group)
+        //    {
+        //        int count = 0;
 
-				group.CheckedItems.ForEach(delegate(CheckedFieldModel checkbox)
-				{
-					if (count == 0)
-					{
-						sb.AppendFormat("<h3>{0}</h3>", group.FieldLabel);
-						sb.Append("<blockquote>");
-					}
-					sb.AppendFormat("{0}<br />", checkbox.BoxLabel);
-					count++;
-				});
+        //        group.CheckedItems.ForEach(delegate(CheckedFieldModel checkbox)
+        //        {
+        //            if (count == 0)
+        //            {
+        //                sb.AppendFormat("<h3>{0}</h3>", group.FieldLabel);
+        //                sb.Append("<blockquote>");
+        //            }
+        //            sb.AppendFormat("{0}<br />", checkbox.BoxLabel);
+        //            count++;
+        //        });
 
-				if (count > 0)
-				{
-					sb.Append("</blockquote>");
-				}
-			});
+        //        if (count > 0)
+        //        {
+        //            sb.Append("</blockquote>");
+        //        }
+        //    });
 
-			sb.Append("</blockquote>");
+        //    sb.Append("</blockquote>");
 
-			sb.Append("<h2>RadioGroups</h2>");
-			sb.Append("<blockquote>");
+        //    sb.Append("<h2>RadioGroups</h2>");
+        //    sb.Append("<blockquote>");
 
-			groups2.ForEach(delegate(FieldsGroupModel group)
-			{
-			    int count = 0;
+        //    groups2.ForEach(delegate(FieldsGroupModel group)
+        //    {
+        //        int count = 0;
 
-			    group.CheckedItems.ForEach(delegate(CheckedFieldModel radio)
-			    {
-			        if (count == 0)
-			        {
-			            sb.AppendFormat("<h3>{0}</h3>", group.FieldLabel);
-			            sb.Append("<blockquote>");
-			        }
-			        sb.AppendFormat("{0}<br />", radio.BoxLabel);
-			        count++;
-			    });
+        //        group.CheckedItems.ForEach(delegate(CheckedFieldModel radio)
+        //        {
+        //            if (count == 0)
+        //            {
+        //                sb.AppendFormat("<h3>{0}</h3>", group.FieldLabel);
+        //                sb.Append("<blockquote>");
+        //            }
+        //            sb.AppendFormat("{0}<br />", radio.BoxLabel);
+        //            count++;
+        //        });
 
-			    if (count > 0)
-			    {
-			        sb.Append("</blockquote>");
-			    }
-			});
+        //        if (count > 0)
+        //        {
+        //            sb.Append("</blockquote>");
+        //        }
+        //    });
 
-			sb.Append("</blockquote>");
+        //    sb.Append("</blockquote>");
 
-			this.GetCmp<Label>("Label1").Html = sb.ToString();
+        //    this.GetCmp<Label>("Label1"). = sb.ToString();
 
-			return this.Direct();
-		}
-    }
-    public class CheckedFieldModel
-    {
-        public string BoxLabel { get; set; }
-    }
-    public class FieldsGroupModel
-    {
-        public FieldsGroupModel()
-        {
-            this.CheckedItems = new List<CheckedFieldModel>();
-        }
-
-        public string FieldLabel { get; set; }
-
-        public List<CheckedFieldModel> CheckedItems { get; set; }
+        //    return this.Direct();
+        //}
     }
 }
