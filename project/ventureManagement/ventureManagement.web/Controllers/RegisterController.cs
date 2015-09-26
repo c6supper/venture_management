@@ -38,9 +38,9 @@ namespace VentureManagement.Web.Controllers
         public ActionResult GetAllRoles(int start, int limit, int page, string query)
         {
             var permissionController = new PermissionController();
-            var rules = permissionController.GetRoles(start, limit, page, query);
-            
-            return this.Store(rules.Data, rules.TotalRecords);
+            var roles = permissionController.GetRoles(start, limit, page, query);
+
+            return this.Store(roles.Data, roles.TotalRecords);
         }
 
         [HttpPost]

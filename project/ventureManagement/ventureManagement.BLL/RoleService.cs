@@ -19,15 +19,61 @@ namespace VentureManagement.BLL
         {
             try
             {
-                if (Find(Role.ROLE_ADMIN) != null) return true;
-
-                var adminRole = new Role
+                if (Find(Role.ROLE_ADMIN) == null)
                 {
-                    RoleName = Role.ROLE_ADMIN,
-                    Description = "系统管理员",
-                    RoleValue = int.MaxValue
-                };
-                Add(adminRole);
+                    var role = new Role
+                    {
+                        RoleName = Role.ROLE_ADMIN,
+                        Description = "系统管理员",
+                        RoleValue = int.MaxValue
+                    };
+                    Add(role);
+                }
+                
+                if (Find(Role.ROLE_GROUP) == null)
+                {
+                    var role = new Role
+                    {
+                        RoleName = Role.ROLE_GROUP,
+                        Description = "集团安全管理人员",
+                        RoleValue = 0
+                    };
+                    Add(role);
+                }
+
+                if (Find(Role.ROLE_BRANCH) == null)
+                {
+                    var role = new Role
+                    {
+                        RoleName = Role.ROLE_BRANCH,
+                        Description = "分局安全管理人员",
+                        RoleValue = 0
+                    };
+                    Add(role);
+                }
+
+                if (Find(Role.ROLE_PROJECT_INSPECTOR) == null)
+                {
+                    var role = new Role
+                    {
+                        RoleName = Role.ROLE_PROJECT_INSPECTOR,
+                        Description = "项目部安全巡检员",
+                        RoleValue = 0
+                    };
+                    Add(role);
+                }
+
+                if (Find(Role.ROLE_PROJECT_LEADER) == null)
+                {
+                    var role = new Role
+                    {
+                        RoleName = Role.ROLE_PROJECT_LEADER,
+                        Description = "项目负责人",
+                        RoleValue = 0
+                    };
+                    Add(role);
+                }
+                
                 return true;
             }
             catch (Exception ex)

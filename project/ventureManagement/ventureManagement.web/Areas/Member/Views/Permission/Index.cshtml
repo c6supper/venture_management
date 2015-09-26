@@ -74,8 +74,19 @@
                             new ModelField(Role.PermissionStrings[2], ModelFieldType.Boolean),
                             new ModelField(Role.PermissionStrings[3], ModelFieldType.Boolean),
                             new ModelField(Role.PermissionStrings[4], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[5], ModelFieldType.Boolean),
                             new ModelField(Role.PermissionStrings[6], ModelFieldType.Boolean),
-                            new ModelField(Role.PermissionStrings[7], ModelFieldType.Boolean)
+                            new ModelField(Role.PermissionStrings[7], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[8], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[9], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[10], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[11], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[12], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[13], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[14], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[15], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[16], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[17], ModelFieldType.Boolean)
                         )
                     )
                     .ServerProxy(
@@ -85,13 +96,13 @@
                 )
                     
             .ColumnModel(
-                Html.X().Column().Text("Id").DataIndex("RoleId"),
+                Html.X().Column().Text("Id").DataIndex("RoleId").Hidden(true),
                 Html.X().ComponentColumn().Text("角色名").DataIndex("RoleName").EmptyCellText("不能为空")
                     .OverOnly(true).Editor(true).Component(Html.X().TextField()
                     .AllowBlank(false).EmptyText("角色名最少两个字")),
                 Html.X().ComponentColumn().Text("备注").DataIndex("Description").EmptyCellText("不能为空")
                     .OverOnly(true).Editor(true).Component(Html.X().TextField()
-                    .AllowBlank(false).EmptyText("不能为空")),
+                    .AllowBlank(false).EmptyText("不能为空")).Hidden(true),
                 Html.X().CheckColumn().Text(Role.PermissionStrings[0]).DataIndex(Role.PermissionStrings[0]).Editable(true),
                 Html.X().CheckColumn().Text(Role.PermissionStrings[1]).DataIndex(Role.PermissionStrings[1]).Editable(true),
                 Html.X().CheckColumn().Text(Role.PermissionStrings[2]).DataIndex(Role.PermissionStrings[2]).Editable(true),
@@ -99,7 +110,17 @@
                 Html.X().CheckColumn().Text(Role.PermissionStrings[4]).DataIndex(Role.PermissionStrings[4]).Editable(true),
                 Html.X().CheckColumn().Text(Role.PermissionStrings[5]).DataIndex(Role.PermissionStrings[5]).Editable(true),
                 Html.X().CheckColumn().Text(Role.PermissionStrings[6]).DataIndex(Role.PermissionStrings[6]).Editable(true),
-                Html.X().CheckColumn().Text(Role.PermissionStrings[7]).DataIndex(Role.PermissionStrings[7]).Editable(true)
+                Html.X().CheckColumn().Text(Role.PermissionStrings[7]).DataIndex(Role.PermissionStrings[7]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[8]).DataIndex(Role.PermissionStrings[8]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[9]).DataIndex(Role.PermissionStrings[9]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[10]).DataIndex(Role.PermissionStrings[10]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[11]).DataIndex(Role.PermissionStrings[11]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[12]).DataIndex(Role.PermissionStrings[12]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[13]).DataIndex(Role.PermissionStrings[13]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[14]).DataIndex(Role.PermissionStrings[14]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[15]).DataIndex(Role.PermissionStrings[15]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[16]).DataIndex(Role.PermissionStrings[16]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[17]).DataIndex(Role.PermissionStrings[17]).Editable(true)
             )
             .View(Html.X().GridView().StripeRows(true))   
             .BottomBar(

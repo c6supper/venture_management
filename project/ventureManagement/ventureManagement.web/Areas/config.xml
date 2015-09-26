@@ -11,10 +11,19 @@
   </new>
 
   <menuAttribute version="2.2">
+    <menu name="Home" display = "主页" />
+    <menu name="LucenceEngine" display = "隐患排查预警文档管理" />
+    <menu name="Alarm" display = "文档查询" />
+    <menu name="FileManage" display = "文档上传" />
     <menu name="Member" display = "系统管理" />
     <menu name="Organization" display = "集团组织结构" />
     <menu name="User" display = "用户管理" />
     <menu name="Permission" display = "权限管理管理" />
+    <menu name="Project" display = "项目管理" />
+    <menu name="Threat" display = "隐患排查预警管理" />
+    <menu name="CreateThreatCase" display = "隐患排查预警管理" />
+    <menu name="ThreatCase" display = "隐患排查预警列表" />
+    <menu name="ThreatCorrectionTemplate" display = "隐患排查预警修正模板" />
   </menuAttribute>
   
 </menu>
