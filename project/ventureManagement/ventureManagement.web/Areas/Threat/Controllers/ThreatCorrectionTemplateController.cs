@@ -11,24 +11,14 @@ using Excel;
 using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.Models;
-using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
-    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_THREATCASE_WRITE + "," + Role.PERIMISSION_THREATCASE_READ)]
-    public class ThreatCorrectionTemplateController : Controller
+    public class ThreatCorrectionTemplateController : ThreatBaseController
     {
         //
         // GET: /Threat/ThreatCorrectionTemplate/
         // ReSharper disable once InconsistentNaming
-        private const string _template = "~/Areas/Threat/Content/CorrectionTemplate.xml";
-        private ThreatCorrection _correctionTemplate = null;
-
-        public ThreatCorrectionTemplateController()
-        {
-            _correctionTemplate = ThreatCorrection.Deserialize(System.Web.HttpContext.Current.Server.MapPath(_template));
-        }
-
         public ActionResult Index()
         {
             return View();
@@ -106,38 +96,38 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                 {
                     excelReader.IsFirstRowAsColumnNames = true;
                     var table = excelReader.AsDataSet();
-                    var catgoryList = new List<ThreatCorrectionCatgory>();
-                    ThreatCorrectionCatgory catgory = null;
-                    var threatTypeList = new List<ThreatCorrectionCatgoryType>();
-                    var catgoryText = "";
+                    var catgoryList = new List<ThreatCorrectionCategory>();
+                    ThreatCorrectionCategory category = null;
+                    var threatTypeList = new List<ThreatCorrectionCategoryType>();
+                    var categoryText = "";
                     for (var rowIndex = 0; rowIndex < table.Tables[0].Rows.Count; rowIndex++)
                     {
                         var row = table.Tables[0].Rows[rowIndex];
                         var columnIndex = 0;
-                        var threatType = new ThreatCorrectionCatgoryType();
+                        var threatType = new ThreatCorrectionCategoryType();
                         foreach (string cellValue in row.ItemArray.Where(cellValue => cellValue.GetType() == string.Empty.GetType()))
                         {
                             switch (columnIndex++)
                             {
                                 case 0:
-                                    if (catgoryText != cellValue)
+                                    if (categoryText != cellValue)
                                     {
-                                        if (catgory != null)
+                                        if (category != null)
                                         {
-                                            catgory.Type = threatTypeList.ToArray();
+                                            category.Type = threatTypeList.ToArray();
                                             threatTypeList.Clear();
-                                            catgoryList.Add(catgory);
+                                            catgoryList.Add(category);
                                         }
                                         
-                                        catgory = new ThreatCorrectionCatgory
+                                        category = new ThreatCorrectionCategory
                                         {
-                                            Text = cellValue.ToCharArray().Select(c => c.ToString()).ToArray()
+                                            CategoryName = cellValue
                                         };
                                     }
-                                    catgoryText = cellValue;
+                                    categoryText = cellValue;
                                     continue;
                                 case 1:
-                                    threatType.Text = cellValue.ToCharArray().Select(c=>c.ToString()).ToArray();
+                                    threatType.TypeName = cellValue;
                                     continue;
                                 case 2:
                                     threatType.Cause = cellValue;
@@ -153,13 +143,13 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                         threatTypeList.Add(threatType);
 
                         if (rowIndex < table.Tables[0].Rows.Count - 1) continue;
-                        Debug.Assert(catgory != null, "catgory != null");
-                        catgory.Type = threatTypeList.ToArray();
-                        catgoryList.Add(catgory);
+                        Debug.Assert(category != null, "category != null");
+                        category.Type = threatTypeList.ToArray();
+                        catgoryList.Add(category);
                     }
 
                     excelReader.Close();
-                    template.Catgory = catgoryList.ToArray();
+                    template.Category = catgoryList.ToArray();
                     template.ModifyDate = DateTime.Now;
                     template.Version += 1;
                 }
