@@ -8,9 +8,11 @@ using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.Models;
 using VentureManagement.Web.Areas.Project.Controllers;
+using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_CREATETHREATCASE_WRITE + "," + Role.PERIMISSION_CREATETHREATCASE_READ)]
     public class CreateThreatCaseController : ThreatBaseController
     {
         //

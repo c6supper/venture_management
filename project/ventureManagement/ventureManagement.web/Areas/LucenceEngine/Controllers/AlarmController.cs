@@ -18,10 +18,12 @@ using Newtonsoft.Json.Serialization;
 using PanGu;
 using VentureManagement.Models;
 using VentureManagement.Web.Areas.LucenceEngine.Models;
+using VentureManagement.Web.Attributes;
 using Field = Lucene.Net.Documents.Field;
 
 namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
 {
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ALARM_WRITE + "," + Role.PERIMISSION_ALARM_READ)]
     public class AlarmController : Controller
     {
         //

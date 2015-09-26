@@ -15,9 +15,12 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Newtonsoft.Json.Serialization;
+using VentureManagement.Models;
+using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
 {
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_FILEMANAGE_WRITE + "," + Role.PERIMISSION_FILEMANAGE_READ)]
     public class FileManageController : Controller
     {
         //

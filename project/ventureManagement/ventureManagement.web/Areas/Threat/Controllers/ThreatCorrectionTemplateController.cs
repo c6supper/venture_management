@@ -11,9 +11,11 @@ using Excel;
 using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.Models;
+using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_THREATCORRECTIONTEMPLATE_WRITE + "," + Role.PERIMISSION_THREATCORRECTIONTEMPLATE_READ)]
     public class ThreatCorrectionTemplateController : ThreatBaseController
     {
         //
