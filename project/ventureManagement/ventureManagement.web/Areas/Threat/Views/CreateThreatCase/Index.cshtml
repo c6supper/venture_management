@@ -45,7 +45,7 @@
         {
             App.ProjectLocationId.setValue(record.get('ProjectLocation'));
             App.ThreatCaseLocation.setValue(record.get('ProjectLocation'));
-            App.OrganizationName.setValue(record.get('OrganizationName'));
+            App.OrganizationId.setValue(record.get('OrganizationId'));
         }
 
         var CalcRisk = function() {
@@ -168,7 +168,7 @@
                                       Html.X().ModelField().Name("ProjectId"),
                                       Html.X().ModelField().Name("ProjectName"),
                                       Html.X().ModelField().Name("ProjectLocation"),
-                                      Html.X().ModelField().Name("OrganizationName")
+                                      Html.X().ModelField().Name("OrganizationId")
                                   )
                               )
                           )
@@ -177,12 +177,18 @@
                   ),
 
               X.FieldSet()
+                 .Loader(Html.X().ComponentLoader()
+                        .Url(Url.Action("GetOrganization","Organization",new { Area = "Member" }))
+                        .Mode(LoadMode.Script)
+                        .Params(new { organizationId = JRawValue.From("App.OrganizationId.getValue()") })
+                    )
                   .Title("施工方信息")
                   .Layout(LayoutType.Anchor)
                   .Collapsible(true)
                   .Collapsed(false)
                   .DefaultAnchor("100%")
                   .Items(
+                      X.TextField().Hidden(true).ID("OrganizationId").DataIndex("OrganizationId").FieldLabel("施工方Id"),
                       X.TextField().ID("OrganizationName").DataIndex("OrganizationName").FieldLabel("施工方")
                   ),
 
