@@ -12,56 +12,76 @@ namespace VentureManagement.Models
         [Key]
         public int ThreatCaseId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "工程名")]
         public int ProjectId { get; set;}
 
-        [Required]
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患地点")]
         public string ThreatCaseLocation { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患上报时间")]
         public DateTime ThreatCaseReportTime { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "发现隐患时间")]
         public DateTime ThreatCaseFoundTime { get; set; }
+
+        [Required(ErrorMessage = "必填")]
+        [Display(Name = "整改限期")]
+        public DateTime ThreatCaseLimitTime { get; set; }
 
         [Display(Name = "隐患整改完成时间")]
         public DateTime ThreatCaseCorrectionTime{ get; set; }
 
         [Display(Name = "隐患大类")]
+        [Required(ErrorMessage = "必填")]
         public string ThreatCaseCategory { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患小类")]
         public string ThreatCaseType { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患描述")]
         public string ThreatCaseDescription { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患严重等级")]
         public int ThreatCaseSeverity { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患可能性等级")]
         public int ThreatCasePassibility { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患风险指数")]
         public int ThreatCaseRisk { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患上报人")]
         public int ThreatCaseReporterId { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "资格资质证件使用情况")]
         public string ThreatCaseCertification { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "现有安全设施情况")]
         public string ThreatCaseCurrentSecurity { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "施工方责任人")]
         public int ThreatCaseOwnerId { get; set; }
 
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "建议整改措施")]
         public string ThreatCaseSuggestion { get; set; }
+
+        [Required(ErrorMessage = "必填")]
+        [Display(Name = "可能的原因")]
+        public string ThreatCaseCause { get; set; }
 
         [Display(Name = "整改措施")]
         public string ThreatCaseCorrection { get; set; }
@@ -89,5 +109,11 @@ namespace VentureManagement.Models
 
         // ReSharper disable once InconsistentNaming
         public const string VALIDATION_MESSAGE = "\"工程名/隐患地点/发现隐患时间\"不能为空";
+
+        public const string STATUS_WAITCONFIRM = "等待施工方确认";
+        public const string STATUS_CORRECTING = "整改中";
+        public const string STATUS_WAITVERTIFY = "等待整改确认";
+        public const string STATUS_VERTIFYOK = "整改完成";
+        public const string STATUS_VERTIFYERR = "整改不通过";
     }
 }

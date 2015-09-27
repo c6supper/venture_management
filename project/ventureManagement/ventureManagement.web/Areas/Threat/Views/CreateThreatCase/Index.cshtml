@@ -41,11 +41,19 @@
         .ext-ie .x-form-text { position : static !important; }
     </style>
     <script>
+        var onSuccessfullySelectProject = function (result) {
+            App.OrganizationName.setValue(result.result.Project.Organization.OrganizationName);
+            App.ThreatCaseOwnerId.setValue(result.result.ThreatCaseOwnerId);
+            App.DisplayName.setValue(result.result.ThreatCaseOwner.DisplayName);
+            App.Email.setValue(result.result.ThreatCaseOwner.Email);
+            App.Mobile.setValue(result.result.ThreatCaseOwner.Mobile);
+        }
         var SelectProject = function(record)
         {
             App.ProjectLocationId.setValue(record.get('ProjectLocation'));
             App.ThreatCaseLocation.setValue(record.get('ProjectLocation'));
             App.OrganizationId.setValue(record.get('OrganizationId'));
+            App.OrganizationName.setValue(record.get('OrganizationName'));
         }
 
         var CalcRisk = function() {
@@ -57,37 +65,6 @@
                 App.ThreatCaseLevelId.setValue("较大事故隐患");
             else
                 App.ThreatCaseLevelId.setValue("一般事故隐患");
-        };
-
-        var CreateThreatCase = function(extraParams) {
-            if (!this.up('form').isValid())
-                return false;
-            Ext.ComponentQuery.query('checkboxgroup').forEach(function(item, index) {
-                if (item.isXType('checkboxgroup', true)) {
-                    var count = 0;
-                    extraParams['groups1[' + index + '].FieldLabel'] = item.fieldLabel;
-                    Ext.ComponentQuery.query('checkbox', item).forEach(function(innerItem) {
-                        if (innerItem.isXType('checkbox') && innerItem.checked) {
-                            extraParams['groups1[' + index + '].CheckedItems[' + count + '].BoxLabel'] = innerItem.boxLabel;
-                            count++;
-                        }
-                    });
-                }
-            });
-
-            Ext.ComponentQuery.query('radiogroup').forEach(function(item, index) {
-                if (item.isXType('radiogroup', true)) {
-                    var count = 0;
-                    extraParams['groups2[' + index + '].FieldLabel'] = item.fieldLabel;
-                    Ext.ComponentQuery.query('checkbox', item).forEach(function(innerItem) {
-                        if (innerItem.isXType('radio') && innerItem.checked) {
-                            extraParams['groups2[' + index + '].CheckedItems[' + count + '].BoxLabel'] = innerItem.boxLabel;
-                            count++;
-                        }
-                    });
-                }
-            });
-            return true;
         };
     </script>
 }
@@ -112,11 +89,6 @@
                   .Text("预警")
                   .Icon(Icon.Disk)
                   .Handler("this.up('form').submit();"),
-              //.DirectEvents(de =>
-              //{
-              //    de.Click.Url = Url.Action("CreateThreatCase");
-              //    de.Click.Before = "CreateThreatCase.call(this, extraParams);";
-              //}),
 
               X.Button()
                   .Text("取消")
@@ -135,7 +107,7 @@
                   .Collapsed(false)
                   .DefaultAnchor("100%")
                   .Items(
-                      X.ComboBox()
+                      X.ComboBoxFor(t => t.Project.ProjectId)
                           .ID("ProjectId")
                           .FieldLabel("工程")
                           .EmptyText("请输入关键字或*显示全部")
@@ -145,6 +117,11 @@
                           .PageSize(15)
                           .HideBaseTrigger(true)
                           .MinChars(0)
+                          .DirectEvents(de =>
+                          {
+                              de.Select.Url = Url.Action("SelectProject");
+                              de.Select.Success = "onSuccessfullySelectProject(result);";
+                          })
                           .TriggerAction(TriggerAction.All)
                           .ListConfig(Html.X().BoundList()
                               .LoadingText("搜索中...")
@@ -173,7 +150,7 @@
                               )
                           )
                           .Listeners(ls => ls.Select.Handler = "SelectProject(records[0]);"),
-                      X.TextField().ID("ProjectLocationId").DataIndex("ProjectLocation").FieldLabel("施工地点")
+                      X.TextFieldFor(t => t.Project.ProjectLocation).ID("ProjectLocationId").FieldLabel("施工地点")
                   ),
 
               X.FieldSet()
@@ -183,22 +160,24 @@
                   .Collapsed(false)
                   .DefaultAnchor("100%")
                   .Items(
-                      X.TextFieldFor(m=>m.Project.OrganizationId).
-                        ID("OrganizationId").DataIndex("OrganizationId").FieldLabel("施工方Id"),
-                      X.TextFieldFor(m=>m.Project.Organization.OrganizationName)
-                        .ID("OrganizationName").DataIndex("OrganizationName").FieldLabel("施工方")
+                      X.TextFieldFor(m => m.Project.OrganizationId).Hidden(true).
+                          ID("OrganizationId").DataIndex("OrganizationId").FieldLabel("施工方Id"),
+                      X.TextFieldFor(m => m.Project.Organization.OrganizationName)
+                          .ID("OrganizationName").DataIndex("OrganizationName").FieldLabel("施工方")
                   ),
 
               X.FieldSet()
-                  .Title("工程负责人")
+                  .Title("隐患整改负责人")
+                  .ID("ThreatCaseOwnerPanel")
                   .Layout(LayoutType.Anchor)
                   .Collapsible(true)
                   .Collapsed(false)
                   .DefaultAnchor("100%")
                   .Items(
-                      X.TextField().DataIndex("UserName").FieldLabel("责任人"),
-                      X.TextField().DataIndex("Email").FieldLabel("邮件"),
-                      X.TextField().DataIndex("Mobile").FieldLabel("联系方式")
+                      X.TextField().ID("ThreatCaseOwnerId").DataIndex("ThreatCaseOwnerId").Hidden(true),
+                      X.TextFieldFor(t=>t.ThreatCaseOwner.DisplayName).ID("DisplayName").DataIndex("DisplayName").FieldLabel("负责人"),
+                      X.TextFieldFor(t=>t.ThreatCaseOwner.Email).ID("Email").DataIndex("Email").FieldLabel("邮件"),
+                      X.TextFieldFor(t=>t.ThreatCaseOwner.Mobile).ID("Mobile").DataIndex("Mobile").FieldLabel("联系方式")
                   ),
 
               X.FieldSet()
@@ -212,15 +191,15 @@
                           .Layout(LayoutType.Column)
                           .MarginSpec("0 0 10")
                           .Items(
-                              X.TextField().ID("ThreatCaseLocation").DataIndex("ThreatCaseLocation").FieldLabel("隐患发现地"),
-                              X.DateField().ID("ThreatCaseFoundTime").DataIndex("ThreatCaseFoundTime").FieldLabel("隐患发现时间")
+                              X.TextFieldFor(t=>t.ThreatCaseLocation).ID("ThreatCaseLocation").FieldLabel("隐患发现地"),
+                              X.DateFieldFor(t=>t.ThreatCaseFoundTime).ID("ThreatCaseFoundTime").FieldLabel("隐患发现时间")
                                 .Value(DateTime.Now)),
-                      X.TextArea().DataIndex("ThreatCaseDescription").FieldLabel("隐患描述").Height(60),
+                      X.TextAreaFor(t=>t.ThreatCaseDescription).FieldLabel("隐患描述").Height(60),
                       X.Container()
                           .Layout(LayoutType.Column)
                           .MarginSpec("0 0 10")
                           .Items(
-                              X.ComboBox()
+                              X.ComboBoxFor(t=>t.ThreatCaseCategory)
                                   .FieldLabel("隐患大类")
                                   .ID("ThreatCategory")
                                   .TypeAhead(true)
@@ -251,7 +230,7 @@
                                           ls.Load.Handler = @"var combo = App.ThreatCategory;combo.setValue(records[0].get(combo.valueField));";
                                       })
                                   ),
-                              X.ComboBox()
+                              X.ComboBoxFor(t=>t.ThreatCaseType)
                                   .FieldLabel("隐患小类")
                                   .ID("ThreatType")
                                   .TypeAhead(true)
@@ -291,9 +270,10 @@
                         .Layout(LayoutType.Column)
                         .MarginSpec("0 0 10")
                         .Items(
-                            X.ComboBox()
+                            X.ComboBoxFor(t=>t.ThreatCaseSeverity)
                                 .FieldLabel("严重性等级")
                                 .ID("ThreatCaseSeverityId")
+                                .DataIndex("ThreatCaseSeverity")
                                 .QueryMode(DataLoadMode.Local)
                                 .TriggerAction(TriggerAction.All)
                                 .SelectOnFocus(true)
@@ -305,9 +285,10 @@
                                     new ListItem("轻度的",4),
                                     new ListItem("轻微的",1)
                                 ),
-                                X.ComboBox()
+                                X.ComboBoxFor(t=>t.ThreatCasePassibility)
                                 .FieldLabel("可能性等级")
                                 .ID("ThreatCasePassibilityId")
+                                .DataIndex("ThreatCasePassibility")
                                 .QueryMode(DataLoadMode.Local)
                                 .TriggerAction(TriggerAction.All)
                                 .SelectOnFocus(true)
@@ -326,23 +307,23 @@
                             .Layout(LayoutType.Column)
                             .MarginSpec("0 0 10")
                             .Items(
-                                X.TextField()
+                                X.TextFieldFor(t=>t.ThreatCaseRisk)
                                     .FieldLabel("隐患风险评价指数")
                                     .ID("ThreatCaseRiskId")
-                                    .EmptyText("")
+                                    .DataIndex("ThreatCaseRisk")
                                     .ReadOnly(true),
                                     
                                 X.TextField()
                                     .FieldLabel("隐患分级")
                                     .ID("ThreatCaseLevelId")
-                                    .EmptyText("")
                                     .ReadOnly(true)
                                 ),
-                        X.TextArea().ID("ThreatCaseCauseId").DataIndex("ThreatCaseCause").FieldLabel("可能的原因").Height(20),                            
-                        X.TextArea().DataIndex("ThreatCaseCertification").FieldLabel("资质证件使用情况").Height(40),
-                        X.TextArea().DataIndex("ThreatCaseCurrentSecurity").FieldLabel("现有安全设施情况").Height(40),
-                        X.TextArea().ID("ThreatCaseSuggestionId").DataIndex("ThreatCaseSuggestion").FieldLabel("整改措施建议").Height(60)
+                        X.DateField().ID("ThreatCaseLimitTime").FieldLabel("整改要求完成时间").Value(DateTime.Now.AddDays(7)),
+                        X.TextAreaFor(t=>t.ThreatCaseCause).ID("ThreatCaseCauseId").FieldLabel("可能的原因").Height(20),                            
+                        X.TextAreaFor(t=>t.ThreatCaseCertification).FieldLabel("资质证件使用情况").Height(40),
+                        X.TextAreaFor(t=>t.ThreatCaseCurrentSecurity).FieldLabel("现有安全设施情况").Height(40),
+                        X.TextAreaFor(t=>t.ThreatCaseSuggestion).ID("ThreatCaseSuggestionId").FieldLabel("整改措施建议").Height(60)
                     )
-                )
+                        )
           )
 }

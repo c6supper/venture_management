@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
+using VentureManagement.BLL;
+using VentureManagement.IBLL;
 using VentureManagement.Models;
 using VentureManagement.Web.Areas.Project.Controllers;
 using VentureManagement.Web.Attributes;
@@ -23,6 +26,17 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return View(new ThreatCase());
         }
 
+        public ActionResult SelectProject(ThreatCase threatCase)
+        {
+            InterfaceProjectService projectService = new ProjectService();
+            var project = projectService.Find(threatCase.Project.ProjectId);
+            threatCase.ThreatCaseOwnerId = project.UserId;
+            threatCase.ThreatCaseOwner = project.User;
+            threatCase.Project = project;
+
+            return this.Direct(threatCase);
+        }
+
         public ActionResult GetAllProjects(int start, int limit, int page, string query)
         {
             var projectController = new ProjectController();
@@ -32,7 +46,35 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
         public ActionResult Submit(ThreatCase threatCase)
         {
-            X.Msg.Alert("Customer Submit", JSON.Serialize(threatCase)).Show();
+            ModelState.Clear();
+            if (!TryValidateModel(threatCase))
+            {
+                X.Msg.Alert("", "请检查输入参数，请重试").Show();
+                return this.FormPanel();
+            }
+
+            try
+            {
+                InterfaceProjectService projectService = new ProjectService();
+                var project = projectService.Find(threatCase.Project.ProjectId);
+
+                threatCase.ThreatCaseReportTime = DateTime.Now;
+                threatCase.ThreatCaseReporterId = _currentUser.UserId;
+                threatCase.ThreatCaseReporter = _currentUser;
+                threatCase.Project = project;
+                threatCase.ThreatCaseOwner = project.User;
+                threatCase.ThreatCaseStatus = ThreatCase.STATUS_WAITCONFIRM;
+                if (null != _threatCaseService.Add(threatCase))
+                {
+                    X.Msg.Alert("", "隐患申报成功,等待施工方确认中.").Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                X.Msg.Alert("", "隐患申报失败,请检查参数.").Show();
+                Debug.Print(ex.Message);
+            }
+
             return this.FormPanel();
         }
 
