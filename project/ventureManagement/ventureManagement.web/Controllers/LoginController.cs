@@ -41,7 +41,14 @@ namespace VentureManagement.Web.Controllers
                 // Create the authentication ticket.
                 FormsAuthentication.SetAuthCookie(txtUsername, false);
 
-                Session["User"] = _userService.Find(txtUsername);
+                var currentUser = _userService.Find(txtUsername);
+                if (currentUser.Status != VentureManagement.Models.User.STATUS_VALID)
+                {
+                    X.Msg.Alert("提示", string.Concat("此用户名", currentUser.Status, "，请联系管理员")).Show();
+                    return this.Direct();
+                }
+                Session["User"] = currentUser;
+
                 var orgs = _uorgService.FindList(txtUsername).Select(uorg=>uorg.Organization).ToList();
                 Session["Organization"] = orgs;
                 var currentOrgList = new List<int>();

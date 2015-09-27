@@ -51,7 +51,6 @@
     <Compile Include="OrganizationRelation.cs" />
     <Compile Include="OrganizationRoleRelation.cs" />
     <Compile Include="Permission.cs" />
-    <Compile Include="UserRegister.cs" />
     <Compile Include="VMProject.cs" />
     <Compile Include="ProjectRelation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Common;
 using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.BLL;
@@ -55,8 +57,14 @@ namespace VentureManagement.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         public ActionResult CreateUser(string userName, string displayName,string userPassword, string userConfirmPassword,
-            string userEmail, string userMobile, int? OrganizationId, int? RoleId)
+            string userEmail, string userMobile, int? OrganizationId, int? RoleId, string verificationCode)
         {
+            if (TempData["VerificationCode"] == null || TempData["VerificationCode"].ToString() != verificationCode.ToUpper())
+            {
+                X.Msg.Alert("", "验证码错误，请重试").Show();
+                return this.Direct();
+            }
+
             if (string.IsNullOrEmpty(userName)
                 || string.IsNullOrEmpty(displayName)
                 || string.IsNullOrEmpty(userPassword)
@@ -131,6 +139,16 @@ namespace VentureManagement.Web.Controllers
         public ActionResult Cancel()
         {
             return RedirectToAction("Index", "Main");
+        }
+
+        [AllowAnonymous]
+        public ActionResult VerificationCode()
+        {
+            string verificationCode = Security.CreateVerificationText(6);
+            Bitmap _img = Security.CreateVerificationImage(verificationCode, 160, 30);
+            _img.Save(Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+            TempData["VerificationCode"] = verificationCode.ToUpper();
+            return null;
         }
     }
 }

@@ -22,7 +22,7 @@
 }
 
 .left { 
-	position: absolute;
+	position: relative;
 	/*background: url(../images/ext.net-logo.png) 0 0 no-repeat;*/
 	background-position: center left;
 }
