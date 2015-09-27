@@ -76,6 +76,23 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return this.Direct();
         }
 
+        public ActionResult GetUsers(int? organizationId, int start, int limit, int page, string query)
+        {
+            IQueryable<User> users = null;
+            if (organizationId == null)
+            {
+                users = _userService.FindList(u => true, "UserId", false);
+            }
+            else
+            {
+                users = _userService.FindList(u => u.UserOrganizationRelations.Any(uor => uor.OrganizationId == (int)organizationId),
+                    "UserId", false);
+            }
+            
+            var pagingUsers = new Paging<User>(users, users.Count());
+            return this.Store(pagingUsers.Data, pagingUsers.TotalRecords);
+        }
+
         public ActionResult UpdateUsers(StoreDataHandler handler)
         {
             var users = handler.BatchObjectData<User>();
@@ -90,7 +107,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                     string.IsNullOrEmpty(createdUser.DisplayName))
                 {
                     var record = store.GetById(createdUser.UserId);
-                    X.Msg.Alert("", "用户名/昵称/邮箱/手机号不能为空，请重试").Show();
+                    X.Msg.Alert("", "用户名/真名/邮箱/手机号不能为空，请重试").Show();
                     record.Reject();
                     return this.Direct();
                 }
@@ -144,7 +161,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                     string.IsNullOrEmpty(updatedUser.Mobile))
                 {
                     var record = store.GetById(updatedUser.UserId);
-                    X.Msg.Alert("", "昵称/邮箱/手机号不能为空，请重试").Show();
+                    X.Msg.Alert("", "真名/邮箱/手机号不能为空，请重试").Show();
                     record.Reject();
                     return this.Direct();
                 }
