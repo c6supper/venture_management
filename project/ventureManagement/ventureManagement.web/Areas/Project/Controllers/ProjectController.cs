@@ -64,7 +64,10 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                     ProjectName = project.ProjectName,
                     Description = project.Description,
                     ProjectLocation = project.ProjectLocation,
-                    OrganizationName = project.Organization.OrganizationName
+                    OrganizationName = project.Organization.OrganizationName,
+                    UserId = project.User.UserId,
+                    UserName = project.User.UserName,
+                    DisplayName = project.User.DisplayName
                 }
             };
 
@@ -99,21 +102,23 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             {
                 node.Children.Add(RecursiveAddNode(prj));
             }
+            if (node.Children.Count <= 0)
+                node.EmptyChildren = true;
 
             return node;
         }
 
         public ActionResult CreateProject(int? superProjectId, string subProject, string description,
-            string projectLocation,int? organizationid)
+            string projectLocation,int? organizationid,int? userId)
         {
             var infoMessage = "创建成功";
 
             if(superProjectId == null)
                 superProjectId = VMProject.INVALID_PROJECT;
 
-            if (organizationid == null)
+            if (organizationid == null || userId == null)
             {
-                X.Msg.Alert("提示", "请检查参数是否正确，项目名/备注/部门名/项目地点不能为空").Show();
+                X.Msg.Alert("提示", "请检查参数是否正确，项目名/备注/部门名/施工地点/负责人不能为空").Show();
                 return this.Direct();
             }
 
@@ -122,7 +127,8 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                 ProjectName = subProject,
                 Description = description,
                 ProjectLocation = projectLocation,
-                OrganizationId = (int)organizationid
+                OrganizationId = (int)organizationid,
+                UserId = (int)userId
             };
 
             ModelState.Clear();

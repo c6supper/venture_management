@@ -9,6 +9,7 @@ using Ext.Net.MVC;
 using VentureManagement.Models;
 using VentureManagement.Web.Areas.Project.Controllers;
 using VentureManagement.Web.Attributes;
+using PartialViewResult = Ext.Net.MVC.PartialViewResult;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {

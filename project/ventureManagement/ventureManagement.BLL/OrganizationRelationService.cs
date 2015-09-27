@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using VentureManagement.IBLL;
 using VentureManagement.DAL;
 using VentureManagement.IDAL;
@@ -18,10 +19,10 @@ namespace VentureManagement.BLL
             : base(RepositoryFactory.OrganizationRelationRepository)
         {
             _currentOrgList = currentOrgList;
-            if (currentOrgList != null)
-            {
-                CurrentRepository.EntityFilterEvent += OrganizationRelationFilterEvent;                
-            }
+            //if (currentOrgList != null)
+            //{
+            //    CurrentRepository.EntityFilterEvent += OrganizationRelationFilterEvent;                
+            //}
         }
 
         public OrganizationRelationService()
@@ -29,24 +30,24 @@ namespace VentureManagement.BLL
         {
         }
 
-        private object OrganizationRelationFilterEvent(object sender, FileterEventArgs e)
+        //private object OrganizationRelationFilterEvent(object sender, FileterEventArgs e)
+        //{
+        //    var orgrs = e.EventArg as IQueryable<OrganizationRelation>;
+        //    Debug.Assert(orgrs != null, "orgrs != null");
+
+        //    var filteredOrganizationRelations = new List<OrganizationRelation>();
+        //    foreach (var orgId in _currentOrgList)
+        //    {
+        //        filteredOrganizationRelations.AddRange(orgrs.Where(orgr => orgr.SuperiorDepartmentId == orgId ||
+        //            orgr.SubordinateDepartmentId == orgId));
+        //    }
+
+        //    return filteredOrganizationRelations.AsQueryable();
+        //}
+
+        public IQueryable<OrganizationRelation> FindList(Expression<Func<OrganizationRelation, bool>> whereLamdba, string orderName, bool isAsc)
         {
-            var orgrs = e.EventArg as IQueryable<OrganizationRelation>;
-            Debug.Assert(orgrs != null, "orgrs != null");
-
-            var filteredOrganizationRelations = new List<OrganizationRelation>();
-            foreach (var orgId in _currentOrgList)
-            {
-                filteredOrganizationRelations.AddRange(orgrs.Where(orgr => orgr.SuperiorDepartmentId == orgId ||
-                    orgr.SubordinateDepartmentId == orgId));
-            }
-
-            return filteredOrganizationRelations.AsQueryable();
-        }
-
-        public IQueryable<OrganizationRelation> FindList(string organization)
-        {
-            return CurrentRepository.FindList(u => u.SuperiorDepartment.OrganizationName == organization, string.Empty, false);
+            return CurrentRepository.FindList(whereLamdba, string.Empty, false);
         }
 
         public bool Exist(string superiorDepartment, string subordinateDepartment)

@@ -1,6 +1,6 @@
 ﻿@using Ext.Net
 @using Ext.Net.MVC
-@using InputType = Ext.Net.InputType
+@model VentureManagement.Models.ThreatCase
 @{
     ViewBag.Title = "新建隐患预警";
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
@@ -45,7 +45,7 @@
         {
             App.ProjectLocationId.setValue(record.get('ProjectLocation'));
             App.ThreatCaseLocation.setValue(record.get('ProjectLocation'));
-            App.OrganizationName.setValue(record.get('OrganizationName'));
+            App.OrganizationId.setValue(record.get('OrganizationId'));
         }
 
         var CalcRisk = function() {
@@ -168,7 +168,7 @@
                                       Html.X().ModelField().Name("ProjectId"),
                                       Html.X().ModelField().Name("ProjectName"),
                                       Html.X().ModelField().Name("ProjectLocation"),
-                                      Html.X().ModelField().Name("OrganizationName")
+                                      Html.X().ModelField().Name("OrganizationId")
                                   )
                               )
                           )
@@ -183,7 +183,10 @@
                   .Collapsed(false)
                   .DefaultAnchor("100%")
                   .Items(
-                      X.TextField().ID("OrganizationName").DataIndex("OrganizationName").FieldLabel("施工方")
+                      X.TextFieldFor(m=>m.Project.OrganizationId).
+                        ID("OrganizationId").DataIndex("OrganizationId").FieldLabel("施工方Id"),
+                      X.TextFieldFor(m=>m.Project.Organization.OrganizationName)
+                        .ID("OrganizationName").DataIndex("OrganizationName").FieldLabel("施工方")
                   ),
 
               X.FieldSet()

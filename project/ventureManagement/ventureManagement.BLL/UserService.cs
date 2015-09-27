@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using Common;
 using VentureManagement.IBLL;
@@ -122,6 +123,11 @@ namespace VentureManagement.BLL
                     break;
             }
             return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, u => true, orderName, isAsc);
+        }
+
+        public IQueryable<User> FindList(Expression<Func<User, bool>> whereLamdba, string orderName, bool isAsc)
+        {
+            return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
         }
     }
 }

@@ -118,7 +118,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             //        string.IsNullOrEmpty(updatedThreatCase.Mobile))
             //    {
             //        var record = store.GetById(updatedThreatCase.ThreatCaseId);
-            //        X.Msg.Alert("", "昵称/邮箱/手机号不能为空，请重试").Show();
+            //        X.Msg.Alert("", "真名/邮箱/手机号不能为空，请重试").Show();
             //        record.Reject();
             //        return this.Direct();
             //    }

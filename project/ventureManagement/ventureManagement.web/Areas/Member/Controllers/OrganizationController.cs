@@ -39,7 +39,8 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             node.CustomAttributes.Add(new ConfigItem("organizationId", "0", ParameterMode.Raw));
             node.CustomAttributes.Add(new ConfigItem("organizationName", "1", ParameterMode.Raw));
 
-            foreach (var childOrgr in _orgrService.FindList(org.OrganizationName).ToArray())
+            foreach (var childOrgr in _orgrService.FindList(r => r.SuperiorDepartmentId == org.OrganizationId,
+                "OrganizationId",false).ToArray())
             {
                 node.Children.Add(RecursiveAddNode(childOrgr.SubordinateDepartment));
             }
@@ -131,5 +132,9 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return this.Direct();
         }
 
+        public ActionResult GetOrganization(int? organizationId)
+        {
+            return this.Json(organizationId == null ? null : _orgSerivce.Find((int)organizationId));
+        }
     }
 }
