@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
+using VentureManagement.BLL;
+using VentureManagement.IBLL;
 using VentureManagement.Models;
 using VentureManagement.Web.Areas.Project.Controllers;
 using VentureManagement.Web.Attributes;
@@ -23,6 +26,31 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return View(new ThreatCase());
         }
 
+        public ActionResult SelectProject(ThreatCase threatCase)
+        {
+            InterfaceProjectService projectService = new ProjectService();
+            var project = projectService.Find(threatCase.ProjectId);
+            threatCase.ThreatCaseOwnerId = project.UserId;
+            threatCase.ThreatCaseOwner = new User
+            {
+                UserId = project.UserId,
+                Mobile = project.User.Mobile,
+                Email = project.User.Email,
+                DisplayName = project.User.DisplayName,
+            };
+            threatCase.Project = new VMProject()
+            {
+                ProjectLocation = project.ProjectLocation,
+                OrganizationId = project.OrganizationId,
+                Organization = new Organization()
+                {
+                    OrganizationName = project.Organization.OrganizationName
+                }
+            };
+
+            return this.Direct(threatCase);
+        }
+
         public ActionResult GetAllProjects(int start, int limit, int page, string query)
         {
             var projectController = new ProjectController();
@@ -32,7 +60,41 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
         public ActionResult Submit(ThreatCase threatCase)
         {
-            X.Msg.Alert("Customer Submit", JSON.Serialize(threatCase)).Show();
+            ModelState.Clear();
+            if (!TryValidateModel(threatCase))
+            {
+                X.Msg.Alert("", "请检查输入参数，请重试").Show();
+                return this.FormPanel();
+            }
+
+            try
+            {
+                threatCase.ThreatCaseReportTime = DateTime.Now;
+                threatCase.ThreatCaseReporterId = _currentUser.UserId;
+                threatCase.ThreatCaseStatus = ThreatCase.STATUS_WAITCONFIRM;
+                threatCase.Project = null;
+                threatCase.ThreatCaseOwner = null;
+                threatCase.ThreatCaseReporter = null;
+                threatCase.ThreatCaseCorrectionTime = DateTime.MaxValue;
+
+                if (null != _threatCaseService.Add(threatCase))
+                {
+                    X.Msg.Confirm("提示", "隐患申报成功,等待施工方确认中.", new MessageBoxButtonsConfig
+                    {
+                        Yes = new MessageBoxButtonConfig
+                        {
+                            Handler = "document.location.reload();",
+                            Text = "确定"
+                        }
+                    }).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                X.Msg.Alert("", "隐患申报失败,请检查参数.").Show();
+                Debug.Print(ex.Message);
+            }
+
             return this.FormPanel();
         }
 
