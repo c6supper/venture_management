@@ -61,7 +61,8 @@ namespace VentureManagement.Web.Models
                     node = new Node();
                     node.NodeID = BaseControl.GenerateID();
                     node.Text = GetDisplayName(folder.Name);
-                    nodes.Add(node);
+                    if(node.Text != string.Empty)
+                        nodes.Add(node);
 
                     node.IconCls = iconCls;
                     if (IsNew(folder.FullName))
@@ -148,7 +149,8 @@ namespace VentureManagement.Web.Models
 
                 node.Leaf = true;
 
-                areaNode.Children.Add(node);
+                if (node.Text != string.Empty)
+                    areaNode.Children.Add(node);
             }
         }
 
@@ -164,6 +166,8 @@ namespace VentureManagement.Web.Models
 
             if (rootCfg.MenuDisplays.ContainsKey(name))
                 return rootCfg.MenuDisplays[name];
+            else
+                name = string.Empty;
 
             return name;
         }

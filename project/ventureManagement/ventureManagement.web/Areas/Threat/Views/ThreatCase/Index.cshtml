@@ -1,5 +1,6 @@
 ﻿@using Ext.Net
 @using Ext.Net.MVC
+@model VentureManagement.Models.ThreatCase
 @{
     ViewBag.Title = "隐患预警管理";
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
@@ -35,31 +36,6 @@
             .ID("ThreatGrid")
             .Frame(true)
             .Height(400)
-            .TopBar(
-                Html.X().Toolbar()
-                    .Items(
-                        Html.X().Button()
-                            .Text("保存")
-                            .Icon(Icon.Disk)
-                            .DirectEvents(de =>
-                            {
-                                de.Click.Url = Url.Action("UpdateThreatCases");
-                                de.Click.ExtraParams.Add(new Parameter
-                                {
-                                    Name = "data",
-                                    Value = "this.up('grid').store.getChangedData()",
-                                    Mode = ParameterMode.Raw,
-                                    Encode = true
-                                });
-                            }),
-                            
-                        Html.X().Button()
-                            .Text("增加")
-                            .Icon(Icon.UserAdd)
-                            .Handler("addRecord(App.ThreatGridStore);")
-                            
-                        )
-                    )
             .Store(
                 Html.X().Store()
                     .ID("ThreatGridStore")
@@ -74,29 +50,33 @@
                                 .IDProperty("ThreatCaseGrid")
                                 .Fields(
                                     Html.X().ModelField().Name("ThreatCaseId"),
-                                    Html.X().ModelField().Name("ProjectName"),
+                                    Html.X().ModelField().Name("ProjectName").ServerMapping("ThreatCase.Project.ProjectName"),
                                     Html.X().ModelField().Name("ThreatCaseLocation"),
                                     Html.X().ModelField().Name("ThreatCaseCategory"),
                                     Html.X().ModelField().Name("ThreatCaseType"),
                                     Html.X().ModelField().Name("ThreatCaseSeverity"),
+                                    Html.X().ModelField().Name("ThreatCasePassibility"),
+                                    Html.X().ModelField().Name("ThreatCaseRisk"),
                                     Html.X().ModelField().Name("ThreatCaseFoundTime").Type(ModelFieldType.Date),
+                                    Html.X().ModelField().Name("ThreatCaseLimitTime").Type(ModelFieldType.Date),
+                                    Html.X().ModelField().Name("ThreatCaseReportTime").Type(ModelFieldType.Date),
                                     Html.X().ModelField().Name("ThreatCaseStatus")
                                 )
                             )
                     )
                     
             .ColumnModel(
-                Html.X().Column().DataIndex("ThreatCaseId").Text("Id").Hidden(true),
-                Html.X().ComponentColumn().DataIndex("ProjectName").Text("工程项目")
-                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
-                Html.X().ComponentColumn().DataIndex("ThreatCaseLocation").Text("隐患地点")
-                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
-                    Html.X().ComponentColumn().DataIndex("ThreatCaseCategory").Text("隐患大类")
-                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
-                Html.X().ComponentColumn().DataIndex("ThreatCaseType").Text("隐患小类")
-                    .OverOnly(true).Editor(true).Component(Html.X().TextField()),
-                Html.X().DateColumn().DataIndex("ThreatCaseFoundTime").Text("隐患上报时间").Format("yyyy-MM-dd"),
-                Html.X().DateColumn().DataIndex("LoginTime").Text("最近登录时间").Format("yyyy-MM-dd"),
+                Html.X().Column().Text("施工项目").DataIndex("ProjectName"),
+                Html.X().Column().DataIndex("ThreatCaseId").Text("Id").Hidden(true),                    
+                Html.X().Column().DataIndex("ThreatCaseLocation").Text("隐患地点"),
+                Html.X().Column().DataIndex("ThreatCaseCategory").Text("隐患大类"),
+                Html.X().Column().DataIndex("ThreatCaseType").Text("隐患小类"),
+                //Html.X().Column().DataIndex("ThreatCaseSeverity").Text("隐患严重等级"),
+                //Html.X().Column().DataIndex("ThreatCasePassibility").Text("隐患可能性等级"),
+                Html.X().Column().DataIndex("ThreatCaseRisk").Text("隐患风险指数"),
+                Html.X().DateColumn().DataIndex("ThreatCaseLimitTime").Text("整改期限").Format("yyyy-MM-dd"),
+                Html.X().DateColumn().DataIndex("ThreatCaseFoundTime").Text("隐患发现时间").Format("yyyy-MM-dd"),
+                Html.X().DateColumn().DataIndex("ThreatCaseReportTime").Text("隐患上报时间").Format("yyyy-MM-dd"),
                 Html.X().Column().DataIndex("ThreatCaseStatus").Text("状态"))
                     
             .Plugins(

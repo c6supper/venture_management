@@ -12,12 +12,9 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
         //
         // GET: /Threat/ThreatCasePrinter/
 
-        public ActionResult Index(int? threadCaseId)
+        public ActionResult Index(int threatCaseId)
         {
-            if (threadCaseId == null)
-                threadCaseId = 1;
-
-            var threatCase = _threatCaseService.Find((int)threadCaseId);
+            var threatCase = _threatCaseService.Find(threatCaseId);
             return View(threatCase);
         }
     }
