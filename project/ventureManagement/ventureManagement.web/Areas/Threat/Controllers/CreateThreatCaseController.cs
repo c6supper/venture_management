@@ -29,10 +29,24 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
         public ActionResult SelectProject(ThreatCase threatCase)
         {
             InterfaceProjectService projectService = new ProjectService();
-            var project = projectService.Find(threatCase.Project.ProjectId);
+            var project = projectService.Find(threatCase.ProjectId);
             threatCase.ThreatCaseOwnerId = project.UserId;
-            threatCase.ThreatCaseOwner = project.User;
-            threatCase.Project = project;
+            threatCase.ThreatCaseOwner = new User
+            {
+                UserId = project.UserId,
+                Mobile = project.User.Mobile,
+                Email = project.User.Email,
+                DisplayName = project.User.DisplayName,
+            };
+            threatCase.Project = new VMProject()
+            {
+                ProjectLocation = project.ProjectLocation,
+                OrganizationId = project.OrganizationId,
+                Organization = new Organization()
+                {
+                    OrganizationName = project.Organization.OrganizationName
+                }
+            };
 
             return this.Direct(threatCase);
         }
@@ -55,18 +69,24 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
             try
             {
-                InterfaceProjectService projectService = new ProjectService();
-                var project = projectService.Find(threatCase.Project.ProjectId);
-
                 threatCase.ThreatCaseReportTime = DateTime.Now;
                 threatCase.ThreatCaseReporterId = _currentUser.UserId;
-                threatCase.ThreatCaseReporter = _currentUser;
-                threatCase.Project = project;
-                threatCase.ThreatCaseOwner = project.User;
                 threatCase.ThreatCaseStatus = ThreatCase.STATUS_WAITCONFIRM;
+                threatCase.Project = null;
+                threatCase.ThreatCaseOwner = null;
+                threatCase.ThreatCaseReporter = null;
+                threatCase.ThreatCaseCorrectionTime = DateTime.MaxValue;
+
                 if (null != _threatCaseService.Add(threatCase))
                 {
-                    X.Msg.Alert("", "隐患申报成功,等待施工方确认中.").Show();
+                    X.Msg.Confirm("提示", "隐患申报成功,等待施工方确认中.", new MessageBoxButtonsConfig
+                    {
+                        Yes = new MessageBoxButtonConfig
+                        {
+                            Handler = "document.location.reload();",
+                            Text = "确定"
+                        }
+                    }).Show();
                 }
             }
             catch (Exception ex)

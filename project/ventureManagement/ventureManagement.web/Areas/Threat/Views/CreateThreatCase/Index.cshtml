@@ -48,8 +48,7 @@
             App.Email.setValue(result.result.ThreatCaseOwner.Email);
             App.Mobile.setValue(result.result.ThreatCaseOwner.Mobile);
         }
-        var SelectProject = function(record)
-        {
+        var SelectProject = function(record) {
             App.ProjectLocationId.setValue(record.get('ProjectLocation'));
             App.ThreatCaseLocation.setValue(record.get('ProjectLocation'));
             App.OrganizationId.setValue(record.get('OrganizationId'));
@@ -107,12 +106,13 @@
                   .Collapsed(false)
                   .DefaultAnchor("100%")
                   .Items(
-                      X.ComboBoxFor(t => t.Project.ProjectId)
+                      X.ComboBoxFor(t => t.ProjectId)
                           .ID("ProjectId")
                           .FieldLabel("工程")
                           .EmptyText("请输入关键字或*显示全部")
                           .DisplayField("ProjectName")
                           .ValueField("ProjectId")
+                          .DataIndex("")
                           .TypeAhead(true)
                           .PageSize(15)
                           .HideBaseTrigger(true)
