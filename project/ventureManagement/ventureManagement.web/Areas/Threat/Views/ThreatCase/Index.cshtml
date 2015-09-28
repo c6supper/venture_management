@@ -22,21 +22,6 @@
             meta.style = Ext.String.format(template, (value > 0) ? "green" : "red");
             return value;
         };
-
-        var beforeEdit = function(editor, e) {
-            if (e.field !== "DisplayName" && e.filed !== "Email" && e.filed !== "Status" &&
-                e.field !== "Status")
-                return false;
-            return true;
-        };
-
-        var addRecord = function(grid) {
-            var r = Ext.create({
-                Status: "已验证"
-            });
-            grid.store.insert(0, r);
-            form.getForm().reset();
-        };
     </script>
 }
 

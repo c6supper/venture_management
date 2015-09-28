@@ -1,0 +1,41 @@
+@using Ext.Net
+@using Ext.Net.MVC
+@{
+    ViewBag.Title = "预警告之单";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    var X = Html.X();
+}
+
+@section headtag
+{
+    <meta http-equiv=Content-Type content="text/html; charset=gb2312">
+
+    <title>预警告之单</title>
+}
+
+@section menu
+{
+    <body lang=ZH-CN style='tab-interval:21.0pt;text-justify-trim:punctuation'>
+
+        <div class=Section1 style='layout-grid:15.6pt'>
+
+            <p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+                style='font-size:28.0pt;mso-bidi-font-size:24.0pt'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal style='text-align:center'>
+	            <span style='font-weight:bold;font-size:40.0pt;mso-bidi-font-size:34.0pt;font-family:宋体;mso-ascii-font-family:
+		            "Times New Roman";mso-hansi-font-family:"Times New Roman"'>预警告之单</span></p>
+	            <br><br><br>
+
+            <p class=MsoNormal style='text-indent:21.0pt;mso-char-indent-count:2.0'><span
+                style='font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+                "Times New Roman";font-size:24.0pt;'> "@Model.Project.Organization.OrganizationName"施工单位在"@Model.Project.ProjectLocation"施工场所存在"@Model.ThreatCaseDescription"安全隐患，请在"@Model.ThreatCaseLimitTime"之前完成整改。</span></p>
+
+
+            <p class=MsoNormal><span lang=EN-US style='font-size:14.0pt;mso-bidi-font-size:
+                10.0pt;color:blue'><o:p>&nbsp;</o:p></span></p>
+
+        </div>
+
+    </body>
+}

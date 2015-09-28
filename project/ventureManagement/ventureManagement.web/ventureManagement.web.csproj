@@ -139,6 +139,7 @@
     <Compile Include="Areas\Threat\Controllers\CreateThreatCaseController.cs" />
     <Compile Include="Areas\Threat\Controllers\ThreatBaseController.cs" />
     <Compile Include="Areas\Threat\Controllers\ThreatCaseController.cs" />
+    <Compile Include="Areas\Threat\Controllers\ThreatCasePrinterController.cs" />
     <Compile Include="Areas\Threat\Controllers\ThreatCorrectionTemplateController.cs" />
     <Compile Include="Areas\Threat\ThreatAreaRegistration.cs" />
     <Compile Include="Attributes\AccessDeniedAuthorize.cs" />
@@ -303,6 +304,7 @@
     <Content Include="Areas\Threat\Views\ThreatCase\Index.cshtml" />
     <Content Include="Areas\Threat\Views\ThreatCorrectionTemplate\Index.cshtml" />
     <Content Include="Areas\Threat\Views\CreateThreatCase\Index.cshtml" />
+    <Content Include="Areas\Threat\Views\ThreatCasePrinter\Index.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />

@@ -83,7 +83,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                     {
                         Yes = new MessageBoxButtonConfig
                         {
-                            Handler = "document.location.reload();",
+                            Handler = "document.location.href='/Threat/ThreatCasePrinter?threatCaseId='" + threatCase.ThreatCaseId + ";",
                             Text = "确定"
                         }
                     }).Show();
