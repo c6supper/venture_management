@@ -59,6 +59,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return new Paging<User>(users, count);
         }
 
+        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public DirectResult Edit(int id, string field, string oldValue, string newValue, object customer)
         {
             string message = "<b>Property:</b> {0}<br /><b>Field:</b> {1}<br /><b>Old Value:</b> {2}<br /><b>New Value:</b> {3}";
@@ -93,6 +94,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return this.Store(pagingUsers.Data, pagingUsers.TotalRecords);
         }
 
+        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public ActionResult UpdateUsers(StoreDataHandler handler)
         {
             var users = handler.BatchObjectData<User>();

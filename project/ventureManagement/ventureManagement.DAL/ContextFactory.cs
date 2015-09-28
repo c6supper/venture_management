@@ -22,7 +22,7 @@ namespace VentureManagement.DAL
         /// <returns></returns>
         public static VentureManagementDbContext GetCurrentContext()
         {
-            VentureManagementDbContext nContext = CallContext.GetData("ventureManagementContext") as VentureManagementDbContext;
+            var nContext = CallContext.GetData("ventureManagementContext") as VentureManagementDbContext;
             if (nContext == null)
             {
                 nContext = new VentureManagementDbContext();

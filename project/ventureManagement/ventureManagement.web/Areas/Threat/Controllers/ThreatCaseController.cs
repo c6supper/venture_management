@@ -53,6 +53,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return new Paging<ThreatCase>(threatCases, count);
         }
 
+        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public ActionResult UpdateThreatCases(StoreDataHandler handler)
         {
             //var threatCases = handler.BatchObjectData<ThreatCase>();

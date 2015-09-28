@@ -108,6 +108,7 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             return node;
         }
 
+        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public ActionResult CreateProject(int? superProjectId, string subProject, string description,
             string projectLocation,int? organizationid,int? userId)
         {
@@ -173,6 +174,7 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             return this.Direct();
         }
 
+        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public ActionResult DeleteProject(int projectId)
         {
             return this.Direct();
