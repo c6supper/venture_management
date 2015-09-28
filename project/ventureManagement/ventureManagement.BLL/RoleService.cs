@@ -25,7 +25,7 @@ namespace VentureManagement.BLL
                     {
                         RoleName = Role.ROLE_ADMIN,
                         Description = "系统管理员",
-                        RoleValue = int.MaxValue
+                        RoleValue = long.MaxValue
                     };
                     Add(role);
                 }

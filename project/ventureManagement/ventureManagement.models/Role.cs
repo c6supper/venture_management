@@ -42,9 +42,9 @@ namespace VentureManagement.Models
 
         public static string[] RoleValueToPermissions(long roleValue)
         {
-            List<string> permissions = new List<string>();
+            var permissions = new List<string>();
             var permissionStringsIndex = 0;
-            int[] value = { Convert.ToInt32(roleValue >> 8), Convert.ToInt32(roleValue) };
+            int[] value = { (int)roleValue, (int)(roleValue >> 32) };
 
             var bitValue = new BitArray(value);
 
@@ -67,7 +67,7 @@ namespace VentureManagement.Models
             var permissions = new List<object> {RoleId,RoleName,Description};
 
             var permissionStringsIndex = 0;
-            int[] value = { Convert.ToInt32(RoleValue), Convert.ToInt32(RoleValue >> 8) };
+            int[] value = { (int)RoleValue, (int)(RoleValue >> 32) };
 
             var bitValue = new BitArray(value);
 
@@ -89,7 +89,7 @@ namespace VentureManagement.Models
         {
             var intByBitArray = new int[2];
             bitValue.CopyTo(intByBitArray,0);
-            RoleValue = (Convert.ToInt64(intByBitArray[1]) << 8) + intByBitArray[0];
+            RoleValue = (Convert.ToInt64(intByBitArray[1]) << 32) + intByBitArray[0];
         }
 
         // ReSharper disable InconsistentNaming
@@ -97,9 +97,9 @@ namespace VentureManagement.Models
         //31 63 should be PERIMISSION_UNKOWN
         public static readonly string[] PermissionStrings =
         {
-            PERIMISSION_ALARM_WRITE,
+            //PERIMISSION_ALARM_WRITE,
             PERIMISSION_ALARM_READ,
-            PERIMISSION_FILEMANAGE_WRITE,
+            //PERIMISSION_FILEMANAGE_WRITE,
             PERIMISSION_FILEMANAGE_READ,
             PERIMISSION_ORGANIZATION_WRITE,
             PERIMISSION_ORGANIZATION_READ,
@@ -119,9 +119,9 @@ namespace VentureManagement.Models
             PERIMISSION_UNKOWN
         };
         
-        public const string PERIMISSION_ALARM_WRITE = "文档查询(写)";
+        //public const string PERIMISSION_ALARM_WRITE = "文档查询(写)";
         public const string PERIMISSION_ALARM_READ = "文档查询(读)";
-        public const string PERIMISSION_FILEMANAGE_WRITE = "文档上传(写)";
+        //public const string PERIMISSION_FILEMANAGE_WRITE = "文档上传(写)";
         public const string PERIMISSION_FILEMANAGE_READ = "文档上传(读)";
         public const string PERIMISSION_ORGANIZATION_WRITE = "组织结构管理(写)";
         public const string PERIMISSION_ORGANIZATION_READ = "组织结构管理(读)";

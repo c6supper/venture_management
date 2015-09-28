@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.ApplicationServices;
 using System.Web.Mvc;
+using System.Web.Security;
 using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.IBLL;
@@ -64,6 +65,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return bitArray;
         }
 
+        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public ActionResult UpdatePermissions(StoreDataHandler handler)
         {
             var roles = handler.BatchObjectData<Role>();
@@ -157,6 +159,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                 }
             }
 
+            Roles.DeleteCookie();
             return this.Direct();
         }
 

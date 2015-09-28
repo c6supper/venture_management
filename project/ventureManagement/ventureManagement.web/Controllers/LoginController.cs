@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Web.Mvc;
 using System.Web.Security;
 using Ext.Net;
@@ -58,6 +61,12 @@ namespace VentureManagement.Web.Controllers
                     currentOrgList.AddRange(_orgrService.GetChildrenOrgList(org.OrganizationName));
                 }
                 Session["currentOrgList"] = currentOrgList;
+
+                //login time/ip
+                currentUser.LoginTime = DateTime.Now;
+                currentUser.LoginIP = GetLocalIP();
+                _userService.Update(currentUser);
+
                 // Redirect to the secure area.
                 if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                     && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -75,6 +84,31 @@ namespace VentureManagement.Web.Controllers
             }
 
             return this.Direct();
+        }
+
+        [AllowAnonymous]
+        private static string GetLocalIP()
+        {
+            try
+            {
+                string HostName = Dns.GetHostName(); //得到主机名
+                IPHostEntry IpEntry = Dns.GetHostEntry(HostName);
+                for (int i = 0; i < IpEntry.AddressList.Length; i++)
+                {
+                    //从IP地址列表中筛选出IPv4类型的IP地址
+                    //AddressFamily.InterNetwork表示此IP为IPv4,
+                    //AddressFamily.InterNetworkV6表示此地址为IPv6类型
+                    if (IpEntry.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        return IpEntry.AddressList[i].ToString();
+                    }
+                }
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
         }
 
         [AllowAnonymous]

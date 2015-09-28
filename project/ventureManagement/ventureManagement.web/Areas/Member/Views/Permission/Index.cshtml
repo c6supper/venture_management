@@ -84,9 +84,9 @@
                             new ModelField(Role.PermissionStrings[12], ModelFieldType.Boolean),
                             new ModelField(Role.PermissionStrings[13], ModelFieldType.Boolean),
                             new ModelField(Role.PermissionStrings[14], ModelFieldType.Boolean),
-                            new ModelField(Role.PermissionStrings[15], ModelFieldType.Boolean),
+                            new ModelField(Role.PermissionStrings[15], ModelFieldType.Boolean)@*,
                             new ModelField(Role.PermissionStrings[16], ModelFieldType.Boolean),
-                            new ModelField(Role.PermissionStrings[17], ModelFieldType.Boolean)
+                            new ModelField(Role.PermissionStrings[17], ModelFieldType.Boolean)*@
                         )
                     )
                     .ServerProxy(
@@ -118,9 +118,9 @@
                 Html.X().CheckColumn().Text(Role.PermissionStrings[12]).DataIndex(Role.PermissionStrings[12]).Editable(true),
                 Html.X().CheckColumn().Text(Role.PermissionStrings[13]).DataIndex(Role.PermissionStrings[13]).Editable(true),
                 Html.X().CheckColumn().Text(Role.PermissionStrings[14]).DataIndex(Role.PermissionStrings[14]).Editable(true),
-                Html.X().CheckColumn().Text(Role.PermissionStrings[15]).DataIndex(Role.PermissionStrings[15]).Editable(true),
+                Html.X().CheckColumn().Text(Role.PermissionStrings[15]).DataIndex(Role.PermissionStrings[15]).Editable(true)@*,
                 Html.X().CheckColumn().Text(Role.PermissionStrings[16]).DataIndex(Role.PermissionStrings[16]).Editable(true),
-                Html.X().CheckColumn().Text(Role.PermissionStrings[17]).DataIndex(Role.PermissionStrings[17]).Editable(true)
+                Html.X().CheckColumn().Text(Role.PermissionStrings[17]).DataIndex(Role.PermissionStrings[17]).Editable(true)*@
             )
             .View(Html.X().GridView().StripeRows(true))   
             .BottomBar(
