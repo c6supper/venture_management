@@ -313,9 +313,10 @@
                                     .DataIndex("ThreatCaseRisk")
                                     .ReadOnly(true),
                                     
-                                X.TextField()
+                                X.TextFieldFor(t=>t.ThreatCaseLevel)
                                     .FieldLabel("隐患分级")
                                     .ID("ThreatCaseLevelId")
+                                    .DataIndex("ThreatCaseLevel")
                                     .ReadOnly(true)
                                 ),
                         X.DateField().ID("ThreatCaseLimitTime").FieldLabel("整改要求完成时间").Value(DateTime.Now.AddDays(7)),

@@ -3,6 +3,8 @@ using System.Linq;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
+using VentureManagement.BLL;
+using VentureManagement.IBLL;
 using VentureManagement.Models;
 using VentureManagement.Web.Attributes;
 
@@ -35,6 +37,21 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             if (!string.IsNullOrEmpty(filter) && filter != "*")
             {
                 threatCases.RemoveAll(t => !t.ThreatCaseStatus.ToLower().StartsWith(filter.ToLower()));
+            }
+
+            var projectService = new ProjectService();
+            foreach (var t in threatCases)
+            {
+                var project = projectService.Find(t.ProjectId);
+                t.Project = new VMProject()
+                {
+                    ProjectId = project.ProjectId,
+                    ProjectName = project.ProjectName,
+                    ProjectLocation = project.ProjectLocation,
+                    OrganizationId = project.OrganizationId,
+                    Description = project.Description,
+                    UserId = project.UserId
+                };
             }
 
             if (!string.IsNullOrEmpty(sort))

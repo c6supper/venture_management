@@ -56,5 +56,10 @@ namespace VentureManagement.BLL
         {
             return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, whereLamdba, "ThreatCaseFoundTime", false);
         }
+
+        public IQueryable<ThreatCase> FindList(Expression<Func<ThreatCase, bool>> whereLamdba, string orderName, bool isAsc)
+        {
+            return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
+        }
     }
 }

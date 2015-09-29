@@ -101,6 +101,10 @@ namespace VentureManagement.Models
         [Display(Name = "状态")]
         public string ThreatCaseStatus { get; set; }
 
+        [Required]
+        [Display(Name = "隐患分级")]
+        public string ThreatCaseLevel { get; set; }
+
         public virtual VMProject Project { get; set; }
         public virtual User ThreatCaseReporter { get; set; }
         public virtual User ThreatCaseOwner { get; set; }
