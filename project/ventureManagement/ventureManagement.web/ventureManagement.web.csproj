@@ -137,6 +137,7 @@
     <Compile Include="Areas\Project\Controllers\ProjectController.cs" />
     <Compile Include="Areas\Project\ProjectAreaRegistration.cs" />
     <Compile Include="Areas\Threat\Controllers\CreateThreatCaseController.cs" />
+    <Compile Include="Areas\Threat\Controllers\MyThreatCaseController.cs" />
     <Compile Include="Areas\Threat\Controllers\ThreatBaseController.cs" />
     <Compile Include="Areas\Threat\Controllers\ThreatCaseController.cs" />
     <Compile Include="Areas\Threat\Controllers\ThreatCasePrinterController.cs" />
@@ -305,6 +306,7 @@
     <Content Include="Areas\Threat\Views\ThreatCorrectionTemplate\Index.cshtml" />
     <Content Include="Areas\Threat\Views\CreateThreatCase\Index.cshtml" />
     <Content Include="Areas\Threat\Views\ThreatCasePrinter\Index.cshtml" />
+    <Content Include="Areas\Threat\Views\MyThreatCase\Index.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />

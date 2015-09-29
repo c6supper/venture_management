@@ -1,0 +1,78 @@
+﻿@using Ext.Net
+@using Ext.Net.MVC
+
+@{
+    ViewBag.Title = "待处理隐患预警";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    var X = Html.X();
+}
+
+@section headtag
+{
+    <script>
+        
+        var makeReadOnly = function () {
+            try {
+                App.ThreatCaseDetail.cascade(Disabilita2, false, [true]);
+            } catch (e) {
+                alert(e);
+            } 
+            
+        }
+
+        var Disabilita2 = function (disable) {
+            if (this.getXType() === 'textfield') {
+                this.setDisabled(disable);
+            }
+        }
+    </script>
+}
+
+@section menu
+{
+    @(
+        X.GridPanelForModel()
+            .Title("待处理")
+            .ID("ThreatGrid")
+            .Frame(true)
+            .Height(400)
+            
+            .Plugins(
+                    X.FilterHeader()
+                )
+
+            .SelectionModel(
+                Html.X().RowSelectionModel()
+                    .Mode(SelectionMode.Single)
+                    .ID("GridSelector")
+                    .Listeners(l =>
+                    {
+                        l.Select.Handler = "App.ThreatCaseDetail.getForm().loadRecord(record);App.ThreatCaseDetailWin.show(this);";
+                    })
+            )
+    )
+
+    @(
+        X.Window()
+            .ID("ThreatCaseDetailWin")
+            .Width(1000)
+            .Height(500)
+            .Modal(true)
+            .AutoRender(false)
+            .AutoScroll(true)
+            .Maximizable(true)
+            .Hidden(true)
+            .Items(
+                Html.X().FormPanelFor(t=>t)
+                    .ID("ThreatCaseDetail")
+                    .Frame(true)
+                    .Title("隐患详细信息")
+                    .Width(400)
+                    .DefaultAnchor("100%")
+                    .FieldDefaults(d => {
+                        d.LabelAlign = LabelAlign.Right;
+                    }))
+            .Listeners(ls=>ls.BeforeHide.Handler="App.GridSelector.clearSelections();")
+            .Listeners(ls=>ls.BeforeShow.Handler="makeReadOnly()")
+    )
+}
