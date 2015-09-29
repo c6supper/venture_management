@@ -17,7 +17,7 @@ namespace VentureManagement.BLL
             : base(RepositoryFactory.ProjectRelationRepository)
         {
             _currentOrgList = currentOrgList;
-            CurrentRepository.EntityFilterEvent += ProjectRelationFilterEvent;
+            //CurrentRepository.EntityFilterEvent += ProjectRelationFilterEvent;
         }
 
         public ProjectRelationService()
@@ -25,20 +25,20 @@ namespace VentureManagement.BLL
         {
         }
         
-        private object ProjectRelationFilterEvent(object sender, FileterEventArgs e)
-        {
-            var prs = e.EventArg as IQueryable<ProjectRelation>;
-            Debug.Assert(prs != null, "prs != null");
+        //private object ProjectRelationFilterEvent(object sender, FileterEventArgs e)
+        //{
+        //    var prs = e.EventArg as IQueryable<ProjectRelation>;
+        //    Debug.Assert(prs != null, "prs != null");
 
-            var filteredProjectRelation = new List<ProjectRelation>();
-            foreach (var orgId in _currentOrgList)
-            {
-                filteredProjectRelation.AddRange(prs.Where(pr => pr.SuperProject.OrganizationId == orgId || 
-                    pr.SubProject.OrganizationId == orgId));
-            }
+        //    var filteredProjectRelation = new List<ProjectRelation>();
+        //    foreach (var orgId in _currentOrgList)
+        //    {
+        //        filteredProjectRelation.AddRange(prs.Where(pr => pr.SuperProject.OrganizationId == orgId || 
+        //            pr.SubProject.OrganizationId == orgId));
+        //    }
 
-            return filteredProjectRelation.AsQueryable();
-        }
+        //    return filteredProjectRelation.AsQueryable();
+        //}
 
         public IQueryable<ProjectRelation> FindList(Expression<Func<ProjectRelation, bool>> whereLamdba, string orderName, bool isAsc)
         {

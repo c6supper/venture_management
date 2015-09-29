@@ -106,7 +106,7 @@
                   })
                   .Items(
                             X.Checkbox().FieldLabel("是否为拆分工程").Checked(false)
-                            .Listeners(ls=>ls.Change.Handler="if(newValue) App.SSuperiorProject.show(); else App.SuperiorProject.hide();"),
+                            .Listeners(ls=>ls.Change.Handler="if(newValue) App.SuperiorProject.show(); else App.SuperiorProject.hide();"),
                             X.ComboBox()
                                 .Hidden(true)
                                 .ID("SuperiorProject")

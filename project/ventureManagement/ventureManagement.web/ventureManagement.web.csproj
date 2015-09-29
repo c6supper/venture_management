@@ -311,10 +311,10 @@
     <Content Include="Areas\Threat\Views\ThreatCorrectionTemplate\Index.cshtml" />
     <Content Include="Areas\Threat\Views\CreateThreatCase\Index.cshtml" />
     <Content Include="Areas\Threat\Views\ThreatCasePrinter\Index.cshtml" />
-    <Content Include="Areas\Report\Views\Web.config" />
     <Content Include="Areas\Report\Views\ProjectThreatCaseReport\Index.cshtml" />
     <Content Include="Areas\Report\Views\DepartmentThreatCaseReport\Index.cshtml" />
     <Content Include="Areas\Threat\Views\MyThreatCase\Index.cshtml" />
+    <Content Include="Areas\Report\Views\Web.config" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />

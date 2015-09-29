@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ext.Net.MVC;
 using VentureManagement.Web.Areas.Report.Models;
 
 namespace VentureManagement.Web.Areas.Report.Controllers
@@ -12,51 +13,48 @@ namespace VentureManagement.Web.Areas.Report.Controllers
     {
         //
         // GET: /Report/DepartmentThreatCaseReport/
-        public ActionResult Index()
+        public ActionResult Index(DateTime? from, DateTime? to)
         {
-            return View();
-        }
+            var reportFrom = @from == null ? new DateTime(1990, 1, 1) : Convert.ToDateTime(@from);
 
-        public ActionResult Search(string starttime, string endtime)
-        {
-            DateTime startTime = Convert.ToDateTime(starttime.Replace("\"", ""));
-            DateTime endTime = Convert.ToDateTime(endtime.Replace("\"", ""));
+            var reportTo = to == null ? new DateTime(3000, 1, 1) : Convert.ToDateTime(to);
 
-            var list = new List<ThreatCaseReport>();
-            foreach (var threatcase in _threatCaseService.FindList(tc => (tc.ThreatCaseFoundTime > startTime || tc.ThreatCaseFoundTime < endTime), 
+            var tcDi = new Dictionary<string, ThreatCaseReport>();
+            foreach (var threatcase in _threatCaseService.FindList(tc => (tc.ThreatCaseFoundTime >= reportFrom && tc.ThreatCaseFoundTime <= reportTo),
                 "ThreatCaseLevel", false).ToArray())
             {
-                var i = 0;
-                //foreach (var item in list)
-                for (i = 0; i < list.Count; i++)
+                if (!tcDi.ContainsKey(threatcase.Project.Organization.OrganizationName))
                 {
-                    if (list[i].DepartmentName == threatcase.Project.Organization.OrganizationName)
+                    var threatCaseReport = new ThreatCaseReport()
                     {
-                        if (threatcase.ThreatCaseLevel == "一般事故隐患")
-                        {
-                            list[i].ThreatCaseLevelGeneral++;
-                        }
-                        else if (threatcase.ThreatCaseLevel == "较大事故隐患")
-                        {
-                            list[i].ThreatCaseLevelLarger++;
-                        }
-                        else if (threatcase.ThreatCaseLevel == "重大事故隐患")
-                        {
-                            list[i].ThreatCaseLevelMajor++;
-                        }
-                        break;
+                        DepartmentName = threatcase.Project.Organization.OrganizationName
+                    };
+                    tcDi[threatCaseReport.DepartmentName] = threatCaseReport;
+                    switch (threatcase.ThreatCaseLevel)
+                    {
+                        case "一般事故隐患":
+                            threatCaseReport.ThreatCaseLevelGeneral++;
+                            break;
+                        case "较大事故隐患":
+                            threatCaseReport.ThreatCaseLevelLarger++;
+                            break;
+                        case "重大事故隐患":
+                            threatCaseReport.ThreatCaseLevelMajor++;
+                            break;
                     }
-                }
-
-                if (i > list.Count)
-                {
-                    ThreatCaseReport tcr = new ThreatCaseReport();
-                    tcr.DepartmentName = threatcase.Project.Organization.OrganizationName;
-                    list.Add(tcr);
                 }
             }
 
-            return View(list);
+            return this.View(tcDi.Values.ToArray());
+        }
+
+        public ActionResult Search(DateTime ?from, DateTime ?to)
+        {
+            var reportFrom = @from == null ? new DateTime(1990,1,1) : Convert.ToDateTime(@from);
+
+            var reportTo = to == null ? new DateTime(3000, 1, 1) : Convert.ToDateTime(to);
+
+            return RedirectToAction("Index", new { from = reportFrom,to = reportTo});
         }
     }
 }

@@ -21,12 +21,6 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
         protected ThreatBaseController()
         {
             _threatCaseService = new ThreatCaseService(_currentOrgList);
-
-            var cultureName = "zh-CN";
-
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(cultureName);
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(cultureName);
-            ViewData["lang"] = cultureName;
         }
     }
 }
