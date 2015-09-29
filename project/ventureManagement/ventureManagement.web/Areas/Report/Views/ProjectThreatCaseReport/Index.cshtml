@@ -1,0 +1,72 @@
+﻿@using Ext.Net
+@using Ext.Net.MVC
+@using InputType = Ext.Net.InputType
+@model VentureManagement.Web.Areas.Report.Models.ThreatCaseReport
+
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    var X = Html.X();
+}
+
+@section headtag
+{
+    <script>
+    </script>
+}
+
+@section menu
+{
+    @(
+        Html.X().GridPanelFor(t=>t)
+            .ID("ReportForm")
+            .Icon(Icon.Report)
+            .Frame(true)
+            .Title("项目隐患报表")
+            .Width(1000)
+            .AutoScroll(true)
+            .DefaultAnchor("100%")          
+            .TopBar(
+                Html.X().Toolbar()
+                    .Flat(true)
+                    .Items(       
+                        Html.X().ToolbarSpacer().Width(10),       
+                        Html.X().DateColumn()
+                            .Text("开始时间:")
+                            .Height(45)
+                            .HeaderItems(
+                                Html.X().DateField()
+                                    .ID("StartTime")
+                                    .Editable(false)
+                                    .Listeners(l => {
+                                        //l.Change.Handler = "applyFilter(this);";
+                                    })
+                            ),
+                        Html.X().ToolbarSpacer().Width(10),    
+                        Html.X().DateColumn()
+                            .Text("结束时间:")
+                            .Height(45)
+                            .HeaderItems(
+                                Html.X().DateField()
+                                    .ID("EndTime")
+                                    .Editable(false)
+                                    .Listeners(l => {
+                                        //l.Change.Handler = "applyFilter(this);";
+                                    })
+                            ),      
+                        Html.X().ToolbarSpacer().Width(10),                             
+                        Html.X().Button()
+                            .Text("搜索")
+                            .Height(45)
+                            .Icon(Icon.Find)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("Search");
+                                de.Click.ExtraParams.Add(new Parameter("starttime", "App.StartTime.getValue()", ParameterMode.Raw));
+                                de.Click.ExtraParams.Add(new Parameter("endtime", "App.EndTime.getValue()", ParameterMode.Raw));
+                            }),
+                        Html.X().ToolbarFill()
+                        )
+                    )            
+    )   
+}
