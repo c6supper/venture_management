@@ -11,20 +11,6 @@
 {
     <script>
         
-        var makeReadOnly = function () {
-            try {
-                App.ThreatCaseDetail.cascade(Disabilita2, false, [true]);
-            } catch (e) {
-                alert(e);
-            } 
-            
-        }
-
-        var Disabilita2 = function (disable) {
-            if (this.getXType() === 'textfield') {
-                this.setDisabled(disable);
-            }
-        }
     </script>
 }
 
@@ -66,6 +52,8 @@
                 Html.X().FormPanelFor(t=>t)
                     .ID("ThreatCaseDetail")
                     .Frame(true)
+                    .Enable(false)
+                    .Disabled(true)
                     .Title("隐患详细信息")
                     .Width(400)
                     .DefaultAnchor("100%")
@@ -73,6 +61,5 @@
                         d.LabelAlign = LabelAlign.Right;
                     }))
             .Listeners(ls=>ls.BeforeHide.Handler="App.GridSelector.clearSelections();")
-            .Listeners(ls=>ls.BeforeShow.Handler="makeReadOnly()")
     )
 }
