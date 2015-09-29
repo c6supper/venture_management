@@ -1,6 +1,6 @@
 ﻿@using Ext.Net
 @using Ext.Net.MVC
-@model VentureManagement.Models.ThreatCase
+
 @{
     ViewBag.Title = "隐患预警管理";
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
@@ -91,10 +91,42 @@
                     .DisplayInfo(true)
                     .DisplayMsg("显示隐患预警 {0} - {1} 共 {2}")
                     .EmptyMsg("没有隐患预警"))
-             .Listeners(l =>
-                {
-                    l.AfterRender.Handler = "this.filterHeader.fields[0].setIconCls('#Magnifier')";
-                    l.AfterRender.Delay = 10;
-                })
+                    .Listeners(l =>
+                       {
+                           l.AfterRender.Handler = "this.filterHeader.fields[0].setIconCls('#Magnifier')";
+                           l.AfterRender.Delay = 10;
+                       })
+            .SelectionModel(
+                Html.X().RowSelectionModel()
+                    .Mode(SelectionMode.Single)
+                    .ID("GridSelector")
+                    .Listeners(l =>
+                    {
+                        l.Select.Handler = "App.ThreatCaseDetail.getForm().loadRecord(record);App.ThreatCaseDetailWin.show(this);";
+                    })
+            )
+    )
+
+    @(
+        X.Window()
+            .ID("ThreatCaseDetailWin")
+            .Width(1000)
+            .Height(500)
+            .Modal(true)
+            .AutoRender(false)
+            .AutoScroll(true)
+            .Maximizable(true)
+            .Hidden(true)
+            .Items(
+                Html.X().FormPanelFor(t=>t)
+                    .ID("ThreatCaseDetail")
+                    .Frame(true)
+                    .Title("隐患详细信息")
+                    .Width(400)
+                    .DefaultAnchor("100%")
+                    .FieldDefaults(d => {
+                        d.LabelAlign = LabelAlign.Right;
+                    }))
+            .Listeners(ls=>ls.BeforeHide.Handler="App.GridSelector.clearSelections();")
     )
 }

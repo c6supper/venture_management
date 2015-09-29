@@ -26,6 +26,7 @@
     <menu name="Threat" display = "隐患排查预警管理" />
     <menu name="CreateThreatCase" display = "隐患预警申报" />
     <menu name="ThreatCase" display = "隐患排查预警库" />
+    <menu name="MyThreatCase" display = "待处理的隐患排查预警" />
     <menu name="ThreatCorrectionTemplate" display = "隐患排查预警整改库模板" />
   </menuAttribute>
   
