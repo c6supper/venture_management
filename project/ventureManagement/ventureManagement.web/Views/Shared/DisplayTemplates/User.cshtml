@@ -1,0 +1,29 @@
+﻿@model VentureManagement.Models.User
+
+@{
+    var title = ViewData.ContainsKey("title") ? ViewData["title"].ToString() : "";
+    var itemId = ViewData.ContainsKey("itemId") ? ViewData["itemId"].ToString() : "";
+    var visibale = ViewData.ContainsKey("visibale") ? ViewData["visibale"].ToString() : "";
+    var url = ViewData.ContainsKey("url") ? ViewData["url"].ToString() : "";
+}
+
+@(
+ Html.X().FormPanel()
+        .ItemID(itemId)
+        .Title(title)
+        .Url(url)
+        .DefaultAnchor("100%")
+        .StyleSpec("margin-bottom:5px;")
+        .Frame(true)
+        .Items(
+            Html.X().HiddenFor(u=>u.UserId),
+            Html.X().TextFieldFor(u=>u.UserName),
+            Html.X().TextFieldFor(u=>u.DisplayName),
+            Html.X().TextFieldFor(u=>u.Email),
+            Html.X().TextFieldFor(u=>u.Mobile),
+            Html.X().TextFieldFor(u=>u.Status),
+            Html.X().DateFieldFor(u=>u.RegistrationTime),
+            Html.X().TextFieldFor(u=>u.LoginIP),
+            Html.X().DateFieldFor(u=>u.LoginTime)
+        )
+)

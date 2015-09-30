@@ -71,10 +71,14 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             {
                 threatCase.ThreatCaseReportTime = DateTime.Now;
                 threatCase.ThreatCaseReporterId = _currentUser.UserId;
+                threatCase.ThreatCaseRiviewerId = _currentUser.UserId;
+                threatCase.ThreatCaseConfirmerId = _currentUser.UserId;
                 threatCase.ThreatCaseStatus = ThreatCase.STATUS_WAITCONFIRM;
                 threatCase.Project = null;
                 threatCase.ThreatCaseOwner = null;
                 threatCase.ThreatCaseReporter = null;
+                threatCase.ThreatCaseConfirmer = null;
+                threatCase.ThreatCaseRiviewer = null;
                 threatCase.ThreatCaseCorrectionTime = DateTime.MaxValue;
 
                 if (null != _threatCaseService.Add(threatCase))

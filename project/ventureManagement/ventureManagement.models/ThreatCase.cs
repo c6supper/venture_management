@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VentureManagement.Models
 {
@@ -60,20 +61,12 @@ namespace VentureManagement.Models
         public int ThreatCaseRisk { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "隐患上报人")]
-        public int ThreatCaseReporterId { get; set; }
-
-        [Required(ErrorMessage = "必填")]
         [Display(Name = "资格资质证件使用情况")]
         public string ThreatCaseCertification { get; set; }
 
         [Required(ErrorMessage = "必填")]
         [Display(Name = "现有安全设施情况")]
         public string ThreatCaseCurrentSecurity { get; set; }
-
-        [Required(ErrorMessage = "必填")]
-        [Display(Name = "施工方责任人")]
-        public int ThreatCaseOwnerId { get; set; }
 
         [Required(ErrorMessage = "必填")]
         [Display(Name = "建议整改措施")]
@@ -92,10 +85,19 @@ namespace VentureManagement.Models
         [Display(Name = "整改效果评估")]
         public string ThreatCaseCorrectionResult { get; set; }
 
+        [Required(ErrorMessage = "必填")]
+        [Display(Name = "隐患上报人")]
+        [ForeignKey("ThreatCaseReporter"), Column(Order = 0)]
+        public int ThreatCaseReporterId { get; set; }
+        [Required(ErrorMessage = "必填")]
+        [Display(Name = "施工方责任人")]
+        [ForeignKey("ThreatCaseOwner"), Column(Order = 1)]
+        public int ThreatCaseOwnerId { get; set; }
         [Display(Name = "确认人")]
+        [ForeignKey("ThreatCaseConfirmer"), Column(Order = 2)]
         public int ThreatCaseConfirmerId { get; set; }
-
         [Display(Name = "复查人")]
+        [ForeignKey("ThreatCaseRiviewer"), Column(Order = 3)]
         public int ThreatCaseRiviewerId { get; set; }
 
         [Display(Name = "状态")]
@@ -106,10 +108,11 @@ namespace VentureManagement.Models
         public string ThreatCaseLevel { get; set; }
 
         public virtual VMProject Project { get; set; }
+
         public virtual User ThreatCaseReporter { get; set; }
         public virtual User ThreatCaseOwner { get; set; }
         public virtual User ThreatCaseRiviewer { get; set; }
-        public virtual User ThreadCaseConfirmer { get; set; }
+        public virtual User ThreatCaseConfirmer { get; set; }
 
         // ReSharper disable once InconsistentNaming
         public const string VALIDATION_MESSAGE = "\"工程名/隐患地点/发现隐患时间\"不能为空";

@@ -29,7 +29,7 @@ namespace VentureManagement.Models
         /// </summary>
         [Required(ErrorMessage = "必填")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "{2}到{2}个字符")]
-        [Display(Name = "真名")]
+        [Display(Name = "实名")]
         public string DisplayName { get; set; }
 
         /// <summary>

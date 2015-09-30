@@ -1,0 +1,23 @@
+﻿@model VentureManagement.Models.Organization
+
+@{
+    var title = ViewData.ContainsKey("title") ? ViewData["title"].ToString() : "";
+    var itemId = ViewData.ContainsKey("itemId") ? ViewData["itemId"].ToString() : "";
+    var visibale = ViewData.ContainsKey("visibale") ? ViewData["visibale"].ToString() : "";
+    var url = ViewData.ContainsKey("url") ? ViewData["url"].ToString() : "";
+}
+
+@(
+ Html.X().FormPanel()
+        .ItemID(itemId)
+        .Title(title)
+        .Url(url)
+        .DefaultAnchor("100%")
+        .StyleSpec("margin-bottom:5px;")
+        .Frame(true)
+        .Items(
+            Html.X().HiddenFor(o=>o.OrganizationId),
+            Html.X().TextFieldFor(o=>o.OrganizationName),
+            Html.X().TextFieldFor(o=>o.Description)
+        )
+)

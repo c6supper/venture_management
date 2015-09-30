@@ -47,17 +47,25 @@
             .AutoRender(false)
             .AutoScroll(true)
             .Maximizable(true)
-            .Hidden(true)
-            .Items(
-                Html.X().FormPanelFor(t=>t)
-                    .ID("ThreatCaseDetail")
-                    .Frame(true)
-                    .Title("隐患详细信息")
-                    .Width(400)
-                    .DefaultAnchor("100%")
-                    .FieldDefaults(d => {
-                        d.LabelAlign = LabelAlign.Right;
-                    }))
+            //.Hidden(true)
+            .AutoShow(true)
+            .Loader(X.ComponentLoader()
+                .Url(Url.Action("Detail"))
+                .Params(new Parameter("threatCaseId", "3"))
+                .Mode(LoadMode.Frame)
+                .LoadMask(lm => lm.ShowMask = true)
+            )
+            //.Items(
+            //    Html.X().FormPanel()
+            //        .ID("ThreatCaseDetail")
+            //        .Frame(true)
+            //        .Title("详细信息")
+            //        .Width(400)
+            //        .DefaultAnchor("100%")
+            //        .FieldDefaults(d => {
+            //            d.LabelAlign = LabelAlign.Right;
+            //        }))
+            //        .ItemsFrom(b => Html.DisplayForModel("ThreatCase"))
             .Listeners(ls=>ls.BeforeHide.Handler="App.GridSelector.clearSelections();")
     )
 }

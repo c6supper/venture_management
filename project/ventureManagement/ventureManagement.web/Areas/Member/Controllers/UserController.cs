@@ -109,7 +109,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                     string.IsNullOrEmpty(createdUser.DisplayName))
                 {
                     var record = store.GetById(createdUser.UserId);
-                    X.Msg.Alert("", "用户名/真名/邮箱/手机号不能为空，请重试").Show();
+                    X.Msg.Alert("", "用户名/实名/邮箱/手机号不能为空，请重试").Show();
                     record.Reject();
                     return this.Direct();
                 }
@@ -163,7 +163,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                     string.IsNullOrEmpty(updatedUser.Mobile))
                 {
                     var record = store.GetById(updatedUser.UserId);
-                    X.Msg.Alert("", "真名/邮箱/手机号不能为空，请重试").Show();
+                    X.Msg.Alert("", "实名/邮箱/手机号不能为空，请重试").Show();
                     record.Reject();
                     return this.Direct();
                 }

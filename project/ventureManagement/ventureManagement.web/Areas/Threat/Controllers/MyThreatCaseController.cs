@@ -17,12 +17,16 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             var threatCases =
                 _threatCaseService.FindList(
                     t => (t.ThreatCaseOwnerId == _currentUser.UserId || t.ThreatCaseConfirmerId == _currentUser.UserId ||
-                         t.ThreatCaseReporterId == _currentUser.UserId || t.ThreatCaseReporterId == _currentUser.UserId) && 
+                         t.ThreatCaseReporterId == _currentUser.UserId || t.ThreatCaseRiviewerId == _currentUser.UserId) && 
                          t.ThreatCaseStatus != ThreatCase.STATUS_VERTIFYOK,
                     "ThreatCaseId", false).ToArray();
 
             return View(threatCases);
         }
 
+        public ActionResult Detail(int threatCaseId)
+        {
+            return View(_threatCaseService.Find(threatCaseId));
+        }
     }
 }

@@ -74,7 +74,7 @@ namespace VentureManagement.Web.Controllers
                 || (OrganizationId == null)
                 || (RoleId == null))
             {
-                X.Msg.Alert("", "用户名/真名/密码/邮箱/手机号/部门/角色不能为空，<br/>请重试").Show();
+                X.Msg.Alert("", "用户名/实名/密码/邮箱/手机号/部门/角色不能为空，<br/>请重试").Show();
                 return this.Direct();
             }
             
