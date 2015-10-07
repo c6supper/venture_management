@@ -14,9 +14,11 @@ namespace VentureManagement.Models
         public int ProjectId { get; set; }
 
         [Required]
+        [Display(Name = "施工地点")]
         public string ProjectLocation { get; set; }
 
         [Required]
+        [Display(Name = "施工项目名")]
         public string ProjectName { get; set; }
 
         [Required]

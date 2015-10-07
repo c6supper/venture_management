@@ -156,8 +156,6 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                 {
                     SuperProjectId = (int)superProjectId,
                     SubProjectId = sub.ProjectId,
-                    SuperProject = super,
-                    SubProject = sub,
                     Description = description
                 });
             }

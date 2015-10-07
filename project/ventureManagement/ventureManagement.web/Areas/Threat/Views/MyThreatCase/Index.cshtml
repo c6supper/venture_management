@@ -10,7 +10,6 @@
 @section headtag
 {
     <script>
-        
     </script>
 }
 
@@ -33,39 +32,30 @@
                     .ID("GridSelector")
                     .Listeners(l =>
                     {
-                        l.Select.Handler = "App.ThreatCaseDetail.getForm().loadRecord(record);App.ThreatCaseDetailWin.show(this);";
+                        l.Select.Handler = "App.ThreatCaseDetailWin.show(this);";
                     })
             )
     )
 
-    @(
-        X.Window()
-            .ID("ThreatCaseDetailWin")
-            .Width(1000)
-            .Height(500)
-            .Modal(true)
-            .AutoRender(false)
-            .AutoScroll(true)
-            .Maximizable(true)
-            //.Hidden(true)
-            .AutoShow(true)
-            .Loader(X.ComponentLoader()
-                .Url(Url.Action("Detail"))
-                .Params(new Parameter("threatCaseId", "3"))
-                .Mode(LoadMode.Frame)
-                .LoadMask(lm => lm.ShowMask = true)
-            )
-            //.Items(
-            //    Html.X().FormPanel()
-            //        .ID("ThreatCaseDetail")
-            //        .Frame(true)
-            //        .Title("详细信息")
-            //        .Width(400)
-            //        .DefaultAnchor("100%")
-            //        .FieldDefaults(d => {
-            //            d.LabelAlign = LabelAlign.Right;
-            //        }))
-            //        .ItemsFrom(b => Html.DisplayForModel("ThreatCase"))
-            .Listeners(ls=>ls.BeforeHide.Handler="App.GridSelector.clearSelections();")
-    )
+    @(X.Window()
+          .ID("ThreatCaseDetailWin")
+          .Width(700)
+          .Height(400)
+          .Modal(true)
+          .AutoRender(false)
+          .AutoScroll(false)
+          .Collapsible(false)
+          .ConstrainHeader(true)
+          .Constrain(true)
+          .Maximized(true)
+          .Maximizable(false)
+          .Resizable(false)
+          .Hidden(true)
+          .Loader(X.ComponentLoader()
+              .Url(Url.Action("Detail"))
+              .Params(new Parameter("threatCaseId","App.ThreatGrid.getSelectionModel().getLastSelected().get('ProjectId')",ParameterMode.Raw))
+              .Mode(LoadMode.Frame)
+              .LoadMask(lm => lm.ShowMask = true)
+          )
+          .Listeners(ls=>ls.BeforeHide.Handler="App.GridSelector.clearSelections();"))
 }

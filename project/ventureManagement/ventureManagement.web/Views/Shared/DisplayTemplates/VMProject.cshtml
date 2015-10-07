@@ -3,7 +3,7 @@
 @{
     var title = ViewData.ContainsKey("title") ? ViewData["title"].ToString() : "";
     var itemId = ViewData.ContainsKey("itemId") ? ViewData["itemId"].ToString() : "";
-    var visibale = ViewData.ContainsKey("visibale") ? ViewData["visibale"].ToString() : "";
+    var detail = ViewData.ContainsKey("detail");
     var url = ViewData.ContainsKey("url") ? ViewData["url"].ToString() : "";
 }
 
@@ -11,16 +11,18 @@
  Html.X().FormPanel()
         .ItemID(itemId)
         .Title(title)
+        .Collapsible(!detail)
+        .Collapsed(!detail)
         .Url(url)
         .DefaultAnchor("100%")
         .StyleSpec("margin-bottom:5px;")
         .Frame(true)
         .Items(
             Html.X().HiddenFor(p=>p.ProjectId),
-            Html.X().TextFieldFor(p=>p.ProjectName),
-            Html.X().TextFieldFor(p=>p.ProjectLocation)
+            Html.X().TextFieldFor(p=>p.ProjectName).ReadOnly(true),
+            Html.X().TextFieldFor(p=>p.ProjectLocation).ReadOnly(true)
         )
       )
 
-@Html.DisplayFor(t=>t.Organization, new {itemId = "OrganizationId", title = "施工单位信息",visibale = true})
-@Html.DisplayFor(t=>t.User, new {itemId = "ThreatCaseOwnerId", title = "施工负责人",visibale = true})
+@Html.DisplayFor(t=>t.Organization, new {itemId = "OrganizationId", title = "施工单位信息"})
+@Html.DisplayFor(t=>t.User, new {itemId = "ThreatCaseOwnerId", title = "施工负责人"})

@@ -3,7 +3,7 @@
 @{
     var title = ViewData.ContainsKey("title") ? ViewData["title"].ToString() : "";
     var itemId = ViewData.ContainsKey("itemId") ? ViewData["itemId"].ToString() : "";
-    var visibale = ViewData.ContainsKey("visibale") ? ViewData["visibale"].ToString() : "";
+    var detail = ViewData.ContainsKey("detail");
     var url = ViewData.ContainsKey("url") ? ViewData["url"].ToString() : "";
 }
 
@@ -12,18 +12,31 @@
         .ItemID(itemId)
         .Title(title)
         .Url(url)
+        .Collapsible(!detail)
+        .Collapsed(!detail)
         .DefaultAnchor("100%")
         .StyleSpec("margin-bottom:5px;")
         .Frame(true)
-        .Items(
-            Html.X().HiddenFor(u=>u.UserId),
-            Html.X().TextFieldFor(u=>u.UserName),
-            Html.X().TextFieldFor(u=>u.DisplayName),
-            Html.X().TextFieldFor(u=>u.Email),
-            Html.X().TextFieldFor(u=>u.Mobile),
-            Html.X().TextFieldFor(u=>u.Status),
-            Html.X().DateFieldFor(u=>u.RegistrationTime),
-            Html.X().TextFieldFor(u=>u.LoginIP),
-            Html.X().DateFieldFor(u=>u.LoginTime)
-        )
+        .Items(items =>
+        {
+            items.Add(Html.X().HiddenFor(u => u.UserId));
+            items.Add(Html.X().TextFieldFor(u => u.UserName).ReadOnly(true));
+            items.Add(Html.X().TextFieldFor(u => u.DisplayName).ReadOnly(true));
+            items.Add(Html.X().TextFieldFor(u => u.Email).ReadOnly(true));
+            items.Add(Html.X().TextFieldFor(u => u.Mobile).ReadOnly(true));
+            if (detail)
+            {
+                items.Add(Html.X().DateFieldFor(u => u.RegistrationTime).ReadOnly(true));
+                items.Add(Html.X().TextFieldFor(u => u.LoginIP).ReadOnly(true));
+                items.Add(Html.X().DateFieldFor(u => u.LoginTime).ReadOnly(true));
+                items.Add(Html.X().TextFieldFor(u => u.Status).ReadOnly(true));
+            }
+            else
+            {
+                items.Add(Html.X().HiddenFor(u => u.RegistrationTime));
+                items.Add(Html.X().HiddenFor(u => u.LoginIP));
+                items.Add(Html.X().HiddenFor(u => u.LoginTime));
+                items.Add(Html.X().HiddenFor(u => u.Status));
+            }
+        })
 )

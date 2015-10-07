@@ -13,7 +13,7 @@ namespace VentureManagement.Models
         /// </summary>
         [Required(ErrorMessage = "必填")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "{1}到{0}个字")]
-        [Display(Name = "名称")]
+        [Display(Name = "部门名")]
         public string OrganizationName { get; set; }
 
         /// <summary>

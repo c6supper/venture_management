@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+// ReSharper disable InconsistentNaming
 
 namespace VentureManagement.Models
 {
@@ -14,11 +15,11 @@ namespace VentureManagement.Models
         public int ThreatCaseId { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "工程名")]
+        [Display(Name = "施工项目ID")]
         public int ProjectId { get; set;}
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "隐患地点")]
+        [Display(Name = "隐患发生地")]
         public string ThreatCaseLocation { get; set; }
 
         [Required(ErrorMessage = "必填")]
@@ -69,7 +70,7 @@ namespace VentureManagement.Models
         public string ThreatCaseCurrentSecurity { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "建议整改措施")]
+        [Display(Name = "可选择采取的措施")]
         public string ThreatCaseSuggestion { get; set; }
 
         [Required(ErrorMessage = "必填")]
@@ -87,15 +88,17 @@ namespace VentureManagement.Models
 
         [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患上报人")]
-        [ForeignKey("ThreatCaseReporter"), Column(Order = 0)]
+        [ForeignKey("ThreatCaseReporter")]
         public int ThreatCaseReporterId { get; set; }
         [Required(ErrorMessage = "必填")]
         [Display(Name = "施工方责任人")]
-        [ForeignKey("ThreatCaseOwner"), Column(Order = 1)]
+        [ForeignKey("ThreatCaseOwner")]
         public int ThreatCaseOwnerId { get; set; }
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "确认人")]
-        [ForeignKey("ThreatCaseConfirmer"), Column(Order = 2)]
+        [ForeignKey("ThreatCaseConfirmer")]
         public int ThreatCaseConfirmerId { get; set; }
+        [Required(ErrorMessage = "必填")]
         [Display(Name = "复查人")]
         [ForeignKey("ThreatCaseRiviewer"), Column(Order = 3)]
         public int ThreatCaseRiviewerId { get; set; }
@@ -117,10 +120,37 @@ namespace VentureManagement.Models
         // ReSharper disable once InconsistentNaming
         public const string VALIDATION_MESSAGE = "\"工程名/隐患地点/发现隐患时间\"不能为空";
 
-        public const string STATUS_WAITCONFIRM = "等待施工方确认";
+        public const string STATUS_WAITCONFIRM = "等待隐患申报确认";
+        public const string STATUS_WAITACKNOWLEDGE = "等待施工方确认";
         public const string STATUS_CORRECTING = "整改中";
-        public const string STATUS_WAITVERTIFY = "等待整改确认";
-        public const string STATUS_VERTIFYOK = "整改完成";
+        public const string STATUS_FINISH = "整改完毕";
+        public const string STATUS_VERTIFYOK = "整改通过";
         public const string STATUS_VERTIFYERR = "整改不通过";
+        public const string STATUS_INVALID = "无效隐患";
+
+        public static string[] GetAllStatusByCurrentStatus(string status)
+        {
+            switch (status)
+            {
+                case STATUS_WAITCONFIRM:
+                    return new string[] { status,STATUS_INVALID, STATUS_WAITACKNOWLEDGE };
+                case STATUS_WAITACKNOWLEDGE:
+                    return new string[] { status,STATUS_CORRECTING };
+                case STATUS_CORRECTING:
+                    return new string[] { status,STATUS_FINISH };
+                case STATUS_FINISH:
+                    return new string[] { status,STATUS_VERTIFYOK, STATUS_VERTIFYERR };
+                case STATUS_VERTIFYERR:
+                    return new string[] { status,STATUS_CORRECTING };
+
+                default:
+                    return new string[] { status };
+            }
+        }
+
+        public static string[] GetAllThreatCaseStatus()
+        {
+            return new string[] { STATUS_WAITCONFIRM, STATUS_WAITACKNOWLEDGE, STATUS_CORRECTING, STATUS_FINISH, STATUS_VERTIFYOK, STATUS_VERTIFYERR };
+        }
     }
 }

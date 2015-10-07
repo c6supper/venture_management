@@ -24,7 +24,7 @@ namespace VentureManagement.Models
         /// </summary>
         [Required(ErrorMessage = "必填")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "{1}到{0}个字")]
-        [Display(Name = "名称")]
+        [Display(Name = "权限角色")]
         public string RoleName { get; set; }
 
         /// <summary>
@@ -129,8 +129,8 @@ namespace VentureManagement.Models
         public const string PERIMISSION_PERMISSION_READ = "用户权限管理(读)";
         public const string PERIMISSION_USER_WRITE = "用户管理(写)";
         public const string PERIMISSION_USER_READ = "用户管理(读)"; 
-        public const string PERIMISSION_PROJECT_WRITE = "工程项目管理(写)";
-        public const string PERIMISSION_PROJECT_READ = "工程项目管理(读)";
+        public const string PERIMISSION_PROJECT_WRITE = "工程施工项目管理(写)";
+        public const string PERIMISSION_PROJECT_READ = "工程施工项目管理(读)";
         public const string PERIMISSION_CREATETHREATCASE_WRITE = "创建隐患排查预警(写)";
         public const string PERIMISSION_CREATETHREATCASE_READ = "创建隐患排查预警(读)";
         public const string PERIMISSION_THREATCASE_WRITE = "隐患排查预警(写)";

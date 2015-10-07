@@ -21,11 +21,18 @@
             .ID("ThreatCaseDetail")
             .Frame(true)
             .Title("详细信息")
-            .Width(400)
+            .Width(500)
+            .Url(Url.Action("Submit"))
             .DefaultAnchor("100%")
             .FieldDefaults(d => {
                                     d.LabelAlign = LabelAlign.Right;
             })
+            .Buttons(
+                X.Button()
+                    .Text("确认")
+                    .Icon(Icon.Disk)
+                    .Handler("App.ThreatCaseDetail.submit();")
+            )
             .ItemsFrom(b => Html.DisplayForModel("ThreatCase"))
     )
 }

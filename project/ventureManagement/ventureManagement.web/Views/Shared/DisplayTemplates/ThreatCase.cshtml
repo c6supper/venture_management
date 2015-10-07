@@ -1,36 +1,44 @@
 ﻿@using Ext.Net.MVC
-@model VentureManagement.Models.ThreatCase
+@using VentureManagement.Models
+@model ThreatCase
 
 @Html.X().HiddenFor(t=>t.ThreatCaseId)
 @Html.X().HiddenFor(t=>t.ProjectId)
 @Html.X().HiddenFor(t=>t.ThreatCaseOwnerId)
-@Html.X().HiddenFor(t=>t.ThreatCaseConfirmerId)
 @Html.X().HiddenFor(t=>t.ThreatCaseReporterId)
 @Html.X().HiddenFor(t=>t.ThreatCaseRiviewerId)
+@Html.X().HiddenFor(t=>t.ThreatCaseConfirmerId)
 
+@*@switch (Model.ThreatCaseStatus)
+{
+    case ThreatCase.STATUS_WAITCONFIRM:
+        Html.X().HtmlHelper.
+}*@
+
+        
 @Html.DisplayFor(t=>t.Project, new {itemId = "ProjectId", title = "施工项目信息"})
-@Html.DisplayFor(t=>t.ThreatCaseOwner, new {itemId = "ThreatCaseOwnerId", title = "施工负责人",visibale = true})
-@Html.DisplayFor(t=>t.ThreatCaseReporter, new {itemId = "ThreatCaseReporterId", title = "隐患发现人",visibale = true})
-@Html.DisplayFor(t=>t.ThreatCaseRiviewer, new {itemId = "ThreatCaseRiviewerId", title = "隐患复核人",visibale = true})
-@Html.DisplayFor(t=>t.ThreatCaseConfirmer, new {itemId = "ThreatCaseConfirmerId", title = "隐患结果确认人",visibale = true})
+@Html.DisplayFor(t=>t.ThreatCaseOwner, new {itemId = "ThreatCaseOwnerId", title = "施工负责人"})
+@Html.DisplayFor(t=>t.ThreatCaseReporter, new {itemId = "ThreatCaseReporterId", title = "隐患发现人"})
+@Html.DisplayFor(t=>t.ThreatCaseRiviewer, new {itemId = "ThreatCaseRiviewerId", title = "隐患复核人"})
+@Html.DisplayFor(t=>t.ThreatCaseConfirmer, new {itemId = "ThreatCaseConfirmerId", title = "隐患结果确认人"})
 
-@Html.X().TextFieldFor(t=>t.ThreatCaseLocation)
-@Html.X().DateFieldFor(t=>t.ThreatCaseReportTime)
-@Html.X().DateFieldFor(t=>t.ThreatCaseFoundTime)
-@Html.X().DateFieldFor(t=>t.ThreatCaseLimitTime)
-@Html.X().DateFieldFor(t=>t.ThreatCaseCorrectionTime)
-@Html.X().TextFieldFor(t=>t.ThreatCaseCategory)
-@Html.X().TextFieldFor(t=>t.ThreatCaseType)
-@Html.X().TextFieldFor(t=>t.ThreatCaseDescription)
-@Html.X().TextFieldFor(t=>t.ThreatCaseSeverity)
-@Html.X().TextFieldFor(t=>t.ThreatCasePassibility)
-@Html.X().TextFieldFor(t=>t.ThreatCaseRisk)
-@Html.X().TextFieldFor(t=>t.ThreatCaseCertification)
-@Html.X().TextFieldFor(t=>t.ThreatCaseCurrentSecurity)
-@Html.X().TextFieldFor(t=>t.ThreatCaseSuggestion)
-@Html.X().TextFieldFor(t=>t.ThreatCaseCause)
-@Html.X().TextFieldFor(t=>t.ThreatCaseCorrection)
+@(Html.X().TextFieldFor(t=>t.ThreatCaseLocation).ReadOnly(true))
+@Html.X().DateFieldFor(t=>t.ThreatCaseReportTime).ReadOnly(true)
+@Html.X().DateFieldFor(t=>t.ThreatCaseFoundTime).ReadOnly(true)
+@Html.X().DateFieldFor(t=>t.ThreatCaseLimitTime).ReadOnly(true)
+@Html.X().DateFieldFor(t=>t.ThreatCaseCorrectionTime).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseCategory).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseType).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseDescription).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseSeverity).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCasePassibility).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseRisk).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseCertification).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseCurrentSecurity).ReadOnly(true)
+@Html.X().TextAreaFor(t=>t.ThreatCaseSuggestion).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseCause).ReadOnly(true)
+@Html.X().TextAreaFor(t=>t.ThreatCaseCorrection)
 @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionValue)
 @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionResult)
-@Html.X().TextFieldFor(t=>t.ThreatCaseStatus)
+@Html.X().ComboBoxFor(t=>t.ThreatCaseStatus).Items(ThreatCase.GetAllStatusByCurrentStatus(Model.ThreatCaseStatus).Select(t => new ListItem(t)))
 @Html.X().TextFieldFor(t=>t.ThreatCaseLevel)

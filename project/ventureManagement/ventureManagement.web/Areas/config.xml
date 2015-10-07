@@ -16,10 +16,10 @@
     <menu name="Alarm" display = "文档查询" />
     <menu name="FileManage" display = "文档上传" />
     <menu name="Member" display = "系统管理" />
-    <menu name="Organization" display = "施工安全管理组织结构" />
+    <menu name="Organization" display = "安全部管理" />
     <menu name="User" display = "用户管理" />
     <menu name="Permission" display = "权限管理" />
-    <menu name="Project" display = "项目管理" />
+    <menu name="Project" display = "施工项目管理" />
     <menu name="Report" display = "隐患报表" />
     <menu name="ProjectThreatCaseReport" display = "项目隐患预警报表" />
     <menu name="DepartmentThreatCaseReport" display = "部门隐患预警报表" />

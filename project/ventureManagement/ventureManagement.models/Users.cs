@@ -57,17 +57,20 @@ namespace VentureManagement.Models
         /// <summary>
         /// 注册时间
         /// </summary>
+        [Display(Name = "注册时间")]
         public DateTime RegistrationTime { get; set; }
 
         /// <summary>
         /// 上次登陆时间
         /// </summary>
+        [Display(Name = "上次登陆时间")]
         public Nullable<DateTime> LoginTime { get; set; }
 
         /// <summary>
         /// 上次登陆IP
         /// </summary>
         // ReSharper disable once InconsistentNaming
+        [Display(Name = "上次登陆的IP")]
         public string LoginIP { get; set; }
 
 
@@ -76,6 +79,7 @@ namespace VentureManagement.Models
         /// </summary>
         private string _status = STATUS_INVALID;
 
+        [Display(Name = "用户状态")]
         public string Status
         {
             get
