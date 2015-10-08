@@ -50,7 +50,7 @@ namespace VentureManagement.Web.Controllers
                     X.Msg.Alert("提示", string.Concat("此用户名", currentUser.Status, "，请联系管理员")).Show();
                     return this.Direct();
                 }
-                Session["User"] = currentUser;
+                Session["UserId"] = currentUser.UserId;
 
                 var orgs = _uorgService.FindList(txtUsername).Select(uorg=>uorg.Organization).ToList();
                 Session["Organization"] = orgs;

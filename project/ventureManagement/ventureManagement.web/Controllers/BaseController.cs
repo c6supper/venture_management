@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using VentureManagement.BLL;
 using VentureManagement.Models;
 
 namespace VentureManagement.Web.Controllers
@@ -15,13 +16,21 @@ namespace VentureManagement.Web.Controllers
         // GET: /Base/
 
         // ReSharper disable once InconsistentNaming
-        protected User _currentUser = null;
+        protected User _currentUser
+        {
+            get
+            {
+                var userId = (int) System.Web.HttpContext.Current.Session["UserId"];
+                var userService = new UserService();
+                return userService.Find(userId);
+            }
+        }
+
         // ReSharper disable once InconsistentNaming
         protected List<int> _currentOrgList = null;
 
         public BaseController()
         {
-            _currentUser = System.Web.HttpContext.Current.Session["User"] as User;
             _currentOrgList = System.Web.HttpContext.Current.Session["currentOrgList"] as List<int>;
 
             var cultureName = "zh-CN";

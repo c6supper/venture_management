@@ -315,7 +315,7 @@
     <Content Include="Areas\Report\Views\DepartmentThreatCaseReport\Index.cshtml" />
     <Content Include="Areas\Threat\Views\MyThreatCase\Index.cshtml" />
     <Content Include="Areas\Report\Views\Web.config" />
-    <Content Include="Views\Shared\DisplayTemplates\ThreatCase.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ThreatCase.cshtml" />
     <Content Include="Areas\Threat\Views\MyThreatCase\Detail.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
@@ -340,9 +340,9 @@
     <None Include="resources\fonts\TitilliumText25L005-webfont.woff" />
     <Content Include="Views\Shared\_BaseLayoutClean.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\VMProject.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\User.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\Organization.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\VMProject.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\User.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Organization.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Member\Content\" />
@@ -353,6 +353,7 @@
     <Folder Include="Areas\Threat\Models\" />
     <Folder Include="Areas\Threat\Views\Shared\" />
     <Folder Include="Files\" />
+    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_BaseLayout.cshtml" />

@@ -33,6 +33,6 @@
                     .Icon(Icon.Disk)
                     .Handler("App.ThreatCaseDetail.submit();")
             )
-            .ItemsFrom(b => Html.DisplayForModel("ThreatCase"))
+            .ItemsFrom(b => Html.EditorForModel("ThreatCase"))
     )
 }

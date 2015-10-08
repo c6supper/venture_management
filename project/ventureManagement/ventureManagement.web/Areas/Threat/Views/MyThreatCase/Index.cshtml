@@ -53,7 +53,7 @@
           .Hidden(true)
           .Loader(X.ComponentLoader()
               .Url(Url.Action("Detail"))
-              .Params(new Parameter("threatCaseId","App.ThreatGrid.getSelectionModel().getLastSelected().get('ProjectId')",ParameterMode.Raw))
+              .Params(new Parameter("threatCaseId","App.ThreatGrid.getSelectionModel().getLastSelected().get('ThreatCaseId')",ParameterMode.Raw))
               .Mode(LoadMode.Frame)
               .LoadMask(lm => lm.ShowMask = true)
           )

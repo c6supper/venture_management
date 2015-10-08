@@ -9,11 +9,11 @@
 @Html.X().HiddenFor(t=>t.ThreatCaseReviewerId)
 @Html.X().HiddenFor(t=>t.ThreatCaseConfirmerId)
 
-@Html.DisplayFor(t=>t.Project, new {itemId = "ProjectId", title = "施工项目信息"})
-@Html.DisplayFor(t=>t.ThreatCaseOwner, new {itemId = "ThreatCaseOwnerId", title = "施工负责人"})
-@Html.DisplayFor(t=>t.ThreatCaseReporter, new {itemId = "ThreatCaseReporterId", title = "隐患发现人"})
-@Html.DisplayFor(t=>t.ThreatCaseReviewer, new {itemId = "ThreatCaseReviewerId", title = "隐患复核人"})
-@Html.DisplayFor(t=>t.ThreatCaseConfirmer, new {itemId = "ThreatCaseConfirmerId", title = "隐患结果确认人"})
+@Html.EditorFor(t=>t.Project, new {itemId = "ProjectId", title = "施工项目信息"})
+@Html.EditorFor(t=>t.ThreatCaseOwner, new {itemId = "ThreatCaseOwnerId", title = "施工负责人"})
+@Html.EditorFor(t=>t.ThreatCaseReporter, new {itemId = "ThreatCaseReporterId", title = "隐患发现人"})
+@Html.EditorFor(t=>t.ThreatCaseReviewer, new {itemId = "ThreatCaseReviewerId", title = "隐患复核人"})
+@Html.EditorFor(t=>t.ThreatCaseConfirmer, new {itemId = "ThreatCaseConfirmerId", title = "隐患结果确认人"})
 
 @Html.X().TextFieldFor(t=>t.ThreatCaseLocation).ReadOnly(true)
 @Html.X().DateFieldFor(t=>t.ThreatCaseReportTime).ReadOnly(true)

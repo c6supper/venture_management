@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,6 +16,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
         //
         // GET: /Threat/MyThreatCase/
 
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public ActionResult Index()
         {
             //var threatCases =
@@ -54,6 +56,12 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
         public ActionResult Submit(ThreatCase threatCase)
         {
+            threatCase.Project = null;
+            threatCase.ThreatCaseConfirmer = null;
+            threatCase.ThreatCaseReviewer = null;
+            threatCase.ThreatCaseOwner = null;
+            threatCase.ThreatCaseReporter = null;
+
             ModelState.Clear();
             if (!TryValidateModel(threatCase))
             {
@@ -63,13 +71,21 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
             try
             {
-                if (_threatCaseService.Update(threatCase))
+                var updatedThreatCase = _threatCaseService.Find(threatCase.ThreatCaseId);
+                updatedThreatCase.ThreatCaseCorrection = threatCase.ThreatCaseCorrection;
+                updatedThreatCase.ThreatCaseCorrectionValue = threatCase.ThreatCaseCorrectionValue;
+                updatedThreatCase.ThreatCaseStatus = threatCase.ThreatCaseStatus;
+
+                if (updatedThreatCase.ThreatCaseStatus.Equals(ThreatCase.STATUS_FINISH))
+                    updatedThreatCase.ThreatCaseCorrectionTime = DateTime.Now;
+
+                if (_threatCaseService.Update(updatedThreatCase))
                 {
                     X.Msg.Confirm("提示", "隐患状态成功.", new MessageBoxButtonsConfig
                     {
                         Yes = new MessageBoxButtonConfig
                         {
-                            Handler = "document.location.reload();",
+                            Handler = "window.close();",
                             Text = "确定"
                         }
                     }).Show();
