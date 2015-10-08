@@ -100,8 +100,8 @@ namespace VentureManagement.Models
         public int ThreatCaseConfirmerId { get; set; }
         [Required(ErrorMessage = "必填")]
         [Display(Name = "复查人")]
-        [ForeignKey("ThreatCaseRiviewer"), Column(Order = 3)]
-        public int ThreatCaseRiviewerId { get; set; }
+        [ForeignKey("ThreatCaseReviewer"), Column(Order = 3)]
+        public int ThreatCaseReviewerId { get; set; }
 
         [Display(Name = "状态")]
         public string ThreatCaseStatus { get; set; }
@@ -114,13 +114,13 @@ namespace VentureManagement.Models
 
         public virtual User ThreatCaseReporter { get; set; }
         public virtual User ThreatCaseOwner { get; set; }
-        public virtual User ThreatCaseRiviewer { get; set; }
+        public virtual User ThreatCaseReviewer { get; set; }
         public virtual User ThreatCaseConfirmer { get; set; }
 
         // ReSharper disable once InconsistentNaming
         public const string VALIDATION_MESSAGE = "\"工程名/隐患地点/发现隐患时间\"不能为空";
 
-        public const string STATUS_WAITCONFIRM = "等待隐患申报确认";
+        public const string STATUS_WAITCONFIRM = "等待审核";
         public const string STATUS_WAITACKNOWLEDGE = "等待施工方确认";
         public const string STATUS_CORRECTING = "整改中";
         public const string STATUS_FINISH = "整改完毕";

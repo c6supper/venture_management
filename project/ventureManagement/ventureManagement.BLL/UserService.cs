@@ -68,6 +68,54 @@ namespace VentureManagement.BLL
                     RegistrationTime = DateTime.Now
                 };
                 Add(user);
+
+#if DEBUG
+                user = new User
+                {
+                    UserName = "reporter",
+                    Password = Utility.DesEncrypt("reporter"),
+                    Status = User.STATUS_VALID,
+                    Email = "xxx@163.com",
+                    DisplayName = "reporter",
+                    Mobile = "11111111",
+                    RegistrationTime = DateTime.Now
+                };
+                Add(user);
+                user = new User
+                {
+                    UserName = "owner",
+                    Password = Utility.DesEncrypt("owner"),
+                    Status = User.STATUS_VALID,
+                    Email = "xxx@163.com",
+                    DisplayName = "owner",
+                    Mobile = "11111111",
+                    RegistrationTime = DateTime.Now
+                };
+                Add(user);
+                user = new User
+                {
+                    UserName = "confirmer",
+                    Password = Utility.DesEncrypt("confirmer"),
+                    Status = User.STATUS_VALID,
+                    Email = "xxx@163.com",
+                    DisplayName = "confirmer",
+                    Mobile = "11111111",
+                    RegistrationTime = DateTime.Now
+                };
+                Add(user);
+                user = new User
+                {
+                    UserName = "reviewer",
+                    Password = Utility.DesEncrypt("reviewer"),
+                    Status = User.STATUS_VALID,
+                    Email = "xxx@163.com",
+                    DisplayName = "reviewer",
+                    Mobile = "11111111",
+                    RegistrationTime = DateTime.Now
+                };
+                Add(user);
+#endif
+
                 return true;
             }
             catch (Exception ex)

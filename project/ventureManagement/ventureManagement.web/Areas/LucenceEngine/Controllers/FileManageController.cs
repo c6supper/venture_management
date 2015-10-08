@@ -20,7 +20,7 @@ using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
 {
-    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_FILEMANAGE_READ)]
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_FILEMANAGE)]
     public class FileManageController : Controller
     {
         //

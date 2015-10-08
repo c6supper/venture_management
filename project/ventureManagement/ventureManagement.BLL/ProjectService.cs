@@ -70,5 +70,32 @@ namespace VentureManagement.BLL
         {
             return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, whereLamdba, "projectName", false);
         }
+
+        public override bool Initilization()
+        {
+#if DEBUG
+            if (FindList(p => p.ProjectName == "测试工程","ProjectId",false).Any()) return true;
+
+            try
+            {
+                var userService = new UserService();
+                var orgService = new OrganizationService();
+                var project = new VMProject
+                {
+                   ProjectLocation = "天府软件园",
+                   ProjectName = "测试工程",
+                   OrganizationId = 4,
+                   UserId = userService.Find("owner").UserId
+                };
+                Add(project);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+                return false;
+            }
+#endif
+            return true;
+        }
     }
 }

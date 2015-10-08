@@ -36,7 +36,7 @@ namespace VentureManagement.BLL
                     {
                         RoleName = Role.ROLE_GROUP,
                         Description = "集团安全管理人员",
-                        RoleValue = 0
+                        RoleValue = 8191
                     };
                     Add(role);
                 }
@@ -47,7 +47,7 @@ namespace VentureManagement.BLL
                     {
                         RoleName = Role.ROLE_BRANCH,
                         Description = "分局安全管理人员",
-                        RoleValue = 0
+                        RoleValue = 8137
                     };
                     Add(role);
                 }
@@ -58,7 +58,7 @@ namespace VentureManagement.BLL
                     {
                         RoleName = Role.ROLE_PROJECT_INSPECTOR,
                         Description = "项目部安全巡检员",
-                        RoleValue = 0
+                        RoleValue = 7945
                     };
                     Add(role);
                 }
@@ -69,7 +69,7 @@ namespace VentureManagement.BLL
                     {
                         RoleName = Role.ROLE_PROJECT_LEADER,
                         Description = "项目负责人",
-                        RoleValue = 0
+                        RoleValue = 7945
                     };
                     Add(role);
                 }

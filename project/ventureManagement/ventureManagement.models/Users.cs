@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VentureManagement.Models
 {
@@ -73,6 +74,18 @@ namespace VentureManagement.Models
         [Display(Name = "上次登陆的IP")]
         public string LoginIP { get; set; }
 
+
+        [InverseProperty("ThreatCaseReporter")]
+        public virtual ICollection<ThreatCase> ReportedThreatCases { get; set; }
+
+        [InverseProperty("ThreatCaseOwner")]
+        public virtual ICollection<ThreatCase> OwnedThreatCases { get; set; }
+
+        [InverseProperty("ThreatCaseReviewer")]
+        public virtual ICollection<ThreatCase> ReviewedThreatCases { get; set; }
+
+        [InverseProperty("ThreatCaseConfirmer")]
+        public virtual ICollection<ThreatCase> ConfirmedThreatCases { get; set; }
 
         /// <summary>
         /// 用户状态<br />

@@ -6,27 +6,19 @@
 @Html.X().HiddenFor(t=>t.ProjectId)
 @Html.X().HiddenFor(t=>t.ThreatCaseOwnerId)
 @Html.X().HiddenFor(t=>t.ThreatCaseReporterId)
-@Html.X().HiddenFor(t=>t.ThreatCaseRiviewerId)
+@Html.X().HiddenFor(t=>t.ThreatCaseReviewerId)
 @Html.X().HiddenFor(t=>t.ThreatCaseConfirmerId)
 
-@*@switch (Model.ThreatCaseStatus)
-{
-    case ThreatCase.STATUS_WAITCONFIRM:
-        Html.X().HtmlHelper.
-}*@
-
-        
 @Html.DisplayFor(t=>t.Project, new {itemId = "ProjectId", title = "施工项目信息"})
 @Html.DisplayFor(t=>t.ThreatCaseOwner, new {itemId = "ThreatCaseOwnerId", title = "施工负责人"})
 @Html.DisplayFor(t=>t.ThreatCaseReporter, new {itemId = "ThreatCaseReporterId", title = "隐患发现人"})
-@Html.DisplayFor(t=>t.ThreatCaseRiviewer, new {itemId = "ThreatCaseRiviewerId", title = "隐患复核人"})
+@Html.DisplayFor(t=>t.ThreatCaseReviewer, new {itemId = "ThreatCaseReviewerId", title = "隐患复核人"})
 @Html.DisplayFor(t=>t.ThreatCaseConfirmer, new {itemId = "ThreatCaseConfirmerId", title = "隐患结果确认人"})
 
-@(Html.X().TextFieldFor(t=>t.ThreatCaseLocation).ReadOnly(true))
+@Html.X().TextFieldFor(t=>t.ThreatCaseLocation).ReadOnly(true)
 @Html.X().DateFieldFor(t=>t.ThreatCaseReportTime).ReadOnly(true)
 @Html.X().DateFieldFor(t=>t.ThreatCaseFoundTime).ReadOnly(true)
 @Html.X().DateFieldFor(t=>t.ThreatCaseLimitTime).ReadOnly(true)
-@Html.X().DateFieldFor(t=>t.ThreatCaseCorrectionTime).ReadOnly(true)
 @Html.X().TextFieldFor(t=>t.ThreatCaseCategory).ReadOnly(true)
 @Html.X().TextFieldFor(t=>t.ThreatCaseType).ReadOnly(true)
 @Html.X().TextFieldFor(t=>t.ThreatCaseDescription).ReadOnly(true)
@@ -37,8 +29,40 @@
 @Html.X().TextFieldFor(t=>t.ThreatCaseCurrentSecurity).ReadOnly(true)
 @Html.X().TextAreaFor(t=>t.ThreatCaseSuggestion).ReadOnly(true)
 @Html.X().TextFieldFor(t=>t.ThreatCaseCause).ReadOnly(true)
-@Html.X().TextAreaFor(t=>t.ThreatCaseCorrection)
-@Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionValue)
-@Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionResult)
-@Html.X().ComboBoxFor(t=>t.ThreatCaseStatus).Items(ThreatCase.GetAllStatusByCurrentStatus(Model.ThreatCaseStatus).Select(t => new ListItem(t)))
-@Html.X().TextFieldFor(t=>t.ThreatCaseLevel)
+@Html.X().TextFieldFor(t=>t.ThreatCaseLevel).ReadOnly(true)
+
+@Html.X().HiddenFor(t=>t.ThreatCaseCorrectionTime)
+
+@switch (Model.ThreatCaseStatus)
+{
+    case ThreatCase.STATUS_WAITCONFIRM:
+    case ThreatCase.STATUS_INVALID:                   
+        @Html.X().HiddenFor(t=>t.ThreatCaseCorrection)
+        @Html.X().HiddenFor(t=>t.ThreatCaseCorrectionValue)
+        @Html.X().HiddenFor(t=>t.ThreatCaseCorrectionResult)
+        break;
+    case ThreatCase.STATUS_WAITACKNOWLEDGE:
+        @Html.X().TextAreaFor(t=>t.ThreatCaseCorrection).LabelStyle("color:green;font-weight:bold;")
+        @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionValue).LabelStyle("color:green;font-weight:bold;")
+        @Html.X().HiddenFor(t=>t.ThreatCaseCorrectionResult)
+        break;
+    case ThreatCase.STATUS_CORRECTING:  
+    case ThreatCase.STATUS_FINISH:
+        @Html.X().TextAreaFor(t=>t.ThreatCaseCorrection).ReadOnly(true)
+        @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionValue).ReadOnly(true)
+        @Html.X().HiddenFor(t=>t.ThreatCaseCorrectionResult)
+        break; 
+    case ThreatCase.STATUS_VERTIFYERR:
+        @Html.X().TextAreaFor(t=>t.ThreatCaseCorrection).LabelStyle("color:green;font-weight:bold;")
+        @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionValue).LabelStyle("color:green;font-weight:bold;")
+        @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionResult).ReadOnly(true)
+        break;
+    case ThreatCase.STATUS_VERTIFYOK:
+        @Html.X().TextAreaFor(t=>t.ThreatCaseCorrection).ReadOnly(true)
+        @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionValue).ReadOnly(true)
+        @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionResult).ReadOnly(true)
+        break;                        
+}
+
+@Html.X().ComboBoxFor(t=>t.ThreatCaseStatus).Items(ThreatCase.GetAllStatusByCurrentStatus(Model.ThreatCaseStatus).Select(t => new ListItem(t))).LabelStyle("color:green;font-weight:bold;")
+

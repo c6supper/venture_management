@@ -98,9 +98,9 @@ namespace VentureManagement.Models
         public static readonly string[] PermissionStrings =
         {
             //PERIMISSION_ALARM_WRITE,
-            PERIMISSION_ALARM_READ,
+            PERIMISSION_ALARM,
             //PERIMISSION_FILEMANAGE_WRITE,
-            PERIMISSION_FILEMANAGE_READ,
+            PERIMISSION_FILEMANAGE,
             PERIMISSION_ORGANIZATION_WRITE,
             PERIMISSION_ORGANIZATION_READ,
             PERIMISSION_PERMISSION_WRITE,
@@ -109,34 +109,36 @@ namespace VentureManagement.Models
             PERIMISSION_USER_READ,
             PERIMISSION_PROJECT_WRITE,
             PERIMISSION_PROJECT_READ,
-            PERIMISSION_CREATETHREATCASE_WRITE,
-            PERIMISSION_CREATETHREATCASE_READ,
-            PERIMISSION_THREATCASE_WRITE,
-            PERIMISSION_THREATCASE_READ,
-            PERIMISSION_THREATCORRECTIONTEMPLATE_WRITE,
-            PERIMISSION_THREATCORRECTIONTEMPLATE_READ,
+            //PERIMISSION_CREATETHREATCASE_WRITE,
+            PERIMISSION_CREATETHREATCASE,
+            PERIMISSION_MYTHREATCASE,
+            PERIMISSION_THREATCASE,
+            //PERIMISSION_THREATCASE_READ,
+            PERIMISSION_THREATCORRECTIONTEMPLATE,
+            //PERIMISSION_THREATCORRECTIONTEMPLATE_READ,
 
             PERIMISSION_UNKOWN
         };
         
         //public const string PERIMISSION_ALARM_WRITE = "文档查询(写)";
-        public const string PERIMISSION_ALARM_READ = "文档查询(读)";
+        public const string PERIMISSION_ALARM = "文档查询";
         //public const string PERIMISSION_FILEMANAGE_WRITE = "文档上传(写)";
-        public const string PERIMISSION_FILEMANAGE_READ = "文档上传(读)";
-        public const string PERIMISSION_ORGANIZATION_WRITE = "组织结构管理(写)";
-        public const string PERIMISSION_ORGANIZATION_READ = "组织结构管理(读)";
-        public const string PERIMISSION_PERMISSION_WRITE = "用户权限管理(写)";
-        public const string PERIMISSION_PERMISSION_READ = "用户权限管理(读)";
+        public const string PERIMISSION_FILEMANAGE = "文档上传";
+        public const string PERIMISSION_ORGANIZATION_WRITE = "安全部管理(写)";
+        public const string PERIMISSION_ORGANIZATION_READ = "安全部管理(只读)";
+        public const string PERIMISSION_PERMISSION_WRITE = "权限管理(写)";
+        public const string PERIMISSION_PERMISSION_READ = "权限管理(只读)";
         public const string PERIMISSION_USER_WRITE = "用户管理(写)";
-        public const string PERIMISSION_USER_READ = "用户管理(读)"; 
-        public const string PERIMISSION_PROJECT_WRITE = "工程施工项目管理(写)";
-        public const string PERIMISSION_PROJECT_READ = "工程施工项目管理(读)";
-        public const string PERIMISSION_CREATETHREATCASE_WRITE = "创建隐患排查预警(写)";
-        public const string PERIMISSION_CREATETHREATCASE_READ = "创建隐患排查预警(读)";
-        public const string PERIMISSION_THREATCASE_WRITE = "隐患排查预警(写)";
-        public const string PERIMISSION_THREATCASE_READ = "隐患排查预警(读)";
-        public const string PERIMISSION_THREATCORRECTIONTEMPLATE_WRITE = "隐患排查预警修复模板(写)";
-        public const string PERIMISSION_THREATCORRECTIONTEMPLATE_READ = "隐患排查预警修复模板(读)";
+        public const string PERIMISSION_USER_READ = "用户管理(只读)"; 
+        public const string PERIMISSION_PROJECT_WRITE = "施工项目管理(写)";
+        public const string PERIMISSION_PROJECT_READ = "施工项目管理(只读)";
+        public const string PERIMISSION_CREATETHREATCASE = "隐患排查预警申报";
+        public const string PERIMISSION_MYTHREATCASE = "待处理的隐患排查预警";
+        //public const string PERIMISSION_CREATETHREATCASE_READ = "隐患预警申报(只读)";
+        public const string PERIMISSION_THREATCASE = "隐患排查预警库";
+        //public const string PERIMISSION_THREATCASE_READ = "隐患排查预警库(只读)";
+        public const string PERIMISSION_THREATCORRECTIONTEMPLATE = "隐患排查预警整改库模板";
+        //public const string PERIMISSION_THREATCORRECTIONTEMPLATE_READ = "隐患排查预警整改库模板(只读)";
 
         public const string PERIMISSION_UNKOWN = "权限错误";
 

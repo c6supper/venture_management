@@ -17,12 +17,32 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
         public ActionResult Index()
         {
-            var threatCases =
-                _threatCaseService.FindList(
-                    t => (t.ThreatCaseOwnerId == _currentUser.UserId || t.ThreatCaseConfirmerId == _currentUser.UserId ||
-                         t.ThreatCaseReporterId == _currentUser.UserId || t.ThreatCaseRiviewerId == _currentUser.UserId) && 
-                         t.ThreatCaseStatus != ThreatCase.STATUS_VERTIFYOK,
-                    "ThreatCaseId", false).ToArray();
+            //var threatCases =
+            //    _threatCaseService.FindList(
+            //        t => (t.ThreatCaseOwnerId == _currentUser.UserId || t.ThreatCaseConfirmerId == _currentUser.UserId ||
+            //             t.ThreatCaseReporterId == _currentUser.UserId || t.ThreatCaseReviewerId == _currentUser.UserId) && 
+            //             t.ThreatCaseStatus != ThreatCase.STATUS_VERTIFYOK,
+            //        "ThreatCaseId", false).ToArray();
+            var threatCases = new List<ThreatCase>();
+
+            var myConfirmedThreatCases =
+                _currentUser.ConfirmedThreatCases.Where(t => t.ThreatCaseStatus == ThreatCase.STATUS_WAITCONFIRM);
+
+            var myOwnedThreatCases =
+                _currentUser.OwnedThreatCases.Where(t => t.ThreatCaseStatus == ThreatCase.STATUS_WAITACKNOWLEDGE ||
+                                                         t.ThreatCaseStatus == ThreatCase.STATUS_VERTIFYERR ||
+                                                         t.ThreatCaseStatus == ThreatCase.STATUS_CORRECTING);
+            var myReviewedThreatCases =
+                _currentUser.ReviewedThreatCases.Where(t => t.ThreatCaseStatus == ThreatCase.STATUS_FINISH);
+
+            if (myOwnedThreatCases.Any())
+                threatCases.AddRange(myOwnedThreatCases);
+
+            if (myConfirmedThreatCases.Any())
+                threatCases.AddRange(myConfirmedThreatCases);
+
+            if (myReviewedThreatCases.Any())
+                threatCases.AddRange(myReviewedThreatCases);
 
             return View(threatCases);
         }

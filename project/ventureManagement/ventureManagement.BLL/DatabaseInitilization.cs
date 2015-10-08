@@ -28,6 +28,9 @@
 
             var projectService = new ProjectService();
             projectService.Initilization();
+
+            var projectRelationService = new ProjectRelationService();
+            projectRelationService.Initilization();
         }
     }
 }

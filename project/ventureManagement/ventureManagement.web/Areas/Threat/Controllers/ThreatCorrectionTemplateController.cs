@@ -15,7 +15,7 @@ using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
-    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_THREATCORRECTIONTEMPLATE_WRITE + "," + Role.PERIMISSION_THREATCORRECTIONTEMPLATE_READ)]
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_THREATCORRECTIONTEMPLATE)]
     public class ThreatCorrectionTemplateController : ThreatBaseController
     {
         //

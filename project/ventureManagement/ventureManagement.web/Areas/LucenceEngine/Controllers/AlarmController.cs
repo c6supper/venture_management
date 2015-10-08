@@ -23,7 +23,7 @@ using Field = Lucene.Net.Documents.Field;
 
 namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
 {
-    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ALARM_READ)]
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ALARM)]
     public class AlarmController : Controller
     {
         //

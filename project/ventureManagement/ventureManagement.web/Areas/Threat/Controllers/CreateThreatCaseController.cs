@@ -16,7 +16,7 @@ using PartialViewResult = Ext.Net.MVC.PartialViewResult;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
-    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_CREATETHREATCASE_WRITE + "," + Role.PERIMISSION_CREATETHREATCASE_READ)]
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_CREATETHREATCASE)]
     public class CreateThreatCaseController : ThreatBaseController
     {
         //
@@ -71,19 +71,17 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             {
                 threatCase.ThreatCaseReportTime = DateTime.Now;
                 threatCase.ThreatCaseReporterId = _currentUser.UserId;
-                threatCase.ThreatCaseRiviewerId = _currentUser.UserId;
-                threatCase.ThreatCaseConfirmerId = _currentUser.UserId;
                 threatCase.ThreatCaseStatus = ThreatCase.STATUS_WAITCONFIRM;
                 threatCase.Project = null;
                 threatCase.ThreatCaseOwner = null;
                 threatCase.ThreatCaseReporter = null;
                 threatCase.ThreatCaseConfirmer = null;
-                threatCase.ThreatCaseRiviewer = null;
+                threatCase.ThreatCaseReviewer = null;
                 threatCase.ThreatCaseCorrectionTime = DateTime.MaxValue;
 
                 if (null != _threatCaseService.Add(threatCase))
                 {
-                    X.Msg.Confirm("提示", "隐患申报成功,等待施工方确认中.", new MessageBoxButtonsConfig
+                    X.Msg.Confirm("提示", "隐患申报成功,等待审核.", new MessageBoxButtonsConfig
                     {
                         Yes = new MessageBoxButtonConfig
                         {

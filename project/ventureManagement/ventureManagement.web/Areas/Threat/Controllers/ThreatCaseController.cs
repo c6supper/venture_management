@@ -10,7 +10,7 @@ using VentureManagement.Web.Attributes;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
-    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_THREATCASE_WRITE + "," + Role.PERIMISSION_THREATCASE_READ)]
+    [AccessDeniedAuthorize(Roles = Role.PERIMISSION_THREATCASE)]
     public class ThreatCaseController : ThreatBaseController
     {
         public ActionResult Index()

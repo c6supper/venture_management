@@ -58,5 +58,29 @@ namespace VentureManagement.BLL
                 return false;
             }
         }
+
+        public override bool Initilization()
+        {
+#if DEBUG
+            try
+            {
+                var projectService = new ProjectService();
+                if (FindList(pr => pr.SubProject.ProjectName == "测试工程", "ProjectRelationId", false).Any()) return true;
+
+                var projectRelation = new ProjectRelation
+                {
+                    SuperProjectId = VMProject.INVALID_PROJECT,
+                    SubProjectId = projectService.FindList(t=>t.ProjectName == "测试工程","ProjectId",false).First().ProjectId
+                };
+                Add(projectRelation);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+                return false;
+            }
+#endif
+            return true;
+        }
     }
 }

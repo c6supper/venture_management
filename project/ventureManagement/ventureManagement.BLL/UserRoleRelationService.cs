@@ -35,6 +35,56 @@ namespace VentureManagement.BLL
                     Role = role
                 };
                 Add(adminUserRoleRelation);
+
+#if DEBUG
+                user = _userService.Find("reporter");
+                role = _roleService.Find(Role.ROLE_PROJECT_INSPECTOR);
+
+                var userRoleRelation = new UserRoleRelation
+                {
+                    UserId = user.UserId,
+                    RoleId = role.RoleId,
+                    User = user,
+                    Role = role
+                };
+                Add(userRoleRelation);
+
+                user = _userService.Find("owner");
+                role = _roleService.Find(Role.ROLE_PROJECT_LEADER);
+
+                userRoleRelation = new UserRoleRelation
+                {
+                    UserId = user.UserId,
+                    RoleId = role.RoleId,
+                    User = user,
+                    Role = role
+                };
+                Add(userRoleRelation);
+
+                user = _userService.Find("confirmer");
+                role = _roleService.Find(Role.ROLE_BRANCH);
+
+                userRoleRelation = new UserRoleRelation
+                {
+                    UserId = user.UserId,
+                    RoleId = role.RoleId,
+                    User = user,
+                    Role = role
+                };
+                Add(userRoleRelation);
+
+                user = _userService.Find("reviewer");
+                role = _roleService.Find(Role.ROLE_BRANCH);
+
+                userRoleRelation = new UserRoleRelation
+                {
+                    UserId = user.UserId,
+                    RoleId = role.RoleId,
+                    User = user,
+                    Role = role
+                };
+                Add(userRoleRelation);
+#endif
                 return true;
             }
             catch (Exception ex)

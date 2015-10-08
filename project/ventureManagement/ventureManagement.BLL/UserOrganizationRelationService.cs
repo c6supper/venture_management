@@ -61,6 +61,36 @@ namespace VentureManagement.BLL
                     Organization = organization
                 };
                 Add(adminUserOrganizationRelation);
+
+#if DEBUG
+                var userOrganizationRelation = new UserOrganizationRelation
+                {
+                    UserId = _userService.Find("reporter").UserId,
+                    OrganizationId = 3
+                };
+                Add(userOrganizationRelation);
+
+                userOrganizationRelation = new UserOrganizationRelation
+                {
+                    UserId = _userService.Find("owner").UserId,
+                    OrganizationId = 4
+                };
+                Add(userOrganizationRelation);
+
+                userOrganizationRelation = new UserOrganizationRelation
+                {
+                    UserId = _userService.Find("confirmer").UserId,
+                    OrganizationId = 2
+                };
+                Add(userOrganizationRelation);
+
+                userOrganizationRelation = new UserOrganizationRelation
+                {
+                    UserId = _userService.Find("reviewer").UserId,
+                    OrganizationId = 2
+                };
+                Add(userOrganizationRelation);
+#endif
                 return true;
             }
             catch (Exception ex)
