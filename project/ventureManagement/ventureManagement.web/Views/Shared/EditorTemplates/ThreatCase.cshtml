@@ -47,11 +47,15 @@
         @Html.X().HiddenFor(t=>t.ThreatCaseCorrectionResult)
         break;
     case ThreatCase.STATUS_CORRECTING:  
-    case ThreatCase.STATUS_FINISH:
         @Html.X().TextAreaFor(t=>t.ThreatCaseCorrection).ReadOnly(true)
         @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionValue).ReadOnly(true)
         @Html.X().HiddenFor(t=>t.ThreatCaseCorrectionResult)
-        break; 
+        break;
+    case ThreatCase.STATUS_FINISH:
+        @Html.X().TextAreaFor(t=>t.ThreatCaseCorrection).ReadOnly(true)
+        @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionValue).ReadOnly(true)
+        @Html.X().TextAreaFor(t=>t.ThreatCaseCorrectionResult)
+        break;
     case ThreatCase.STATUS_VERTIFYERR:
         @Html.X().TextAreaFor(t=>t.ThreatCaseCorrection).LabelStyle("color:green;font-weight:bold;")
         @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionValue).LabelStyle("color:green;font-weight:bold;")

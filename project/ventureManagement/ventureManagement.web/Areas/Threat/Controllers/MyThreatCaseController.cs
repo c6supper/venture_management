@@ -85,7 +85,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                     {
                         Yes = new MessageBoxButtonConfig
                         {
-                            Handler = "window.close();",
+                            Handler = "window.parent.document.location.reload();",
                             Text = "确定"
                         }
                     }).Show();
