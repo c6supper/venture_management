@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using VentureManagement.BLL;
+using VentureManagement.Web.Areas.LucenceEngine.Controllers;
 using VentureManagement.Web.Filters;
 
 //using ventureManagement.web.Filters;
@@ -38,6 +39,8 @@ namespace VentureManagement.Web
             DatabaseInitilization.Initilization();
 
             AreaRegistration.RegisterAllAreas();
+
+            AlarmController.GetAllIndex();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);

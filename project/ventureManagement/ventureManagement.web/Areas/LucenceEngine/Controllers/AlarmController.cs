@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Common;
 using Ext.Net;
 using Ext.Net.MVC;
 using Lucene.Net.Analysis;
@@ -20,6 +23,7 @@ using VentureManagement.Models;
 using VentureManagement.Web.Areas.LucenceEngine.Models;
 using VentureManagement.Web.Attributes;
 using Field = Lucene.Net.Documents.Field;
+using System.Reflection;
 
 namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
 {
@@ -36,26 +40,11 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
 
         public ActionResult Index()
         {
-            GetAllIndex();
+            _alarmResultList.Clear();
             Paged(_page, _pageSize);
 
             return View();
         }
-
-        /*
-        public ActionResult Sortable(bool? ascending, string sortBy = "EmployeeNO")
-        {
-            var model = new AlarmGridModel()
-            {
-                SortBy = sortBy,
-                SortAscending = ascending.GetValueOrDefault(),
-                Employees = DataContext.Employee
-            };
-
-            model.Employees = DataContext.Employee.OrderBy(model.SortExpression);
-
-            return View(model);
-        }*/
 
         public ActionResult Paged(int page, int pageSize)
         {
@@ -73,32 +62,11 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
             return View(model);
         }
 
-        private string _filesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files");
-        private string _luceneDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LuceneData");
+        private static string _filesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files");
+        private static string _luceneDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LuceneData");
         private PanGuAnalyzer _analyzer = new PanGuAnalyzer();
-        /*
-        private FSDirectory _directoryTemp;
-        private FSDirectory _directory
-        {
-            get
-            {
-                if (_directoryTemp == null)
-                    _directoryTemp = FSDirectory.Open(new DirectoryInfo(_luceneDir));
 
-                if (IndexWriter.IsLocked(_directoryTemp))
-                    IndexWriter.Unlock(_directoryTemp);
-
-                var lockFilePath = Path.Combine(_luceneDir, "write.lock");
-
-                if (System.IO.File.Exists(lockFilePath))
-                    System.IO.File.Delete(lockFilePath);
-
-                return _directoryTemp;
-            }
-        }
-        */
-
-        private void GetAllIndex()
+        public static void GetAllIndex()
         {
             if (!System.IO.Directory.Exists(_luceneDir))
             {
@@ -112,31 +80,25 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
                 System.IO.Directory.CreateDirectory(Path.Combine(_filesDir, "法律及法规/国家"));
                 System.IO.Directory.CreateDirectory(Path.Combine(_filesDir, "法律及法规/行业"));
                 System.IO.Directory.CreateDirectory(Path.Combine(_filesDir, "法律及法规/地方"));
-
                 System.IO.Directory.CreateDirectory(Path.Combine(_filesDir, "企业内部管理制度"));
 
                 return;
             }
 
-            DirectoryInfo dirInfo = new DirectoryInfo(_filesDir);
-            List<FileInfo> list = getFileInfoList(dirInfo);
+            var dirInfo = new DirectoryInfo(_filesDir);
+            var list = getFileInfoList(dirInfo);
             if (list.Count == 0)
             {
-                //MessageBox.Show("Files目录下没有*.txt文件");
                 return;
             }
 
-            IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(_luceneDir)), _analyzer, true, IndexWriter.MaxFieldLength.LIMITED);
+            var writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(_luceneDir)), new PanGuAnalyzer(), true, IndexWriter.MaxFieldLength.LIMITED);
 
             foreach (FileInfo fileInfo in list)
             {
-                StreamReader reader = new StreamReader(fileInfo.FullName);
-
-                //OutputMessage("正在索引文件[" + fileInfo.Name + "]");
-
-                Document doc = new Document();
+                var doc = new Lucene.Net.Documents.Document();
                 doc.Add(new Field("FileName", fileInfo.Name, Field.Store.YES, Field.Index.ANALYZED));
-                doc.Add(new Field("Content", reader.ReadToEnd(), Field.Store.YES, Field.Index.ANALYZED));
+                doc.Add(new Field("Content", File2Text(fileInfo.FullName), Field.Store.YES, Field.Index.ANALYZED));
                 doc.Add(new Field("Path", fileInfo.FullName, Field.Store.YES, Field.Index.ANALYZED));
                 doc.Add(new Field("Date", fileInfo.LastWriteTime.ToString(), Field.Store.YES, Field.Index.ANALYZED));
 
@@ -146,9 +108,9 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
             writer.Dispose();
         }
 
-        private List<FileInfo> getFileInfoList(System.IO.DirectoryInfo dir)
+        public static List<FileInfo> getFileInfoList(System.IO.DirectoryInfo dir)
         {
-            List<FileInfo> list = new List<FileInfo>();
+            var list = new List<FileInfo>();
             foreach (var subdir in dir.GetDirectories())
             {
                 list.AddRange(getFileInfoList(subdir));
@@ -156,6 +118,38 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
             list.AddRange(dir.GetFiles().ToList());
 
             return list;
+        }
+
+        private static string File2Text(string fileName)
+        {
+            var outText = string.Empty;
+            DocumentHandler docHandler = null;
+
+            try
+            {
+                if (fileName.ToLower().EndsWith(".docx"))
+                {
+                    docHandler = new DocumentHandler(fileName);
+                    outText = docHandler.ReadWordDocument();
+                }
+                else
+                {
+                    StreamReader reader = new StreamReader(fileName);
+                    outText = reader.ReadToEnd();
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                if (docHandler != null)
+                {
+                    docHandler.Dispose();
+                }
+            }
+
+            return outText;
         }
 
         public ActionResult Search(string keyword, int page = 1, int pageSize = 5)
@@ -208,7 +202,7 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
                 for (int i = 0; i < hits.Count(); i++)
                 {
                     var hit = hits[i];
-                    Document doc = searcher.Doc(hit.Doc);
+                    Lucene.Net.Documents.Document doc = searcher.Doc(hit.Doc);
                     Field fileNameField = doc.GetField("FileName");
                     Field content = doc.GetField("Content");
                     Field pathField = doc.GetField("Path");
@@ -217,7 +211,7 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
                     Alarm a = new Alarm();
                     a.AlarmId = i + 1;
                     a.FileName = fileNameField.StringValue;
-                    a.Content = Preview(content.StringValue, _keyword);//content.StringValue;
+                    a.Content = Preview(content.StringValue, _keyword);
                     a.FilePath = pathField.StringValue;
                     a.FileDate = Convert.ToDateTime(date.StringValue);
                     _alarmResultList.Add(a);
