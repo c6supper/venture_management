@@ -15,7 +15,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
     {
         public ActionResult Index()
         {
-            return View(_threatCaseService.FindList(t=>true,"ThreatCaseId",false).ToArray());
+            return View();
         }
 
         public ActionResult Detail(int threatCaseId)

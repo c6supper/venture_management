@@ -113,7 +113,7 @@
           )
           .Listeners(ls =>
           {
-              ls.BeforeHide.Handler = "App.GridSelector.deselectAll();";
-              ls.BeforeClose.Handler = "App.GridSelector.deselectAll();";
+              ls.BeforeHide.Handler = "document.location.reload();";
+              ls.BeforeClose.Handler = "document.location.reload();";
           }))
 }

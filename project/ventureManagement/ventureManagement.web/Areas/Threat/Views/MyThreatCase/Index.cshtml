@@ -59,7 +59,7 @@
           )
           .Listeners(ls =>
           {
-              ls.BeforeHide.Handler = "App.GridSelector.clearSelections();";
-              ls.BeforeClose.Handler = "App.GridSelector.clearSelections();";
+              ls.BeforeHide.Handler = "document.location.reload();";
+              ls.BeforeClose.Handler = "document.location.reload();";
           }))
 }
