@@ -15,7 +15,7 @@ using VentureManagement.Web.Attributes;
 namespace VentureManagement.Web.Controllers
 {
     [DirectController(AreaName = "Member", GenerateProxyForOtherControllers = false, IDMode = DirectMethodProxyIDMode.None)]
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         readonly InterfaceUserService _userService = new UserService();
         readonly InterfaceOrganizationService _orgService = new OrganizationService();

@@ -10,7 +10,7 @@ using VentureManagement.Web.Models;
 namespace VentureManagement.Web.Controllers
 {
     [DirectController]
-    public class MainController : Controller
+    public class MainController : BaseController
     {
         public ActionResult Index()
         {

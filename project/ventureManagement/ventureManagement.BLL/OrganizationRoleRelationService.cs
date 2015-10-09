@@ -37,13 +37,13 @@ namespace VentureManagement.BLL
                     Description = "系统管理组角色"
                 };
                 Add(organizationRoleRelation);
-                return true;
             }
             catch (Exception ex)
             {
                 Debug.Print(ex.StackTrace);
                 return false;
             }
+            return true;
         }
 
         public OrganizationRoleRelation Find(string role, string organization)

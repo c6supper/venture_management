@@ -42,6 +42,7 @@
     @Html.X().TextAreaFor(t=>t.ThreatCaseCorrection).ReadOnly(true)
     @Html.X().NumberFieldFor(t=>t.ThreatCaseCorrectionValue).ReadOnly(true)
     @Html.X().TextAreaFor(t=>t.ThreatCaseCorrectionResult).ReadOnly(true)
+    @Html.X().TextFieldFor(t=>t.ThreatCaseStatus).ReadOnly(true)
 }
 else
 {
@@ -79,7 +80,8 @@ else
             @Html.X().TextFieldFor(t=>t.ThreatCaseCorrectionResult).ReadOnly(true)
             break;                        
     }
+    @Html.X().ComboBoxFor(t=>t.ThreatCaseStatus).Items(ThreatCase.GetAllStatusByCurrentStatus(Model.ThreatCaseStatus).Select(t => new ListItem(t))).LabelStyle("color:green;font-weight:bold;")
 }
 
-@Html.X().ComboBoxFor(t=>t.ThreatCaseStatus).Items(ThreatCase.GetAllStatusByCurrentStatus(Model.ThreatCaseStatus).Select(t => new ListItem(t))).LabelStyle("color:green;font-weight:bold;")
+
 

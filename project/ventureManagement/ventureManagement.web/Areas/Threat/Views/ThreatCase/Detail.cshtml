@@ -26,6 +26,13 @@
             .FieldDefaults(fd => {
                 fd.LabelAlign = LabelAlign.Right;
             })
-            .ItemsFrom(b => Html.EditorForModel("ThreatCase",new {readOnly = true}))
+            .ItemsFrom(b => Html.EditorForModel("ThreatCase",new {readOnly = string.Empty}))
+            .Buttons(
+                X.Button()
+                    .Text("打印告警预知单")
+                    .Icon(Icon.Printer)
+                    .Handler("document.location.href='/Threat/ThreatCasePrinter/Index?threatCaseId=" + Model.ThreatCaseId + "';")
+                    ))
+            })
     )
 }

@@ -182,7 +182,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ReferenceAssemblies\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="ReferenceAssemblies\ReadMe.txt" />
     <Content Include="ReferenceAssemblies\Wilco.SyntaxHighlighter.dll" />
     <Content Include="resources\css\main.css" />
     <Content Include="resources\css\menus.css" />
@@ -318,6 +317,7 @@
     <Content Include="Views\Shared\EditorTemplates\ThreatCase.cshtml" />
     <Content Include="Areas\Threat\Views\MyThreatCase\Detail.cshtml" />
     <Content Include="Areas\Threat\Views\ThreatCase\Detail.cshtml" />
+    <None Include="Properties\PublishProfiles\VentureManagement.pubxml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />

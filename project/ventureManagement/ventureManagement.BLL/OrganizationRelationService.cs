@@ -96,8 +96,6 @@ namespace VentureManagement.BLL
                     SubordinateDepartment = _organizationService.Have("第一工程项目部"),
                     Description = "debug"
                 });
-
-                return true;
             }
             catch (Exception ex)
             {
@@ -105,6 +103,7 @@ namespace VentureManagement.BLL
                 return false;
             }
 #endif
+            return true;
         }
 
         public List<int> GetChildrenOrgList(string org)

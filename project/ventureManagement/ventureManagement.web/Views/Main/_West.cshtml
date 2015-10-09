@@ -72,13 +72,13 @@
                                     {
                                         new MenuItem
                                         {
-                                            Text = "Expand All",
+                                            Text = "展开所有菜单",
                                             IconCls = "icon-expand-all",
                                             Handler = "this.up('treepanel').expandAll(false);"
                                         },
                                         new MenuItem
                                         {
-                                            Text = "Collapse All",
+                                            Text = "折叠所有菜单",
                                             IconCls = "icon-collapse-all",
                                             Handler = "this.up('treepanel').collapseAll(false);"
                                         },
@@ -95,18 +95,18 @@
                                             Hidden = true
                                         },
                                         
-                                        new CheckMenuItem
-                                        {
-                                            Text = "Debug Mode",
-                                            CheckHandler = "function (item, checked) { App.direct.ChangeScriptMode(checked); }",
-                                            Checked = MvcResourceManager.GetInstance().SourceFormatting
-                                        },
+                                        //new CheckMenuItem
+                                        //{
+                                        //    Text = "Debug Mode",
+                                        //    CheckHandler = "function (item, checked) { App.direct.ChangeScriptMode(checked); }",
+                                        //    Checked = MvcResourceManager.GetInstance().SourceFormatting
+                                        //},
                                         
                                         new MenuSeparator(),
                                         
                                         new MenuItem
                                         {
-                                            Text = "Theme",
+                                            Text = "显示主题",
                                             Icon = Icon.Paintcan,
                                             Menu = 
                                             {

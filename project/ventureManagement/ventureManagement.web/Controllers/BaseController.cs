@@ -32,12 +32,8 @@ namespace VentureManagement.Web.Controllers
         public BaseController()
         {
             _currentOrgList = System.Web.HttpContext.Current.Session["currentOrgList"] as List<int>;
-
-            var cultureName = "zh-CN";
-
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(cultureName);
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(cultureName);
-            ViewData["lang"] = cultureName;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("zh-CN");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
         }
     }
 }

@@ -83,13 +83,11 @@ namespace VentureManagement.BLL
             }
         }
 
-#if DEBUG
         public Organization Have(string organization)
         {
             return CurrentRepository.Find(u => u.OrganizationName == organization);
         }
-#endif
-        
+
         public bool Exist(string organization,int superiorDepartmentId)
         {
             return
