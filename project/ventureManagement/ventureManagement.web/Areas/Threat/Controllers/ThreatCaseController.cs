@@ -18,6 +18,11 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return View(_threatCaseService.FindList(t=>true,"ThreatCaseId",false).ToArray());
         }
 
+        public ActionResult Detail(int threatCaseId)
+        {
+            return View(_threatCaseService.Find(threatCaseId));
+        }
+
         public ActionResult Read(StoreRequestParameters parameters)
         {
             return this.Store(ThreatCasesPaging(parameters));

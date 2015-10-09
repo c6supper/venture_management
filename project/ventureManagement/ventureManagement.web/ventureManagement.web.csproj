@@ -317,6 +317,7 @@
     <Content Include="Areas\Report\Views\Web.config" />
     <Content Include="Views\Shared\EditorTemplates\ThreatCase.cshtml" />
     <Content Include="Areas\Threat\Views\MyThreatCase\Detail.cshtml" />
+    <Content Include="Areas\Threat\Views\ThreatCase\Detail.cshtml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
     <None Include="resources\fonts\fontawesome-webfont.ttf" />
     <None Include="resources\fonts\fontawesome-webfont.woff" />

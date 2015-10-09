@@ -57,5 +57,9 @@
               .Mode(LoadMode.Frame)
               .LoadMask(lm => lm.ShowMask = true)
           )
-          .Listeners(ls=>ls.BeforeHide.Handler="App.GridSelector.clearSelections();"))
+          .Listeners(ls =>
+          {
+              ls.BeforeHide.Handler = "App.GridSelector.clearSelections();";
+              ls.BeforeClose.Handler = "App.GridSelector.clearSelections();";
+          }))
 }

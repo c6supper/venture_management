@@ -1,0 +1,31 @@
+﻿@using Ext.Net
+@using Ext.Net.MVC
+@model VentureManagement.Models.ThreatCase
+@{
+    ViewBag.Title = "隐患详细信息";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    var X = Html.X();
+}
+
+@section headtag
+{
+    <script>
+        
+    </script>
+}
+
+@section menu
+{
+    @(
+        Html.X().FormPanel()
+            .ID("ThreatCaseDetail")
+            .Frame(true)
+            .Title("详细信息")
+            .Width(500)
+            .DefaultAnchor("100%")
+            .FieldDefaults(fd => {
+                fd.LabelAlign = LabelAlign.Right;
+            })
+            .ItemsFrom(b => Html.EditorForModel("ThreatCase",new {readOnly = true}))
+    )
+}
