@@ -19,15 +19,15 @@ namespace VentureManagement.Web.Areas.Report.Controllers
 
             var reportTo = to == null ? new DateTime(3000, 1, 1) : Convert.ToDateTime(to);
 
-            var tcDi = new Dictionary<string, ThreatCaseReport>();
+            var tcDi = new Dictionary<string, DepartmentThreatCaseReport>();
             foreach (var threatcase in _threatCaseService.FindList(tc => (tc.ThreatCaseFoundTime >= reportFrom && tc.ThreatCaseFoundTime <= reportTo),
                 "ThreatCaseLevel", false).ToArray())
             {
                 if (!tcDi.ContainsKey(threatcase.Project.Organization.OrganizationName))
                 {
-                    var threatCaseReport = new ThreatCaseReport()
+                    var threatCaseReport = new DepartmentThreatCaseReport()
                     {
-                        DepartmentName = threatcase.Project.Organization.OrganizationName
+                        DepartmentName = threatcase.Project.Organization.OrganizationName,
                     };
                     tcDi[threatCaseReport.DepartmentName] = threatCaseReport;
                     switch (threatcase.ThreatCaseLevel)
