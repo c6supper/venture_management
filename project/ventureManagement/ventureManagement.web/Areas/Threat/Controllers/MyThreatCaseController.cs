@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -7,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
+using VentureManagement.BLL;
 using VentureManagement.Models;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
@@ -19,12 +21,23 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public ActionResult Index()
         {
-            //var threatCases =
-            //    _threatCaseService.FindList(
-            //        t => (t.ThreatCaseOwnerId == _currentUser.UserId || t.ThreatCaseConfirmerId == _currentUser.UserId ||
-            //             t.ThreatCaseReporterId == _currentUser.UserId || t.ThreatCaseReviewerId == _currentUser.UserId) && 
-            //             t.ThreatCaseStatus != ThreatCase.STATUS_VERTIFYOK,
-            //        "ThreatCaseId", false).ToArray();
+            return View();
+        }
+
+        public ActionResult Read(StoreRequestParameters parameters)
+        {
+            return this.Store(ThreatCasesPaging(parameters));
+        }
+
+        private Paging<ThreatCase> ThreatCasesPaging(StoreRequestParameters parameters)
+        {
+            return ThreatCasePaging(parameters.Start, parameters.Limit, parameters.SimpleSort, parameters.SimpleSortDirection, null);
+        }
+
+        private Paging<ThreatCase> ThreatCasePaging(int start, int limit, string sort, SortDirection dir, string filter)
+        {
+            var pageIndex = start / limit + ((start % limit > 0) ? 1 : 0) + 1;
+            var count = 0;
             var threatCases = new List<ThreatCase>();
 
             var myConfirmedThreatCases =
@@ -46,8 +59,42 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             if (myReviewedThreatCases.Any())
                 threatCases.AddRange(myReviewedThreatCases);
 
-            return View(threatCases);
+            if (!string.IsNullOrEmpty(filter) && filter != "*")
+            {
+                threatCases.RemoveAll(t => !t.ThreatCaseStatus.ToLower().StartsWith(filter.ToLower()));
+            }
+
+            var projectService = new ProjectService();
+            foreach (var t in threatCases)
+            {
+                var project = projectService.Find(t.ProjectId);
+                t.Project = new VMProject()
+                {
+                    ProjectId = project.ProjectId,
+                    ProjectName = project.ProjectName,
+                    ProjectLocation = project.ProjectLocation,
+                    OrganizationId = project.OrganizationId,
+                    Description = project.Description,
+                    UserId = project.UserId
+                };
+            }
+
+            if (!string.IsNullOrEmpty(sort))
+            {
+                threatCases.Sort(delegate(ThreatCase x, ThreatCase y)
+                {
+                    var direction = dir == SortDirection.DESC ? -1 : 1;
+
+                    var userA = x.GetType().GetProperty(sort).GetValue(x, null);
+                    var userB = y.GetType().GetProperty(sort).GetValue(y, null);
+
+                    return CaseInsensitiveComparer.Default.Compare(userA, userB) * direction;
+                });
+            }
+
+            return new Paging<ThreatCase>(threatCases, count);
         }
+
 
         public ActionResult Detail(int threatCaseId)
         {
