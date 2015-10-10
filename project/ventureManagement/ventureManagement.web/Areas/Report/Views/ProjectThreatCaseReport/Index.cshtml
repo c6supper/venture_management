@@ -1,7 +1,7 @@
 ﻿@using Ext.Net
 @using Ext.Net.MVC
 @using InputType = Ext.Net.InputType
-@model VentureManagement.Web.Areas.Report.Models.ThreatCaseReport
+@*@model*@ VentureManagement.Web.Areas.Report.Models.ThreatCaseReport
 
 @{
     ViewBag.Title = "";
@@ -12,6 +12,9 @@
 @section headtag
 {
     <script>
+        var dateParse = function(value) {
+            return Ext.Date.format(value, 'Y-m-d\\TH:i:s');
+        };
     </script>
 }
 
@@ -32,7 +35,7 @@
                     .Items(       
                         Html.X().ToolbarSpacer().Width(10),       
                         Html.X().DateColumn()
-                            .Text("开始时间:")
+                            .Text("查询起始时间:")
                             .Height(45)
                             .HeaderItems(
                                 Html.X().DateField()
@@ -44,7 +47,7 @@
                             ),
                         Html.X().ToolbarSpacer().Width(10),    
                         Html.X().DateColumn()
-                            .Text("结束时间:")
+                            .Text("查询结束时间:")
                             .Height(45)
                             .HeaderItems(
                                 Html.X().DateField()
@@ -62,8 +65,8 @@
                             .DirectEvents(de =>
                             {
                                 de.Click.Url = Url.Action("Search");
-                                de.Click.ExtraParams.Add(new Parameter("starttime", "App.StartTime.getValue()", ParameterMode.Raw));
-                                de.Click.ExtraParams.Add(new Parameter("endtime", "App.EndTime.getValue()", ParameterMode.Raw));
+                                de.Click.ExtraParams.Add(new Parameter("from", "dateParse(App.StartTime.getValue())", ParameterMode.Raw));
+                                de.Click.ExtraParams.Add(new Parameter("to", "dateParse(App.EndTime.getValue())", ParameterMode.Raw));
                             }),
                         Html.X().ToolbarFill()
                         )
