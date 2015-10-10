@@ -21,7 +21,19 @@
             .ID("ThreatGrid")
             .Frame(true)
             .Height(400)
-            
+            .ColumnModel(
+                Html.X().Column().DataIndex("ThreatCaseId").Text("Id").Hidden(true),                    
+                Html.X().Column().DataIndex("ThreatCaseLocation").Text("隐患地点"),
+                Html.X().Column().DataIndex("ThreatCaseCategory").Text("隐患大类"),
+                Html.X().Column().DataIndex("ThreatCaseType").Text("隐患小类"),
+                Html.X().Column().DataIndex("ThreatCaseSeverity").Text("隐患严重等级"),
+                Html.X().Column().DataIndex("ThreatCasePassibility").Text("隐患可能性等级"),
+                Html.X().Column().DataIndex("ThreatCaseRisk").Text("隐患风险指数"),
+                Html.X().Column().DataIndex("ThreatCaseLevel").Text("隐患分级"),
+                Html.X().DateColumn().DataIndex("ThreatCaseLimitTime").Text("整改期限").Format("yyyy-MM-dd"),
+                Html.X().DateColumn().DataIndex("ThreatCaseFoundTime").Text("隐患发现时间").Format("yyyy-MM-dd"),
+                Html.X().DateColumn().DataIndex("ThreatCaseReportTime").Text("隐患上报时间").Format("yyyy-MM-dd"),
+                Html.X().Column().DataIndex("ThreatCaseStatus").Text("状态"))
             .Plugins(
                     X.FilterHeader()
                 )
