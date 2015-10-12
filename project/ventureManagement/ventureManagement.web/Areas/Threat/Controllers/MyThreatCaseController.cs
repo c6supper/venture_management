@@ -118,6 +118,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
             try
             {
+                Sms sms = null;
                 var updatedThreatCase = _threatCaseService.Find(threatCase.ThreatCaseId);
                 updatedThreatCase.ThreatCaseCorrection = threatCase.ThreatCaseCorrection;
                 updatedThreatCase.ThreatCaseCorrectionValue = threatCase.ThreatCaseCorrectionValue;
@@ -128,7 +129,36 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
                 if (_threatCaseService.Update(updatedThreatCase))
                 {
-                    X.Msg.Confirm("提示", "隐患状态成功.", new MessageBoxButtonsConfig
+                    try
+                    {
+                        if (updatedThreatCase.ThreatCaseStatus.Equals(ThreatCase.STATUS_WAITACKNOWLEDGE))
+                        {
+                            var message = "施工单位" + updatedThreatCase.Project.Organization.OrganizationName +
+                                          "在施工场所" + updatedThreatCase.Project.ProjectLocation +
+                                          "存在" + updatedThreatCase.ThreatCaseCategory + "," + updatedThreatCase.ThreatCaseType +
+                                          "类安全隐患，请于" + updatedThreatCase.ThreatCaseLimitTime.ToString("yyyy年MM月dd日") + "之前完成整改。";
+                            sms = Common.SmsHelper.SendSms(updatedThreatCase.ThreatCaseOwnerId, message);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Print(ex.Message);
+                    }
+                    string infoMessage = "隐患修改成功。";
+                    if (sms != null)
+                    {
+                        if (sms.Status != 0)
+                        {
+                            infoMessage += "短信预警失败,";
+                            if (!string.IsNullOrEmpty(sms.BlockWord))
+                                infoMessage += "存在运营商非法关键字'" + sms.BlockWord + ",";
+
+                            infoMessage += "'请联系项目责任人:" + updatedThreatCase.ThreatCaseOwner.DisplayName + ",联系方式:" +
+                                updatedThreatCase.ThreatCaseOwner.Mobile;
+                        }
+                    }
+
+                    X.Msg.Confirm("提示", infoMessage, new MessageBoxButtonsConfig
                     {
                         Yes = new MessageBoxButtonConfig
                         {
@@ -140,7 +170,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             }
             catch (Exception ex)
             {
-                X.Msg.Alert("", "隐患状态修改失败,请检查参数.").Show();
+                X.Msg.Alert("", "隐患修改失败,请检查参数.").Show();
                 Debug.Print(ex.Message);
             }
 

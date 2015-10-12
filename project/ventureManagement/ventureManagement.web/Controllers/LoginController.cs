@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -107,6 +108,7 @@ namespace VentureManagement.Web.Controllers
             }
             catch (Exception ex)
             {
+                Debug.Print(ex.Message);
                 return "";
             }
         }

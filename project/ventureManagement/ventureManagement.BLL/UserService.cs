@@ -64,7 +64,7 @@ namespace VentureManagement.BLL
                     Status = User.STATUS_VALID,
                     Email = "xxx@163.com",
                     DisplayName = User.USER_ADMIN,
-                    Mobile = "11111111",
+                    Mobile = "17608007325",
                     RegistrationTime = DateTime.Now
                 };
                 Add(user);
@@ -77,7 +77,7 @@ namespace VentureManagement.BLL
                     Status = User.STATUS_VALID,
                     Email = "xxx@163.com",
                     DisplayName = "reporter",
-                    Mobile = "11111111",
+                    Mobile = "17608007325",
                     RegistrationTime = DateTime.Now
                 };
                 Add(user);
@@ -88,7 +88,7 @@ namespace VentureManagement.BLL
                     Status = User.STATUS_VALID,
                     Email = "xxx@163.com",
                     DisplayName = "owner",
-                    Mobile = "11111111",
+                    Mobile = "17608007325",
                     RegistrationTime = DateTime.Now
                 };
                 Add(user);
@@ -99,7 +99,7 @@ namespace VentureManagement.BLL
                     Status = User.STATUS_VALID,
                     Email = "xxx@163.com",
                     DisplayName = "confirmer",
-                    Mobile = "11111111",
+                    Mobile = "17608007325",
                     RegistrationTime = DateTime.Now
                 };
                 Add(user);
@@ -110,7 +110,7 @@ namespace VentureManagement.BLL
                     Status = User.STATUS_VALID,
                     Email = "xxx@163.com",
                     DisplayName = "reviewer",
-                    Mobile = "11111111",
+                    Mobile = "17608007325",
                     RegistrationTime = DateTime.Now
                 };
                 Add(user);

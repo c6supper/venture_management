@@ -59,6 +59,7 @@
     <Compile Include="InterfaceProjectRelationRepository.cs" />
     <Compile Include="InterfaceProjectRepository.cs" />
     <Compile Include="InterfaceRoleRepository.cs" />
+    <Compile Include="InterfaceSmsRepository.cs" />
     <Compile Include="InterfaceThreatCaseRepository.cs" />
     <Compile Include="InterfaceUserOrganizationRelationRepository.cs" />
     <Compile Include="InterfaceUserProjectRelationRepository.cs" />
