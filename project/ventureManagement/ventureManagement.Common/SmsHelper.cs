@@ -15,8 +15,8 @@ namespace Common
 {
     public class SmsHelper
     {
-        private const string Account = "SCyouy999";
-        private const string Pwd = "Huofw7325";
+        private const string Account = "SCYYXX";
+        private const string Pwd = "12345678";
 
         public static void GetSmsStatus()
         {
@@ -67,8 +67,8 @@ namespace Common
 
                 var send2User = userService.Find(userId);
 
-                var param = "account=" + Account + "&password=" + Pwd + "&content=" + message + "【隐患申报系统】"
-                            + "&sendtime=&phonelist=" + send2User.Mobile + "&taskId=" + taskId;
+                var param = "action=send&userid=1067&account=" + Account + "&password=" + Pwd + "&content=" + message + "【隐患申报系统】"
+                            + "&mobile=" + send2User.Mobile + "&sendTime=&extno=";
 
                 var sms = new Sms()
                 {
@@ -80,7 +80,7 @@ namespace Common
                 };
 
                 var bs = Encoding.UTF8.GetBytes(param);
-                var req = (HttpWebRequest) WebRequest.Create("http://sms.huoni.cn:8080/smshttp/infoSend");
+                var req = (HttpWebRequest)WebRequest.Create("http://www.smsok.cn/smsGBK.aspx");
                 req.Method = "POST";
                 req.ContentType = "application/x-www-form-urlencoded";
                 req.ContentLength = bs.Length;
