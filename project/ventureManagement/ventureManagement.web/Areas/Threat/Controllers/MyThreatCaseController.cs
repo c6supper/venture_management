@@ -136,7 +136,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                             var message = "施工单位" + updatedThreatCase.Project.Organization.OrganizationName +
                                           "在施工场所" + updatedThreatCase.Project.ProjectLocation +
                                           "存在" + updatedThreatCase.ThreatCaseCategory + "," + updatedThreatCase.ThreatCaseType +
-                                          "类安全隐患，请于" + updatedThreatCase.ThreatCaseLimitTime.ToString("yyyy年MM月dd日") + "之前完成整改。";
+                                          "类安全隐患,请于" + updatedThreatCase.ThreatCaseLimitTime.ToString("yyyy年MM月dd日") + "之前完成整改.";
                             sms = Common.SmsHelper.SendSms(updatedThreatCase.ThreatCaseOwnerId, message);
                         }
                     }

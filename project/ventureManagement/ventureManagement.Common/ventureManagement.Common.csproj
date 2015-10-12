@@ -55,7 +55,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="SmsHelper.cs" />
-    <Compile Include="returnsms.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -32,6 +32,8 @@ namespace VentureManagement.Models
         [Required]
         public DateTime SendDateTime { get; set; }
 
+        public DateTime RecvDateTime { get; set; }
+
         [Required]
         public int Status { get; set; }
 

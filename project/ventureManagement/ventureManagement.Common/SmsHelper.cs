@@ -8,24 +8,218 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using VentureManagement.Models;
 using VentureManagement.BLL;
+// ReSharper disable InconsistentNaming
+// ReSharper disable ConvertToAutoProperty
 
 namespace Common
 {
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public class returnsmsStatusbox
+    {
+
+        private ulong mobileField;
+
+        private string taskidField;
+
+        private byte statusField;
+
+        private string receivetimeField;
+
+        private string errorcodeField;
+
+        /// <remarks/>
+        public ulong mobile
+        {
+            get
+            {
+                return this.mobileField;
+            }
+            set
+            {
+                this.mobileField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string taskid
+        {
+            get
+            {
+                return this.taskidField;
+            }
+            set
+            {
+                this.taskidField = value;
+            }
+        }
+
+        /// <remarks/>
+        public byte status
+        {
+            get
+            {
+                return this.statusField;
+            }
+            set
+            {
+                this.statusField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string receivetime
+        {
+            get
+            {
+                return this.receivetimeField;
+            }
+            set
+            {
+                this.receivetimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string errorcode
+        {
+            get
+            {
+                return this.errorcodeField;
+            }
+            set
+            {
+                this.errorcodeField = value;
+            }
+        }
+    }
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+    public class returnsms
+    {
+        public static returnsms Deserialize(string templateFile)
+        {
+            try
+            {
+                var serializer = new XmlSerializer(typeof(returnsms));
+                var stream = new MemoryStream(Encoding.ASCII.GetBytes(templateFile));
+                return serializer.Deserialize(stream) as returnsms;
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
+
+            return null;
+        }
+
+        private returnsmsStatusbox[] statusboxField;
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("statusbox")]
+        public returnsmsStatusbox[] statusbox
+        {
+            get
+            {
+                return this.statusboxField;
+            }
+            set
+            {
+                this.statusboxField = value;
+            }
+        }
+
+        private string returnstatusField;
+
+        private string messageField;
+
+        private string remainpointField;
+
+        private string taskIDField;
+
+        private string successCountsField;
+
+        /// <remarks/>
+        public string returnstatus
+        {
+            get
+            {
+                return this.returnstatusField;
+            }
+            set
+            {
+                this.returnstatusField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string remainpoint
+        {
+            get
+            {
+                return this.remainpointField;
+            }
+            set
+            {
+                this.remainpointField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string taskID
+        {
+            get
+            {
+                return this.taskIDField;
+            }
+            set
+            {
+                this.taskIDField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string successCounts
+        {
+            get
+            {
+                return this.successCountsField;
+            }
+            set
+            {
+                this.successCountsField = value;
+            }
+        }
+    }
+
     public class SmsHelper
     {
         private const string Account = "SCYYXX";
-        private const string Pwd = "12345678";
+        private const string Pwd = "youyongkeji81452705";
 
         public static void GetSmsStatus()
         {
             try
             {
-                const string param = "account=" + Account + "&password=" + Pwd;
+                const string param = "action=query&userid=1067&account=" + Account + "&password=" + Pwd;
 
                 var bs = Encoding.UTF8.GetBytes(param);
-                var req = (HttpWebRequest)WebRequest.Create("http://sms.huoni.cn:8080/smshttp/sendStatus");
+                var req = (HttpWebRequest)WebRequest.Create("http://www.smsok.cn/statusApi.aspx");
                 req.Method = "POST";
                 req.ContentType = "application/x-www-form-urlencoded";
                 req.ContentLength = bs.Length;
@@ -39,12 +233,14 @@ namespace Common
                 {
                     // ReSharper disable once AssignNullToNotNullAttribute
                     var sr = new StreamReader(wr.GetResponseStream(), System.Text.Encoding.Default);
-                    var result = sr.ReadToEnd().Trim().Split(Convert.ToChar("\n"));
+                    var result = returnsms.Deserialize(sr.ReadToEnd().Trim());
 
-                    foreach (var status in result)
+                    if (result != null)
                     {
-                        if(status.Contains("|"))
-                            UpdateSmsStatus(status);
+                        foreach (var statusBox in result.statusbox)
+                        {
+                            UpdateSmsStatus(statusBox);
+                        }
                     }
                 }
             }
@@ -61,26 +257,26 @@ namespace Common
                 var userService = new UserService();
                 var smsService = new SmsService();
 
-                var ran = new Random();
-                var taskId = Account + "_" + DateTime.Now.ToString("yyyyMMddHHss") + "_http_" +
-                             ran.Next(10000, 999999);
+                //var ran = new Random();
+                //var taskId = Account + "_" + DateTime.Now.ToString("yyyyMMddHHss") + "_http_" +
+                //             ran.Next(10000, 999999);
 
                 var send2User = userService.Find(userId);
-
-                var param = "action=send&userid=1067&account=" + Account + "&password=" + Pwd + "&content=" + message + "【隐患申报系统】"
+                
+                message = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(message))+"【隐患申报系统】"; 
+                var param = "action=send&userid=1067&account=" + Account + "&password=" + Pwd + "&content=" + message
                             + "&mobile=" + send2User.Mobile + "&sendTime=&extno=";
 
-                var sms = new Sms()
+                var sms = new Sms
                 {
                     Message = message,
                     Send2UserId = send2User.UserId,
                     Address = send2User.Mobile,
                     SendDateTime = DateTime.Now,
-                    TaskId = taskId
                 };
 
                 var bs = Encoding.UTF8.GetBytes(param);
-                var req = (HttpWebRequest)WebRequest.Create("http://www.smsok.cn/smsGBK.aspx");
+                var req = (HttpWebRequest)WebRequest.Create("http://www.smsok.cn/sms.aspx");
                 req.Method = "POST";
                 req.ContentType = "application/x-www-form-urlencoded";
                 req.ContentLength = bs.Length;
@@ -94,28 +290,22 @@ namespace Common
                 {
                     // ReSharper disable once AssignNullToNotNullAttribute
                     var sr = new StreamReader(wr.GetResponseStream(), System.Text.Encoding.Default);
-                    var result = sr.ReadToEnd().Trim().Split(Convert.ToChar(","));
-
-                    if (result.Any())
+                    var result = returnsms.Deserialize(sr.ReadToEnd().Trim());
+                    if (result != null)
                     {
-                        sms.Status = Convert.ToInt32(result[0]);
-                        if (sms.Status == 0)
+                        if (result.returnstatus.ToLower().Contains("success"))
                         {
+                            sms.TaskId = result.taskID.Trim();
                             sms.DeliverStats = "ToAgency";
-
-                            if (result.Length > 2)
-                            {
-                                Debug.Print("发送结果为：" + result[0]);
-                                Debug.Print("发送成功条数：" + result[1]);
-                                Debug.Print("剩余短信条数：" + result[2]);
-                            }
+                            sms.RecvDateTime = DateTime.MaxValue;
+#if DEBUG                            
+                            Debug.Print("余额：" + result.remainpoint);
+#endif
+                            LackMoney(result.remainpoint);
+                            return smsService.Add(sms);
                         }
                         else
-                        {
-                            if (result.Count() > 2)
-                                sms.BlockWord = result[1];
-                        }
-                        return smsService.Add(sms);
+                            Debug.Print("错误信息：" + result.message);
                     }
                 }
             }
@@ -133,24 +323,42 @@ namespace Common
             return null;
         }
 
-        private static void UpdateSmsStatus(string status)
+        private static void LackMoney(string remainpoint)
         {
-            var statusArray = status.Split(Convert.ToChar("|"));
+            try
+            {
+                var remain = Convert.ToInt32(remainpoint);
 
-            if (statusArray.Count() < 4) return;
+                if (remain < 100)
+                {
+                    SendSms(1, "隐患申报系统余额不足,请尽快充值,还剩短信:" + remain);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
+        }
 
-            var taskId = statusArray[0].Trim();
-            var deliverStats = statusArray[1].Trim();
-            //var dateTime = Convert.ToDateTime(statusArray[2].Trim());
-            var address = statusArray[3].Trim();
-
+        private static void UpdateSmsStatus(returnsmsStatusbox status)
+        {
+            var taskId = status.taskid.Trim();
             var smsService = new SmsService();
+            try
+            {
+                var sms = smsService.Find(s => s.TaskId == taskId);
 
-            var sms = smsService.Find(s => s.TaskId == taskId);
+                sms.DeliverStats = status.errorcode;
+                sms.Status = status.status;
+                sms.RecvDateTime = Convert.ToDateTime(status.receivetime);
 
-            sms.DeliverStats = deliverStats;
-
-            smsService.Update(sms);
+                smsService.Update(sms);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
+            
         }
     }
 }
