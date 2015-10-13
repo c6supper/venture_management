@@ -58,7 +58,13 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return node;
         }
 
-        [AllowAnonymous]
+        public ActionResult GetAllOrganizations(int start, int limit, int page, string query)
+        {
+            var orgController = new OrganizationController();
+            var orgs = orgController.GetOrganizations(start, limit, page, query);
+            return this.Store(orgs.Data, orgs.TotalRecords);
+        }
+
         public Paging<Organization> GetOrganizations(int start, int limit, int page,string filter)
         {
             var pageIndex = start / limit + ((start % limit > 0) ? 1 : 0) + 1;
@@ -105,23 +111,28 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             }
             else
             {
-                var sub = _orgSerivce.Add(new Organization
+                try
                 {
-                    OrganizationName = subordinateDepartment,
-                    Description = description
-                });
+                    var sub = _orgSerivce.Add(new Organization
+                    {
+                        OrganizationName = subordinateDepartment,
+                        Description = description
+                    });
 
-                var super = _orgSerivce.Find(superiorDepartmentId);
-                _orgrService.Add(new OrganizationRelation
+                    var super = _orgSerivce.Find(superiorDepartmentId);
+                    _orgrService.Add(new OrganizationRelation
+                    {
+                        SuperiorDepartmentId = super.OrganizationId,
+                        SubordinateDepartmentId = sub.OrganizationId,
+                        Description = description
+                    });
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
                 {
-                    SuperiorDepartmentId = super.OrganizationId,
-                    SubordinateDepartmentId = sub.OrganizationId,
-                    SuperiorDepartment = super,
-                    SubordinateDepartment = sub,
-                    Description = description
-                });
-
-                return RedirectToAction("Index");
+                    Debug.Print(ex.Message);
+                }
             }
             X.Msg.Alert("提示",infoMessage).Show();
 

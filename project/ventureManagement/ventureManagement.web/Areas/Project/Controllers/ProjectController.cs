@@ -46,13 +46,6 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             return new Paging<VMProject>(projects, count);
         }
 
-        public ActionResult GetAllOrganizations(int start, int limit, int page, string query)
-        {
-            var orgController = new OrganizationController();
-            var orgs = orgController.GetOrganizations(start, limit, page, query);
-            return this.Store(orgs.Data, orgs.TotalRecords);
-        }
-
         private Node RecursiveAddNode(VMProject project)
         {
             var node = new Node
