@@ -276,6 +276,14 @@
     <Content Include="resources\images\noimage.png" />
     <Content Include="resources\images\sample-over.gif" />
     <Content Include="resources\images\screenshot.png" />
+    <Content Include="resources\images\threat\STATUS_CORRECTING.png" />
+    <Content Include="resources\images\threat\STATUS_FINISH.png" />
+    <Content Include="resources\images\threat\STATUS_INVALID.png" />
+    <Content Include="resources\images\threat\STATUS_VERTIFYERR.png" />
+    <Content Include="resources\images\threat\STATUS_VERTIFYOK.png" />
+    <Content Include="resources\images\threat\STATUS_WAITACKNOWLEDGE.png" />
+    <Content Include="resources\images\threat\STATUS_WAITCONFIRM.png" />
+    <Content Include="resources\images\threat\threat_report.png" />
     <Content Include="resources\images\title-background.png" />
     <Content Include="resources\images\titlebar-badge-bg.png" />
     <Content Include="resources\images\titlebar-bg.jpg" />

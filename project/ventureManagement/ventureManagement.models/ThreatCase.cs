@@ -125,7 +125,7 @@ namespace VentureManagement.Models
         public const string STATUS_CORRECTING = "整改中";
         public const string STATUS_FINISH = "整改完毕";
         public const string STATUS_VERTIFYOK = "整改通过";
-        public const string STATUS_VERTIFYERR = "整改不通过";
+        public const string STATUS_VERTIFYERR = "整改未通过";
         public const string STATUS_INVALID = "无效隐患";
 
         public static string[] GetAllStatusByCurrentStatus(string status)
@@ -146,6 +146,28 @@ namespace VentureManagement.Models
                 default:
                     return new string[] { status };
             }
+        }
+
+        public static string ConvertDisplay2Value(string display)
+        {
+            switch (display)
+            {
+                case STATUS_WAITCONFIRM:
+                    return "STATUS_WAITCONFIRM";
+                case STATUS_WAITACKNOWLEDGE:
+                    return "STATUS_WAITACKNOWLEDGE";
+                case STATUS_CORRECTING:
+                    return "STATUS_CORRECTING";
+                case STATUS_FINISH:
+                    return "STATUS_FINISH";
+                case STATUS_VERTIFYOK:
+                    return "STATUS_VERTIFYOK";
+                case STATUS_VERTIFYERR:
+                    return "STATUS_VERTIFYERR";
+                case STATUS_INVALID:
+                    return "STATUS_INVALID";
+            }
+            return string.Empty;
         }
 
         public static string[] GetAllThreatCaseStatus()

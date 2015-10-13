@@ -287,7 +287,11 @@ namespace Common
 
                 using (var reqStream = req.GetRequestStream())
                 {
+#if DEBUG
+                    reqStream.Write(bs, 0, 0);
+#else
                     reqStream.Write(bs, 0, bs.Length);
+#endif
                 }
 
                 using (var wr = req.GetResponse())
