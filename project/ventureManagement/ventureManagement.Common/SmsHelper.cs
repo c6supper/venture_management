@@ -301,7 +301,7 @@ namespace Common
 #if DEBUG                            
                             Debug.Print("余额：" + result.remainpoint);
 #endif
-                            LackMoney(result.remainpoint);
+                            CheckLackMoney(result.remainpoint);
                             return smsService.Add(sms);
                         }
                         else
@@ -323,7 +323,7 @@ namespace Common
             return null;
         }
 
-        private static void LackMoney(string remainpoint)
+        private static void CheckLackMoney(string remainpoint)
         {
             try
             {
