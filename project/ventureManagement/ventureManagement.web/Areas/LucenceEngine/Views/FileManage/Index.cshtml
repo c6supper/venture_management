@@ -27,7 +27,7 @@
             .ID("BasicForm")
             .Width(500)
             .Frame(true)
-            .Title("文档上传")
+            .Title("安全法规文档上传")
             .PaddingSpec("10px 10px 0 10px")
             .FieldDefaults(fd => fd.LabelWidth = 50)
             .Defaults(d => {
@@ -69,15 +69,15 @@
                           ),
                 X.FileUploadField()
                     .ID("FileUploadField1")
-                    .EmptyText("请选择上传的文件")
-                    .FieldLabel("文件名")
+                    .EmptyText("请选择上传的文档")
+                    .FieldLabel("文档名")
                     .ButtonText("")
                     .Icon(Icon.ImageAdd)
             )
             .Buttons(
                 X.Button()
                     .ID("SaveButton")
-                    .Text("保存")
+                    .Text("上传")
                     .Disabled(false)
                     .DirectEvents(de => {
                         de.Click.Url = Url.Action("UploadClick");
