@@ -1,0 +1,101 @@
+﻿@using System.Activities.Statements
+@using Ext.Net
+@using Ext.Net.MVC
+@using VentureManagement.Web.Areas.Report.Models
+@using InputType = Ext.Net.InputType
+@*@model*@ VentureManagement.Web.Areas.Report.Models.ThreatCaseReport
+
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    var X = Html.X();
+}
+
+@section headtag
+{
+    <script>
+        var dateParse = function(value) {
+            return Ext.Date.format(value, 'Y-m-d\\TH:i:s');
+        };
+    </script>
+}
+
+@section menu
+{
+    @(
+        Html.X().FormPanel()
+            .ID("ReportForm")
+            .Icon(Icon.Report)
+            .Frame(true)
+            .Title("隐患排查预警报表")
+            .Width(1000)
+            .AutoScroll(true)
+            .DefaultAnchor("100%")          
+            .TopBar(
+                Html.X().Toolbar()
+                    .Flat(true)
+                    .Items(       
+                        Html.X().ComboBox()
+                            .ID("Type")
+                            .LabelStyle("padding-bottom:6px;")
+                            .FieldLabel("报表类型")
+                            .LabelAlign(LabelAlign.Top)
+                            .MaxWidth(120)
+                            .Editable(false)
+                            .QueryMode(DataLoadMode.Local)
+                            .TriggerAction(TriggerAction.All)
+                            .SelectOnFocus(true)
+                            .ForceSelection(true)
+                            .EmptyText("请选择报表类型")
+                            .Items(
+                                new ListItem(ThreatCaseReport.THREATCASE_DEPARTMENTNAME),
+                                new ListItem(ThreatCaseReport.THREATCASE_PROJECTNAME),
+                                new ListItem(ThreatCaseReport.THREATCASE_LOCATION),
+                                new ListItem(ThreatCaseReport.THREATCASE_OWNER)
+                            ),
+                        Html.X().ToolbarSpacer().Width(10),
+                        Html.X().DateColumn()
+                            .Text("查询起始时间:")
+                            .Height(45)
+                            .HeaderItems(
+                                Html.X().DateField()
+                                    .ID("StartTime")
+                                    .Editable(false)
+                            ),
+                        Html.X().ToolbarSpacer().Width(10),    
+                        Html.X().DateColumn()
+                            .Text("查询结束时间:")
+                            .Height(45)
+                            .HeaderItems(
+                                Html.X().DateField()
+                                    .ID("EndTime")
+                                    .Editable(false)
+                            ),      
+                        Html.X().ToolbarSpacer().Width(10),                             
+                        Html.X().Button()
+                            .Text("生成报表")
+                            .Height(45)
+                            .Icon(Icon.Find)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("Generate");
+                                de.Click.ExtraParams.Add(new Parameter("type", "App.Type.getValue()", ParameterMode.Raw));
+                                de.Click.ExtraParams.Add(new Parameter("from", "dateParse(App.StartTime.getValue())", ParameterMode.Raw));
+                                de.Click.ExtraParams.Add(new Parameter("to", "dateParse(App.EndTime.getValue())", ParameterMode.Raw));
+
+                                de.Click.ExtraParams.Add(new { containerId = "ReportForm" });
+                                de.Click.EventMask.ShowMask = true;
+                                de.Click.EventMask.Target = MaskTarget.CustomTarget;
+                                de.Click.EventMask.CustomTarget = "ReportForm";
+                            }),
+                        Html.X().ToolbarSpacer().Width(10),                             
+                        Html.X().Button()
+                            .Text("打印报表")
+                            .Height(45)
+                            .Icon(Icon.Printer)
+                            .Handler("window.print();"),
+                        Html.X().ToolbarFill()
+                        )
+                    )            
+    )   
+}

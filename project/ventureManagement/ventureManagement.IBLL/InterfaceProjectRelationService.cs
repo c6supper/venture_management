@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using VentureManagement.Models;
@@ -9,5 +10,6 @@ namespace VentureManagement.IBLL
     {
         IQueryable<ProjectRelation> FindList(Expression<Func<ProjectRelation, bool>> whereLamdba, string orderName, bool isAsc);
         bool Exist(string superiorProject, string subordinateProject);
+        List<string> GetParentProjectList(int projectId);
     }
 }

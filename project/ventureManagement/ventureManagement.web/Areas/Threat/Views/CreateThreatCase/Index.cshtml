@@ -171,20 +171,19 @@
                           X.TextFieldFor(m => m.Project.Organization.OrganizationName)
                               .ID("OrganizationName").DataIndex("OrganizationName").FieldLabel("施工方")
                       ),
-
-                  X.FieldSet()
-                      .Title("隐患整改负责人")
-                      .ID("ThreatCaseOwnerPanel")
-                      .Layout(LayoutType.Anchor)
-                      .Collapsible(true)
-                      .Collapsed(false)
-                      .DefaultAnchor("100%")
-                      .Items(
-                          X.TextField().ID("ThreatCaseOwnerId").DataIndex("ThreatCaseOwnerId").Hidden(true),
-                          X.TextFieldFor(t => t.ThreatCaseOwner.DisplayName).ID("DisplayName").DataIndex("DisplayName").FieldLabel("负责人"),
-                          X.TextFieldFor(t => t.ThreatCaseOwner.Email).ID("Email").DataIndex("Email").FieldLabel("邮件"),
-                          X.TextFieldFor(t => t.ThreatCaseOwner.Mobile).ID("Mobile").DataIndex("Mobile").FieldLabel("联系方式")
-                      ),
+              X.FieldSet()
+                  .Title("隐患整改负责人")
+                  .ID("ThreatCaseOwnerPanel")
+                  .Layout(LayoutType.Anchor)
+                  .Collapsible(true)
+                  .Collapsed(false)
+                  .DefaultAnchor("100%")
+                  .Items(
+                      X.TextField().ID("ThreatCaseOwnerId").DataIndex("ThreatCaseOwnerId").Hidden(true),
+                      X.TextFieldFor(t => t.ThreatCaseOwner.DisplayName).ID("DisplayName").DataIndex("DisplayName").FieldLabel("负责人"),
+                      X.TextFieldFor(t => t.ThreatCaseOwner.Email).ID("Email").DataIndex("Email").FieldLabel("邮件"),
+                      X.TextFieldFor(t => t.ThreatCaseOwner.Mobile).ID("Mobile").DataIndex("Mobile").FieldLabel("联系电话")
+                  ),
 
                   X.FieldSet()
                       .Title("隐患申报确认人")

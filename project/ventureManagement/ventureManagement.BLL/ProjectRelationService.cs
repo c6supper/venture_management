@@ -12,6 +12,7 @@ namespace VentureManagement.BLL
 {
     public class ProjectRelationService : BaseService<ProjectRelation>, InterfaceProjectRelationService
     {
+        private readonly InterfaceProjectService _projectService = new ProjectService();
         private readonly List<int> _currentOrgList;
         public ProjectRelationService(List<int> currentOrgList)
             : base(RepositoryFactory.ProjectRelationRepository)
@@ -81,6 +82,21 @@ namespace VentureManagement.BLL
             }
 #endif
             return true;
+        }
+
+        public List<string> GetParentProjectList(int projectId)
+        {
+            var parentList = new List<string>();
+
+            foreach (var pror in FindList(pror => pror.SubProject.ProjectId == projectId,"ProjectRelationId", false).ToArray())
+            {
+                if (pror.SuperProjectId !=  VMProject.INVALID_PROJECT)
+                    parentList.AddRange(GetParentProjectList(pror.SuperProject.ProjectId));
+
+                parentList.Add(_projectService.Find(pror.SuperProjectId).ProjectName);
+            }
+
+            return parentList;
         }
     }
 }

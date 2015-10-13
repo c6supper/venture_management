@@ -63,6 +63,7 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
                     Title = "Success",
                     Message = string.Format(tpl, this.GetCmp<FileUploadField>("FileUploadField1").PostedFile.FileName, this.GetCmp<FileUploadField>("FileUploadField1").PostedFile.ContentLength)
                 });
+                AlarmController.GetAllIndex();
             }
             else
             {
