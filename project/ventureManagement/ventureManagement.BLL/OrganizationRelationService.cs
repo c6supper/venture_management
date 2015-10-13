@@ -121,5 +121,22 @@ namespace VentureManagement.BLL
 
             return childrenList;
         }
+
+        public List<string> GetParentOrgList(string org)
+        {
+            var parentList = new List<string>();
+
+            foreach (var orgr in CurrentRepository.FindList(orgr => orgr.SubordinateDepartment.OrganizationName == org,
+                "OrganizationRelationId", false).ToArray())
+            {
+                if (orgr.SuperiorDepartment != null)
+                    parentList.AddRange(GetParentOrgList(orgr.SuperiorDepartment.OrganizationName));
+
+                parentList.Add(_organizationService.Find(orgr.SuperiorDepartmentId).OrganizationName);
+            }
+
+            return parentList;
+        }
+
     }
 }
