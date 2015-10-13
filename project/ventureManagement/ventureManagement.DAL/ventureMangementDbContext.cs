@@ -26,6 +26,7 @@ namespace VentureManagement.DAL
         public DbSet<ProjectRelation> ProjectRelation { get; set; }
         public DbSet<UserProjectRelation> UserProjectRelation { get; set; }
         public DbSet<ThreatCase> ThreatCase { get; set; }
+        public DbSet<Sms> Sms { get; set; }
         public VentureManagementDbContext()
             : base("DefaultConnection")
         {

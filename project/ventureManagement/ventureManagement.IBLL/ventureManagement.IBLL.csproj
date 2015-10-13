@@ -53,6 +53,7 @@
     <Compile Include="InterfaceProjectService.cs" />
     <Compile Include="InterfaceRoleRelationService.cs" />
     <Compile Include="InterfaceRoleService.cs" />
+    <Compile Include="InterfaceSmsService.cs" />
     <Compile Include="InterfaceThreatCaseService.cs" />
     <Compile Include="InterfaceUserConfig.cs" />
     <Compile Include="InterfaceUserOrganizationRelationService.cs" />
