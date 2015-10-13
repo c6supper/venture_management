@@ -1,5 +1,6 @@
 ﻿@using Ext.Net
 @using Ext.Net.MVC
+@using VentureManagement.Models
 @model VentureManagement.Models.ThreatCase
 @{
     ViewBag.Title = "隐患详细信息";
@@ -17,22 +18,30 @@
 @section menu
 {
     @(
-        Html.X().FormPanel()
-            .ID("ThreatCaseDetail")
-            .Frame(true)
-            .Title("详细信息")
-            .Width(500)
-            .Url(Url.Action("Submit"))
-            .DefaultAnchor("100%")
-            .FieldDefaults(fd => {
-                fd.LabelAlign = LabelAlign.Right;
-            })
-            .Buttons(
-                X.Button()
-                    .Text("确认")
-                    .Icon(Icon.Disk)
-                    .Handler("App.ThreatCaseDetail.submit();")
-            )
-            .ItemsFrom(b => Html.EditorForModel("ThreatCase"))
+        X.Panel()
+            .Layout(LayoutType.Column)
+            .Items(
+                Html.X().FormPanel()
+                    .ID("ThreatCaseDetail")
+                    .Frame(true)
+                    .Title("详细信息")
+                    .ColumnWidth(0.5)
+                    .Url(Url.Action("Submit"))
+                    .DefaultAnchor("100%")
+                    .FieldDefaults(fd => {
+                        fd.LabelAlign = LabelAlign.Right;
+                    })
+                    .Buttons(
+                        X.Button()
+                            .Text("确认")
+                            .Icon(Icon.Disk)
+                            .Handler("App.ThreatCaseDetail.submit();")
+                    )
+                    .ItemsFrom(b => Html.EditorForModel("ThreatCase")),
+                X.Image()
+                    .ImageUrl("../../resources/images/threat/" + ThreatCase.ConvertDisplay2Value(Model.ThreatCaseStatus) + ".png")
+                    .ColumnWidth(0.25)
+                    .StyleSpec("margin-left: 120px;margin-top: 20px;")
+            ) 
     )
 }

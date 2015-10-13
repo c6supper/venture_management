@@ -70,357 +70,369 @@
 
 @section menu
 {
-    @(X.FormPanel()
-          .ID("ThreatCasePanel")
-          .Title("隐患申报")
-          .Frame(true)
-          .Url(Url.Action("Submit"))
-          .Width(600)
-          .BodyPadding(10)
-          .FieldDefaults(fd =>
-          {
-              fd.LabelWidth = 110;
-              fd.LabelStyle = "color:green;padding-left:4px;";
-          })
-          .Buttons(
-              X.Button()
-                  .ID("CreateButton")
-                  .Text("预警")
-                  .Icon(Icon.Disk)
-                  .Handler("this.up('form').submit();"),
+    @(X.Panel()
+        .Flex(1)
+        .Border(false)
+        .BodyStyle("background-color: transparent;")
+        .LayoutConfig(new HBoxLayoutConfig() { Align = HBoxAlign.Stretch })
+        .Items(
+            X.FormPanel()
+              .ID("ThreatCasePanel")
+              .Title("隐患申报")
+              .Frame(true)
+              .Url(Url.Action("Submit"))
+              .Width(600)
+              .BodyPadding(10)
+              .FieldDefaults(fd =>
+              {
+                  fd.LabelWidth = 110;
+                  fd.LabelStyle = "color:green;padding-left:4px;";
+              })
+              .Buttons(
+                  X.Button()
+                      .ID("CreateButton")
+                      .Text("预警")
+                      .Icon(Icon.Disk)
+                      .Handler("this.up('form').submit();"),
 
-              X.Button()
-                  .Text("取消")
-                  .OnClientClick("this.up('form').reset();")
-          )
-          .Items(
-              X.Container()
-                  .Layout(LayoutType.HBox)
-                  .MarginSpec("0 0 10"),
+                  X.Button()
+                      .Text("取消")
+                      .OnClientClick("this.up('form').reset();")
+              )
+              .Items(
+                  X.Container()
+                      .Layout(LayoutType.Column),
 
-              X.FieldSet()
-                  .Title("工程信息")
-                  .ID("ProjectInfo")
-                  .Layout(LayoutType.Anchor)
-                  .Collapsible(true)
-                  .Collapsed(false)
-                  .DefaultAnchor("100%")
-                  .Items(
-                      X.ComboBoxFor(t => t.ProjectId)
-                          .ID("ProjectId")
-                          .FieldLabel("工程")
-                          .EmptyText("请输入关键字或*显示全部")
-                          .DisplayField("ProjectName")
-                          .ValueField("ProjectId")
-                          .DataIndex("")
-                          .TypeAhead(true)
-                          .PageSize(15)
-                          .HideBaseTrigger(true)
-                          .MinChars(0)
-                          .DirectEvents(de =>
-                          {
-                              de.Select.Url = Url.Action("SelectProject");
-                              de.Select.Success = "onSuccessfullySelectProject(result);";
-                          })
-                          .TriggerAction(TriggerAction.All)
-                          .ListConfig(Html.X().BoundList()
-                              .LoadingText("搜索中...")
-                              .ItemTpl(Html.X().XTemplate()
-                                  .Html(@<text>
-                                            <div class="search-item">
-                                                <h3><span>{ProjectName}</span></h3>
-                                                {ProjectLocation}
-                                            </div>
-                                         </text>)
-                              ))
-                          .Store(Html.X().Store()
-                              .AutoLoad(true)
-                              .Proxy(Html.X().AjaxProxy()
-                                  .Url(Url.Action("GetAllProjects"))
-                                  .ActionMethods(am => am.Read = HttpMethod.POST)
-                                  .Reader(Html.X().JsonReader().Root("data"))
-                              )
-                              .Model(Html.X().Model()
-                                  .Fields(
-                                      Html.X().ModelField().Name("ProjectId"),
-                                      Html.X().ModelField().Name("ProjectName"),
-                                      Html.X().ModelField().Name("ProjectLocation"),
-                                      Html.X().ModelField().Name("OrganizationId")
+                  X.FieldSet()
+                      .Title("工程信息")
+                      .ID("ProjectInfo")
+                      .Layout(LayoutType.Anchor)
+                      .Collapsible(true)
+                      .Collapsed(false)
+                      .ColumnWidth(0.7)
+                      .DefaultAnchor("100%")
+                      .Items(
+                          X.ComboBoxFor(t => t.ProjectId)
+                              .ID("ProjectId")
+                              .FieldLabel("工程")
+                              .EmptyText("请输入关键字或*显示全部")
+                              .DisplayField("ProjectName")
+                              .ValueField("ProjectId")
+                              .DataIndex("")
+                              .TypeAhead(true)
+                              .PageSize(15)
+                              .HideBaseTrigger(true)
+                              .MinChars(0)
+                              .DirectEvents(de =>
+                              {
+                                  de.Select.Url = Url.Action("SelectProject");
+                                  de.Select.Success = "onSuccessfullySelectProject(result);";
+                              })
+                              .TriggerAction(TriggerAction.All)
+                              .ListConfig(Html.X().BoundList()
+                                  .LoadingText("搜索中...")
+                                  .ItemTpl(Html.X().XTemplate()
+                                      .Html(@<text>
+                                                <div class="search-item">
+                                                    <h3><span>{ProjectName}</span></h3>
+                                                    {ProjectLocation}
+                                                </div>
+                                             </text>)
+                                  ))
+                              .Store(Html.X().Store()
+                                  .AutoLoad(true)
+                                  .Proxy(Html.X().AjaxProxy()
+                                      .Url(Url.Action("GetAllProjects"))
+                                      .ActionMethods(am => am.Read = HttpMethod.POST)
+                                      .Reader(Html.X().JsonReader().Root("data"))
+                                  )
+                                  .Model(Html.X().Model()
+                                      .Fields(
+                                          Html.X().ModelField().Name("ProjectId"),
+                                          Html.X().ModelField().Name("ProjectName"),
+                                          Html.X().ModelField().Name("ProjectLocation"),
+                                          Html.X().ModelField().Name("OrganizationId")
+                                      )
                                   )
                               )
-                          )
-                          .Listeners(ls => ls.Select.Handler = "SelectProject(records[0]);"),
-                      X.TextFieldFor(t => t.Project.ProjectLocation).ID("ProjectLocationId").FieldLabel("施工地点")
-                  ),
+                              .Listeners(ls => ls.Select.Handler = "SelectProject(records[0]);"),
+                          X.TextFieldFor(t => t.Project.ProjectLocation).ID("ProjectLocationId").FieldLabel("施工地点")
+                      ),
 
-              X.FieldSet()
-                  .Title("施工方信息")
-                  .Layout(LayoutType.Anchor)
-                  .Collapsible(true)
-                  .Collapsed(false)
-                  .DefaultAnchor("100%")
-                  .Items(
-                      X.TextFieldFor(m => m.Project.OrganizationId).Hidden(true).
-                          ID("OrganizationId").DataIndex("OrganizationId").FieldLabel("施工方Id"),
-                      X.TextFieldFor(m => m.Project.Organization.OrganizationName)
-                          .ID("OrganizationName").DataIndex("OrganizationName").FieldLabel("施工方")
-                  ),
+                  X.FieldSet()
+                      .Title("施工方信息")
+                      .Layout(LayoutType.Anchor)
+                      .Collapsible(true)
+                      .Collapsed(false)
+                      .DefaultAnchor("100%")
+                      .Items(
+                          X.TextFieldFor(m => m.Project.OrganizationId).Hidden(true).
+                              ID("OrganizationId").DataIndex("OrganizationId").FieldLabel("施工方Id"),
+                          X.TextFieldFor(m => m.Project.Organization.OrganizationName)
+                              .ID("OrganizationName").DataIndex("OrganizationName").FieldLabel("施工方")
+                      ),
 
-              X.FieldSet()
-                  .Title("隐患整改负责人")
-                  .ID("ThreatCaseOwnerPanel")
-                  .Layout(LayoutType.Anchor)
-                  .Collapsible(true)
-                  .Collapsed(false)
-                  .DefaultAnchor("100%")
-                  .Items(
-                      X.TextField().ID("ThreatCaseOwnerId").DataIndex("ThreatCaseOwnerId").Hidden(true),
-                      X.TextFieldFor(t => t.ThreatCaseOwner.DisplayName).ID("DisplayName").DataIndex("DisplayName").FieldLabel("负责人"),
-                      X.TextFieldFor(t => t.ThreatCaseOwner.Email).ID("Email").DataIndex("Email").FieldLabel("邮件"),
-                      X.TextFieldFor(t => t.ThreatCaseOwner.Mobile).ID("Mobile").DataIndex("Mobile").FieldLabel("联系方式")
-                  ),
+                  X.FieldSet()
+                      .Title("隐患整改负责人")
+                      .ID("ThreatCaseOwnerPanel")
+                      .Layout(LayoutType.Anchor)
+                      .Collapsible(true)
+                      .Collapsed(false)
+                      .DefaultAnchor("100%")
+                      .Items(
+                          X.TextField().ID("ThreatCaseOwnerId").DataIndex("ThreatCaseOwnerId").Hidden(true),
+                          X.TextFieldFor(t => t.ThreatCaseOwner.DisplayName).ID("DisplayName").DataIndex("DisplayName").FieldLabel("负责人"),
+                          X.TextFieldFor(t => t.ThreatCaseOwner.Email).ID("Email").DataIndex("Email").FieldLabel("邮件"),
+                          X.TextFieldFor(t => t.ThreatCaseOwner.Mobile).ID("Mobile").DataIndex("Mobile").FieldLabel("联系方式")
+                      ),
 
-              X.FieldSet()
-                  .Title("隐患申报确认人")
-                  .ID("ThreatCaseConfirmerPanel")
-                  .Layout(LayoutType.Anchor)
-                  .Collapsible(true)
-                  .Collapsed(false)
-                  .DefaultAnchor("100%")
-                  .Items(
-                      X.ComboBoxFor(t => t.ThreatCaseConfirmerId)
-                          .ID("UserId")
-                          .EmptyText("请输入关键字或*搜索所有")
-                          .DisplayField("DisplayName")
-                          .ValueField("UserId")
-                          .TypeAhead(true)
-                          .PageSize(15)
-                          .HideBaseTrigger(true)
-                          .MinChars(0)
-                          .TriggerAction(TriggerAction.All)
-                          .ListConfig(Html.X().BoundList()
-                              .LoadingText("搜索...")
-                              .ItemTpl(Html.X().XTemplate()
-                                  .Html(@<text>
-                                            <div class="search-item">
-                                                <h3><span>真名:{DisplayName}</span></h3>
-                                                    用户名:{UserName} 电话:{Mobile}
-                                            </div>
-                                         </text>)
-                              )
-                          )
-                          .Store(Html.X().Store()
-                              .ID("UserStore")
-                              .AutoLoad(false)
-                              .Proxy(Html.X().AjaxProxy()
-                                  .Url(Url.Action("GetUsers", "User", new {Area = "Member"}))
-                                  .ActionMethods(am => am.Read = HttpMethod.POST)
-                                  .Reader(Html.X().JsonReader().Root("data"))
-                              )
-                              .Model(Html.X().Model()
-                                  .Fields(
-                                      Html.X().ModelField().Name("UserId"),
-                                      Html.X().ModelField().Name("UserName"),
-                                      Html.X().ModelField().Name("Mobile"),
-                                      Html.X().ModelField().Name("DisplayName")
+                  X.FieldSet()
+                      .Title("隐患申报确认人")
+                      .ID("ThreatCaseConfirmerPanel")
+                      .Layout(LayoutType.Anchor)
+                      .Collapsible(true)
+                      .Collapsed(false)
+                      .DefaultAnchor("100%")
+                      .Items(
+                          X.ComboBoxFor(t => t.ThreatCaseConfirmerId)
+                              .ID("UserId")
+                              .EmptyText("请输入关键字或*搜索所有")
+                              .DisplayField("DisplayName")
+                              .ValueField("UserId")
+                              .TypeAhead(true)
+                              .PageSize(15)
+                              .HideBaseTrigger(true)
+                              .MinChars(0)
+                              .TriggerAction(TriggerAction.All)
+                              .ListConfig(Html.X().BoundList()
+                                  .LoadingText("搜索...")
+                                  .ItemTpl(Html.X().XTemplate()
+                                      .Html(@<text>
+                                                <div class="search-item">
+                                                    <h3><span>真名:{DisplayName}</span></h3>
+                                                        用户名:{UserName} 电话:{Mobile}
+                                                </div>
+                                             </text>)
                                   )
                               )
-                          )
-                  ),
+                              .Store(Html.X().Store()
+                                  .ID("UserStore")
+                                  .AutoLoad(false)
+                                  .Proxy(Html.X().AjaxProxy()
+                                      .Url(Url.Action("GetUsers", "User", new {Area = "Member"}))
+                                      .ActionMethods(am => am.Read = HttpMethod.POST)
+                                      .Reader(Html.X().JsonReader().Root("data"))
+                                  )
+                                  .Model(Html.X().Model()
+                                      .Fields(
+                                          Html.X().ModelField().Name("UserId"),
+                                          Html.X().ModelField().Name("UserName"),
+                                          Html.X().ModelField().Name("Mobile"),
+                                          Html.X().ModelField().Name("DisplayName")
+                                      )
+                                  )
+                              )
+                      ),
                   
-               X.FieldSet()
-                  .Title("隐患申报复核人")
-                  .ID("ThreatCaseReviewerPanel")
-                  .Layout(LayoutType.Anchor)
-                  .Collapsible(true)
-                  .Collapsed(false)
-                  .DefaultAnchor("100%")
-                  .Items(
-                      X.ComboBoxFor(t => t.ThreatCaseReviewerId)
-                          .ID("ReviewerId")
-                          .EmptyText("请输入关键字或*搜索所有")
-                          .DisplayField("DisplayName")
-                          .ValueField("UserId")
-                          .TypeAhead(true)
-                          .PageSize(15)
-                          .HideBaseTrigger(true)
-                          .MinChars(0)
-                          .TriggerAction(TriggerAction.All)
-                          .ListConfig(Html.X().BoundList()
-                              .LoadingText("搜索...")
-                              .ItemTpl(Html.X().XTemplate()
-                                  .Html(@<text>
-                                            <div class="search-item">
-                                                <h3><span>真名:{DisplayName}</span></h3>
-                                                    用户名:{UserName} 电话:{Mobile}
-                                            </div>
-                                         </text>)
-                              )
-                          )
-                          .Store(Html.X().Store()
-                              .ID("ReviewerStore")
-                              .AutoLoad(false)
-                              .Proxy(Html.X().AjaxProxy()
-                                  .Url(Url.Action("GetUsers", "User", new {Area = "Member"}))
-                                  .ActionMethods(am => am.Read = HttpMethod.POST)
-                                  .Reader(Html.X().JsonReader().Root("data"))
-                              )
-                              .Model(Html.X().Model()
-                                  .Fields(
-                                      Html.X().ModelField().Name("UserId"),
-                                      Html.X().ModelField().Name("UserName"),
-                                      Html.X().ModelField().Name("Mobile"),
-                                      Html.X().ModelField().Name("DisplayName")
+                   X.FieldSet()
+                      .Title("隐患申报复核人")
+                      .ID("ThreatCaseReviewerPanel")
+                      .Layout(LayoutType.Anchor)
+                      .Collapsible(true)
+                      .Collapsed(false)
+                      .DefaultAnchor("100%")
+                      .Items(
+                          X.ComboBoxFor(t => t.ThreatCaseReviewerId)
+                              .ID("ReviewerId")
+                              .EmptyText("请输入关键字或*搜索所有")
+                              .DisplayField("DisplayName")
+                              .ValueField("UserId")
+                              .TypeAhead(true)
+                              .PageSize(15)
+                              .HideBaseTrigger(true)
+                              .MinChars(0)
+                              .TriggerAction(TriggerAction.All)
+                              .ListConfig(Html.X().BoundList()
+                                  .LoadingText("搜索...")
+                                  .ItemTpl(Html.X().XTemplate()
+                                      .Html(@<text>
+                                                <div class="search-item">
+                                                    <h3><span>真名:{DisplayName}</span></h3>
+                                                        用户名:{UserName} 电话:{Mobile}
+                                                </div>
+                                             </text>)
                                   )
                               )
-                          )
-                  ),
-
-              X.FieldSet()
-                  .Title("隐患信息")
-                  .Layout(LayoutType.Anchor)
-                  .Collapsible(true)
-                  .Collapsed(false)
-                  .DefaultAnchor("100%")
-                  .Items(
-                      X.Container()
-                          .Layout(LayoutType.Column)
-                          .MarginSpec("0 0 10")
-                          .Items(
-                              X.TextFieldFor(t => t.ThreatCaseLocation).ID("ThreatCaseLocation").FieldLabel("隐患发现地"),
-                              X.DateFieldFor(t => t.ThreatCaseFoundTime).ID("ThreatCaseFoundTime").FieldLabel("隐患发现时间")
-                                  .Value(DateTime.Now)),
-                      X.TextAreaFor(t => t.ThreatCaseDescription).FieldLabel("隐患描述").Height(60),
-                      X.Container()
-                          .Layout(LayoutType.Column)
-                          .MarginSpec("0 0 10")
-                          .Items(
-                              X.ComboBoxFor(t => t.ThreatCaseCategory)
-                                  .FieldLabel("隐患大类")
-                                  .ID("ThreatCategory")
-                                  .TypeAhead(true)
-                                  .QueryMode(DataLoadMode.Local)
-                                  .ForceSelection(true)
-                                  .TriggerAction(TriggerAction.All)
-                                  .DisplayField("CategoryName")
-                                  .ValueField("CategoryName")
-                                  .Listeners(ls =>
-                                      ls.Select.Handler = "App.ThreatType.clearValue(); App.ThreatType.getStore().load();")
-
-                                  .EmptyText("Loading...")
-                                  .ValueNotFoundText("Loading...")
-                                  .Store(Html.X().Store()
-                                      .AutoLoad(true)
-                                      .Model(Html.X().Model()
-                                          .IDProperty("ThreatCategoryId")
-                                          .Fields(
-                                              new ModelField("CategoryName", ModelFieldType.String) {Mapping = "CategoryName"}
-                                          )
-                                      )
-                                      .Proxy(Html.X().AjaxProxy()
-                                          .Url(Url.Action("GetThreatCategory"))
-                                          .Reader(Html.X().JsonReader().Root("data"))
-                                      )
-                                      .Listeners(ls =>
-                                      {
-                                          ls.Load.Handler = @"var combo = App.ThreatCategory;combo.setValue(records[0].get(combo.valueField));";
-                                      })
-                                  ),
-                              X.ComboBoxFor(t => t.ThreatCaseType)
-                                  .FieldLabel("隐患小类")
-                                  .ID("ThreatType")
-                                  .TypeAhead(true)
-                                  .QueryMode(DataLoadMode.Local)
-                                  .ForceSelection(true)
-                                  .TriggerAction(TriggerAction.All)
-                                  .DisplayField("TypeName")
-                                  .ValueField("TypeName")
-                                  .EmptyText("Loading...")
-                                  .ValueNotFoundText("Loading...")
-                                  .Listeners(ls => ls.Select.Handler = "App.ThreatCaseCauseId.setValue(records[0].get('Cause'));App.ThreatCaseSuggestionId.setValue(records[0].get('Correction'));")
-                                  .Store(Html.X().Store()
-                                      .AutoLoad(true)
-                                      .Model(Html.X().Model()
-                                          .IDProperty("ThreatTypeId")
-                                          .Fields(
-                                              new ModelField("TypeName", ModelFieldType.String) {Mapping = "TypeName"},
-                                              new ModelField("Cause", ModelFieldType.String) {Mapping = "Cause"},
-                                              new ModelField("Correction", ModelFieldType.String) {Mapping = "Correction"}
-                                          )
-                                      )
-                                      .Proxy(Html.X().AjaxProxy()
-                                          .Url(Url.Action("GetThreatType"))
-                                          .Reader(Html.X().JsonReader().Root("data"))
-                                      )
-                                      .Parameters(ps =>
-                                          ps.Add(new StoreParameter("category", "App.ThreatCategory.getValue()", ParameterMode.Raw))
-                                      )
-                                      .Listeners(ls =>
-                                      {
-                                          ls.Load.Handler = @"var combo = App.ThreatType;
-                                            combo.setValue(records[0].get(combo.valueField));App.ThreatCaseCauseId.setValue(records[0].get('Cause'));
-                                            App.ThreatCaseSuggestionId.setValue(records[0].get('Correction'));";
-                                      })
-                                  )),
-                      X.Container()
-                          .Layout(LayoutType.Column)
-                          .MarginSpec("0 0 10")
-                          .Items(
-                              X.ComboBoxFor(t => t.ThreatCaseSeverity)
-                                  .FieldLabel("严重性等级")
-                                  .ID("ThreatCaseSeverityId")
-                                  .DataIndex("ThreatCaseSeverity")
-                                  .QueryMode(DataLoadMode.Local)
-                                  .TriggerAction(TriggerAction.All)
-                                  .SelectOnFocus(true)
-                                  .EmptyText("")
-                                  .Listeners(ls => ls.Select.Handler = "CalcRisk();")
-                                  .Items(
-                                      new ListItem("灾难的", 10),
-                                      new ListItem("严重的", 7),
-                                      new ListItem("轻度的", 4),
-                                      new ListItem("轻微的", 1)
-                                  ),
-                              X.ComboBoxFor(t => t.ThreatCasePassibility)
-                                  .FieldLabel("可能性等级")
-                                  .ID("ThreatCasePassibilityId")
-                                  .DataIndex("ThreatCasePassibility")
-                                  .QueryMode(DataLoadMode.Local)
-                                  .TriggerAction(TriggerAction.All)
-                                  .SelectOnFocus(true)
-                                  .EmptyText("")
-                                  .Listeners(ls => ls.Select.Handler = "CalcRisk();")
-                                  .Items(
-                                      new ListItem("很可能", 10),
-                                      new ListItem("可能的", 7),
-                                      new ListItem("有可能", 5),
-                                      new ListItem("不太可能", 3),
-                                      new ListItem("不可能", 1)
+                              .Store(Html.X().Store()
+                                  .ID("ReviewerStore")
+                                  .AutoLoad(false)
+                                  .Proxy(Html.X().AjaxProxy()
+                                      .Url(Url.Action("GetUsers", "User", new {Area = "Member"}))
+                                      .ActionMethods(am => am.Read = HttpMethod.POST)
+                                      .Reader(Html.X().JsonReader().Root("data"))
                                   )
-                          ),
+                                  .Model(Html.X().Model()
+                                      .Fields(
+                                          Html.X().ModelField().Name("UserId"),
+                                          Html.X().ModelField().Name("UserName"),
+                                          Html.X().ModelField().Name("Mobile"),
+                                          Html.X().ModelField().Name("DisplayName")
+                                      )
+                                  )
+                              )
+                      ),
 
-                      X.Container()
-                          .Layout(LayoutType.Column)
-                          .MarginSpec("0 0 10")
-                          .Items(
-                              X.TextFieldFor(t => t.ThreatCaseRisk)
-                                  .FieldLabel("隐患风险评价指数")
-                                  .ID("ThreatCaseRiskId")
-                                  .DataIndex("ThreatCaseRisk")
-                                  .ReadOnly(true),
+                  X.FieldSet()
+                      .Title("隐患信息")
+                      .Layout(LayoutType.Anchor)
+                      .Collapsible(true)
+                      .Collapsed(false)
+                      .DefaultAnchor("100%")
+                      .Items(
+                          X.Container()
+                              .Layout(LayoutType.Column)
+                              .MarginSpec("0 0 10")
+                              .Items(
+                                  X.TextFieldFor(t => t.ThreatCaseLocation).ID("ThreatCaseLocation").FieldLabel("隐患发现地"),
+                                  X.DateFieldFor(t => t.ThreatCaseFoundTime).ID("ThreatCaseFoundTime").FieldLabel("隐患发现时间")
+                                      .Value(DateTime.Now)),
+                          X.TextAreaFor(t => t.ThreatCaseDescription).FieldLabel("隐患描述").Height(60),
+                          X.Container()
+                              .Layout(LayoutType.Column)
+                              .MarginSpec("0 0 10")
+                              .Items(
+                                  X.ComboBoxFor(t => t.ThreatCaseCategory)
+                                      .FieldLabel("隐患大类")
+                                      .ID("ThreatCategory")
+                                      .TypeAhead(true)
+                                      .QueryMode(DataLoadMode.Local)
+                                      .ForceSelection(true)
+                                      .TriggerAction(TriggerAction.All)
+                                      .DisplayField("CategoryName")
+                                      .ValueField("CategoryName")
+                                      .Listeners(ls =>
+                                          ls.Select.Handler = "App.ThreatType.clearValue(); App.ThreatType.getStore().load();")
 
-                              X.TextFieldFor(t => t.ThreatCaseLevel)
-                                  .FieldLabel("隐患分级")
-                                  .ID("ThreatCaseLevelId")
-                                  .DataIndex("ThreatCaseLevel")
-                                  .ReadOnly(true)
-                          ),
-                      X.DateField().ID("ThreatCaseLimitTime").FieldLabel("整改要求完成时间").Value(DateTime.Now.AddDays(7)),
-                      X.TextAreaFor(t => t.ThreatCaseCause).ID("ThreatCaseCauseId").FieldLabel("可能的原因").Height(20),
-                      X.TextAreaFor(t => t.ThreatCaseCertification).FieldLabel("资质证件使用情况").Height(40),
-                      X.TextAreaFor(t => t.ThreatCaseCurrentSecurity).FieldLabel("现有安全设施情况").Height(40),
-                      X.TextAreaFor(t => t.ThreatCaseSuggestion).ID("ThreatCaseSuggestionId").FieldLabel("可选择采取的措施").Height(60)
-                  )
-          )
-          )
+                                      .EmptyText("Loading...")
+                                      .ValueNotFoundText("Loading...")
+                                      .Store(Html.X().Store()
+                                          .AutoLoad(true)
+                                          .Model(Html.X().Model()
+                                              .IDProperty("ThreatCategoryId")
+                                              .Fields(
+                                                  new ModelField("CategoryName", ModelFieldType.String) {Mapping = "CategoryName"}
+                                              )
+                                          )
+                                          .Proxy(Html.X().AjaxProxy()
+                                              .Url(Url.Action("GetThreatCategory"))
+                                              .Reader(Html.X().JsonReader().Root("data"))
+                                          )
+                                          .Listeners(ls =>
+                                          {
+                                              ls.Load.Handler = @"var combo = App.ThreatCategory;combo.setValue(records[0].get(combo.valueField));";
+                                          })
+                                      ),
+                                  X.ComboBoxFor(t => t.ThreatCaseType)
+                                      .FieldLabel("隐患小类")
+                                      .ID("ThreatType")
+                                      .TypeAhead(true)
+                                      .QueryMode(DataLoadMode.Local)
+                                      .ForceSelection(true)
+                                      .TriggerAction(TriggerAction.All)
+                                      .DisplayField("TypeName")
+                                      .ValueField("TypeName")
+                                      .EmptyText("Loading...")
+                                      .ValueNotFoundText("Loading...")
+                                      .Listeners(ls => ls.Select.Handler = "App.ThreatCaseCauseId.setValue(records[0].get('Cause'));App.ThreatCaseSuggestionId.setValue(records[0].get('Correction'));")
+                                      .Store(Html.X().Store()
+                                          .AutoLoad(true)
+                                          .Model(Html.X().Model()
+                                              .IDProperty("ThreatTypeId")
+                                              .Fields(
+                                                  new ModelField("TypeName", ModelFieldType.String) {Mapping = "TypeName"},
+                                                  new ModelField("Cause", ModelFieldType.String) {Mapping = "Cause"},
+                                                  new ModelField("Correction", ModelFieldType.String) {Mapping = "Correction"}
+                                              )
+                                          )
+                                          .Proxy(Html.X().AjaxProxy()
+                                              .Url(Url.Action("GetThreatType"))
+                                              .Reader(Html.X().JsonReader().Root("data"))
+                                          )
+                                          .Parameters(ps =>
+                                              ps.Add(new StoreParameter("category", "App.ThreatCategory.getValue()", ParameterMode.Raw))
+                                          )
+                                          .Listeners(ls =>
+                                          {
+                                              ls.Load.Handler = @"var combo = App.ThreatType;
+                                                combo.setValue(records[0].get(combo.valueField));App.ThreatCaseCauseId.setValue(records[0].get('Cause'));
+                                                App.ThreatCaseSuggestionId.setValue(records[0].get('Correction'));";
+                                          })
+                                      )),
+                          X.Container()
+                              .Layout(LayoutType.Column)
+                              .MarginSpec("0 0 10")
+                              .Items(
+                                  X.ComboBoxFor(t => t.ThreatCaseSeverity)
+                                      .FieldLabel("严重性等级")
+                                      .ID("ThreatCaseSeverityId")
+                                      .DataIndex("ThreatCaseSeverity")
+                                      .QueryMode(DataLoadMode.Local)
+                                      .TriggerAction(TriggerAction.All)
+                                      .SelectOnFocus(true)
+                                      .EmptyText("")
+                                      .Listeners(ls => ls.Select.Handler = "CalcRisk();")
+                                      .Items(
+                                          new ListItem("灾难的", 10),
+                                          new ListItem("严重的", 7),
+                                          new ListItem("轻度的", 4),
+                                          new ListItem("轻微的", 1)
+                                      ),
+                                  X.ComboBoxFor(t => t.ThreatCasePassibility)
+                                      .FieldLabel("可能性等级")
+                                      .ID("ThreatCasePassibilityId")
+                                      .DataIndex("ThreatCasePassibility")
+                                      .QueryMode(DataLoadMode.Local)
+                                      .TriggerAction(TriggerAction.All)
+                                      .SelectOnFocus(true)
+                                      .EmptyText("")
+                                      .Listeners(ls => ls.Select.Handler = "CalcRisk();")
+                                      .Items(
+                                          new ListItem("很可能", 10),
+                                          new ListItem("可能的", 7),
+                                          new ListItem("有可能", 5),
+                                          new ListItem("不太可能", 3),
+                                          new ListItem("不可能", 1)
+                                      )
+                              ),
+
+                          X.Container()
+                              .Layout(LayoutType.Column)
+                              .MarginSpec("0 0 10")
+                              .Items(
+                                  X.TextFieldFor(t => t.ThreatCaseRisk)
+                                      .FieldLabel("隐患风险评价指数")
+                                      .ID("ThreatCaseRiskId")
+                                      .DataIndex("ThreatCaseRisk")
+                                      .ReadOnly(true),
+
+                                  X.TextFieldFor(t => t.ThreatCaseLevel)
+                                      .FieldLabel("隐患分级")
+                                      .ID("ThreatCaseLevelId")
+                                      .DataIndex("ThreatCaseLevel")
+                                      .ReadOnly(true)
+                              ),
+                          X.DateField().ID("ThreatCaseLimitTime").FieldLabel("整改要求完成时间").Value(DateTime.Now.AddDays(7)),
+                          X.TextAreaFor(t => t.ThreatCaseCause).ID("ThreatCaseCauseId").FieldLabel("可能的原因").Height(20),
+                          X.TextAreaFor(t => t.ThreatCaseCertification).FieldLabel("资质证件使用情况").Height(40),
+                          X.TextAreaFor(t => t.ThreatCaseCurrentSecurity).FieldLabel("现有安全设施情况").Height(40),
+                          X.TextAreaFor(t => t.ThreatCaseSuggestion).ID("ThreatCaseSuggestionId").FieldLabel("可选择采取的措施").Height(60)
+                      )
+              ),
+                X.Image()
+                    .ImageUrl("../../resources/images/threat/threat_report.png")
+                    .ColumnWidth(0.2)
+                    .StyleSpec("margin-left: 120px;")
+        )
+    )
+
 }
