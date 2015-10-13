@@ -49,5 +49,7 @@ namespace VentureManagement.IBLL
         IQueryable<User> FindPageList(int pageIndex, int pageSize, out int totalRecord, int order);
 
         IQueryable<User> FindList(Expression<Func<User, bool>> whereLamdba, string orderName, bool isAsc);
+
+        bool Add(User user, int roleId, int orgId);
     }
 }

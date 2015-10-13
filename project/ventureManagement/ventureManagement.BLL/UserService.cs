@@ -83,11 +83,11 @@ namespace VentureManagement.BLL
                 Add(user);
                 user = new User
                 {
-                    UserName = "owner",
-                    Password = Utility.DesEncrypt("owner"),
+                    UserName = "projectOwner",
+                    Password = Utility.DesEncrypt("projectOwner"),
                     Status = User.STATUS_VALID,
                     Email = "xxx@163.com",
-                    DisplayName = "owner",
+                    DisplayName = "projectOwner",
                     Mobile = "17608007325",
                     RegistrationTime = DateTime.Now
                 };
@@ -176,6 +176,47 @@ namespace VentureManagement.BLL
         public IQueryable<User> FindList(Expression<Func<User, bool>> whereLamdba, string orderName, bool isAsc)
         {
             return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
+        }
+
+        public bool Add(User user,int roleId,int orgId)
+        {
+            using (var transaction = CurrentRepository.BeginTransaction())
+            {
+                try
+                {
+                    var userRoleRelationService = new UserRoleRelationService();
+                    var userOrgRelationService = new UserOrganizationRelationService();
+                    if (Add(user) != null)
+                    {
+                        var urr = new UserRoleRelation
+                        {
+                            UserId = user.UserId,
+                            RoleId = roleId
+                        };
+                        if (userRoleRelationService.Add(urr) != null)
+                        {
+                            var uor = new UserOrganizationRelation
+                            {
+                                UserId = user.UserId,
+                                OrganizationId = orgId
+                            };
+                            if (userOrgRelationService.Add(uor) != null)
+                            {
+                                transaction.Commit();
+                                return true;
+                            }
+                        }
+                    }
+                    transaction.Rollback();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Debug.Print(ex.Message);
+                    return false;
+                }
+            }
+            return false;
         }
     }
 }

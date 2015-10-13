@@ -21,14 +21,14 @@ namespace VentureManagement.Models
         /// 用户名
         /// </summary>
         [Display(Name = "用户名")]
-        [Required(ErrorMessage = "必填")]
+        [Required]
         [StringLength(20, MinimumLength = 6, ErrorMessage = "{2}到{1}个字符")]
         public string UserName { get; set; }
 
         /// <summary>
         /// 显示名
         /// </summary>
-        [Required(ErrorMessage = "必填")]
+        [Required]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "{2}到{1}个字符")]
         [Display(Name = "实名")]
         public string DisplayName { get; set; }
@@ -36,14 +36,14 @@ namespace VentureManagement.Models
         /// <summary>
         /// 密码
         /// </summary>
-        [Required(ErrorMessage = "必填")] [Display(Name = "密码")] [DataType(DataType.Password)]
-        [StringLength(20, MinimumLength = 8, ErrorMessage = "{2}到{1}个字符")]
+        [Required] [Display(Name = "密码")] [DataType(DataType.Password)]
+        [MinLength(8, ErrorMessage = "密码最短{1}个字符")]
         public string Password { get; set; }
 
         /// <summary>
         /// 邮箱
         /// </summary>
-        [Required(ErrorMessage = "必填")]
+        [Required]
         [Display(Name = "邮箱")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
@@ -51,7 +51,7 @@ namespace VentureManagement.Models
         /// <summary>
         /// mobile
         /// </summary>
-        [Required(ErrorMessage = "手机号码必填")]
+        [Required]
         [Display(Name = "手机号码")]
         [DataType(DataType.PhoneNumber)]
         public string Mobile { get; set; }
