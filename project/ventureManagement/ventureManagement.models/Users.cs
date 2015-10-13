@@ -22,21 +22,22 @@ namespace VentureManagement.Models
         /// </summary>
         [Display(Name = "用户名")]
         [Required(ErrorMessage = "必填")]
-        [StringLength(20, MinimumLength = 4, ErrorMessage = "{2}到{1}个字符")]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "{2}到{1}个字符")]
         public string UserName { get; set; }
 
         /// <summary>
         /// 显示名
         /// </summary>
         [Required(ErrorMessage = "必填")]
-        [StringLength(20, MinimumLength = 2, ErrorMessage = "{2}到{2}个字符")]
+        [StringLength(20, MinimumLength = 2, ErrorMessage = "{2}到{1}个字符")]
         [Display(Name = "实名")]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        [Required(ErrorMessage = "必填")] [Display(Name = "密码")] [DataType(DataType.Password)] 
+        [Required(ErrorMessage = "必填")] [Display(Name = "密码")] [DataType(DataType.Password)]
+        [StringLength(20, MinimumLength = 8, ErrorMessage = "{2}到{1}个字符")]
         public string Password { get; set; }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace VentureManagement.Models
         /// <summary>
         /// mobile
         /// </summary>
-        [Required(ErrorMessage = "必填")]
+        [Required(ErrorMessage = "手机号码必填")]
         [Display(Name = "手机号码")]
         [DataType(DataType.PhoneNumber)]
         public string Mobile { get; set; }

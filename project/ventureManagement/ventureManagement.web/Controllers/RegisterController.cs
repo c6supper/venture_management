@@ -24,7 +24,7 @@ namespace VentureManagement.Web.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View();
+            return View(new User());
         }
 
         [AllowAnonymous]
@@ -149,6 +149,12 @@ namespace VentureManagement.Web.Controllers
             _img.Save(Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             TempData["VerificationCode"] = verificationCode.ToUpper();
             return null;
+        }
+
+        [AllowAnonymous]
+        public ActionResult Submit(User user)
+        {
+            return this.FormPanel();
         }
     }
 }
