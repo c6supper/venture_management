@@ -127,6 +127,8 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                         Description = description
                     });
 
+                    UpdateCurrentOrgList();
+
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)

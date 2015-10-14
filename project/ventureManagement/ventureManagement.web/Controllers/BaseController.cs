@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -34,6 +35,28 @@ namespace VentureManagement.Web.Controllers
             _currentOrgList = System.Web.HttpContext.Current.Session["currentOrgList"] as List<int>;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("zh-CN");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
+        }
+
+        protected void UpdateCurrentOrgList()
+        {
+            try
+            {
+                var uorgService = new UserOrganizationRelationService();
+                var orgrService = new OrganizationRelationService();
+                var orgs = uorgService.FindList(_currentUser.UserName).Select(uorg => uorg.Organization).ToList();
+                System.Web.HttpContext.Current.Session["Organization"] = orgs;
+                var currentOrgList = new List<int>();
+                foreach (var org in orgs)
+                {
+                    currentOrgList.Add(org.OrganizationId);
+                    currentOrgList.AddRange(orgrService.GetChildrenOrgList(org.OrganizationName));
+                }
+                System.Web.HttpContext.Current.Session["currentOrgList"] = currentOrgList;
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
         }
     }
 }

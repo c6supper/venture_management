@@ -28,7 +28,11 @@ namespace VentureManagement.Web.Controllers
             return View(new User());
         }
 
+#if DEBUG
+        private const int VerifyTime = 10;
+#else
         private const int VerifyTime = 60;
+#endif
 
         private void WaitTimeOut(object state)
         {
