@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Web.Mvc;
 using System.Web.Security;
+using Common;
 using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.BLL;
@@ -33,12 +34,22 @@ namespace VentureManagement.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Login(string txtUsername, string txtPassword, string returnUrl)
+        public ActionResult Login(string txtUsername, string txtPassword, string verificationCode, string returnUrl)
         {
 #if DEBUG
             if (string.IsNullOrEmpty(txtUsername))
                 txtUsername = txtPassword = "master";
 #endif
+
+#if DEBUG
+#else
+            if (TempData["VerificationCode"] == null || TempData["VerificationCode"].ToString() != verificationCode.ToUpper())
+            {
+                X.Msg.Alert("", "验证码错误，请重试").Show();
+                return this.Direct();
+            }
+#endif
+
             // Validate the user login.
             if (Membership.ValidateUser(txtUsername, txtPassword))
             {
@@ -129,6 +140,16 @@ namespace VentureManagement.Web.Controllers
             FormsAuthentication.SignOut();
 
             return RedirectToAction("Index", "Main");
+        }
+
+        [AllowAnonymous]
+        public ActionResult VerificationCode()
+        {
+            string verificationCode = Security.CreateVerificationText(6);
+            var _img = Security.CreateVerificationImage(verificationCode, 160, 30);
+            _img.Save(Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+            TempData["VerificationCode"] = verificationCode.ToUpper();
+            return null;
         }
     }
 }

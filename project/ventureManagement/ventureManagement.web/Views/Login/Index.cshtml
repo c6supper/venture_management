@@ -4,6 +4,15 @@
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
 }
 
+@section headtag
+{
+<script>
+    var imageVerificationCodeClick = function () {
+        App.imageVerificationCode.setImageUrl("@Url.Action("VerificationCode")?" + new Date());
+    };
+</script>
+}
+
 @section menu
 {
     @(
@@ -11,7 +20,7 @@
             .Closable(false)
             .CloseAction(CloseAction.Destroy)
             .Resizable(false)
-            .Height(150)
+            .Height(200)
             .Icon(Icon.Lock)
             .Title("水电工程施工安全隐患排查预警系统")
             .Draggable(false)
@@ -42,6 +51,31 @@
                             .AllowBlank(false)
                             .BlankText("请输入密码."),
                             
+                        Html.X().TextField()
+                            .ID("verificationCode")
+                            .AllowBlank(false)
+                            .EmptyText("请输入验证码")
+                            .FieldLabel("验证码"),
+                        Html.X().Container()
+                            .Padding(5)
+                            .Layout(LayoutType.HBox)                  
+                            .Items(
+                                Html.X().Image()
+                                    .Padding(5)
+                                    .MinWidth(175)
+                                    .ID("imageVerificationCode")
+                                    .ImageUrl(Url.Action("VerificationCode","Login"))
+                                    .Listeners(ls =>
+                                    {
+                                        ls.Click.Handler = "imageVerificationCodeClick();";
+                                        ls.AfterRender.Handler = "imageVerificationCodeClick()";
+                                    }),
+                                Html.X().Button()
+                                    .Padding(10)
+                                    .Text("刷新验证码")
+                                    .Handler("imageVerificationCodeClick();")
+                            ),
+                                              
                         Html.X().TagLabel()
                             .ID("txtStatus")
                             .TagString("")
