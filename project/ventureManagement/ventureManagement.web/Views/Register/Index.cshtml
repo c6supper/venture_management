@@ -240,7 +240,7 @@
                           .Disabled(true)
                           .ID("SmsCodeSender")
                           .Text("获取短信验证码")
-                          .DirectClickAction("SendSmsCode"),
+                          .DirectClickAction("SendSmsCode").Params(p=>p.Add(new {mobile="App.SendSmsCode.getValue()",ParameterMode.Raw})),
                         X.TextField()
                             .Padding(5)
                             .Disabled(true)

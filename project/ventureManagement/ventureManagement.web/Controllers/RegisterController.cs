@@ -31,7 +31,7 @@ namespace VentureManagement.Web.Controllers
 #if DEBUG
         private const int VerifyTime = 10;
 #else
-        private const int VerifyTime = 60;
+        private const int VerifyTime = 120;
 #endif
 
         private void WaitTimeOut(object state)
@@ -64,17 +64,16 @@ namespace VentureManagement.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult SendSmsCode()
+        public ActionResult SendSmsCode(string mobile)
         {
-            var mobile = this.GetCmp<TextField>("userMobile").Text;
             var random = new Random();
             HttpContext.Cache["SmsCode"] = random.Next(10000, 99999);
 #if DEBUG
             Debug.Print(HttpContext.Cache["SmsCode"].ToString());
 #endif
-            SmsHelper.SendSms(mobile, HttpContext.Cache["SmsCode"].ToString());
+            SmsHelper.SendSms(mobile, "您的验证码:" + HttpContext.Cache["SmsCode"].ToString());
 
-            HttpContext.Cache["SmsTask"] = 0;
+            HttpContext.Cache["SmsTask"] = VerifyTime;
             ThreadPool.QueueUserWorkItem(WaitTimeOut);
             this.GetCmp<TaskManager>("SmsTaskManager").StartTask("SmsTask");
             this.GetCmp<Button>("SmsCodeSender").Disable();
