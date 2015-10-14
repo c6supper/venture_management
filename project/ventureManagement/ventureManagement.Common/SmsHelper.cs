@@ -267,7 +267,7 @@ namespace Common
                 var sms = new Sms
                 {
                     Message = message,
-                    Send2UserId = 0,
+                    Send2UserId = 1,
                     Address = mobile,
                     SendDateTime = DateTime.Now,
                 };
