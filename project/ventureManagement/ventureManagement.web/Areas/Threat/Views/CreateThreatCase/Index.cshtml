@@ -293,7 +293,9 @@
                               .MarginSpec("0 0 10")
                               .Items(
                                   X.TextFieldFor(t => t.ThreatCaseLocation).ID("ThreatCaseLocation").FieldLabel("隐患发现地"),
-                                  X.DateFieldFor(t => t.ThreatCaseFoundTime).ID("ThreatCaseFoundTime").FieldLabel("隐患发现时间")
+                                  X.TimeFieldFor(t => t.ThreatCaseFoundTime).ID("ThreatCaseFoundTime").FieldLabel("隐患发现日期")
+                                      .Value(DateTime.Now),
+                                  X.DateFieldFor(t => t.ThreatCaseFoundTime).ID("ThreatCaseFoundDate").FieldLabel("隐患发现时间")
                                       .Value(DateTime.Now)),
                           X.TextAreaFor(t => t.ThreatCaseDescription).FieldLabel("隐患描述").Height(60),
                           X.Container()

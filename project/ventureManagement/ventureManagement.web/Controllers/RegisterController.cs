@@ -125,6 +125,12 @@ namespace VentureManagement.Web.Controllers
                     return this.FormPanel();
                 }
 
+                if (HttpContext.Cache["SmsCode"] == null)
+                {
+                    X.Msg.Alert("", "短信验证码已过期，请重试").Show();
+                    return this.FormPanel();
+                }
+
                 if (smsCode != HttpContext.Cache["SmsCode"].ToString())
                 {
                     X.Msg.Alert("", "短信验证码错误，请重试").Show();
@@ -157,6 +163,7 @@ namespace VentureManagement.Web.Controllers
 
                 HttpContext.Cache.Remove("SmsTask");
                 HttpContext.Cache.Remove("SmsCode");
+                this.GetCmp<TaskManager>("SmsTaskManager").StopTask("SmsTask");
 
                 X.Msg.Confirm("提示", "用户注册成功,待管理员审核", new MessageBoxButtonsConfig
                 {
