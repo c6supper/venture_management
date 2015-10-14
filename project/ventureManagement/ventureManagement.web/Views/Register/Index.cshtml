@@ -77,7 +77,7 @@
               X.Button()
                   .Text("取消")
                   .Icon(Icon.Cancel)
-                  .Handler("App.RegisterUser.reset();")
+                  .Handler("document.location.href='login';")
           )
           .ButtonAlign(Alignment.Center)
           .Padding(10)
@@ -208,8 +208,10 @@
                           .ID("imageVerificationCode")
                           .ImageUrl(Url.Action("VerificationCode","Register"))
                           .Listeners(ls =>
-                              ls.Click.Handler = "imageVerificationCodeClick();"
-                          ),
+                          {
+                              ls.Click.Handler = "imageVerificationCodeClick();";
+                              ls.AfterRender.Handler = "imageVerificationCodeClick()";
+                          }),
                       X.Button()
                           .Padding(10)
                           .Text("刷新验证码")
