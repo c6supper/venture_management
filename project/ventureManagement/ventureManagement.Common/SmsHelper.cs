@@ -254,6 +254,76 @@ namespace Common
             }
         }
 
+        public static Sms SendSms(string mobile, string message)
+        {
+            try
+            {
+                var smsService = new SmsService();
+
+                message = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(message)) + "【隐患申报系统】";
+                var param = "action=send&userid=1067&account=" + Account + "&password=" + Pwd + "&content=" + message
+                            + "&mobile=" + mobile + "&sendTime=&extno=";
+
+                var sms = new Sms
+                {
+                    Message = message,
+                    Send2UserId = 0,
+                    Address = mobile,
+                    SendDateTime = DateTime.Now,
+                };
+
+                var bs = Encoding.UTF8.GetBytes(param);
+                var req = (HttpWebRequest)WebRequest.Create("http://www.smsok.cn/sms.aspx");
+                req.Method = "POST";
+                req.ContentType = "application/x-www-form-urlencoded";
+                req.ContentLength = bs.Length;
+
+                using (var reqStream = req.GetRequestStream())
+                {
+#if DEBUG
+                    reqStream.Write(bs, 0, 0);
+#else
+                    reqStream.Write(bs, 0, bs.Length);
+#endif
+                }
+
+                using (var wr = req.GetResponse())
+                {
+                    // ReSharper disable once AssignNullToNotNullAttribute
+                    var sr = new StreamReader(wr.GetResponseStream(), System.Text.Encoding.Default);
+                    var result = returnsms.Deserialize(sr.ReadToEnd().Trim());
+                    if (result != null)
+                    {
+                        if (result.returnstatus.ToLower().Contains("success"))
+                        {
+                            sms.TaskId = result.taskID.Trim();
+                            sms.DeliverStats = "ToAgency";
+                            sms.RecvDateTime = DateTime.MaxValue;
+#if DEBUG
+                            Debug.Print("余额：" + result.remainpoint);
+#endif
+                            CheckLackMoney(result.remainpoint);
+                            return smsService.Add(sms);
+                        }
+                        else
+                            Debug.Print("错误信息：" + result.message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+                return null;
+            }
+            finally
+            {
+                Thread.Sleep(500);
+                GetSmsStatus();
+            }
+
+            return null;
+        }
+
         public static Sms SendSms(int userId,string message)
         {
             try

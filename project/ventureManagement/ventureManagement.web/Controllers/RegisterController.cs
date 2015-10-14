@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Common;
@@ -25,6 +26,55 @@ namespace VentureManagement.Web.Controllers
         public ActionResult Index()
         {
             return View(new User());
+        }
+
+        private const int VerifyTime = 60;
+
+        private void WaitTimeOut(object state)
+        {
+            for (var sec = VerifyTime; sec > -1; sec--)
+            {
+                Thread.Sleep(1000);
+                HttpContext.Cache["SmsTask"] = sec;
+            }
+            HttpContext.Cache.Remove("SmsTask");
+            HttpContext.Cache.Remove("SmsCode");
+        }
+
+        [AllowAnonymous]
+        public ActionResult RefreshProgress()
+        {
+            var progress = HttpContext.Cache["SmsTask"];
+            if (progress != null)
+            {
+                this.GetCmp<Button>("SmsCodeSender").Text = "验证码已发送(" + ((int)progress) + ")";
+            }
+            else
+            {
+                this.GetCmp<TaskManager>("SmsTaskManager").StopTask("SmsTask");
+                this.GetCmp<Button>("SmsCodeSender").Enable(true);
+                this.GetCmp<Button>("SmsCodeSender").Text = "获取短信验证码";
+            }
+
+            return this.Direct();
+        }
+
+        [AllowAnonymous]
+        public ActionResult SendSmsCode()
+        {
+            var mobile = this.GetCmp<TextField>("userMobile").Text;
+            var random = new Random();
+            HttpContext.Cache["SmsCode"] = random.Next(10000, 99999);
+#if DEBUG
+            Debug.Print(HttpContext.Cache["SmsCode"].ToString());
+#endif
+            SmsHelper.SendSms(mobile, HttpContext.Cache["SmsCode"].ToString());
+
+            HttpContext.Cache["SmsTask"] = 0;
+            ThreadPool.QueueUserWorkItem(WaitTimeOut);
+            this.GetCmp<TaskManager>("SmsTaskManager").StartTask("SmsTask");
+            this.GetCmp<Button>("SmsCodeSender").Disable();
+            return this.Direct();
         }
 
         [AllowAnonymous]
@@ -65,13 +115,19 @@ namespace VentureManagement.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Submit(User user, string verificationCode, string roleId,string orgId)
+        public ActionResult Submit(User user, string verificationCode, string roleId,string orgId,string smsCode)
         {
             try
             {
                 if (TempData["VerificationCode"] == null || TempData["VerificationCode"].ToString() != verificationCode.ToUpper())
                 {
                     X.Msg.Alert("", "验证码错误，请重试").Show();
+                    return this.FormPanel();
+                }
+
+                if (smsCode != HttpContext.Cache["SmsCode"].ToString())
+                {
+                    X.Msg.Alert("", "短信验证码错误，请重试").Show();
                     return this.FormPanel();
                 }
 
@@ -98,6 +154,9 @@ namespace VentureManagement.Web.Controllers
                     X.Msg.Alert("", "用户注册失败，请检查输入参数").Show();
                     return this.FormPanel();
                 }
+
+                HttpContext.Cache.Remove("SmsTask");
+                HttpContext.Cache.Remove("SmsCode");
 
                 X.Msg.Confirm("提示", "用户注册成功,待管理员审核", new MessageBoxButtonsConfig
                 {

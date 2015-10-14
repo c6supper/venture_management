@@ -51,9 +51,7 @@
                 Html.X().Button()
                    .Text("注册")
                    .Icon(Icon.UserAdd)
-                   .DirectEvents(de => {
-                        de.Click.Action = "Register";
-                   }),            
+                   .Handler("document.location.href='Register';"),            
                 Html.X().Button()
                    .Text("登陆")
                    .Icon(Icon.UserTick)

@@ -52,6 +52,15 @@
 
 @section menu
 {
+    @(Html.X().TaskManager()
+        .ID("SmsTaskManager")
+        .Tasks(X.Task()
+            .TaskID("SmsTask")
+            .Interval(1000)
+            .AutoRun(false)
+            .DirectEvents(de => de.Update.Action = "RefreshProgress")
+        ))
+
     @(Html.X().FormPanel()
           .Region(Region.Center)
           .Layout(LayoutType.Fit)
@@ -59,7 +68,9 @@
           .ID("RegisterUser")
           .Frame(true)
           .Title("用户信息")
-          .Url(Url.Action("Submit",new {verificationCode="App.verificationCode.getValue()",roleId="App.RoleId.getValue()",orgId="App.OrgId.getValue()",ParameterMode.Raw}))
+          .Url(Url.Action("Submit",new {verificationCode="App.verificationCode.getValue()",
+              roleId="App.RoleId.getValue()",orgId="App.OrgId.getValue()",
+              smsCode="App.SmsCode.getValue()",ParameterMode.Raw}))
           .BodyPadding(10)
           .Layout(LayoutType.VBox)
           .Border(true)
@@ -118,6 +129,7 @@
                   .ID("userMobile")
                   .Regex("^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$")
                   .RegexText("请输入合法的手机号")
+                  .Listeners(ls=>ls.ValidityChange.Handler="App.SmsCodeSender.setDisabled(!isValid);App.SmsCode.setDisabled(!isValid);")
                   .EmptyText("请输入手机号码"),
               X.ComboBox()
                   .ID("OrgId")
@@ -200,7 +212,8 @@
                   .AllowBlank(false)
                   .EmptyText("请输入验证码")
                   .FieldLabel("验证码"),
-              X.Container()
+               X.Container()
+                  .Padding(5)
                   .Layout(LayoutType.HBox)                  
                   .Items(
                       X.Image()
@@ -216,6 +229,21 @@
                           .Padding(10)
                           .Text("刷新验证码")
                           .Handler("imageVerificationCodeClick();")
+                  ),
+              X.Container()
+                  .Padding(5)
+                  .Layout(LayoutType.HBox)                  
+                  .Items(
+                        X.Button()
+                          .Padding(10)
+                          .Disabled(true)
+                          .ID("SmsCodeSender")
+                          .Text("获取短信验证码")
+                          .DirectClickAction("SendSmsCode"),
+                        X.TextField()
+                            .Padding(5)
+                            .Disabled(true)
+                            .ID("SmsCode")
                   )
           ))
 }
