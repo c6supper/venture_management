@@ -44,21 +44,6 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                 threatCases.RemoveAll(t => !t.ThreatCaseStatus.ToLower().StartsWith(filter.ToLower()));
             }
 
-            var projectService = new ProjectService();
-            foreach (var t in threatCases)
-            {
-                var project = projectService.Find(t.ProjectId);
-                t.Project = new VMProject()
-                {
-                    ProjectId = project.ProjectId,
-                    ProjectName = project.ProjectName,
-                    ProjectLocation = project.ProjectLocation,
-                    OrganizationId = project.OrganizationId,
-                    Description = project.Description,
-                    UserId = project.UserId
-                };
-            }
-
             if (!string.IsNullOrEmpty(sort))
             {
                 threatCases.Sort(delegate(ThreatCase x, ThreatCase y)
