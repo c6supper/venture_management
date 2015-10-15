@@ -255,6 +255,8 @@
                                     Html.X().ModelField().Name("UserId"),
                                     Html.X().ModelField().Name("UserName"),
                                     Html.X().ModelField().Name("DisplayName"),
+                                    Html.X().ModelField().Name("UserRoleRelations[0].Role.RoleName"),
+                                    Html.X().ModelField().Name("UserOrganizationRelations[0].Organization.OrganizationName"),
                                     Html.X().ModelField().Name("Email"),
                                     Html.X().ModelField().Name("Mobile"),
                                     Html.X().ModelField().Name("RegistrationTime").Type(ModelFieldType.Date),
@@ -267,17 +269,15 @@
                     
             .ColumnModel(
                 Html.X().Column().DataIndex("UserId").Text("Id").Hidden(true),
-                Html.X().ComponentColumn().DataIndex("UserName").Text("用户名").EmptyCellText("不能为空")
-                    .OverOnly(true).Editor(true).Component(Html.X().TextField()
-                    .AllowBlank(false).EmptyText("用户名最少五个字")),
+                Html.X().Column().DataIndex("UserName").Text("用户名"),
+                Html.X().Column().DataIndex("UserRoleRelations[0].Role.RoleName").Text("权限"),
+                Html.X().Column().DataIndex("UserOrganizationRelations[0].Organization.OrganizationName").Text("部门"),
                 Html.X().ComponentColumn().DataIndex("DisplayName").Text("实名")
                     .OverOnly(true).Editor(true).Component(Html.X().TextField()),
                     Html.X().ComponentColumn().DataIndex("Email").Text("Email").EmptyCellText("不能为空")
                     .OverOnly(true).Editor(true).Component(Html.X().TextField()
                         .AllowBlank(false).StandardVtype(ValidationType.Email)),
-                Html.X().ComponentColumn().DataIndex("Mobile").Text("手机号").EmptyCellText("不能为空")
-                    .OverOnly(true).Editor(true).Component(Html.X().TextField()
-                        .AllowBlank(false).StandardVtype(ValidationType.AlphaNum)),
+                Html.X().Column().DataIndex("Mobile").Text("手机号").EmptyCellText("不能为空"),
                 Html.X().DateColumn().DataIndex("RegistrationTime").Text("注册时间").Format("yyyy-MM-dd"),
                 Html.X().DateColumn().DataIndex("LoginTime").Text("最近登录时间").Format("yyyy-MM-dd"),
                 Html.X().Column().DataIndex("LoginIP").Text("最近登录的IP"),

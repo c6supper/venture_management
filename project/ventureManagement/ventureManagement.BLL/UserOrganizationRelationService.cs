@@ -72,7 +72,7 @@ namespace VentureManagement.BLL
 
                 userOrganizationRelation = new UserOrganizationRelation
                 {
-                    UserId = _userService.Find("owner").UserId,
+                    UserId = _userService.Find("projectOwner").UserId,
                     OrganizationId = 4
                 };
                 Add(userOrganizationRelation);
