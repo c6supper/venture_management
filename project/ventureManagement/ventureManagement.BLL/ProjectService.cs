@@ -85,7 +85,7 @@ namespace VentureManagement.BLL
                    ProjectLocation = "天府软件园",
                    ProjectName = "测试工程",
                    OrganizationId = 4,
-                   UserId = userService.Find("owner").UserId
+                   UserId = userService.Find("projectOwner").UserId
                 };
                 Add(project);
             }

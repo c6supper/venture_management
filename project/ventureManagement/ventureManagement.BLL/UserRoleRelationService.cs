@@ -49,7 +49,7 @@ namespace VentureManagement.BLL
                 };
                 Add(userRoleRelation);
 
-                user = _userService.Find("owner");
+                user = _userService.Find("projectOwner");
                 role = _roleService.Find(Role.ROLE_PROJECT_LEADER);
 
                 userRoleRelation = new UserRoleRelation
