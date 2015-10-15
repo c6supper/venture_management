@@ -99,31 +99,52 @@ namespace VentureManagement.Web.Controllers
         }
 
         [AllowAnonymous]
-        private static string GetLocalIP()
+        private string GetLocalIP()
         {
+            string userIP = "未获取用户IP";
+
             try
             {
-                string HostName = Dns.GetHostName(); //得到主机名
-                IPHostEntry IpEntry = Dns.GetHostEntry(HostName);
-                for (int i = 0; i < IpEntry.AddressList.Length; i++)
-                {
-                    //从IP地址列表中筛选出IPv4类型的IP地址
-                    //AddressFamily.InterNetwork表示此IP为IPv4,
-                    //AddressFamily.InterNetworkV6表示此地址为IPv6类型
-                    if (IpEntry.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
-                    {
-                        return IpEntry.AddressList[i].ToString();
-                    }
-                }
-                return "";
-            }
-            catch (Exception ex)
-            {
-                Debug.Print(ex.Message);
-                return "";
-            }
-        }
+                if (System.Web.HttpContext.Current == null
+                    || System.Web.HttpContext.Current.Request == null
+                    || System.Web.HttpContext.Current.Request.ServerVariables == null)
+                    return "";
 
+                string CustomerIP = "";
+
+                //CDN加速后取到的IP 
+                CustomerIP = System.Web.HttpContext.Current.Request.Headers["Cdn-Src-Ip"];
+                if (!string.IsNullOrEmpty(CustomerIP))
+                {
+                    return CustomerIP;
+                }
+
+                CustomerIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+                if (!String.IsNullOrEmpty(CustomerIP))
+                    return CustomerIP;
+
+                if (System.Web.HttpContext.Current.Request.ServerVariables["HTTP_VIA"] != null)
+                {
+                    CustomerIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                    if (CustomerIP == null)
+                        CustomerIP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                }
+                else
+                {
+                    CustomerIP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+
+                }
+
+                if (string.Compare(CustomerIP, "unknown", true) == 0)
+                    return System.Web.HttpContext.Current.Request.UserHostAddress;
+                return CustomerIP;
+            }
+            catch { }
+
+            return userIP;
+        }
+        
         [AllowAnonymous]
         public ActionResult Register()
         {          
