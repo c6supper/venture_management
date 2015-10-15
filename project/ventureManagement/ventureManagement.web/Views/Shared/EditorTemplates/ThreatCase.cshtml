@@ -20,9 +20,9 @@
 @Html.EditorFor(t=>t.ThreatCaseConfirmer, new {itemId = "ThreatCaseConfirmerId", title = "隐患结果确认人"})
 
 @Html.X().TextFieldFor(t=>t.ThreatCaseLocation).ReadOnly(true)
-@Html.X().DateFieldFor(t=>t.ThreatCaseReportTime).ReadOnly(true)
-@Html.X().DateFieldFor(t=>t.ThreatCaseFoundTime).ReadOnly(true)
-@Html.X().DateFieldFor(t=>t.ThreatCaseLimitTime).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseReportTime).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseFoundTime).ReadOnly(true)
+@Html.X().TextFieldFor(t=>t.ThreatCaseLimitTime).ReadOnly(true)
 @Html.X().TextFieldFor(t=>t.ThreatCaseCategory).ReadOnly(true)
 @Html.X().TextFieldFor(t=>t.ThreatCaseType).ReadOnly(true)
 @Html.X().TextFieldFor(t=>t.ThreatCaseDescription).ReadOnly(true)

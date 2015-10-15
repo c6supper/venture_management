@@ -47,13 +47,13 @@
             App.DisplayName.setValue(result.result.ThreatCaseOwner.DisplayName);
             App.Email.setValue(result.result.ThreatCaseOwner.Email);
             App.Mobile.setValue(result.result.ThreatCaseOwner.Mobile);
-        }
+        };
         var SelectProject = function(record) {
             App.ProjectLocationId.setValue(record.get('ProjectLocation'));
             App.ThreatCaseLocation.setValue(record.get('ProjectLocation'));
             App.OrganizationId.setValue(record.get('OrganizationId'));
             App.OrganizationName.setValue(record.get('OrganizationName'));
-        }
+        };
 
         var CalcRisk = function() {
             var risk = App.ThreatCaseSeverityId.getValue() * App.ThreatCasePassibilityId.getValue();
@@ -64,6 +64,10 @@
                 App.ThreatCaseLevelId.setValue("较大事故隐患");
             else
                 App.ThreatCaseLevelId.setValue("一般事故隐患");
+        };
+
+        var dateParse = function (value) {
+            return Ext.Date.format(value, 'Y-m-d\\TH:i:s');
         };
     </script>
 }
@@ -93,7 +97,12 @@
                       .ID("CreateButton")
                       .Text("预警")
                       .Icon(Icon.Disk)
-                      .Handler("this.up('form').submit();"),
+                      .Handler("this.up('form').submit();")
+                      .DirectEvents(de => {
+                            de.Click.Url = Url.Action("TransferTimeInfo");
+                            de.Click.ExtraParams.Add(new Parameter("threatCaseFoundTime", "dateParse(App.ThreatCaseFoundTime.getValue())", ParameterMode.Raw));
+                            de.Click.ExtraParams.Add(new Parameter("threatCaseLimitTime", "dateParse(App.ThreatCaseLimitTime.getValue())", ParameterMode.Raw));
+                      }),                      
 
                   X.Button()
                       .Text("取消")
@@ -293,9 +302,9 @@
                               .MarginSpec("0 0 10")
                               .Items(
                                   X.TextFieldFor(t => t.ThreatCaseLocation).ID("ThreatCaseLocation").FieldLabel("隐患发现地"),
-                                  X.TimeFieldFor(t => t.ThreatCaseFoundTime).ID("ThreatCaseFoundTime").FieldLabel("隐患发现时间")
-                                      .Value(DateTime.Now),
                                   X.DateFieldFor(t => t.ThreatCaseFoundTime).ID("ThreatCaseFoundDate").FieldLabel("隐患发现日期")
+                                      .Value(DateTime.Now),
+                                  X.TimeFieldFor(t => t.ThreatCaseFoundTime).ID("ThreatCaseFoundTime").FieldLabel("隐患发现时间")
                                       .Value(DateTime.Now)),
                           X.TextAreaFor(t => t.ThreatCaseDescription).FieldLabel("隐患描述").Height(60),
                           X.Container()
@@ -423,8 +432,8 @@
                                       .ReadOnly(true)
                               ),
                           //X.DateField().ID("ThreatCaseLimitTime").FieldLabel("整改要求完成时间").Value(DateTime.Now.AddDays(7)),
-                          X.TimeFieldFor(t => t.ThreatCaseLimitTime).ID("ThreatCaseLimitTime").FieldLabel("整改要求完成时间").Value(DateTime.Now.AddDays(7)),
                           X.DateFieldFor(t => t.ThreatCaseLimitTime).ID("ThreatCaseLimitDate").FieldLabel("整改要求完成日期").Value(DateTime.Now.AddDays(7)),
+                          X.TimeFieldFor(t => t.ThreatCaseLimitTime).ID("ThreatCaseLimitTime").FieldLabel("整改要求完成时间").Value(DateTime.Now.AddDays(7)),
                                                                 
                           X.TextAreaFor(t => t.ThreatCaseCause).ID("ThreatCaseCauseId").FieldLabel("可能的原因").Height(20),
                           X.TextAreaFor(t => t.ThreatCaseCertification).FieldLabel("资质证件使用情况").Height(40),

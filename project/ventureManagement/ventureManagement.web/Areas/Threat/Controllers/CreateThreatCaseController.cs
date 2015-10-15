@@ -78,6 +78,14 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                 threatCase.ThreatCaseConfirmer = null;
                 threatCase.ThreatCaseReviewer = null;
                 threatCase.ThreatCaseCorrectionTime = DateTime.MaxValue;
+                if (TempData["threatCaseFoundTime"] != null)
+                {
+                    threatCase.ThreatCaseFoundTime = threatCase.ThreatCaseFoundTime.AddSeconds(Convert.ToDateTime(TempData["threatCaseFoundTime"]).TimeOfDay.TotalSeconds);                    
+                }
+                if (TempData["threatCaseLimitTime"] != null)
+                {
+                    threatCase.ThreatCaseLimitTime = threatCase.ThreatCaseLimitTime.AddSeconds(Convert.ToDateTime(TempData["threatCaseLimitTime"]).TimeOfDay.TotalSeconds);                    
+                }
 
                 if (null != _threatCaseService.Add(threatCase))
                 {
@@ -120,6 +128,14 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             }
 
             return this.Store("隐患数据库破坏，请联系系统管理员。");
+        }
+
+        public ActionResult TransferTimeInfo(DateTime threatCaseFoundTime, DateTime threatCaseLimitTime)
+        {
+            TempData["threatCaseFoundTime"] = threatCaseFoundTime;
+            TempData["threatCaseLimitTime"] = threatCaseLimitTime;
+
+            return this.Direct();
         }
 
         //[ValidateInput(true)]
