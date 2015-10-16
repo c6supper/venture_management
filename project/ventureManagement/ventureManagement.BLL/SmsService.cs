@@ -18,5 +18,9 @@ namespace VentureManagement.BLL
         }
 
         public Sms Find(Expression<Func<Sms, bool>> whereLamdba) { return CurrentRepository.Find(whereLamdba); }
+        public IQueryable<Sms> FindList(Expression<Func<Sms, bool>> whereLamdba)
+        {
+            return CurrentRepository.FindList(whereLamdba, "SmsId", false);
+        }
     }
 }
