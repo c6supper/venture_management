@@ -33,7 +33,7 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
         //
         // GET: /LucenceEngine/Alarm/
         private int _page = 1;
-        private int _pageSize = 5;
+        private int _pageSize = 10;
         private int _maxNumber = 100;
         private static string _keyword = string.Empty;
         private static List<Alarm> _alarmResultList = new List<Alarm>();
@@ -152,7 +152,7 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
             return outText;
         }
 
-        public ActionResult Search(string keyword, int page = 1, int pageSize = 5)
+        public ActionResult Search(string keyword, int page = 1, int pageSize = 10)
         {
             if (keyword != null)
             {
