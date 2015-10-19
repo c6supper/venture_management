@@ -24,6 +24,7 @@ using VentureManagement.Web.Areas.LucenceEngine.Models;
 using VentureManagement.Web.Attributes;
 using Field = Lucene.Net.Documents.Field;
 using System.Reflection;
+using Lucene.Net.Analysis.Standard;
 
 namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
 {
@@ -64,7 +65,7 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
 
         private static string _filesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files");
         private static string _luceneDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LuceneData");
-        private PanGuAnalyzer _analyzer = new PanGuAnalyzer();
+        private StandardAnalyzer _analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
 
         public static void GetAllIndex()
         {
@@ -92,7 +93,7 @@ namespace VentureManagement.Web.Areas.LucenceEngine.Controllers
                 return;
             }
 
-            var writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(_luceneDir)), new PanGuAnalyzer(), true, IndexWriter.MaxFieldLength.LIMITED);
+            var writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(_luceneDir)), new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30), true, IndexWriter.MaxFieldLength.LIMITED);
 
             foreach (FileInfo fileInfo in list)
             {

@@ -61,9 +61,9 @@
                           .ColSpan(4)
                           .FieldLabel("验证码"),
                           
-                      Html.X().Panel()
-                          .ColSpan(1)
-                          .MinWidth(100),
+                      //Html.X().Panel()
+                      //    .ColSpan(1)
+                      //    .MinWidth(100),
 
                       Html.X().ImageButton()
                           .ColSpan(3)
@@ -75,7 +75,11 @@
                           {
                               ls.Click.Handler = "imageVerificationCodeClick();";
                               ls.AfterRender.Handler = "imageVerificationCodeClick()";
-                          })
+                          }),
+                      Html.X().LinkButton()
+                        .Text("看不清?")
+                        .ColSpan(1)
+                        .OnClientClick("imageVerificationCodeClick();")
                   )
           )                
           .Buttons(

@@ -37,7 +37,7 @@ namespace VentureManagement.Models
         /// 密码
         /// </summary>
         [Required] [Display(Name = "密码")] [DataType(DataType.Password)]
-        [MinLength(8, ErrorMessage = "密码最短{1}个字符")]
+        [StringLength(20, MinimumLength = 8, ErrorMessage = "{2}到{1}个字符")]
         public string Password { get; set; }
 
         /// <summary>
