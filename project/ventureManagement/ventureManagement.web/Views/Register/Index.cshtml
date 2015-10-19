@@ -113,6 +113,8 @@
                   .ID("PasswordField")
                   .ColSpan(4)
                   .EmptyText("请输入密码")
+                  .MinLength(8)
+                  .MinLengthText("密码最短为8个字符")
                   .AllowBlank(false)
                   .InputType(InputType.Password),
               X.TextField()
@@ -227,9 +229,6 @@
               //    .Region(Region.Center	)
               //    .ColSpan(3)
               //    .Handler("imageVerificationCodeClick();"),
-              Html.X().Panel()
-                          .ColSpan(1)
-                          .MinWidth(115),
 
             Html.X().ImageButton()
                 .ColSpan(3)
@@ -242,6 +241,11 @@
                     ls.Click.Handler = "imageVerificationCodeClick();";
                     ls.AfterRender.Handler = "imageVerificationCodeClick()";
                 }),
+            Html.X().LinkButton()
+                    .Text("看不清?换一张")
+                    .Padding(10)
+                    .ColSpan(1)
+                    .OnClientClick("imageVerificationCodeClick();"),
               X.Button()
                   .ColSpan(1)
                   .Padding(5)

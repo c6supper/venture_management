@@ -101,7 +101,7 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             return node;
         }
 
-        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
+        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_PROJECT_WRITE)]
         public ActionResult CreateProject(int? superProjectId, string subProject, string description,
             string projectLocation,int? organizationid,int? userId)
         {
