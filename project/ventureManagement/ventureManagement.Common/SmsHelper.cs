@@ -212,8 +212,9 @@ namespace Common
         private const string Account = "SCYYXX";
         private const string Pwd = "youyongkeji81452705";
 
-        public static void GetSmsStatus()
+        public static void GetSmsStatus(object state)
         {
+            Thread.Sleep(100);
             try
             {
                 const string param = "action=query&userid=1067&account=" + Account + "&password=" + Pwd;
@@ -226,11 +227,7 @@ namespace Common
 
                 using (var reqStream = req.GetRequestStream())
                 {
-#if DEBUG
-                    reqStream.Write(bs, 0, 0);
-#else
                     reqStream.Write(bs, 0, bs.Length);
-#endif
                 }
 
                 using (var wr = req.GetResponse())
@@ -239,7 +236,7 @@ namespace Common
                     var sr = new StreamReader(wr.GetResponseStream(), System.Text.Encoding.Default);
                     var result = returnsms.Deserialize(sr.ReadToEnd().Trim());
 
-                    if (result != null)
+                    if (result != null && result.statusbox != null)
                     {
                         foreach (var statusBox in result.statusbox)
                         {
@@ -270,8 +267,15 @@ namespace Common
                     Send2UserId = 1,
                     Address = mobile,
                     SendDateTime = DateTime.Now,
+#if DEBUG
+                    TaskId = "DEBUG",
+                    DeliverStats = "Delivered",
+                    RecvDateTime = DateTime.MaxValue
+#endif
                 };
-
+#if DEBUG
+                smsService.Add(sms);
+#else
                 var bs = Encoding.UTF8.GetBytes(param);
                 var req = (HttpWebRequest)WebRequest.Create("http://www.smsok.cn/sms.aspx");
                 req.Method = "POST";
@@ -280,11 +284,7 @@ namespace Common
 
                 using (var reqStream = req.GetRequestStream())
                 {
-#if DEBUG
-                    reqStream.Write(bs, 0, 0);
-#else
                     reqStream.Write(bs, 0, bs.Length);
-#endif
                 }
 
                 using (var wr = req.GetResponse())
@@ -309,6 +309,7 @@ namespace Common
                             Debug.Print("错误信息：" + result.message);
                     }
                 }
+#endif
             }
             catch (Exception ex)
             {
@@ -317,8 +318,7 @@ namespace Common
             }
             finally
             {
-                Thread.Sleep(500);
-                GetSmsStatus();
+                ThreadPool.QueueUserWorkItem(GetSmsStatus);
             }
 
             return null;
@@ -347,8 +347,16 @@ namespace Common
                     Send2UserId = send2User.UserId,
                     Address = send2User.Mobile,
                     SendDateTime = DateTime.Now,
+#if DEBUG
+                    TaskId = "DEBUG",
+                    DeliverStats = "Delivered",
+                    RecvDateTime = DateTime.MaxValue
+#endif
                 };
 
+#if DEBUG
+                smsService.Add(sms);
+#else
                 var bs = Encoding.UTF8.GetBytes(param);
                 var req = (HttpWebRequest)WebRequest.Create("http://www.smsok.cn/sms.aspx");
                 req.Method = "POST";
@@ -357,11 +365,7 @@ namespace Common
 
                 using (var reqStream = req.GetRequestStream())
                 {
-#if DEBUG
-                    reqStream.Write(bs, 0, 0);
-#else
                     reqStream.Write(bs, 0, bs.Length);
-#endif
                 }
 
                 using (var wr = req.GetResponse())
@@ -386,6 +390,7 @@ namespace Common
                             Debug.Print("错误信息：" + result.message);
                     }
                 }
+#endif
             }
             catch (Exception ex)
             {
@@ -394,8 +399,7 @@ namespace Common
             }
             finally
             {
-                Thread.Sleep(500);
-                GetSmsStatus();
+                ThreadPool.QueueUserWorkItem(GetSmsStatus);
             }
 
             return null;

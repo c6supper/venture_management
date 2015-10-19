@@ -1,0 +1,55 @@
+﻿@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "水电工程施工安全隐患排查预警系统";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section headtag
+{
+<script>
+</script>
+}
+
+@section menu
+{
+    @(Html.X().Window()
+          .Closable(false)
+          .CloseAction(CloseAction.Destroy)
+          .Resizable(false)
+          .Icon(Icon.Lock)
+          .Draggable(false)
+          .MinWidth(350)
+          .Modal(true)
+          .BodyPadding(5)
+          .Layout(LayoutType.Fit)
+          .Title("请输入注册时的用户信息")
+          .Items(
+              Html.X().FormPanel()
+                  .ID("ForgotPassword")
+                  .Url(Url.Action("Submit"))
+                  .Layout(LayoutType.Table)
+                  .LayoutConfig(new TableLayoutConfig{Columns = 4})
+                  .Border(true)
+                  .BodyPadding(15)
+                  .BodyStyle("background-color:transparent;")
+                  .Items(
+                      Html.X().TextField()
+                          .ID("txtUsername")
+                          .Icon(Icon.User)
+                          .FieldLabel("用户名或手机号")
+                          .AllowBlank(false)
+                          .ColSpan(4)
+                          .BlankText("请输入用户名或手机号.")
+                  )
+          )                
+          .Buttons(        
+              Html.X().Button()
+                  .Text("找回密码")
+                  .Icon(Icon.UserTick)
+                  .Handler("App.ForgotPassword.submit();"),
+              Html.X().Button()
+                  .Text("返回")
+                  .Icon(Icon.Cancel)
+                  .Handler("document.location.href='login';")
+        ))
+}

@@ -1,4 +1,5 @@
-﻿@using InputType = Ext.Net.InputType
+﻿@using System.Web.UI.WebControls
+@using InputType = Ext.Net.InputType
 @{
     ViewBag.Title = "水电工程施工安全隐患排查预警系统";
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
@@ -19,26 +20,28 @@
           .Closable(false)
           .CloseAction(CloseAction.Destroy)
           .Resizable(false)
-          .Height(200)
+          //.Height(200)
           .Icon(Icon.Lock)
           .Title("水电工程施工安全隐患排查预警系统")
           .Draggable(false)
-          .Width(350)
+          .MinWidth(350)
           .Modal(true)
           .BodyPadding(5)
           .Layout(LayoutType.Fit)
           .Items(
               Html.X().FormPanel()
-                  .Layout(LayoutType.Form)
-                  .Border(false)
+                  .Layout(LayoutType.Table)
+                  .LayoutConfig(new TableLayoutConfig{Columns = 4})
+                  .Border(true)
+                  .BodyPadding(15)
                   .BodyStyle("background-color:transparent;")
                   .Items(
                       Html.X().TextField()
                           .ID("txtUsername")
                           .Icon(Icon.User)
-                          .ReadOnly(false)
                           .FieldLabel("用户名")
                           .AllowBlank(false)
+                          .ColSpan(4)
                           .BlankText("请输入用户名."),
                     
                       Html.X().TextField()
@@ -47,37 +50,32 @@
                           .ReadOnly(false)
                           .InputType(InputType.Password)
                           .FieldLabel("密码")
+                          .ColSpan(4)
                           .AllowBlank(false)
                           .BlankText("请输入密码."),
-                            
+ 
                       Html.X().TextField()
                           .ID("verificationCode")
                           .AllowBlank(false)
                           .EmptyText("请输入验证码")
+                          .ColSpan(4)
                           .FieldLabel("验证码"),
-                      Html.X().Container()
-                          .Layout(LayoutType.HBox)
-                          .LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Stretch })      
-                          .Items(
-                              Html.X().Image()
-                                  .Padding(5)
-                                  .MinWidth(175)
-                                  .ID("imageVerificationCode")
-                                  .ImageUrl(Url.Action("VerificationCode","Login"))
-                                  .Listeners(ls =>
-                                  {
-                                      ls.Click.Handler = "imageVerificationCodeClick();";
-                                      ls.AfterRender.Handler = "imageVerificationCodeClick()";
-                                  }),
-                              Html.X().Button()
-                                  
-                                  .Text("刷新验证码")
-                                  .Handler("imageVerificationCodeClick();")
-                          ),
-                                              
-                      Html.X().TagLabel()
-                          .ID("txtStatus")
-                          .TagString("")
+                          
+                      Html.X().Panel()
+                          .ColSpan(1)
+                          .MinWidth(100),
+
+                      Html.X().ImageButton()
+                          .ColSpan(3)
+                          .ID("VerificationCodeImage")
+                          .ToolTip("点击刷新")
+                          .ID("imageVerificationCode")
+                          .ImageUrl(Url.Action("VerificationCode","Login"))
+                          .Listeners(ls =>
+                          {
+                              ls.Click.Handler = "imageVerificationCodeClick();";
+                              ls.AfterRender.Handler = "imageVerificationCodeClick()";
+                          })
                   )
           )                
           .Buttons(
@@ -94,6 +92,10 @@
                                           de.Click.EventMask.Msg = "登录中...";
                                           de.Click.EventMask.MinDelay = 1000;
                                           de.Click.FormID = "#(return this.up('window').down('form');)";
-                  })
-          ))
+                  }),
+              Html.X().LinkButton()
+                  .Text("忘记密码?")
+                  .Icon(Icon.UserAlert)
+                  .Handler("document.location.href='ForgotPassword';")
+        ))
 }

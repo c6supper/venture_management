@@ -62,8 +62,9 @@
         ))
 
     @(Html.X().FormPanel()
-          .Region(Region.Center)
-          .Layout(LayoutType.Fit)
+          //.Region(Region.Center)
+          .Layout(LayoutType.Table)
+          .LayoutConfig(new TableLayoutConfig{Columns = 4})
           .Width(350)
           .ID("RegisterUser")
           .Frame(true)
@@ -72,7 +73,6 @@
               roleId="App.RoleId.getValue()",orgId="App.OrgId.getValue()",
               smsCode="App.SmsCode.getValue()",ParameterMode.Raw}))
           .BodyPadding(10)
-          .Layout(LayoutType.VBox)
           .Border(true)
           .FieldDefaults(fd =>
           {
@@ -95,24 +95,29 @@
           .Items(
               X.TextFieldFor(u=>u.UserId)
                   .ID("userID")
+                  .ColSpan(4)
                   .EmptyText("请输入用户ID")
                   .Hidden(true),
               X.TextFieldFor(u=>u.UserName)
                   .ID("userName")
+                  .ColSpan(4)
                   .AllowBlank(false)
                   .EmptyText("请输入用户名"),
               X.TextFieldFor(u=>u.DisplayName)
                   .ID("displayName")
+                  .ColSpan(4)
                   .AllowBlank(false)
                   .Name("displayName")
                   .EmptyText("请输入实名"),
               X.TextFieldFor(u=>u.Password)
                   .ID("PasswordField")
+                  .ColSpan(4)
                   .EmptyText("请输入密码")
                   .AllowBlank(false)
                   .InputType(InputType.Password),
               X.TextField()
                   .ID("userConfirmPassword")
+                  .ColSpan(4)
                   .Vtype("password")
                   .VtypeText("两次输入的密码不一致")
                   .EmptyText("请确认密码")
@@ -122,11 +127,13 @@
                   .CustomConfig(p=>p.Add(new ConfigItem("initialPassField","PasswordField",ParameterMode.Value))),
               X.TextFieldFor(u=>u.Email)
                   .ID("userEmail")
+                  .ColSpan(4)
                   .EmptyText("请输入邮箱")
                   .AllowBlank(false)
                   .InputType(InputType.Email),
               X.TextFieldFor(u=>u.Mobile)
                   .ID("userMobile")
+                  .ColSpan(4)
                   .Regex("^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$")
                   .RegexText("请输入合法的手机号")
                   .Listeners(ls=>ls.ValidityChange.Handler="App.SmsCodeSender.setDisabled(!isValid);App.SmsCode.setDisabled(!isValid);")
@@ -134,6 +141,7 @@
               X.ComboBox()
                   .ID("OrgId")
                   .FieldLabel("部门")
+                  .ColSpan(4)
                   .AllowBlank(false)
                   .EmptyText("请输入关键字或*")
                   .DisplayField("OrganizationName")
@@ -170,6 +178,7 @@
                   ),
               X.ComboBox()
                   .ID("RoleId")
+                  .ColSpan(4)
                   .FieldLabel("角色")
                   .AllowBlank(false)
                   .EmptyText("请输入关键字或*")
@@ -209,42 +218,41 @@
 
               X.TextField()
                   .ID("verificationCode")
+                  .ColSpan(4)
                   .AllowBlank(false)
                   .EmptyText("请输入验证码")
                   .FieldLabel("验证码"),
-               X.Container()
+              //X.Button()
+              //    .Text("刷新验证码")
+              //    .Region(Region.Center	)
+              //    .ColSpan(3)
+              //    .Handler("imageVerificationCodeClick();"),
+              Html.X().Panel()
+                          .ColSpan(1)
+                          .MinWidth(115),
+
+            Html.X().ImageButton()
+                .ColSpan(3)
+                .ID("VerificationCodeImage")
+                .ToolTip("点击刷新")
+                .ID("imageVerificationCode")
+                .ImageUrl(Url.Action("VerificationCode","Login"))
+                .Listeners(ls =>
+                {
+                    ls.Click.Handler = "imageVerificationCodeClick();";
+                    ls.AfterRender.Handler = "imageVerificationCodeClick()";
+                }),
+              X.Button()
+                  .ColSpan(1)
                   .Padding(5)
-                  .Layout(LayoutType.HBox)                  
-                  .Items(
-                      X.Image()
-                          .Padding(5)
-                          .MinWidth(175)
-                          .ID("imageVerificationCode")
-                          .ImageUrl(Url.Action("VerificationCode","Register"))
-                          .Listeners(ls =>
-                          {
-                              ls.Click.Handler = "imageVerificationCodeClick();";
-                              ls.AfterRender.Handler = "imageVerificationCodeClick()";
-                          }),
-                      X.Button()
-                          .Padding(10)
-                          .Text("刷新验证码")
-                          .Handler("imageVerificationCodeClick();")
-                  ),
-              X.Container()
+                  .Disabled(true)
+                  .ID("SmsCodeSender")
+                  .Text("获取短信验证码")
+                  .DirectClickAction("SendSmsCode").Params(p=>p.Add(new {mobile="App.SendSmsCode.getValue()",ParameterMode.Raw})),
+              X.TextField()
+                  .Disabled(true)
                   .Padding(5)
-                  .Layout(LayoutType.HBox)                  
-                  .Items(
-                        X.Button()
-                          .Padding(10)
-                          .Disabled(true)
-                          .ID("SmsCodeSender")
-                          .Text("获取短信验证码")
-                          .DirectClickAction("SendSmsCode").Params(p=>p.Add(new {mobile="App.SendSmsCode.getValue()",ParameterMode.Raw})),
-                        X.TextField()
-                            .Padding(5)
-                            .Disabled(true)
-                            .ID("SmsCode")
-                  )
+                  .ID("SmsCode")
+                  .ColSpan(3)
           ))
 }
