@@ -132,6 +132,7 @@
     <Compile Include="Areas\LucenceEngine\Controllers\FileManageController.cs" />
     <Compile Include="Areas\LucenceEngine\LucenceEngineAreaRegistration.cs" />
     <Compile Include="Areas\LucenceEngine\Models\AlarmGridModel.cs" />
+    <Compile Include="Areas\Member\Controllers\ChangePasswordController.cs" />
     <Compile Include="Areas\Member\Controllers\MemberBaseController.cs" />
     <Compile Include="Areas\Member\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Member\Controllers\PermissionController.cs" />
@@ -331,6 +332,7 @@
     <Content Include="Areas\Threat\Views\MyThreatCase\Detail.cshtml" />
     <Content Include="Areas\Threat\Views\ThreatCase\Detail.cshtml" />
     <Content Include="Areas\Report\Views\ThreatCaseReport\Index.cshtml" />
+    <Content Include="Areas\Member\Views\ChangePassword\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Properties\PublishProfiles\VentureManagement.pubxml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />
