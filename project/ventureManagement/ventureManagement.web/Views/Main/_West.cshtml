@@ -27,38 +27,38 @@
                 {
                     Items = 
                     {
-                        new TriggerField
-                        {
-                            ID = "SearchField",
-                            AutoFocus = true,
-                            EnableKeyEvents = true,
-                            Flex = 1,
-                            EmptyText = "请输入想查找的页面...",
-                            Triggers = 
-                            {
-                                new FieldTrigger
-                                {
-                                    HideTrigger = true,
-                                    Icon = TriggerIcon.Clear                                    
-                                }
-                            },
-                            Listeners = 
-                            {
-                                KeyUp = 
-                                {
-                                    Buffer = 100,
-                                    Fn = "keyUp"
-                                },
-                                TriggerClick = 
-                                {
-                                    Fn = "clearFilter"    
-                                },
-                                SpecialKey = 
-                                {
-                                    Fn = "filterSpecialKey"
-                                }
-                            }
-                        },
+                        //new TriggerField
+                        //{
+                        //    ID = "SearchField",
+                        //    AutoFocus = true,
+                        //    EnableKeyEvents = true,
+                        //    Flex = 1,
+                        //    EmptyText = "请输入想查找的页面...",
+                        //    Triggers = 
+                        //    {
+                        //        new FieldTrigger
+                        //        {
+                        //            HideTrigger = true,
+                        //            Icon = TriggerIcon.Clear                                    
+                        //        }
+                        //    },
+                        //    Listeners = 
+                        //    {
+                        //        KeyUp = 
+                        //        {
+                        //            Buffer = 100,
+                        //            Fn = "keyUp"
+                        //        },
+                        //        TriggerClick = 
+                        //        {
+                        //            Fn = "clearFilter"    
+                        //        },
+                        //        SpecialKey = 
+                        //        {
+                        //            Fn = "filterSpecialKey"
+                        //        }
+                        //    }
+                        //},
                         
                         new Button 
                         {

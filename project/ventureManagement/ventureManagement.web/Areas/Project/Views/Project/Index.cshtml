@@ -48,6 +48,7 @@
             App.OrganizationId.setValue('');
             App.UserId.setValue('');
             App.newProject.hide();
+            App.SupeProjectId.setValue('');
         };
 
         var filterTree = function (tf, e) {
@@ -149,7 +150,9 @@
                                         )
                                     )
                                 ),
-
+                       X.Hidden()
+                          .ID("SupeProjectId")
+                          .Name("projectId"),
                       X.TextField()
                           .ID("SubProject")
                           .Name("subProject")
@@ -302,9 +305,8 @@
                               {
                                   de.Click.Url = Url.Action("DeleteProject");
                                   de.Click.ExtraParams.Add(new Parameter("projectId", "App.SupeProjectId.getValue()", ParameterMode.Raw));
-                                  de.Click.Success = "resetCreateForm();";
                                   de.Click.Confirmation.ConfirmRequest = true;
-                                  de.Click.Confirmation.BeforeConfirm = "config.confirmation.message = '是否确定要删除[' + App.SuperiorProject.getValue() + ']及其子工程'";
+                                  de.Click.Confirmation.BeforeConfirm = "config.confirmation.message = '是否确定要删除工程'";
                               })
                       )
                   )

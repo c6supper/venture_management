@@ -33,7 +33,8 @@ namespace VentureManagement.Models
         public virtual Organization Organization { get; set; }
         public virtual User User { get; set; }
 
-        public virtual ICollection<ProjectRelation> ProjectRelation { get; set; }
+        [InverseProperty("SubProject")]
+        public virtual ICollection<ProjectRelation> AsSubProjectRelation { get; set; }
 
         [InverseProperty("Project")]
         public virtual ICollection<ThreatCase> ThreatCases { get; set; }

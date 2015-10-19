@@ -43,7 +43,7 @@ namespace VentureManagement.BLL
         {
             return
                 CurrentRepository.FindList(u => u.ProjectName == project, "ProjectName", false)
-                .ToArray().SelectMany(prj => prj.ProjectRelation)
+                .ToArray().SelectMany(prj => prj.AsSubProjectRelation)
                     .Any(prjr => prjr.SuperProjectId == superProjectId);
         }
 
@@ -51,7 +51,7 @@ namespace VentureManagement.BLL
         {
             return CurrentRepository.FindList(u => u.ProjectName == project, string.Empty, false)
                 .ToArray()
-                .FirstOrDefault(prj => prj.ProjectRelation
+                .FirstOrDefault(prj => prj.AsSubProjectRelation
                     .Any(prjr => prjr.SuperProjectId == superProjectId));
         }
 
@@ -69,6 +69,42 @@ namespace VentureManagement.BLL
             Expression<Func<VMProject, bool>> whereLamdba)
         {
             return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, whereLamdba, "projectName", false);
+        }
+
+        public bool Delete(int projectId)
+        {
+            using (var transaction = CurrentRepository.BeginTransaction())
+            {
+                
+                try
+                {
+                    var project = Find(projectId);
+                    if (project == null)
+                        return true;
+
+                    var pjrService = new ProjectRelationService();
+                    if (pjrService.FindList(pjr=>pjr.SuperProjectId == projectId || pjr.SubProjectId == projectId,
+                        "ProjectRelationId", false).ToArray().Any(prj => !pjrService.Delete(prj)))
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+
+                    if (!Delete(project))
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Debug.Print(ex.Message);
+                }
+                transaction.Commit();
+            }
+
+            return true;
         }
 
         public override bool Initilization()

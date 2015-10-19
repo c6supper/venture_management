@@ -14,5 +14,7 @@ namespace VentureManagement.IBLL
 
         IQueryable<VMProject> FindPageList(int pageIndex, int pageSize, out int totalRecord,
             Expression<Func<VMProject, bool>> whereLamdba);
+
+        bool Delete(int projectId);
     }
 }
