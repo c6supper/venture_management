@@ -113,6 +113,8 @@
                   .ID("PasswordField")
                   .ColSpan(4)
                   .EmptyText("请输入密码")
+                  .MinLength(8)
+                  .MinLengthText("密码最短为8个字符")
                   .AllowBlank(false)
                   .InputType(InputType.Password),
               X.TextField()
