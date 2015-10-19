@@ -168,6 +168,16 @@ namespace VentureManagement.Web.Areas.Project.Controllers
         [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
         public ActionResult DeleteProject(int projectId)
         {
+            var project = _projectService.Find(projectId);
+
+            if (project == null) return this.RedirectToAction("Index");
+
+            if (project.ThreatCases.Any())
+            {
+                X.Msg.Alert("提示", "该工程有拆分子工程，请先删除拆分子工程.").Show();
+                return this.Direct();
+            }
+
             return this.Direct();
         }
     }

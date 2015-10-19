@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,9 @@ namespace VentureManagement.Models
         public virtual User User { get; set; }
 
         public virtual ICollection<ProjectRelation> ProjectRelation { get; set; }
+
+        [InverseProperty("Project")]
+        public virtual ICollection<ThreatCase> ThreatCases { get; set; }
 
         // ReSharper disable once InconsistentNaming
         public const string PROJECT_ROOT = "工程项目列表";
