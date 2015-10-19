@@ -80,14 +80,14 @@ namespace VentureManagement.BLL
                 userOrganizationRelation = new UserOrganizationRelation
                 {
                     UserId = _userService.Find("confirmer").UserId,
-                    OrganizationId = 2
+                    OrganizationId = 3
                 };
                 Add(userOrganizationRelation);
 
                 userOrganizationRelation = new UserOrganizationRelation
                 {
                     UserId = _userService.Find("reviewer").UserId,
-                    OrganizationId = 2
+                    OrganizationId = 3
                 };
                 Add(userOrganizationRelation);
 #endif
