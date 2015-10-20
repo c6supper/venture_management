@@ -1,0 +1,102 @@
+﻿@using Ext.Net
+@using Ext.Net.MVC
+@using InputType = Ext.Net.InputType
+
+@{
+    ViewBag.Title = "修改密码";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    var X = Html.X();
+}
+
+@section headtag
+{
+    <script>
+        var imageVerificationCodeClick = function () {
+            App.imageVerificationCode.setImageUrl("@Url.Action("VerificationCode")?" + new Date());
+        };
+    </script>
+}
+
+@section menu
+{
+    @(Html.X().FormPanel()
+          .Layout(LayoutType.Table)
+          .LayoutConfig(new TableLayoutConfig{Columns = 4})
+          .Width(350)
+          .ID("ChangePassword")
+          .Frame(true)
+          .Title("修改密码")
+          .Url(Url.Action("Submit"))
+          .BodyPadding(10)
+          .Border(true)
+          .FieldDefaults(fd =>
+          {
+              fd.LabelAlign = LabelAlign.Right;
+              fd.LabelPad = 20;
+              fd.MsgTarget = MessageTarget.Under;
+          })
+          .Buttons(
+              X.Button()
+                  .Text("修改")
+                  .Icon(Icon.Accept)
+                  .Handler("App.ChangePassword.submit();")
+              //X.Button()
+              //    .Text("取消")
+              //    .Icon(Icon.Cancel)
+              //    .Handler("document.location.href='login';")
+          )
+          .ButtonAlign(Alignment.Center)
+          .Padding(10)
+          .Items(
+              X.TextField()
+                  .ID("oldPassword")
+                  .ColSpan(4)
+                  .EmptyText("请输入原密码")
+                  .FieldLabel("原密码")
+                  .MinLength(8)
+                  .MinLengthText("密码最短为8个字符")
+                  .AllowBlank(false)
+                  .InputType(InputType.Password),
+              X.TextField()
+                  .ID("newPassword")
+                  .ColSpan(4)
+                  .EmptyText("请输入新密码")
+                  .FieldLabel("新密码")
+                  .MinLength(8)
+                  .MinLengthText("密码最短为8个字符")
+                  .AllowBlank(false)
+                  .InputType(InputType.Password),                
+              X.TextField()
+                  .ID("confirmNewPassword")
+                  .ColSpan(4)
+                  .Vtype("password")
+                  .VtypeText("两次输入的密码不一致")
+                  .EmptyText("请确认新密码")
+                  .AllowBlank(false)
+                  .InputType(InputType.Password)
+                  .FieldLabel("确认新密码")
+                  .CustomConfig(p=>p.Add(new ConfigItem("initialPassField","newPassword",ParameterMode.Value))),          
+              X.TextField()
+                  .ID("verificationCode")
+                  .ColSpan(4)
+                  .AllowBlank(false)
+                  .EmptyText("请输入验证码")
+                  .FieldLabel("验证码"),
+            Html.X().ImageButton()
+                .ColSpan(3)
+                .ID("VerificationCodeImage")
+                .ToolTip("点击刷新")
+                .ID("imageVerificationCode")
+                .ImageUrl(Url.Action("VerificationCode","ChangePassword"))
+                .Listeners(ls =>
+                {
+                    ls.Click.Handler = "imageVerificationCodeClick();";
+                    ls.AfterRender.Handler = "imageVerificationCodeClick()";
+                }),
+            Html.X().LinkButton()
+                    .Text("看不清?换一张")
+                    .Padding(10)
+                    .ColSpan(1)
+                    .OnClientClick("imageVerificationCodeClick();")
+          ))
+}

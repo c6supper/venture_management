@@ -19,6 +19,7 @@
     <menu name="Organization" display = "安全部管理" />
     <menu name="User" display = "用户管理" />
     <menu name="Permission" display = "权限管理" />
+    <menu name="ChangePassword" display = "修改密码" />
     <menu name="Project" display = "施工项目管理" />
     <menu name="Report" display = "隐患报表" />
     <!--<menu name="ProjectThreatCaseReport" display = "项目隐患预警报表" />
