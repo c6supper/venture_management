@@ -36,7 +36,7 @@ namespace VentureManagement.BLL
                     {
                         RoleName = Role.ROLE_GROUP,
                         Description = "集团安全管理人员",
-                        RoleValue = 8191
+                        RoleValue = 8175
                     };
                     Add(role);
                 }

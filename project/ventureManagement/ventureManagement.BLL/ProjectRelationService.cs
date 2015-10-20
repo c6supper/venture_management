@@ -46,20 +46,6 @@ namespace VentureManagement.BLL
             return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
         }
 
-        public bool Exist(string superiorProject, string subordinateProject)
-        {
-            try
-            {
-                return CurrentRepository.Exist(u => u.SubProject.ProjectName == subordinateProject
-                    && u.SuperProject.ProjectName == superiorProject);
-            }
-            catch (Exception ex)
-            {
-                Debug.Print(ex.StackTrace);
-                return false;
-            }
-        }
-
         public override bool Initilization()
         {
 #if DEBUG
@@ -82,21 +68,6 @@ namespace VentureManagement.BLL
             }
 #endif
             return true;
-        }
-
-        public List<string> GetParentProjectList(int projectId)
-        {
-            var parentList = new List<string>();
-
-            foreach (var pror in FindList(pror => pror.SubProject.ProjectId == projectId,"ProjectRelationId", false).ToArray())
-            {
-                if (pror.SuperProjectId !=  VMProject.INVALID_PROJECT)
-                    parentList.AddRange(GetParentProjectList(pror.SuperProject.ProjectId));
-
-                parentList.Add(_projectService.Find(pror.SuperProjectId).ProjectName);
-            }
-
-            return parentList;
         }
     }
 }

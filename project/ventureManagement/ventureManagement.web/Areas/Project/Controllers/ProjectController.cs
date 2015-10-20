@@ -165,9 +165,46 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             return this.Direct();
         }
 
-        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
-        public ActionResult DeleteProject(int projectId)
+        [AccessDeniedAuthorize(Roles = Role.PERIMISSION_PROJECT_WRITE)]
+        public ActionResult DeleteProject(int? projectId)
         {
+            if (projectId == null)
+            {
+                X.Msg.Alert("提示", "请先选择您要删除的施工项目.").Show();
+                return this.Direct();
+            }
+
+            var project = _projectService.Find((int)projectId);
+
+            if (project == null) return this.RedirectToAction("Index");
+
+            if (project.ThreatCases.Any())
+            {
+                X.Msg.Alert("提示", "系统含有该施工项目的隐患申报记录，无法删除该工程.").Show();
+                return this.Direct();
+            }
+
+            if (_projectRelationService.FindList(pjr => pjr.SuperProjectId == (int)projectId,"ProjectRelationId",false).Any())
+            {
+                X.Msg.Alert("提示", "该工程有拆分子工程，请先删除拆分子工程.").Show();
+                return this.Direct();
+            }
+
+            if (!_projectService.Delete((int) projectId))
+            {
+                X.Msg.Alert("提示", "删除工程失败，请稍候重试.").Show();
+                return this.Direct();
+            }
+
+            X.Msg.Confirm("提示", "删除成功.", new MessageBoxButtonsConfig
+            {
+                Yes = new MessageBoxButtonConfig
+                {
+                    Handler = "document.location.reload();",
+                    Text = "确定"
+                }
+            }).Show();
+
             return this.Direct();
         }
     }

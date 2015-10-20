@@ -9,7 +9,5 @@ namespace VentureManagement.IBLL
     public interface InterfaceProjectRelationService : InterfaceBaseService<ProjectRelation>
     {
         IQueryable<ProjectRelation> FindList(Expression<Func<ProjectRelation, bool>> whereLamdba, string orderName, bool isAsc);
-        bool Exist(string superiorProject, string subordinateProject);
-        List<string> GetParentProjectList(int projectId);
     }
 }
