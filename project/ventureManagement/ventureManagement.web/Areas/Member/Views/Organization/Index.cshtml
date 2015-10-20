@@ -73,6 +73,7 @@
                                      d.Add(new Parameter("LabelWidth", "90"));
                   })
                   .Items(
+                       X.Hidden().Name("organizationId").ID("SelectedOrgId"),
                        X.ComboBox()
                         .ID("SuperiorDepartmentId")
                         .FieldLabel("上级部门")
@@ -165,18 +166,17 @@
                           Html.X().Button()
                           .Text("新增")
                           .Icon(Icon.CommentAdd)
-                          .Handler("App.newOrganization.show();")
-                          //Html.X().Button()
-                          //.Text("删除")
-                          //.Icon(Icon.CommentDelete)
-                          //.DirectEvents(de =>
-                          //{
-                          //    de.Click.Url = Url.Action("DeleteOrganization");
-                          //    de.Click.ExtraParams.Add(new Parameter("organizationId", "App.SuperiorDepartmentId.getValue()", ParameterMode.Raw));
-                          //    de.Click.Success = "resetCreateForm();";
-                          //    de.Click.Confirmation.ConfirmRequest = true;
-                          //    de.Click.Confirmation.BeforeConfirm = "config.confirmation.message = '是否确定要删除[' + App.SuperiorDepartment.getValue() + ']及其子部门'";
-                          //})
+                          .Handler("App.newOrganization.show();"),
+                        Html.X().Button()
+                            .Text("删除")
+                            .Icon(Icon.CommentDelete)
+                            .DirectEvents(de =>
+                            {
+                                de.Click.Url = Url.Action("DeleteOrganization");
+                                de.Click.ExtraParams.Add(new Parameter("organizationId", "App.SelectedOrgId.getValue()", ParameterMode.Raw));
+                                de.Click.Confirmation.ConfirmRequest = true;
+                                de.Click.Confirmation.BeforeConfirm = "config.confirmation.message = '是否确定要删除'";
+                            })
                       )
                   )
                   .Fields(
