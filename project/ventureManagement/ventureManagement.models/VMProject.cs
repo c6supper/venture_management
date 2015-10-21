@@ -59,6 +59,6 @@ namespace VentureManagement.Models
 
         public const string STATUS_CONSTRUCTING = "施工中";
         public const string STATUS_FINISHED = "施工完毕";
-        public const string STATUS_PLANNING = "项目计划中";
+        public const string STATUS_PLANNING = "计划中";
     }
 }
