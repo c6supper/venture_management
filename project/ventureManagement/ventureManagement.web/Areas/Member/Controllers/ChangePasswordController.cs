@@ -26,7 +26,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
 
         public ActionResult VerificationCode()
         {
-            string verificationCode = Security.CreateVerificationText(6);
+            string verificationCode = Security.CreateVerificationText(4);
             var _img = Security.CreateVerificationImage(verificationCode, 160, 30);
             _img.Save(Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             TempData["VerificationCode"] = verificationCode.ToUpper();

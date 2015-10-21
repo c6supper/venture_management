@@ -232,14 +232,14 @@
             Html.X().ImageButton()
                 .ColSpan(3)
                 .ID("VerificationCodeImage")
-                .ToolTip("点击刷新")
+                //.ToolTip("点击刷新")
                 .ID("imageVerificationCode")
-                .ImageUrl(Url.Action("VerificationCode","Login"))
-                .Listeners(ls =>
-                {
-                    ls.Click.Handler = "imageVerificationCodeClick();";
-                    ls.AfterRender.Handler = "imageVerificationCodeClick()";
-                }),
+                .ImageUrl(Url.Action("VerificationCode","Register")),
+                //.Listeners(ls =>
+                //{
+                //    ls.Click.Handler = "imageVerificationCodeClick();";
+                //    ls.AfterRender.Handler = "imageVerificationCodeClick()";
+                //}),
             Html.X().LinkButton()
                     .Text("看不清?换一张")
                     .Padding(10)

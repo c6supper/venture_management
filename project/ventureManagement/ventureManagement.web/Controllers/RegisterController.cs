@@ -31,7 +31,7 @@ namespace VentureManagement.Web.Controllers
 #if DEBUG
         private const int VerifyTime = 10;
 #else
-        private const int VerifyTime = 120;
+        private const int VerifyTime = 300;
 #endif
 
         private void WaitTimeOut(object state)
@@ -110,7 +110,7 @@ namespace VentureManagement.Web.Controllers
         [AllowAnonymous]
         public ActionResult VerificationCode()
         {
-            string verificationCode = Security.CreateVerificationText(6);
+            string verificationCode = Security.CreateVerificationText(4);
             var _img = Security.CreateVerificationImage(verificationCode, 160, 30);
             _img.Save(Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             TempData["VerificationCode"] = verificationCode.ToUpper();
