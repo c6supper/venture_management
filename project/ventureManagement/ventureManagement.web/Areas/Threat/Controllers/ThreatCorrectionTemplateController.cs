@@ -87,7 +87,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return result;
         }
 
-        //0 隐患大类	1隐患小类	2可能的原因	3整改措施	4备注
+        //0 隐患大类	1隐患小类	2隐患原因分析	3整改措施	4备注
         protected virtual ThreatCorrection ParseExcel(string file)
         {
             var template = new ThreatCorrection();

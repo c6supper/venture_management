@@ -91,18 +91,14 @@ namespace VentureManagement.BLL
         public bool Exist(string organization,int superiorDepartmentId)
         {
             return
-                (CurrentRepository.FindList(u => u.OrganizationName == organization, String.Empty, false)
-                    .ToArray()
-                    .SelectMany(org => org.OrganizationRelations)
-                    .Any(orgr => orgr.SuperiorDepartmentId == superiorDepartmentId));
+                (CurrentRepository.Exist(u => u.OrganizationName == organization &&
+                    u.AsSubOrganizationRelations.Any(orgr => orgr.SuperiorDepartmentId == superiorDepartmentId)));
         }
         
         public Organization Find(string organization, int superiorDepartmentId)
         {
-            return CurrentRepository.FindList(u => u.OrganizationName == organization, String.Empty, false)
-                .ToArray()
-                .FirstOrDefault(org => org.OrganizationRelations
-                    .Any(orgr => orgr.SuperiorDepartmentId == superiorDepartmentId));
+            return CurrentRepository.Find(u => u.OrganizationName == organization && 
+                u.AsSubOrganizationRelations.Any(orgr => orgr.SuperiorDepartmentId == superiorDepartmentId));
         }
 
         public Organization Find(int organizationId)

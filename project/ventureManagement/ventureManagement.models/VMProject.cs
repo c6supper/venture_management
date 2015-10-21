@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+// ReSharper disable InconsistentNaming
 
 namespace VentureManagement.Models
 {
@@ -30,6 +32,9 @@ namespace VentureManagement.Models
 
         public string Description { get; set; }
 
+        [Required, DefaultValue(PROJECTSTATUS.STATUS_PLANNING)]
+        public PROJECTSTATUS ProjectStatus { get; set; }
+
         public virtual Organization Organization { get; set; }
         public virtual User User { get; set; }
 
@@ -44,5 +49,16 @@ namespace VentureManagement.Models
 
         // ReSharper disable once InconsistentNaming
         public const int INVALID_PROJECT = -1;
+
+        public enum PROJECTSTATUS
+        {
+            STATUS_PLANNING,
+            STATUS_CONSTRUCTING,
+            STATUS_FINISHED
+        }
+
+        public const string STATUS_CONSTRUCTING = "施工中";
+        public const string STATUS_FINISHED = "施工完毕";
+        public const string STATUS_PLANNING = "项目计划中";
     }
 }

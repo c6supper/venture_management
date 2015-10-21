@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VentureManagement.Models
 {
@@ -24,7 +25,14 @@ namespace VentureManagement.Models
 
         public virtual ICollection<OrganizationRoleRelation> OrganizationRoleRelations { get; set; }
 
-        public virtual ICollection<OrganizationRelation> OrganizationRelations { get; set; }
+        [InverseProperty("SubordinateDepartment")]
+        public virtual ICollection<OrganizationRelation> AsSubOrganizationRelations { get; set; }
+
+        [InverseProperty("SuperiorDepartment")]
+        public virtual ICollection<OrganizationRelation> AsSuperOrganizationRelations { get; set; }
+
+        [InverseProperty("Organization")]
+        public virtual ICollection<VMProject> Projects { get; set; }
 
         // ReSharper disable once InconsistentNaming
         public const string ORGANIZATION_STSTEM = "系统管理部门";

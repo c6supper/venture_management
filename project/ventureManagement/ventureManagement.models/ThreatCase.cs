@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VentureManagement.Models
 {
-    //工程名、施工方、责任人、隐患地点、发现隐患的时间、隐患整改完成的时间、隐患大类、隐患小类、隐患描述、
+    //工程名、施工方、责任人、隐患点、发现隐患的时间、隐患整改完成的时间、隐患大类、隐患小类、隐患描述、
     //严重性等级、可能性等级、风险指数、隐患级别、资格资质证件使用情况、现有安全设施情况、整改措施、整改投入、
     //整改效果评估（通过或不通过）、复查人
 
@@ -19,7 +19,7 @@ namespace VentureManagement.Models
         public int ProjectId { get; set;}
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "隐患发生地")]
+        [Display(Name = "隐患点")]
         public string ThreatCaseLocation { get; set; }
 
         [Required(ErrorMessage = "必填")]
@@ -74,7 +74,7 @@ namespace VentureManagement.Models
         public string ThreatCaseSuggestion { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "可能的原因")]
+        [Display(Name = "隐患原因分析")]
         public string ThreatCaseCause { get; set; }
 
         [Display(Name = "整改措施")]
@@ -118,7 +118,7 @@ namespace VentureManagement.Models
         public virtual User ThreatCaseConfirmer { get; set; }
 
         // ReSharper disable once InconsistentNaming
-        public const string VALIDATION_MESSAGE = "\"工程名/隐患地点/发现隐患时间\"不能为空";
+        public const string VALIDATION_MESSAGE = "\"工程名/隐患点/发现隐患时间\"不能为空";
 
         public const string STATUS_WAITCONFIRM = "等待审核";
         public const string STATUS_WAITACKNOWLEDGE = "等待施工方确认";

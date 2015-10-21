@@ -142,8 +142,46 @@ namespace VentureManagement.Web.Areas.Member.Controllers
         }
 
         [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]
-        public ActionResult DeleteOrganization(int organizationId)
+        public ActionResult DeleteOrganization(int? organizationId)
         {
+
+            if (organizationId == null)
+            {
+                X.Msg.Alert("提示", "请先选择您要删除的安全部门.").Show();
+                return this.Direct();
+            }
+
+            var org = _orgSerivce.Find((int)organizationId);
+
+            if (org == null) return this.RedirectToAction("Index");
+
+            if (org.AsSuperOrganizationRelations.Any())
+            {
+                X.Msg.Alert("提示", "该部门含有子部门，无法删除.").Show();
+                return this.Direct();
+            }
+
+            if (org.Projects.Any())
+            {
+                X.Msg.Alert("提示", "该部门拥有施工项目，无法删除.").Show();
+                return this.Direct();
+            }
+
+            if (!_orgSerivce.Delete(org))
+            {
+                X.Msg.Alert("提示", "删除部门失败，请稍候重试.").Show();
+                return this.Direct();
+            }
+
+            X.Msg.Confirm("提示", "删除成功.", new MessageBoxButtonsConfig
+            {
+                Yes = new MessageBoxButtonConfig
+                {
+                    Handler = "document.location.reload();",
+                    Text = "确定"
+                }
+            }).Show();
+
             return this.Direct();
         }
 
