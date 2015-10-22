@@ -9,7 +9,7 @@ namespace VentureManagement.DAL.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(VentureManagement.DAL.VentureManagementDbContext context)

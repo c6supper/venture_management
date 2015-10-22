@@ -32,8 +32,8 @@ namespace VentureManagement.Models
 
         public string Description { get; set; }
 
-        [Required, DefaultValue(PROJECTSTATUS.STATUS_PLANNING)]
-        public PROJECTSTATUS ProjectStatus { get; set; }
+        [Required, DefaultValue(STATUS_CONSTRUCTING)]
+        public string ProjectStatus { get; set; }
 
         public virtual Organization Organization { get; set; }
         public virtual User User { get; set; }
@@ -49,13 +49,6 @@ namespace VentureManagement.Models
 
         // ReSharper disable once InconsistentNaming
         public const int INVALID_PROJECT = -1;
-
-        public enum PROJECTSTATUS
-        {
-            STATUS_PLANNING,
-            STATUS_CONSTRUCTING,
-            STATUS_FINISHED
-        }
 
         public const string STATUS_CONSTRUCTING = "施工中";
         public const string STATUS_FINISHED = "施工完毕";

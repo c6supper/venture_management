@@ -1,5 +1,6 @@
 ﻿@using Ext.Net
 @using Ext.Net.MVC
+@using VentureManagement.Models
 @{
     ViewBag.Title = "工程项目";
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
@@ -285,13 +286,36 @@
                   .Title("工程项目")
                   .Expand(true)
                   .ColumnWidth(0.6)
-                  .Collapsible(true)
+                  .Collapsible(false)
                   .UseArrows(true)
                   .RootVisible(false)
-                  .MultiSelect(true)
+                  .Mode(TreePanelMode.Remote)
+                  .RemoteEditUrl(Url.Action("UpdateProject"))
+                  .MultiSelect(false)
                   .SingleExpand(true)
                   .FolderSort(true)
                   .AutoScroll(true)
+                  
+                  .Store(
+                        Html.X().TreeStore()
+                            .Proxy(
+                                Html.X().AjaxProxy()
+                                    .Url(Url.Action("GetNodes"))
+                            )
+                            .Model(
+                                Html.X().Model()
+                                    .Fields(
+                                        X.ModelField().Name("projectName"),
+                                        X.ModelField().Name("projectId"),
+                                        X.ModelField().Name("description"),
+                                        X.ModelField().Name("projectLocation"),
+                                        X.ModelField().Name("organizationName"),
+                                        X.ModelField().Name("displayName"),
+                                        X.ModelField().Name("projectStatus")
+                                    )
+                            )        
+                    )
+                  
                   .TopBar(Html.X().Toolbar()
                       .Items(
                           Html.X().Button()
@@ -310,14 +334,10 @@
                               })
                       )
                   )
-                  .Fields(
-                        X.ModelField().Name("projectName"),
-                        X.ModelField().Name("projectId"),
-                        X.ModelField().Name("description"),
-                        X.ModelField().Name("projectLocation"),
-                        X.ModelField().Name("organizationName"),
-                        X.ModelField().Name("displayName")
-                  )
+                 
+                  .Plugins(
+                        Html.X().CellEditing()
+                    )
                   .ColumnLines(true)
                   .ColumnModel(    
                       X.TreeColumn()
@@ -344,7 +364,15 @@
                           
                       X.Column()
                           .Text("负责人")
-                          .DataIndex("displayName")             
+                          .DataIndex("displayName"),
+                          
+                      Html.X().Column().DataIndex("projectStatus").Text("施工状态")
+                        .Editor(Html.X().ComboBox()
+                            .Items(
+                                        new ListItem("施工中"),
+                                        new ListItem("施工完毕")
+                                    )
+                        )             
                   )
                 //.Store(
                 //    Html.X().TreeStore()
@@ -357,9 +385,9 @@
                 //        //)            
                 //)
                   .Listeners(l => l.SelectionChange.Handler = "if (selected[0]) { this.up('form').getForm().loadRecord(selected[0]); }")
-                  .Root(Model)
+                  //.Root(Model)
                   .TopBarItem(
-                    Html.X().ToolbarTextItem().Text("关键字:"),
+                    Html.X().ToolbarTextItem().Text("搜索施工项目:"),
                     Html.X().ToolbarSpacer(),
                     Html.X().TriggerField()
                         .EnableKeyEvents(true)

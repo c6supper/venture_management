@@ -16,7 +16,21 @@ namespace VentureManagement.Web.Areas.Project.Controllers
         // GET: /Project/Project/
         public ActionResult Index()
         {
-            return View(GetProject());
+            return View();
+        }
+
+        public StoreResult GetNodes(string node)
+        {
+            return this.Store(GetProject());
+        }
+
+        public ActionResult UpdateProject(string id, string field, string newValue, string oldValue)
+        {
+            X.Msg.Alert("提示", "请检查参数是否正确，项目名/备注/部门名/施工地点/负责人不能为空").Show();
+            return this.Direct();
+
+            return this.RemoteTree(newValue + "_echo");
+            //return this.RemoteTree(false, "Renaming is disabled");
         }
 
         public ActionResult GetAllProjects(int start, int limit, int page, string query)
@@ -60,7 +74,8 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                     OrganizationName = project.Organization.OrganizationName,
                     UserId = project.User.UserId,
                     UserName = project.User.UserName,
-                    DisplayName = project.User.DisplayName
+                    DisplayName = project.User.DisplayName,
+                    ProjectStatus = project.ProjectStatus
                 }
             };
 
@@ -82,23 +97,24 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             return node;
         }
 
-        private Node GetProject()
+        private NodeCollection GetProject()
         {
-            var node = new Node
-            {
-                Text = VMProject.PROJECT_ROOT,
-                NodeID = VMProject.PROJECT_ROOT
-            };
+            var nodes = new NodeCollection(false);
+            //var node = new Node
+            //{
+            //    Text = VMProject.PROJECT_ROOT,
+            //    NodeID = VMProject.PROJECT_ROOT
+            //};
 
             foreach (var prj in _projectRelationService.FindList(r=>r.SuperProjectId == VMProject.INVALID_PROJECT,"ProjectRelationId",false)
                 .ToArray().Select(r=>r.SubProject))
             {
-                node.Children.Add(RecursiveAddNode(prj));
+                nodes.Add(RecursiveAddNode(prj));
             }
-            if (node.Children.Count <= 0)
-                node.EmptyChildren = true;
+            //if (node.Children.Count <= 0)
+            //    node.EmptyChildren = true;
 
-            return node;
+            return nodes;
         }
 
         [AccessDeniedAuthorize(Roles = Role.PERIMISSION_PROJECT_WRITE)]
@@ -122,7 +138,8 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                 Description = description,
                 ProjectLocation = projectLocation,
                 OrganizationId = (int)organizationid,
-                UserId = (int)userId
+                UserId = (int)userId,
+                ProjectStatus = VMProject.STATUS_CONSTRUCTING
             };
 
             ModelState.Clear();
