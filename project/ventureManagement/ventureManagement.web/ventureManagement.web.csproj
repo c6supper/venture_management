@@ -144,6 +144,7 @@
     <Compile Include="Areas\Report\Controllers\ProjectThreatCaseReportController.cs" />
     <Compile Include="Areas\Report\Controllers\ThreatCaseReportBaseController.cs" />
     <Compile Include="Areas\Report\Controllers\ThreatCaseReportController.cs" />
+    <Compile Include="Areas\Report\Controllers\ThreatCaseStatisticsController.cs" />
     <Compile Include="Areas\Report\Models\ThreatCaseReport.cs" />
     <Compile Include="Areas\Report\ReportAreaRegistration.cs" />
     <Compile Include="Areas\Threat\Controllers\CreateThreatCaseController.cs" />
@@ -333,6 +334,7 @@
     <Content Include="Areas\Threat\Views\ThreatCase\Detail.cshtml" />
     <Content Include="Areas\Report\Views\ThreatCaseReport\Index.cshtml" />
     <Content Include="Areas\Member\Views\ChangePassword\Index.cshtml" />
+    <Content Include="Areas\Report\Views\ThreatCaseStatistics\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Properties\PublishProfiles\VentureManagement.pubxml" />
     <None Include="resources\fonts\fontawesome-webfont.eot" />

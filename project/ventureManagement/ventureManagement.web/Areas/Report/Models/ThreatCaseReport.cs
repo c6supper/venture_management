@@ -92,4 +92,29 @@ namespace VentureManagement.Web.Areas.Report.Models
         [Display(Name = "重大事故隐患")]
         public int ThreatCaseLevelMajor { get; set; }
     }
+
+    public class ThreatCaseStatistics
+    {
+        [Required(ErrorMessage = "必填")]
+        [Display(Name = "隐患大类")]
+        public string ThreatCaseCategory { get; set; }
+
+        [Required(ErrorMessage = "必填")]
+        [Display(Name = "隐患小类")]
+        public string ThreatCaseType { get; set; }
+
+        [Required(ErrorMessage = "必填")]
+        [Display(Name = "发生频次")]
+        public int Frequency { get; set; }
+
+        [Required(ErrorMessage = "必填")]
+        [Display(Name = "隐患预警等级")]
+        public string ThreatCaseLevel { get; set; }
+
+        [Required(ErrorMessage = "必填")]
+        [Display(Name = "建议")]
+        public string Suggest { get; set; }
+
+//        public const string THREATCASELEVEL_MAJOR = "重大事故隐患";
+    }
 }

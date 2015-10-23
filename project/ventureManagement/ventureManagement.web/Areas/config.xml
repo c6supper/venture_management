@@ -25,6 +25,7 @@
     <!--<menu name="ProjectThreatCaseReport" display = "项目隐患预警报表" />
     <menu name="DepartmentThreatCaseReport" display = "部门隐患预警报表" />-->
     <menu name="ThreatCaseReport" display = "隐患预警报表" />
+    <menu name="ThreatCaseStatistics" display = "隐患预警统计分析" />
     <menu name="Threat" display = "隐患排查预警管理" />
     <menu name="CreateThreatCase" display = "隐患排查预警申报" />
     <menu name="ThreatCase" display = "隐患排查预警库" />
