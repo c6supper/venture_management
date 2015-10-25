@@ -1,5 +1,6 @@
 ﻿@using Ext.Net
 @using Ext.Net.MVC
+@using VentureManagement.Models
 @model VentureManagement.Models.ThreatCase
 @{
     ViewBag.Title = "新建隐患预警";
@@ -59,11 +60,11 @@
             var risk = App.ThreatCaseSeverityId.getValue() * App.ThreatCasePassibilityId.getValue();
             App.ThreatCaseRiskId.setValue(risk);
             if (risk >= 100)
-                App.ThreatCaseLevelId.setValue("重大事故隐患");
+                App.ThreatCaseLevelId.setValue("重大隐患");
             else if(risk >= 70)
-                App.ThreatCaseLevelId.setValue("较大事故隐患");
+                App.ThreatCaseLevelId.setValue("一般隐患B类");
             else
-                App.ThreatCaseLevelId.setValue("一般事故隐患");
+                App.ThreatCaseLevelId.setValue("一般隐患A类");
         };
 
         var dateParse = function (value) {
@@ -98,11 +99,12 @@
                       .Text("预警")
                       .Icon(Icon.Disk)
                       .Handler("this.up('form').submit();")
-                      .DirectEvents(de => {
-                            de.Click.Url = Url.Action("TransferTimeInfo");
-                            de.Click.ExtraParams.Add(new Parameter("threatCaseFoundTime", "dateParse(App.ThreatCaseFoundTime.getValue())", ParameterMode.Raw));
-                            de.Click.ExtraParams.Add(new Parameter("threatCaseLimitTime", "dateParse(App.ThreatCaseLimitTime.getValue())", ParameterMode.Raw));
-                      }),                      
+                      .DirectEvents(de =>
+                      {
+                          de.Click.Url = Url.Action("TransferTimeInfo");
+                          de.Click.ExtraParams.Add(new Parameter("threatCaseFoundTime", "dateParse(App.ThreatCaseFoundTime.getValue())", ParameterMode.Raw));
+                          de.Click.ExtraParams.Add(new Parameter("threatCaseLimitTime", "dateParse(App.ThreatCaseLimitTime.getValue())", ParameterMode.Raw));
+                      }),
 
                   X.Button()
                       .Text("取消")
@@ -227,7 +229,7 @@
                                   .ID("UserStore")
                                   .AutoLoad(false)
                                   .Proxy(Html.X().AjaxProxy()
-                                      .Url(Url.Action("GetUsers", "User", new {Area = "Member"}))
+                                      .Url(Url.Action("GetUsers", "User", new { Area = "Member" }))
                                       .ActionMethods(am => am.Read = HttpMethod.POST)
                                       .Reader(Html.X().JsonReader().Root("data"))
                                   )
@@ -241,7 +243,7 @@
                                   )
                               )
                       ),
-                  
+
                    X.FieldSet()
                       .Title("隐患申报复核人")
                       .ID("ThreatCaseReviewerPanel")

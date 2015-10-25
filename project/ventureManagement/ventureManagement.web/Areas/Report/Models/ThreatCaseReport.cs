@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using VentureManagement.Models;
+// ReSharper disable InconsistentNaming
 
 namespace VentureManagement.Web.Areas.Report.Models
 {
@@ -28,15 +30,15 @@ namespace VentureManagement.Web.Areas.Report.Models
         public string ThreatCaseOwner { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "一般事故隐患")]
+        [Display(Name = ThreatCase.THREATCASE_LEVEL_ORDINARY)]
         public int ThreatCaseLevelGeneral { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "较大事故隐患")]
+        [Display(Name = ThreatCase.THREATCASE_LEVEL_MINOR)]
         public int ThreatCaseLevelLarger { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "重大事故隐患")]
+        [Display(Name = ThreatCase.THREATCASE_LEVEL_MAJOR)]
         public int ThreatCaseLevelMajor { get; set; }
 
         public const string THREATCASE_DEPARTMENTNAME = "施工单位";
@@ -44,9 +46,9 @@ namespace VentureManagement.Web.Areas.Report.Models
         public const string THREATCASE_LOCATION = "施工地点";
         public const string THREATCASE_OWNER = "施工责任人";
 
-        public const string THREATCASELEVEL_GENERAL = "一般事故隐患";
-        public const string THREATCASELEVEL_LARGER = "较大事故隐患";
-        public const string THREATCASELEVEL_MAJOR = "重大事故隐患";
+        public const string THREATCASELEVEL_GENERAL = ThreatCase.THREATCASE_LEVEL_ORDINARY;
+        public const string THREATCASELEVEL_LARGER = ThreatCase.THREATCASE_LEVEL_MINOR;
+        public const string THREATCASELEVEL_MAJOR = ThreatCase.THREATCASE_LEVEL_MAJOR;
     }
 
     public class ProjectThreatCaseReport
@@ -59,15 +61,15 @@ namespace VentureManagement.Web.Areas.Report.Models
         public string ProjectName { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "一般事故隐患")]
+        [Display(Name = ThreatCase.THREATCASE_LEVEL_ORDINARY)]
         public int ThreatCaseLevelGeneral { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "较大事故隐患")]
+        [Display(Name = ThreatCase.THREATCASE_LEVEL_MINOR)]
         public int ThreatCaseLevelLarger { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "重大事故隐患")]
+        [Display(Name = ThreatCase.THREATCASE_LEVEL_MAJOR)]
         public int ThreatCaseLevelMajor { get; set; }
     }
 
@@ -81,15 +83,15 @@ namespace VentureManagement.Web.Areas.Report.Models
         public string DepartmentName { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "一般事故隐患")]
+        [Display(Name = ThreatCase.THREATCASE_LEVEL_ORDINARY)]
         public int ThreatCaseLevelGeneral { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "较大事故隐患")]
+        [Display(Name = ThreatCase.THREATCASE_LEVEL_MINOR)]
         public int ThreatCaseLevelLarger { get; set; }
 
         [Required(ErrorMessage = "必填")]
-        [Display(Name = "重大事故隐患")]
+        [Display(Name = ThreatCase.THREATCASE_LEVEL_MAJOR)]
         public int ThreatCaseLevelMajor { get; set; }
     }
 
@@ -115,6 +117,6 @@ namespace VentureManagement.Web.Areas.Report.Models
         [Display(Name = "建议")]
         public string Suggest { get; set; }
 
-//        public const string THREATCASELEVEL_MAJOR = "重大事故隐患";
+//        public const string THREATCASELEVEL_MAJOR = ThreatCase.THREATCASE_LEVEL_MAJOR;
     }
 }

@@ -167,12 +167,16 @@ namespace VentureManagement.Models
                 case STATUS_INVALID:
                     return "STATUS_INVALID";
             }
-            return string.Empty;
+            return String.Empty;
         }
 
         public static string[] GetAllThreatCaseStatus()
         {
             return new string[] { STATUS_WAITCONFIRM, STATUS_WAITACKNOWLEDGE, STATUS_CORRECTING, STATUS_FINISH, STATUS_VERTIFYOK, STATUS_VERTIFYERR };
         }
+
+        public const string THREATCASE_LEVEL_MAJOR = "重大隐患";
+        public const string THREATCASE_LEVEL_MINOR = "一般隐患B类";
+        public const string THREATCASE_LEVEL_ORDINARY = "一般隐患A类";
     }
 }

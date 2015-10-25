@@ -89,14 +89,21 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
                 if (null != _threatCaseService.Add(threatCase))
                 {
-                    X.Msg.Confirm("提示", "隐患申报成功,等待审核.", new MessageBoxButtonsConfig
+                    if (threatCase.ThreatCaseLevel == ThreatCase.THREATCASE_LEVEL_ORDINARY)
                     {
-                        Yes = new MessageBoxButtonConfig
+                        X.Msg.Alert("", "隐患申报成功,等待审核.").Show();
+                    }
+                    else
+                    {
+                        X.Msg.Confirm("提示", "隐患申报成功,等待审核.", new MessageBoxButtonsConfig
                         {
-                            Handler = "document.location.href='/Threat/ThreatCasePrinter/Index?threatCaseId=" + threatCase.ThreatCaseId + "';",
-                            Text = "确定"
-                        }
-                    }).Show();
+                            Yes = new MessageBoxButtonConfig
+                            {
+                                Handler = "document.location.href='/Threat/ThreatCasePrinter/Index?threatCaseId=" + threatCase.ThreatCaseId + "';",
+                                Text = "确定"
+                            }
+                        }).Show();
+                    }
                 }
             }
             catch (Exception ex)

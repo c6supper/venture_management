@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ext.Net.MVC;
+using VentureManagement.Models;
 using VentureManagement.Web.Areas.Report.Models;
 
 namespace VentureManagement.Web.Areas.Report.Controllers
@@ -32,13 +33,13 @@ namespace VentureManagement.Web.Areas.Report.Controllers
                     tcDi[threatCaseReport.DepartmentName] = threatCaseReport;
                     switch (threatcase.ThreatCaseLevel)
                     {
-                        case "一般事故隐患":
+                        case ThreatCase.THREATCASE_LEVEL_ORDINARY:
                             threatCaseReport.ThreatCaseLevelGeneral++;
                             break;
-                        case "较大事故隐患":
+                        case ThreatCase.THREATCASE_LEVEL_MINOR:
                             threatCaseReport.ThreatCaseLevelLarger++;
                             break;
-                        case "重大事故隐患":
+                        case ThreatCase.THREATCASE_LEVEL_MAJOR:
                             threatCaseReport.ThreatCaseLevelMajor++;
                             break;
                     }

@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
     <Compile Include="ContextFactory.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="OrganizationRelationRepository.cs" />
     <Compile Include="OrganizationRepository.cs" />
     <Compile Include="OrganizationRoleRelationRepository.cs" />
