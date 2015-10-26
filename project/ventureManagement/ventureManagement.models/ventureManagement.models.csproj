@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Alarm.cs" />
     <Compile Include="Sms.cs" />
+    <Compile Include="ThreatCaseAttachment.cs" />
     <Compile Include="ThreatCorrection.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="OrganizationRelation.cs" />

@@ -145,8 +145,6 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return this.Direct();
         }
 
-
-
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase[] fileToUpload)
         {
