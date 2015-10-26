@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Ext.Net;
@@ -26,11 +28,28 @@ namespace VentureManagement.Web.Areas.Project.Controllers
 
         public ActionResult UpdateProject(string id, string field, string newValue, string oldValue)
         {
-            X.Msg.Alert("提示", "请检查参数是否正确，项目名/备注/部门名/施工地点/负责人不能为空").Show();
-            return this.Direct();
+            if (newValue == oldValue)
+                return this.RemoteTree(newValue);
+ 
+            try
+            {
+                var projectId = Convert.ToInt32(id);
 
-            return this.RemoteTree(newValue + "_echo");
-            //return this.RemoteTree(false, "Renaming is disabled");
+                var project = _projectService.Find(projectId);
+
+                project.ProjectStatus = newValue;
+                if(newValue == VMProject.STATUS_FINISHED)
+                    project.ProjectFinishTime = DateTime.Now;
+                _projectService.Update(project);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+                X.Msg.Alert("提示", "请检查参数是否正确，项目名/备注/部门名/施工地点/负责人不能为空").Show();
+                return this.RemoteTree(oldValue);
+            }
+
+            return this.RemoteTree(newValue);
         }
 
         public ActionResult GetAllProjects(int start, int limit, int page, string query)
@@ -48,13 +67,13 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             {
                 projects =
                     _projectService.FindPageList(pageIndex, limit, out count,
-                        prj => prj.ProjectName.StartsWith(filter.ToLower())).ToList();
+                        prj => prj.ProjectName.StartsWith(filter.ToLower()) && prj.ProjectStatus == VMProject.STATUS_CONSTRUCTING).ToList();
             }
             else
             {
                 projects =
                     _projectService.FindPageList(pageIndex, limit, out count,
-                        prj => true).ToList();
+                        prj =>prj.ProjectStatus == VMProject.STATUS_CONSTRUCTING).ToList();
             }
 
             return new Paging<VMProject>(projects, count);
@@ -65,6 +84,7 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             var node = new Node
             {
                 Text = project.ProjectName,
+                NodeID = project.ProjectId.ToString(),
                 AttributesObject = new
                 {
                     ProjectId = project.ProjectId,
@@ -75,11 +95,14 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                     UserId = project.User.UserId,
                     UserName = project.User.UserName,
                     DisplayName = project.User.DisplayName,
-                    ProjectStatus = project.ProjectStatus
+                    ProjectStatus = project.ProjectStatus,
+                    ProjectStartTime = project.ProjectStartTime,
+                    ProjectEndTime = project.ProjectFinishTime
                 }
             };
 
-            foreach (var subProject in _projectRelationService.FindList(r => r.SuperProjectId == project.ProjectId,"ProjectRelationId",false).ToArray())
+            foreach (var subProject in _projectRelationService.FindList(r => r.SuperProjectId == project.ProjectId 
+                && r.SubProject.ProjectStatus == VMProject.STATUS_CONSTRUCTING,"ProjectRelationId",false).ToArray())
             {
                 node.Children.Add(RecursiveAddNode(subProject.SubProject));
             }
@@ -106,7 +129,8 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             //    NodeID = VMProject.PROJECT_ROOT
             //};
 
-            foreach (var prj in _projectRelationService.FindList(r=>r.SuperProjectId == VMProject.INVALID_PROJECT,"ProjectRelationId",false)
+            foreach (var prj in _projectRelationService.FindList(r=>r.SuperProjectId == VMProject.INVALID_PROJECT 
+                && r.SubProject.ProjectStatus == VMProject.STATUS_CONSTRUCTING,"ProjectRelationId",false)
                 .ToArray().Select(r=>r.SubProject))
             {
                 nodes.Add(RecursiveAddNode(prj));
@@ -139,7 +163,9 @@ namespace VentureManagement.Web.Areas.Project.Controllers
                 ProjectLocation = projectLocation,
                 OrganizationId = (int)organizationid,
                 UserId = (int)userId,
-                ProjectStatus = VMProject.STATUS_CONSTRUCTING
+                ProjectStatus = VMProject.STATUS_CONSTRUCTING,
+                ProjectStartTime = DateTime.Now,
+                ProjectFinishTime = DateTime.MaxValue
             };
 
             ModelState.Clear();

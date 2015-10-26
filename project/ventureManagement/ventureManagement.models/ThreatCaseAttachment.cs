@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace VentureManagement.Models
 {
-    class ThreatCaseAttachment
+    public class ThreatCaseAttachment
     {
         [Key]
         public int ThreatCaseAttachmentId { get; set; }

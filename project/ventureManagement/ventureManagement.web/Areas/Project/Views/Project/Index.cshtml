@@ -285,7 +285,7 @@
                   .ID("ProjectTreePanel")
                   .Title("工程项目")
                   .Expand(true)
-                  .ColumnWidth(0.6)
+                  .ColumnWidth(0.7)
                   .Collapsible(false)
                   .UseArrows(true)
                   .RootVisible(false)
@@ -311,7 +311,9 @@
                                         X.ModelField().Name("projectLocation"),
                                         X.ModelField().Name("organizationName"),
                                         X.ModelField().Name("displayName"),
-                                        X.ModelField().Name("projectStatus")
+                                        X.ModelField().Name("projectStatus"),
+                                        X.ModelField().Name("projectStartTime").Type(ModelFieldType.Date),
+                                        X.ModelField().Name("projectFinishTime").Type(ModelFieldType.Date)
                                     )
                             )        
                     )
@@ -365,6 +367,10 @@
                       X.Column()
                           .Text("负责人")
                           .DataIndex("displayName"),
+                          
+                      X.DateColumn()
+                          .Text("开工日期").Format("yyyy-MM-dd")
+                          .DataIndex("projectStartTime"),
                           
                       Html.X().Column().DataIndex("projectStatus").Text("施工状态")
                         .Editor(Html.X().ComboBox()
