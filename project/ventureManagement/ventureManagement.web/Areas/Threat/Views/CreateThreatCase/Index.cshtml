@@ -75,6 +75,7 @@
 
 @section menu
 {
+    <form id="fileUpload" enctype="multipart/form-data">
     @(X.Panel()
         .Flex(1)
         .Border(false)
@@ -440,7 +441,14 @@
                           X.TextAreaFor(t => t.ThreatCaseCause).ID("ThreatCaseCauseId").FieldLabel("隐患原因分析").Height(20),
                           X.TextAreaFor(t => t.ThreatCaseCertification).FieldLabel("资质证件使用情况").Height(40),
                           X.TextAreaFor(t => t.ThreatCaseCurrentSecurity).FieldLabel("现有安全设施情况").Height(40),
-                          X.TextAreaFor(t => t.ThreatCaseSuggestion).ID("ThreatCaseSuggestionId").FieldLabel("可选择采取的措施").Height(60)
+                          X.TextAreaFor(t => t.ThreatCaseSuggestion).ID("ThreatCaseSuggestionId").FieldLabel("可选择采取的措施").Height(60),
+                        
+                        X.FileUploadField()
+                            .ID("FileUploadField")
+                            .ButtonOnly(true)
+                            .ButtonText("")
+                            .Icon(Icon.ImageAdd)
+                            .Listeners(ls=>ls.Render.Handler="this.fileInputEl.set({ multiple : 'multiple'});")
                       )
               ),
                 X.Image()
@@ -448,6 +456,5 @@
                     .ColumnWidth(0.2)
                     .StyleSpec("margin-left: 120px;")
         )
-    )
-
+    )</form>
 }
