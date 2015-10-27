@@ -167,7 +167,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                 return this.Direct();
             }
 
-            if (!_orgSerivce.Delete(org))
+            if (!_orgSerivce.Delete(org.OrganizationId))
             {
                 X.Msg.Alert("提示", "删除部门失败，请稍候重试.").Show();
                 return this.Direct();

@@ -51,7 +51,6 @@
     <Compile Include="ThreatCorrection.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="OrganizationRelation.cs" />
-    <Compile Include="OrganizationRoleRelation.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="VMProject.cs" />
     <Compile Include="ProjectRelation.cs" />
@@ -60,7 +59,6 @@
     <Compile Include="ThreatCase.cs" />
     <Compile Include="UserConfig.cs" />
     <Compile Include="UserOrganizationRelation.cs" />
-    <Compile Include="UserProjectRelation.cs" />
     <Compile Include="UserRoleRelation.cs" />
     <Compile Include="Users.cs" />
   </ItemGroup>

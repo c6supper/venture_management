@@ -19,6 +19,9 @@ namespace VentureManagement.Models
         [Required]
         public string AttachmentUrl { get; set; }
 
+        [Required]
+        public string AttachmentDisplayName { get; set; }
+
         public virtual ThreatCase ThreatCase { get; set; }
     }
 }

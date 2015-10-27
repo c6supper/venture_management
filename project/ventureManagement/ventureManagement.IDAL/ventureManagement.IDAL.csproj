@@ -54,7 +54,6 @@
     <Compile Include="InterfaceBaseRepository.cs" />
     <Compile Include="InterfaceOrganizationRepository.cs" />
     <Compile Include="InterfaceOrganizationRelationRepository.cs" />
-    <Compile Include="InterfaceOrganizationRoleRelationRepository.cs" />
     <Compile Include="InterfacePermissionRepository.cs" />
     <Compile Include="InterfaceProjectRelationRepository.cs" />
     <Compile Include="InterfaceProjectRepository.cs" />
@@ -62,7 +61,6 @@
     <Compile Include="InterfaceSmsRepository.cs" />
     <Compile Include="InterfaceThreatCaseRepository.cs" />
     <Compile Include="InterfaceUserOrganizationRelationRepository.cs" />
-    <Compile Include="InterfaceUserProjectRelationRepository.cs" />
     <Compile Include="InterfaceUserRepository.cs" />
     <Compile Include="InterfaceUserRoleRelatioRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

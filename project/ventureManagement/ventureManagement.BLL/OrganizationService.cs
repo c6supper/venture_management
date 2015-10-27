@@ -116,5 +116,48 @@ namespace VentureManagement.BLL
         {
             return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, whereLamdba, "OrganizationName", false);
         }
+
+        public bool Delete(int orgId)
+        {
+            using (var transaction = CurrentRepository.BeginTransaction())
+            {
+                try
+                {
+                    var org = Find(orgId);
+                    if (org == null)
+                        return true;
+
+                    var orgrService = new OrganizationRelationService();
+                    if (orgrService.FindList(orgr => orgr.SubordinateDepartmentId == orgId,
+                        "OrganizationId", false).ToArray().Any(orgr => !orgrService.Delete(orgr)))
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+
+                    var uorgrService = new UserOrganizationRelationService();
+                    if (uorgrService.FindList(uorgr => uorgr.OrganizationId == orgId,
+                        "UserOrganizationRelationId", false).ToArray().Any(uorgr => !uorgrService.Delete(uorgr)))
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+
+                    if (!Delete(org))
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Debug.Print(ex.Message);
+                }
+                transaction.Commit();
+            }
+
+            return true;
+        }
     }
 }

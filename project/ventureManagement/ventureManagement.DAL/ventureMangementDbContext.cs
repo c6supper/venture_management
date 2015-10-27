@@ -18,13 +18,11 @@ namespace VentureManagement.DAL
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRoleRelation> UserRoleRelations { get; set; }
         public DbSet<UserConfig> UserConfig { get; set; }
-        public DbSet<OrganizationRoleRelation> UserOrganizationRoleRelation { get; set; }
         public DbSet<OrganizationRelation> OrganizationRelation { get; set; }
         public DbSet<Organization> Organization { get; set; }
         public DbSet<UserOrganizationRelation> UserOrganizationRelation { get; set; }
         public DbSet<VMProject> Project { get; set; }
         public DbSet<ProjectRelation> ProjectRelation { get; set; }
-        public DbSet<UserProjectRelation> UserProjectRelation { get; set; }
         public DbSet<ThreatCase> ThreatCase { get; set; }
         public DbSet<Sms> Sms { get; set; }
         public VentureManagementDbContext()

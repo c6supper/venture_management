@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace VentureManagement.Web.Areas.Report
+namespace VentureManagement.Web.Areas.ThreatReport
 {
     public class ReportAreaRegistration : AreaRegistration
     {
@@ -8,15 +8,15 @@ namespace VentureManagement.Web.Areas.Report
         {
             get
             {
-                return "Report";
+                return "ThreatReport";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
-                "Report_default",
-                "Report/{controller}/{action}/{id}",
+                "ThreatReport_default",
+                "ThreatReport/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
         }

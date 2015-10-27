@@ -15,7 +15,6 @@ namespace VentureManagement.DAL
 
         public static InterfaceProjectRepository ProjectRepository { get { return new ProjectRepository(); } }
         public static InterfaceProjectRelationRepository ProjectRelationRepository { get { return new ProjectRelationRepository(); } }
-        public static InterfaceUserProjectRelationRepository UserProjectRelationRepository { get { return new UserProjectRelationRepository(); } }
         
         public static InterfaceUserRepository UserRepository { get { return new UserRepository(); } }
 
@@ -24,8 +23,6 @@ namespace VentureManagement.DAL
         public static InterfaceUserRoleRelationRepository UserRoleRelationRepository { get { return new UserRoleRelationRepository(); } }
 
         public static InterfaceOrganizationRelationRepository OrganizationRelationRepository { get { return new OrganizationRelationRepository(); } }
-
-        public static InterfaceOrganizationRoleRelationRepository OrganizationRoleRelationRepository { get { return new OrganizationRoleRelationRepository(); } }
 
         public static InterfaceOrganizationRepository OrganizationRepository { get { return new OrganizationRepository(); } }
 

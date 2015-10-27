@@ -10,6 +10,35 @@
 
 @section headtag
 {
+    <script src="@Url.Content("~/resources/js/ImageUploader.js")"></script>
+    <script src="@Url.Content("~/resources/js/jquery-1.7.1.min.js")"></script>
+    <script src="@Url.Content("~/resources/js/jquery-ui-1.8.17.custom.min.js")"></script>
+
+    <script>
+        var uploader = null;
+        var initUploader = function() {
+            uploader = new ImageUploader({
+                inputElement: document.getElementById('fileInputElement'),
+                uploadUrl: 'api/image',
+                onProgress: function (event) {
+                    $('#progress').text('Completed ' + event.done + ' files of ' + event.total + ' total.');
+                    $('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
+                },
+                onFileComplete: function (event, file) {
+                    $('#fileProgress').append('Finished file ' + file.fileName + ' with response from server ' + event.target.status + '<br />');
+                },
+                onComplete: function (event) {
+                    $('#progress').text('Completed all ' + event.done + ' files!');
+                    $('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
+                },
+                maxWidth: 1024,
+                quality: 0.90,
+                //timeout: 5000,
+                debug: true
+            });
+        }
+    </script>
+
     <style>
         .search-item {
             font          : normal 11px tahoma, arial, helvetica, sans-serif;
@@ -81,7 +110,7 @@
             }
 
             if (el.files.length > 4) {
-                alert("最多允许上传4张图片");
+                alert("仅允许上传不超过4张图片");
                 return ret;
             }
 
@@ -104,10 +133,9 @@
 
         var SetMultipleUpload = function (fileupload) {
             fileupload.fileInputEl.set({ multiple: 'multiple' });
-
-            if (Ext.isIE) {
-                alert('IE不支持多文件上传, 推荐使用Firefox或Chrome');
-            }
+            //if (Ext.isIE) {
+            //    alert('IE不支持多文件上传, 推荐使用Firefox或Chrome');
+            //}
         }
     </script>
 }
@@ -483,29 +511,38 @@
                               X.TextAreaFor(t => t.ThreatCaseSuggestion).ID("ThreatCaseSuggestionId").FieldLabel("可选择采取的措施").Height(60),
                         
                               X.Container()
-                                  .Layout(LayoutType.Column)
-                                  .Items(
-                                      X.FileUploadField()
-                                          .ColumnWidth(0.9)
-                                          .FieldLabel("选择要上传的图片:")
-                                          .ID("FileUploadField")
-                                          .ButtonText("")
-                                          .Icon(Icon.ImageAdd)
-                                          .Listeners(ls =>
-                                          {
-                                              ls.Render.Handler = "SetMultipleUpload(this);";
-                                              ls.Change.Handler = "if(!UpdateUploadInfo(this.fileInputEl.dom,this)) {this.reset();SetMultipleUpload(this)}";
-                                          }),
-                                      X.Button()
-                                        .ColumnWidth(0.1)
-                                        .Text("上传")
-                                        .Icon(Icon.DiskUpload)
-                                  ),
-                              X.DrawComponent()
-                                .ID("imageDraw")
-                                .Region(Region.Center)
-                                .ViewBox(false)
-                                .StyleSpec("background:white;")
+                                .Content(
+                                    @<text>
+                                        <h3>The ImageUploader in all its glory!</h3>
+	                                    <input id="fileInputElement" type="file" multiple />
+	                                    <div id="progress"></div>
+	                                    <div id="fileProgress"></div>
+	                                    <div id="progressbar"></div>
+                                    </text>)
+                                .Listeners(ls=>ls.AfterRender.Handler="initUploader();")
+                                //  .Layout(LayoutType.Column)
+                                //  .Items(
+                                //              X.FileUploadField()
+                                //                  .ColumnWidth(0.9)
+                                //                  .FieldLabel("选择要上传的图片:")
+                                //                  .ID("FileUploadField")
+                                //                  .ButtonText("")
+                                //                  .Icon(Icon.ImageAdd)
+                                //                  .Listeners(ls =>
+                                //                  {
+                                //                      ls.Render.Handler = "SetMultipleUpload(this);";
+                                //                      ls.Change.Handler = "if(!UpdateUploadInfo(this.fileInputEl.dom,this)) {this.reset();SetMultipleUpload(this)}";
+                                //                  }),
+                                //              X.Button()
+                                //                .ColumnWidth(0.1)
+                                //                .Text("上传")
+                                //                .Icon(Icon.DiskUpload)
+                                //  ),
+                                //X.DrawComponent()
+                                //    .ID("imageDraw")
+                                //    .Region(Region.Center)
+                                //    .ViewBox(false)
+                                //    .StyleSpec("background:white;")
                           )
                   ),
               X.Image()
