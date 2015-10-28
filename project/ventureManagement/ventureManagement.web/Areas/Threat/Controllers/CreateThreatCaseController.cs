@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -146,16 +147,21 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
         }
 
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase[] fileToUpload)
+        public ActionResult HandleImageUpload(string base64Data)
         {
+            if (base64Data == null) throw new ArgumentNullException("base64Data");
 
-            foreach (var file in fileToUpload)
-            {
-                string path = System.IO.Path.Combine(Server.MapPath("~/App_Data"), System.IO.Path.GetFileName(file.FileName));
-                file.SaveAs(path);
-            }
-
-            return RedirectToAction("Index");
+            //counter++;
+            //File of = new File("target/image"+counter+".jpg");
+            //FileOutputStream osf = new FileOutputStream(of);
+            //try 
+            //{
+            //    osf.write(Base64.decode(base64data));
+            //    osf.flush();
+            //} finally {
+            //    osf.close();
+            //}
+            return Content(base64Data.Length.ToString());
         }
     }
 }

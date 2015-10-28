@@ -19,23 +19,30 @@
         var initUploader = function() {
             uploader = new ImageUploader({
                 inputElement: document.getElementById('fileInputElement'),
-                uploadUrl: 'api/image',
-                onProgress: function (event) {
+                uploadUrl: 'HandleImageUpload',
+                onProgress: function(event) {
                     $('#progress').text('Completed ' + event.done + ' files of ' + event.total + ' total.');
                     $('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
                 },
-                onFileComplete: function (event, file) {
+                onFileComplete: function(event, file) {
                     $('#fileProgress').append('Finished file ' + file.fileName + ' with response from server ' + event.target.status + '<br />');
                 },
-                onComplete: function (event) {
+                onComplete: function(event) {
                     $('#progress').text('Completed all ' + event.done + ' files!');
                     $('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
                 },
-                maxWidth: 1024,
+                maxWidth: 640,
                 quality: 0.90,
                 //timeout: 5000,
+                displayMaxWidth:  '100px',
+                displayMaxHeight: '100px',
+                imgContainer: document.getElementById('imgContainer'),
                 debug: true
             });
+        }
+        var resetPage = function() {
+            //this.up('form').reset();
+            document.location.reload();
         }
     </script>
 
@@ -147,7 +154,7 @@
           .Flex(1)
           .Border(false)
           .BodyStyle("background-color: transparent;")
-          .LayoutConfig(new HBoxLayoutConfig() { Align = HBoxAlign.Stretch })
+          .LayoutConfig(new HBoxLayoutConfig() {Align = HBoxAlign.Stretch})
           .Items(
               X.FormPanel()
                   .ID("ThreatCasePanel")
@@ -176,7 +183,7 @@
 
                       X.Button()
                           .Text("取消")
-                          .OnClientClick("this.up('form').reset();")
+                          .OnClientClick("resetPage();")
                   )
                   .Items(
                       X.Container()
@@ -297,7 +304,7 @@
                                       .ID("UserStore")
                                       .AutoLoad(false)
                                       .Proxy(Html.X().AjaxProxy()
-                                          .Url(Url.Action("GetUsers", "User", new { Area = "Member" }))
+                                          .Url(Url.Action("GetUsers", "User", new {Area = "Member"}))
                                           .ActionMethods(am => am.Read = HttpMethod.POST)
                                           .Reader(Html.X().JsonReader().Root("data"))
                                       )
@@ -504,45 +511,45 @@
                               //X.DateField().ID("ThreatCaseLimitTime").FieldLabel("整改要求完成时间").Value(DateTime.Now.AddDays(7)),
                               X.DateFieldFor(t => t.ThreatCaseLimitTime).ID("ThreatCaseLimitDate").FieldLabel("整改要求完成日期").Value(DateTime.Now.AddDays(7)),
                               X.TimeFieldFor(t => t.ThreatCaseLimitTime).ID("ThreatCaseLimitTime").FieldLabel("整改要求完成时间").Value(DateTime.Now.AddDays(7)),
-                                                                
+
                               X.TextAreaFor(t => t.ThreatCaseCause).ID("ThreatCaseCauseId").FieldLabel("隐患原因分析").Height(20),
                               X.TextAreaFor(t => t.ThreatCaseCertification).FieldLabel("资质证件使用情况").Height(40),
                               X.TextAreaFor(t => t.ThreatCaseCurrentSecurity).FieldLabel("现有安全设施情况").Height(40),
                               X.TextAreaFor(t => t.ThreatCaseSuggestion).ID("ThreatCaseSuggestionId").FieldLabel("可选择采取的措施").Height(60),
-                        
+
                               X.Container()
-                                .Content(
-                                    @<text>
-                                        <h3>The ImageUploader in all its glory!</h3>
-	                                    <input id="fileInputElement" type="file" multiple />
-	                                    <div id="progress"></div>
-	                                    <div id="fileProgress"></div>
-	                                    <div id="progressbar"></div>
-                                    </text>)
-                                .Listeners(ls=>ls.AfterRender.Handler="initUploader();")
-                                //  .Layout(LayoutType.Column)
-                                //  .Items(
-                                //              X.FileUploadField()
-                                //                  .ColumnWidth(0.9)
-                                //                  .FieldLabel("选择要上传的图片:")
-                                //                  .ID("FileUploadField")
-                                //                  .ButtonText("")
-                                //                  .Icon(Icon.ImageAdd)
-                                //                  .Listeners(ls =>
-                                //                  {
-                                //                      ls.Render.Handler = "SetMultipleUpload(this);";
-                                //                      ls.Change.Handler = "if(!UpdateUploadInfo(this.fileInputEl.dom,this)) {this.reset();SetMultipleUpload(this)}";
-                                //                  }),
-                                //              X.Button()
-                                //                .ColumnWidth(0.1)
-                                //                .Text("上传")
-                                //                .Icon(Icon.DiskUpload)
-                                //  ),
-                                //X.DrawComponent()
-                                //    .ID("imageDraw")
-                                //    .Region(Region.Center)
-                                //    .ViewBox(false)
-                                //    .StyleSpec("background:white;")
+                                  .Content(
+                                      @<text>
+                                          <h3>请选择你要上传的图片:</h3>
+                                          <input id="fileInputElement" type="file" multiple/>
+                                          <div id="progress"></div>
+                                          <div id="fileProgress"></div>
+                                          <div id="progressbar"></div>
+                                       </text>)
+                                  .Listeners(ls => ls.AfterRender.Handler = "initUploader();")
+                          //  .Layout(LayoutType.Column)
+                          //  .Items(
+                          //              X.FileUploadField()
+                          //                  .ColumnWidth(0.9)
+                          //                  .FieldLabel("选择要上传的图片:")
+                          //                  .ID("FileUploadField")
+                          //                  .ButtonText("")
+                          //                  .Icon(Icon.ImageAdd)
+                          //                  .Listeners(ls =>
+                          //                  {
+                          //                      ls.Render.Handler = "SetMultipleUpload(this);";
+                          //                      ls.Change.Handler = "if(!UpdateUploadInfo(this.fileInputEl.dom,this)) {this.reset();SetMultipleUpload(this)}";
+                          //                  }),
+                          //              X.Button()
+                          //                .ColumnWidth(0.1)
+                          //                .Text("上传")
+                          //                .Icon(Icon.DiskUpload)
+                          //  ),
+                          //X.DrawComponent()
+                          //    .ID("imageDraw")
+                          //    .Region(Region.Center)
+                          //    .ViewBox(false)
+                          //    .StyleSpec("background:white;")
                           )
                   ),
               X.Image()
@@ -550,4 +557,5 @@
                   .ColumnWidth(0.2)
                   .StyleSpec("margin-left: 120px;")
           ))</form>
+    <div id="imgContainer"></div>
 }

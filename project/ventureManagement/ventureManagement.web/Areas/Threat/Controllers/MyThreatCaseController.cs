@@ -120,10 +120,10 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                         switch (updatedThreatCase.ThreatCaseStatus)
                         {
                             case ThreatCase.STATUS_WAITACKNOWLEDGE:
-                                message = "施工单位" + updatedThreatCase.Project.Organization.OrganizationName +
-                                          "在施工场所" + updatedThreatCase.Project.ProjectLocation +
-                                          "存在" + updatedThreatCase.ThreatCaseCategory + "," + updatedThreatCase.ThreatCaseType +
-                                          "类安全隐患,请于" + updatedThreatCase.ThreatCaseLimitTime.ToString("yyyy年MM月dd日") + "之前完成整改.";
+                                message = updatedThreatCase.Project.Organization.OrganizationName + "项目部" + 
+                                          updatedThreatCase.Project.ProjectLocation + "场所" + 
+                                          "存在" + updatedThreatCase.ThreatCaseType +
+                                          "小类安全隐患,请于" + updatedThreatCase.ThreatCaseLimitTime.ToString("yyyy年MM月dd日") + "之前完成整改.";
                                 sms = Common.SmsHelper.SendSms(updatedThreatCase.ThreatCaseOwnerId, message);
                                 break;
                             case ThreatCase.STATUS_WAITCONFIRM:
