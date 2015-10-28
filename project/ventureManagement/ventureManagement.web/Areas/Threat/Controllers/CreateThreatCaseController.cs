@@ -8,22 +8,24 @@ using System.Web;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
+using Ext.Net.Utilities;
 using VentureManagement.BLL;
 using VentureManagement.IBLL;
 using VentureManagement.Models;
 using VentureManagement.Web.Areas.Project.Controllers;
 using VentureManagement.Web.Attributes;
-using PartialViewResult = Ext.Net.MVC.PartialViewResult;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
     [AccessDeniedAuthorize(Roles = Role.PERIMISSION_CREATETHREATCASE)]
     public class CreateThreatCaseController : ThreatBaseController
     {
+        private const string ImgKey = "IMGKEY";
         //
         // GET: /Threat/CreateThreatCase/
         public ActionResult Index()
         {
+            Session[ImgKey] = null;
             return View(new ThreatCase());
         }
 
@@ -59,6 +61,11 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return this.Store(projects.Data, projects.TotalRecords);
         }
 
+        private bool SaveAttachment()
+        {
+            
+        }
+
         public ActionResult Submit(ThreatCase threatCase)
         {
             ModelState.Clear();
@@ -88,23 +95,29 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                     threatCase.ThreatCaseLimitTime = threatCase.ThreatCaseLimitTime.AddSeconds(Convert.ToDateTime(TempData["threatCaseLimitTime"]).TimeOfDay.TotalSeconds);                    
                 }
 
+                if (!SaveAttachment())
+                {
+                    X.Msg.Alert("", "保存图片失败，请重新上传图片.").Show();
+                    return this.FormPanel();
+                }
+
                 if (null != _threatCaseService.Add(threatCase))
                 {
-                    if (threatCase.ThreatCaseLevel == ThreatCase.THREATCASE_LEVEL_ORDINARY)
+                    var handler = "resetPage()";
+                    if (threatCase.ThreatCaseLevel != ThreatCase.THREATCASE_LEVEL_ORDINARY)
                     {
-                        X.Msg.Alert("", "隐患申报成功,等待审核.").Show();
+                        handler = "document.location.href='/Threat/ThreatCasePrinter/Index?threatCaseId=" +
+                            threatCase.ThreatCaseId + "';";
                     }
-                    else
+
+                    X.Msg.Confirm("提示", "隐患申报成功,等待审核.", new MessageBoxButtonsConfig
                     {
-                        X.Msg.Confirm("提示", "隐患申报成功,等待审核.", new MessageBoxButtonsConfig
+                        Yes = new MessageBoxButtonConfig
                         {
-                            Yes = new MessageBoxButtonConfig
-                            {
-                                Handler = "document.location.href='/Threat/ThreatCasePrinter/Index?threatCaseId=" + threatCase.ThreatCaseId + "';",
-                                Text = "确定"
-                            }
-                        }).Show();
-                    }
+                            Handler = handler,
+                            Text = "确定"
+                        }
+                    }).Show();
                 }
             }
             catch (Exception ex)
@@ -151,16 +164,19 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
         {
             if (base64Data == null) throw new ArgumentNullException("base64Data");
 
-            //counter++;
-            //File of = new File("target/image"+counter+".jpg");
-            //FileOutputStream osf = new FileOutputStream(of);
-            //try 
-            //{
-            //    osf.write(Base64.decode(base64data));
-            //    osf.flush();
-            //} finally {
-            //    osf.close();
-            //}
+            if (!base64Data.IsEmpty())
+            {
+                var fileConent = Session[ImgKey] as string;
+                if (!string.IsNullOrEmpty(fileConent))
+                    fileConent = ";";
+                fileConent += base64Data;
+                Session[ImgKey] = fileConent;
+            }
+            else
+            {
+                Session[ImgKey] = null;
+            }
+
             return Content(base64Data.Length.ToString());
         }
     }

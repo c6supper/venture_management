@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ImageUploader.js - a client-side image resize and upload javascript module
  * 
  * @author Ross Turner (https://github.com/zsinj)
@@ -13,6 +13,15 @@ var ImageUploader = function(config) {
     this.config.inputElement.addEventListener('change', function(event) {
         var fileArray = [];
         var cursor = 0;
+
+        This.reset();
+
+        if (This.config.inputElement.files.length > This.config.maxFileCount) {
+            alert('仅允许上传不超过' + This.config.maxFileCount + '张图片');
+            This.config.inputElement.value = "";
+            return;
+        }
+
         for (; cursor < This.config.inputElement.files.length; ++cursor) {
             fileArray.push(This.config.inputElement.files[cursor]);
         }
@@ -25,6 +34,7 @@ var ImageUploader = function(config) {
         if (This.config.onProgress) {
             This.config.onProgress(This.progressObject);
         }
+
         This.handleFileList(fileArray, This.progressObject);
     }, false);
 
@@ -32,6 +42,26 @@ var ImageUploader = function(config) {
         console.log('Initialised ImageUploader for ' + This.config.inputElement);
     }
 
+};
+
+ImageUploader.prototype.reset = function (fileArray) {
+    var This = this;
+    if (This.config.debug) {
+        var pchildren = This.config.workspace.childNodes;
+        for (; pchildren.length > 0;) {
+            This.config.workspace.removeChild(pchildren[0]);
+        }
+    }
+
+    var xhr = new XMLHttpRequest();
+    var value = JSON.stringify({
+        base64Data: ""
+    });
+    xhr.open("POST", this.config.uploadUrl, true);
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    xhr.setRequestHeader('Content-Length', value.length);
+
+    xhr.send(value);
 };
 
 ImageUploader.prototype.handleFileList = function(fileArray) {

@@ -21,15 +21,15 @@
                 inputElement: document.getElementById('fileInputElement'),
                 uploadUrl: 'HandleImageUpload',
                 onProgress: function(event) {
-                    $('#progress').text('Completed ' + event.done + ' files of ' + event.total + ' total.');
-                    $('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
+                    //$('#progress').text('Completed ' + event.done + ' files of ' + event.total + ' total.');
+                    //$('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
                 },
                 onFileComplete: function(event, file) {
-                    $('#fileProgress').append('Finished file ' + file.fileName + ' with response from server ' + event.target.status + '<br />');
+                    //$('#fileProgress').append('Finished file ' + file.fileName + ' with response from server ' + event.target.status + '<br />');
                 },
                 onComplete: function(event) {
-                    $('#progress').text('Completed all ' + event.done + ' files!');
-                    $('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
+                    //$('#progress').text('Completed all ' + event.done + ' files!');
+                    //$('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
                 },
                 maxWidth: 640,
                 quality: 0.90,
@@ -37,11 +37,12 @@
                 displayMaxWidth:  '100px',
                 displayMaxHeight: '100px',
                 imgContainer: document.getElementById('imgContainer'),
+                maxFileCount:4,
                 debug: true
             });
         }
         var resetPage = function() {
-            //this.up('form').reset();
+            document.getElementById('fileInputElement').value = '';
             document.location.reload();
         }
     </script>
@@ -107,43 +108,6 @@
         var dateParse = function (value) {
             return Ext.Date.format(value, 'Y-m-d\\TH:i:s');
         };
-
-        var UpdateUploadInfo = function (el,fileUpload) {
-
-            var ret = false;
-
-            if (Ext.isIE) {
-                return ret;
-            }
-
-            if (el.files.length > 4) {
-                alert("仅允许上传不超过4张图片");
-                return ret;
-            }
-
-            var size = 0;
-            var names = '';
-            for (var fileIndex = 0; fileIndex < el.files.length; fileIndex++) {
-                var file = el.files[fileIndex];
-                names += file.name + ';';
-                if (file.size > 100 * 1024) {
-                    alert("图片 " + file.name + ' 超过了100K');
-                    return ret;
-                }
-                //alert(file.name+" "+file.type+" "+file.size);
-                size += file.size;
-            }
-
-            fileUpload.value = names;
-            return true;
-        }
-
-        var SetMultipleUpload = function (fileupload) {
-            fileupload.fileInputEl.set({ multiple: 'multiple' });
-            //if (Ext.isIE) {
-            //    alert('IE不支持多文件上传, 推荐使用Firefox或Chrome');
-            //}
-        }
     </script>
 }
 
@@ -518,38 +482,15 @@
                               X.TextAreaFor(t => t.ThreatCaseSuggestion).ID("ThreatCaseSuggestionId").FieldLabel("可选择采取的措施").Height(60),
 
                               X.Container()
+                                  .MinHeight(200)
+                                  .ID("UploadContainer")
                                   .Content(
                                       @<text>
                                           <h3>请选择你要上传的图片:</h3>
-                                          <input id="fileInputElement" type="file" multiple/>
-                                          <div id="progress"></div>
-                                          <div id="fileProgress"></div>
-                                          <div id="progressbar"></div>
+                                          <div id="fileInputContainer"><input id="fileInputElement" type="file" multiple/></div>
+                                          <div id="imgContainer"></div>
                                        </text>)
                                   .Listeners(ls => ls.AfterRender.Handler = "initUploader();")
-                          //  .Layout(LayoutType.Column)
-                          //  .Items(
-                          //              X.FileUploadField()
-                          //                  .ColumnWidth(0.9)
-                          //                  .FieldLabel("选择要上传的图片:")
-                          //                  .ID("FileUploadField")
-                          //                  .ButtonText("")
-                          //                  .Icon(Icon.ImageAdd)
-                          //                  .Listeners(ls =>
-                          //                  {
-                          //                      ls.Render.Handler = "SetMultipleUpload(this);";
-                          //                      ls.Change.Handler = "if(!UpdateUploadInfo(this.fileInputEl.dom,this)) {this.reset();SetMultipleUpload(this)}";
-                          //                  }),
-                          //              X.Button()
-                          //                .ColumnWidth(0.1)
-                          //                .Text("上传")
-                          //                .Icon(Icon.DiskUpload)
-                          //  ),
-                          //X.DrawComponent()
-                          //    .ID("imageDraw")
-                          //    .Region(Region.Center)
-                          //    .ViewBox(false)
-                          //    .StyleSpec("background:white;")
                           )
                   ),
               X.Image()
@@ -557,5 +498,4 @@
                   .ColumnWidth(0.2)
                   .StyleSpec("margin-left: 120px;")
           ))</form>
-    <div id="imgContainer"></div>
 }
