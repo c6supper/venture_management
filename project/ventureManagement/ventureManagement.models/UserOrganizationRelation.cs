@@ -8,13 +8,15 @@ namespace VentureManagement.Models
         [Key]
         public int UserOrganizationRelationId { get; set; }
 
-        [Required,ForeignKey("User")]
+        [Required]
         public int UserId { get; set; }
 
-        [Required, ForeignKey("Organization")]
+        [Required]
         public int OrganizationId { get; set; }
 
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
+        [ForeignKey("OrganizationId")]
         public virtual Organization Organization { get; set; } 
     }
 }

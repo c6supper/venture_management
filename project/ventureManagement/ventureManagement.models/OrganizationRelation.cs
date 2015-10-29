@@ -12,14 +12,12 @@ namespace VentureManagement.Models
         /// 上级部门ID
         /// </summary>
         [Required]
-        [ForeignKey("SuperiorDepartment"), Column(Order = 0)]
         public int SuperiorDepartmentId { get; set; }
 
         /// <summary>
         /// 下级部门ID
         /// </summary>
         [Required]
-        [ForeignKey("SubordinateDepartment"), Column(Order = 1)]
         public int SubordinateDepartmentId { get; set; }
 
         /// <summary>
@@ -29,7 +27,9 @@ namespace VentureManagement.Models
         [Display(Name = "说明")]
         public string Description { get; set; }
 
+        [ForeignKey("SuperiorDepartmentId")]
         public virtual Organization SuperiorDepartment { get; set; }
+        [ForeignKey("SubordinateDepartmentId")]
         public virtual Organization SubordinateDepartment { get; set; }
     }
 }

@@ -367,6 +367,7 @@
     <Content Include="Views\Shared\EditorTemplates\User.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Organization.cshtml" />
     <Content Include="Views\ForgotPassword\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ThreatCaseAttachment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Member\Content\" />

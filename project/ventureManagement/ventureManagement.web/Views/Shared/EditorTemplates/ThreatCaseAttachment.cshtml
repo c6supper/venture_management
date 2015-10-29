@@ -1,0 +1,31 @@
+﻿@model VentureManagement.Models.ThreatCaseAttachment
+
+@{
+    var title = ViewData.ContainsKey("title") ? ViewData["title"].ToString() : "";
+    var itemId = ViewData.ContainsKey("itemId") ? ViewData["itemId"].ToString() : "";
+    var detail = ViewData.ContainsKey("detail");
+    var url = ViewData.ContainsKey("url") ? ViewData["url"].ToString() : "";
+}
+
+<div>asdfasdfasdfasdf</div>
+
+@*@(
+    Html.X().Viewport()
+        .LayoutConfig(new VBoxLayoutConfig { Align = VBoxAlign.Center, Pack = BoxPack.Center })
+        .Items(
+            Html.X().DrawComponent()
+            .Items(i =>
+            {
+                i.Add(Html.X().Sprite()
+                    .SpriteID("img")
+                    .Type(SpriteType.Image)
+                    .Src(Url.Content("~/resources/images/404.png"))
+                    .X(160)
+                    .Y(120)
+                    .Width(320)
+                    .Height(240)
+                    );
+            }
+        )
+    )
+)*@

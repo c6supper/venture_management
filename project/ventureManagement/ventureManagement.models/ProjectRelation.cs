@@ -14,13 +14,13 @@ namespace VentureManagement.Models
         public int ProjectRelationId { get; set; }
 
         [Required]
-        [ForeignKey("SubProject"), Column(Order = 0)]
         public int SubProjectId { get; set; }
 
         public int SuperProjectId { get; set; }
 
         public string Description { get; set; }
 
+        [ForeignKey("SubProjectId")]
         public virtual VMProject SubProject { get; set; }
     }
 }

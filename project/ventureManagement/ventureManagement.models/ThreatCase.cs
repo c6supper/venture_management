@@ -89,19 +89,15 @@ namespace VentureManagement.Models
 
         [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患上报人")]
-        [ForeignKey("ThreatCaseReporter")]
         public int ThreatCaseReporterId { get; set; }
         [Required(ErrorMessage = "必填")]
         [Display(Name = "施工方责任人")]
-        [ForeignKey("ThreatCaseOwner")]
         public int ThreatCaseOwnerId { get; set; }
         [Required(ErrorMessage = "必填")]
         [Display(Name = "确认人")]
-        [ForeignKey("ThreatCaseConfirmer")]
         public int ThreatCaseConfirmerId { get; set; }
         [Required(ErrorMessage = "必填")]
         [Display(Name = "复查人")]
-        [ForeignKey("ThreatCaseReviewer"), Column(Order = 3)]
         public int ThreatCaseReviewerId { get; set; }
 
         [Display(Name = "状态")]
@@ -116,9 +112,13 @@ namespace VentureManagement.Models
 
         public virtual VMProject Project { get; set; }
 
+        [ForeignKey("ThreatCaseReporterId")]
         public virtual User ThreatCaseReporter { get; set; }
+        [ForeignKey("ThreatCaseOwnerId")]
         public virtual User ThreatCaseOwner { get; set; }
+        [ForeignKey("ThreatCaseReviewerId")]
         public virtual User ThreatCaseReviewer { get; set; }
+        [ForeignKey("ThreatCaseConfirmerId")]
         public virtual User ThreatCaseConfirmer { get; set; }
 
         // ReSharper disable once InconsistentNaming

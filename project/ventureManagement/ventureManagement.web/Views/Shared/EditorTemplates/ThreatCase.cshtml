@@ -83,5 +83,7 @@ else
     @Html.X().ComboBoxFor(t=>t.ThreatCaseStatus).Items(ThreatCase.GetAllStatusByCurrentStatus(Model.ThreatCaseStatus).Select(t => new ListItem(t))).LabelStyle("color:green;font-weight:bold;")
 }
 
+@*@Html.EditorFor(t => t.ThreatCaseAttachments)*@
+
 
 
