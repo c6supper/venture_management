@@ -31,5 +31,7 @@ namespace VentureManagement.DAL
         public static InterfaceThreatCaseRepository ThreatCaseRepository { get { return new ThreatCaseRepository(); } }
 
         public static InterfaceSmsRepository SmsRepository { get { return new SmsRepository(); } }
+
+        public static InterfaceThreatCaseAttachmentRepository ThreatCaseAttachmentRepository { get { return new ThreatCaseAttachmentRepository(); } }
     }
 }

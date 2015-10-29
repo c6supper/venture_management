@@ -31,7 +31,7 @@
                     //$('#progress').text('Completed all ' + event.done + ' files!');
                     //$('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
                 },
-                maxWidth: 640,
+                maxWidth: 1024,
                 quality: 0.90,
                 //timeout: 5000,
                 displayMaxWidth:  '100px',
@@ -113,7 +113,7 @@
 
 @section menu
 {
-    <form id="fileUpload" enctype="multipart/form-data">
+@*    <form id="fileUpload" enctype="multipart/form-data">*@
     @(X.Panel()
           .Flex(1)
           .Border(false)
@@ -497,5 +497,5 @@
                   .ImageUrl("../../resources/images/threat/threat_report.png")
                   .ColumnWidth(0.2)
                   .StyleSpec("margin-left: 120px;")
-          ))</form>
+          ))@*</form>*@
 }

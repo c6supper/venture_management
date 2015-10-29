@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -20,8 +21,6 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
     [AccessDeniedAuthorize(Roles = Role.PERIMISSION_CREATETHREATCASE)]
     public class CreateThreatCaseController : ThreatBaseController
     {
-        private const string ImgKey = "IMGKEY";
-        //
         // GET: /Threat/CreateThreatCase/
         public ActionResult Index()
         {
@@ -61,11 +60,6 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return this.Store(projects.Data, projects.TotalRecords);
         }
 
-        private bool SaveAttachment()
-        {
-            
-        }
-
         public ActionResult Submit(ThreatCase threatCase)
         {
             ModelState.Clear();
@@ -95,13 +89,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                     threatCase.ThreatCaseLimitTime = threatCase.ThreatCaseLimitTime.AddSeconds(Convert.ToDateTime(TempData["threatCaseLimitTime"]).TimeOfDay.TotalSeconds);                    
                 }
 
-                if (!SaveAttachment())
-                {
-                    X.Msg.Alert("", "保存图片失败，请重新上传图片.").Show();
-                    return this.FormPanel();
-                }
-
-                if (null != _threatCaseService.Add(threatCase))
+                if (null != (threatCase =_threatCaseService.Add(threatCase)))
                 {
                     var handler = "resetPage()";
                     if (threatCase.ThreatCaseLevel != ThreatCase.THREATCASE_LEVEL_ORDINARY)
@@ -118,6 +106,11 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                             Text = "确定"
                         }
                     }).Show();
+
+                    if (!SaveAttachments(threatCase.ThreatCaseId))
+                    {
+                        X.Msg.Alert("", "保存图片失败，请重新上传图片.").Show();
+                    }
                 }
             }
             catch (Exception ex)
@@ -168,7 +161,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             {
                 var fileConent = Session[ImgKey] as string;
                 if (!string.IsNullOrEmpty(fileConent))
-                    fileConent = ";";
+                    fileConent += ";";
                 fileConent += base64Data;
                 Session[ImgKey] = fileConent;
             }
