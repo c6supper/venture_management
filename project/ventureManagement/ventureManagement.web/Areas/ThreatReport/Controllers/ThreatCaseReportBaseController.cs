@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using VentureManagement.BLL;
+﻿using VentureManagement.BLL;
 using VentureManagement.IBLL;
 using VentureManagement.Models;
 using VentureManagement.Web.Controllers;
 
-namespace VentureManagement.Web.Areas.Report.Controllers
+namespace VentureManagement.Web.Areas.ThreatReport.Controllers
 {
     public class ThreatCaseReportBaseController : BaseController
     {

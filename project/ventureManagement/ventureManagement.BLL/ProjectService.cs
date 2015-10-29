@@ -75,7 +75,6 @@ namespace VentureManagement.BLL
         {
             using (var transaction = CurrentRepository.BeginTransaction())
             {
-                
                 try
                 {
                     var project = Find(projectId);

@@ -30,6 +30,14 @@ namespace VentureManagement.Models
         [Required]
         public int UserId { get; set; }
 
+        [Required]
+        [Display(Name = "施工项目启动时间")]
+        public DateTime ProjectStartTime { get; set; }
+
+        [Required]
+        [Display(Name = "施工项目结束时间")]
+        public DateTime ProjectFinishTime { get; set; }
+
         public string Description { get; set; }
 
         [Required, DefaultValue(STATUS_CONSTRUCTING)]

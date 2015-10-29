@@ -23,9 +23,6 @@
             var organizationRelation = new OrganizationRelationService();
             organizationRelation.Initilization();
 
-            var organizationRoleRelation = new OrganizationRoleRelationService();
-            organizationRoleRelation.Initilization();
-
             var projectService = new ProjectService();
             projectService.Initilization();
 

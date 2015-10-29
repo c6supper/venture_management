@@ -23,8 +23,6 @@ namespace VentureManagement.Models
         [Display(Name = "说明")]
         public string Description { get; set; }
 
-        public virtual ICollection<OrganizationRoleRelation> OrganizationRoleRelations { get; set; }
-
         [InverseProperty("SubordinateDepartment")]
         public virtual ICollection<OrganizationRelation> AsSubOrganizationRelations { get; set; }
 

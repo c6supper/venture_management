@@ -1,36 +1,33 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Ext.Net.MVC;
 using VentureManagement.Models;
 using VentureManagement.Web.Areas.Report.Models;
 
-namespace VentureManagement.Web.Areas.Report.Controllers
+namespace VentureManagement.Web.Areas.ThreatReport.Controllers
 {
-    public class DepartmentThreatCaseReportController : ThreatCaseReportBaseController
+    public class ProjectThreatCaseReportController : ThreatCaseReportBaseController
     {
         //
-        // GET: /Report/DepartmentThreatCaseReport/
+        // GET: /Report/ProjectThreatCaseReport/
         public ActionResult Index(DateTime? from, DateTime? to)
         {
             var reportFrom = @from == null ? new DateTime(1990, 1, 1) : Convert.ToDateTime(@from);
 
             var reportTo = to == null ? new DateTime(3000, 1, 1) : Convert.ToDateTime(to);
 
-            var tcDi = new Dictionary<string, DepartmentThreatCaseReport>();
+            var tcDi = new Dictionary<string, ProjectThreatCaseReport>();
             foreach (var threatcase in _threatCaseService.FindList(tc => (tc.ThreatCaseFoundTime >= reportFrom && tc.ThreatCaseFoundTime <= reportTo),
                 "ThreatCaseLevel", false).ToArray())
             {
-                if (!tcDi.ContainsKey(threatcase.Project.Organization.OrganizationName))
+                if (!tcDi.ContainsKey(threatcase.Project.ProjectName))
                 {
-                    var threatCaseReport = new DepartmentThreatCaseReport()
+                    var threatCaseReport = new ProjectThreatCaseReport()
                     {
-                        DepartmentName = threatcase.Project.Organization.OrganizationName,
+                        ProjectName = threatcase.Project.ProjectName,
                     };
-                    tcDi[threatCaseReport.DepartmentName] = threatCaseReport;
+                    tcDi[threatCaseReport.ProjectName] = threatCaseReport;
                     switch (threatcase.ThreatCaseLevel)
                     {
                         case ThreatCase.THREATCASE_LEVEL_ORDINARY:

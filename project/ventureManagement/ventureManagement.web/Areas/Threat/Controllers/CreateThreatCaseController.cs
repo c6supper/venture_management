@@ -1,28 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
+using Ext.Net.Utilities;
 using VentureManagement.BLL;
 using VentureManagement.IBLL;
 using VentureManagement.Models;
 using VentureManagement.Web.Areas.Project.Controllers;
 using VentureManagement.Web.Attributes;
-using PartialViewResult = Ext.Net.MVC.PartialViewResult;
 
 namespace VentureManagement.Web.Areas.Threat.Controllers
 {
     [AccessDeniedAuthorize(Roles = Role.PERIMISSION_CREATETHREATCASE)]
     public class CreateThreatCaseController : ThreatBaseController
     {
+        private const string ImgKey = "IMGKEY";
         //
         // GET: /Threat/CreateThreatCase/
         public ActionResult Index()
         {
+            Session[ImgKey] = null;
             return View(new ThreatCase());
         }
 
@@ -58,6 +61,11 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return this.Store(projects.Data, projects.TotalRecords);
         }
 
+        private bool SaveAttachment()
+        {
+            return true;
+        }
+
         public ActionResult Submit(ThreatCase threatCase)
         {
             ModelState.Clear();
@@ -87,23 +95,29 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                     threatCase.ThreatCaseLimitTime = threatCase.ThreatCaseLimitTime.AddSeconds(Convert.ToDateTime(TempData["threatCaseLimitTime"]).TimeOfDay.TotalSeconds);                    
                 }
 
+                if (!SaveAttachment())
+                {
+                    X.Msg.Alert("", "保存图片失败，请重新上传图片.").Show();
+                    return this.FormPanel();
+                }
+
                 if (null != _threatCaseService.Add(threatCase))
                 {
-                    if (threatCase.ThreatCaseLevel == ThreatCase.THREATCASE_LEVEL_ORDINARY)
+                    var handler = "resetPage()";
+                    if (threatCase.ThreatCaseLevel != ThreatCase.THREATCASE_LEVEL_ORDINARY)
                     {
-                        X.Msg.Alert("", "隐患申报成功,等待审核.").Show();
+                        handler = "document.location.href='/Threat/ThreatCasePrinter/Index?threatCaseId=" +
+                            threatCase.ThreatCaseId + "';";
                     }
-                    else
+
+                    X.Msg.Confirm("提示", "隐患申报成功,等待审核.", new MessageBoxButtonsConfig
                     {
-                        X.Msg.Confirm("提示", "隐患申报成功,等待审核.", new MessageBoxButtonsConfig
+                        Yes = new MessageBoxButtonConfig
                         {
-                            Yes = new MessageBoxButtonConfig
-                            {
-                                Handler = "document.location.href='/Threat/ThreatCasePrinter/Index?threatCaseId=" + threatCase.ThreatCaseId + "';",
-                                Text = "确定"
-                            }
-                        }).Show();
-                    }
+                            Handler = handler,
+                            Text = "确定"
+                        }
+                    }).Show();
                 }
             }
             catch (Exception ex)
@@ -145,67 +159,25 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return this.Direct();
         }
 
-        //[ValidateInput(true)]
-        //public ActionResult CreateThreatCase(List<FieldsGroupModel> groups1, List<FieldsGroupModel> groups2)
-        //{
-        //    StringBuilder sb = new StringBuilder(255);
+        [HttpPost]
+        public ActionResult HandleImageUpload(string base64Data)
+        {
+            if (base64Data == null) throw new ArgumentNullException("base64Data");
 
-        //    sb.Append("<h1>Checked Items</h1>");
-        //    sb.Append("<h2>CheckboxGroups</h2>");
-        //    sb.Append("<blockquote>");
+            if (!base64Data.IsEmpty())
+            {
+                var fileConent = Session[ImgKey] as string;
+                if (!string.IsNullOrEmpty(fileConent))
+                    fileConent = ";";
+                fileConent += base64Data;
+                Session[ImgKey] = fileConent;
+            }
+            else
+            {
+                Session[ImgKey] = null;
+            }
 
-        //    groups1.ForEach(delegate(FieldsGroupModel group)
-        //    {
-        //        int count = 0;
-
-        //        group.CheckedItems.ForEach(delegate(CheckedFieldModel checkbox)
-        //        {
-        //            if (count == 0)
-        //            {
-        //                sb.AppendFormat("<h3>{0}</h3>", group.FieldLabel);
-        //                sb.Append("<blockquote>");
-        //            }
-        //            sb.AppendFormat("{0}<br />", checkbox.BoxLabel);
-        //            count++;
-        //        });
-
-        //        if (count > 0)
-        //        {
-        //            sb.Append("</blockquote>");
-        //        }
-        //    });
-
-        //    sb.Append("</blockquote>");
-
-        //    sb.Append("<h2>RadioGroups</h2>");
-        //    sb.Append("<blockquote>");
-
-        //    groups2.ForEach(delegate(FieldsGroupModel group)
-        //    {
-        //        int count = 0;
-
-        //        group.CheckedItems.ForEach(delegate(CheckedFieldModel radio)
-        //        {
-        //            if (count == 0)
-        //            {
-        //                sb.AppendFormat("<h3>{0}</h3>", group.FieldLabel);
-        //                sb.Append("<blockquote>");
-        //            }
-        //            sb.AppendFormat("{0}<br />", radio.BoxLabel);
-        //            count++;
-        //        });
-
-        //        if (count > 0)
-        //        {
-        //            sb.Append("</blockquote>");
-        //        }
-        //    });
-
-        //    sb.Append("</blockquote>");
-
-        //    this.GetCmp<Label>("Label1"). = sb.ToString();
-
-        //    return this.Direct();
-        //}
+            return Content(base64Data.Length.ToString());
+        }
     }
 }

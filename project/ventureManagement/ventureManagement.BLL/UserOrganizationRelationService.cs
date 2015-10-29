@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using VentureManagement.DAL;
 using VentureManagement.IBLL;
 using VentureManagement.IDAL;
@@ -124,6 +125,11 @@ namespace VentureManagement.BLL
                 Debug.Print(ex.StackTrace);
             }
             return null;
+        }
+
+        public IQueryable<UserOrganizationRelation> FindList(Expression<Func<UserOrganizationRelation, bool>> whereLamdba, string orderName, bool isAsc)
+        {
+            return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
         }
     }
 }

@@ -20,7 +20,9 @@
         .Items(
             Html.X().HiddenFor(p=>p.ProjectId),
             Html.X().TextFieldFor(p=>p.ProjectName).ReadOnly(true),
-            Html.X().TextFieldFor(p=>p.ProjectLocation).ReadOnly(true)
+            Html.X().TextFieldFor(p=>p.ProjectLocation).ReadOnly(true),
+            Html.X().TextFieldFor(p=>p.ProjectStatus).ReadOnly(true),
+            Html.X().DateFieldFor(p=>p.ProjectStartTime).ReadOnly(true)
         )
       )
 

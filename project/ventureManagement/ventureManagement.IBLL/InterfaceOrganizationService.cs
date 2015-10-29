@@ -16,5 +16,7 @@ namespace VentureManagement.IBLL
         IQueryable<Organization> FindList(Expression<Func<Organization, bool>> whereLamdba, string orderName, bool isAsc);
         IQueryable<Organization> FindPageList(int pageIndex, int pageSize, out int totalRecord,
             Expression<Func<Organization, bool>> whereLamdba);
+
+        bool Delete(int orgId);
     }
 }

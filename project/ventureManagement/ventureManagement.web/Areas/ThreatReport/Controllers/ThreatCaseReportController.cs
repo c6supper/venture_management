@@ -2,13 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Ext.Net;
 using Ext.Net.MVC;
 using VentureManagement.Web.Areas.Report.Models;
 
-namespace VentureManagement.Web.Areas.Report.Controllers
+namespace VentureManagement.Web.Areas.ThreatReport.Controllers
 {
     public class ThreatCaseReportController : ThreatCaseReportBaseController
     {

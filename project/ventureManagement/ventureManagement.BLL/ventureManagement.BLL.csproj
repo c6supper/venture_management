@@ -60,7 +60,6 @@
   <ItemGroup>
     <Compile Include="BaseService.cs" />
     <Compile Include="OrganizationRelationService.cs" />
-    <Compile Include="OrganizationRoleRelationService.cs" />
     <Compile Include="OrganizationService.cs" />
     <Compile Include="ProjectRelationService.cs" />
     <Compile Include="ProjectService.cs" />
@@ -70,7 +69,6 @@
     <Compile Include="SmsService.cs" />
     <Compile Include="ThreatCaseService.cs" />
     <Compile Include="UserOrganizationRelationService.cs" />
-    <Compile Include="UserProjectRelationService.cs" />
     <Compile Include="UserRoleRelationService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>

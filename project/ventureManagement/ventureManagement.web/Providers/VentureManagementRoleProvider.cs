@@ -13,23 +13,12 @@ namespace VentureManagement.Web.Providers
     public class VentureManagementRoleProvider : RoleProvider
     {
         private readonly UserRoleRelationService _userRoleRelationService = new UserRoleRelationService();
-        private readonly UserOrganizationRelationService _userOrganizationRelationService = new UserOrganizationRelationService();
-        private readonly OrganizationRoleRelationService _orgRoleRelationService = new OrganizationRoleRelationService();
 
         public override bool IsUserInRole(string username, string roleName)
         {
             try
             {
-                if (_userRoleRelationService.Exist(username, roleName) || _userRoleRelationService.IsAdmin(username))
-                    return true;
-
-                foreach (var userOrganizationRelation in _userOrganizationRelationService.FindList(username))
-                {
-                    if (_orgRoleRelationService.Exist(userOrganizationRelation.Organization.OrganizationName, roleName))
-                        return true;
-                }
-
-                return false;
+                return _userRoleRelationService.Exist(username, roleName) || _userRoleRelationService.IsAdmin(username);
             }
             catch (Exception ex)
             {

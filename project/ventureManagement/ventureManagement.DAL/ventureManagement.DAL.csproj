@@ -57,7 +57,6 @@
     <Compile Include="ContextFactory.cs" />
     <Compile Include="OrganizationRelationRepository.cs" />
     <Compile Include="OrganizationRepository.cs" />
-    <Compile Include="OrganizationRoleRelationRepository.cs" />
     <Compile Include="ProjectRelationRepository.cs" />
     <Compile Include="ProjectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,7 +65,6 @@
     <Compile Include="SmsRepository.cs" />
     <Compile Include="ThreatCaseRepository.cs" />
     <Compile Include="UserOrganizationRelationRepository.cs" />
-    <Compile Include="UserProjectRelationRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="UserRoleRelationRepository.cs" />
     <Compile Include="ventureMangementDbContext.cs" />

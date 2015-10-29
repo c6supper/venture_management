@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 // ReSharper disable InconsistentNaming
@@ -105,6 +106,9 @@ namespace VentureManagement.Models
 
         [Display(Name = "状态")]
         public string ThreatCaseStatus { get; set; }
+
+        [InverseProperty("ThreatCase")]
+        public virtual ICollection<ThreatCaseAttachment> ThreatCaseAttachments { get; set; }
 
         [Required]
         [Display(Name = "隐患分级")]
