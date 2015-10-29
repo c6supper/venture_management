@@ -126,21 +126,24 @@
                           X.ComboBoxFor(t => t.ProjectId)
                               .ID("ProjectId")
                               .FieldLabel("工程")
-                              .EmptyText("请输入关键字或*显示全部")
+                              .EmptyText("请选择工程")
                               .DisplayField("ProjectName")
                               .ValueField("ProjectId")
                               .DataIndex("")
                               .TypeAhead(true)
-                              .PageSize(15)
-                              .HideBaseTrigger(true)
-                              .MinChars(0)
+                              .QueryMode(DataLoadMode.Local)
+                              .ForceSelection(true)
+                              .Editable(false)                                
+                              //.PageSize(15)
+                              //.HideBaseTrigger(true)
+                              //.MinChars(0)
                               .DirectEvents(de =>
                               {
                                   de.Select.Url = Url.Action("SelectProject");
                                   de.Select.Success = "onSuccessfullySelectProject(result);";
                               })
                               .TriggerAction(TriggerAction.All)
-                              .ListConfig(Html.X().BoundList()
+                              @*.ListConfig(Html.X().BoundList()
                                   .LoadingText("搜索中...")
                                   .ItemTpl(Html.X().XTemplate()
                                       .Html(@<text>
@@ -149,7 +152,7 @@
                                                     {ProjectLocation}
                                                 </div>
                                              </text>)
-                                  ))
+                                  ))*@
                               .Store(Html.X().Store()
                                   .AutoLoad(true)
                                   .Proxy(Html.X().AjaxProxy()
@@ -206,15 +209,18 @@
                       .Items(
                           X.ComboBoxFor(t => t.ThreatCaseConfirmerId)
                               .ID("UserId")
-                              .EmptyText("请输入关键字或*搜索所有")
+                              .EmptyText("请选择隐患申报确认人")
                               .DisplayField("DisplayName")
                               .ValueField("UserId")
                               .TypeAhead(true)
-                              .PageSize(15)
-                              .HideBaseTrigger(true)
-                              .MinChars(0)
+                              .QueryMode(DataLoadMode.Local)
+                              .ForceSelection(true)
+                              .Editable(false)                              
+                              //.PageSize(15)
+                              //.HideBaseTrigger(true)
+                              //.MinChars(0)
                               .TriggerAction(TriggerAction.All)
-                              .ListConfig(Html.X().BoundList()
+                              @*.ListConfig(Html.X().BoundList()
                                   .LoadingText("搜索...")
                                   .ItemTpl(Html.X().XTemplate()
                                       .Html(@<text>
@@ -224,10 +230,10 @@
                                                 </div>
                                              </text>)
                                   )
-                              )
+                              )*@
                               .Store(Html.X().Store()
                                   .ID("UserStore")
-                                  .AutoLoad(false)
+                                  .AutoLoad(true)
                                   .Proxy(Html.X().AjaxProxy()
                                       .Url(Url.Action("GetUsers", "User", new { Area = "Member" }))
                                       .ActionMethods(am => am.Read = HttpMethod.POST)
@@ -254,15 +260,18 @@
                       .Items(
                           X.ComboBoxFor(t => t.ThreatCaseReviewerId)
                               .ID("ReviewerId")
-                              .EmptyText("请输入关键字或*搜索所有")
+                              .EmptyText("请选择隐患申报复核人")
                               .DisplayField("DisplayName")
                               .ValueField("UserId")
                               .TypeAhead(true)
-                              .PageSize(15)
-                              .HideBaseTrigger(true)
-                              .MinChars(0)
+                              .QueryMode(DataLoadMode.Local)
+                              .ForceSelection(true)
+                              .Editable(false)                                 
+                              //.PageSize(15)
+                              //.HideBaseTrigger(true)
+                              //.MinChars(0)
                               .TriggerAction(TriggerAction.All)
-                              .ListConfig(Html.X().BoundList()
+                              @*.ListConfig(Html.X().BoundList()
                                   .LoadingText("搜索...")
                                   .ItemTpl(Html.X().XTemplate()
                                       .Html(@<text>
@@ -272,10 +281,10 @@
                                                 </div>
                                              </text>)
                                   )
-                              )
+                              )*@
                               .Store(Html.X().Store()
                                   .ID("ReviewerStore")
-                                  .AutoLoad(false)
+                                  .AutoLoad(true)
                                   .Proxy(Html.X().AjaxProxy()
                                       .Url(Url.Action("GetUsers", "User", new {Area = "Member"}))
                                       .ActionMethods(am => am.Read = HttpMethod.POST)
