@@ -1,11 +1,13 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using VentureManagement.DAL;
 using VentureManagement.IDAL;
 
@@ -21,6 +23,22 @@ namespace VentureManagement.DAL
     public class BaseRepository<T> : InterfaceBaseRepository<T> where T : class
     {
         protected VentureManagementDbContext MContext = ContextFactory.GetCurrentContext();
+        protected List<string> IncludePaths = new List<string>();
+
+        protected IQueryable<T> Include()
+        {
+            IQueryable<T> query = MContext.Set<T>();
+            return IncludePaths.Aggregate(query, (current, path) => current.Include(path));
+        }
+
+        public BaseRepository()
+        {
+            foreach (var property in typeof(T).GetProperties()
+                .Where(p => p.GetGetMethod().IsVirtual).ToArray())
+            {
+                IncludePaths.Add(property.Name);
+            }
+        }
 
         public DbContextTransaction BeginTransaction()
         {
@@ -38,7 +56,7 @@ namespace VentureManagement.DAL
 
         public int Count(Expression<Func<T, bool>> predicate)
         {
-            var users = MContext.Set<T>().Where(predicate);
+            var users = Include().Where(predicate);
             if (EntityFilterEvent != null)
                 users = EntityFilterEvent(this, new FileterEventArgs(users)) as IQueryable<T>;
 
@@ -61,7 +79,7 @@ namespace VentureManagement.DAL
 
         public bool Exist(Expression<Func<T, bool>> anyLambda)
         {
-            var entity = MContext.Set<T>().Where(anyLambda);
+            var entity = Include().Where(anyLambda);
 
             if (EntityFilterEvent != null)
                 entity = EntityFilterEvent(this, new FileterEventArgs(entity)) as IQueryable<T>;
@@ -72,7 +90,7 @@ namespace VentureManagement.DAL
 
         public T Find(Expression<Func<T, bool>> whereLambda)
         {
-            var entity = MContext.Set<T>().Where(whereLambda);
+            var entity = Include().Where(whereLambda);
 
             if (EntityFilterEvent != null)
                 entity = EntityFilterEvent(this, new FileterEventArgs(entity)) as IQueryable<T>;
@@ -82,7 +100,7 @@ namespace VentureManagement.DAL
 
         public IQueryable<T> FindList(Expression<Func<T, bool>> whereLamdba, string orderName, bool isAsc)
         {
-            var list = MContext.Set<T>().Where(whereLamdba);
+            var list = Include().Where(whereLamdba);
             if (EntityFilterEvent != null)
                 list = EntityFilterEvent(this, new FileterEventArgs(list)) as IQueryable<T>;
             list = OrderBy(list, orderName, isAsc);
@@ -92,7 +110,7 @@ namespace VentureManagement.DAL
         public IQueryable<T> FindPageList(int pageIndex, int pageSize, out int totalRecord, Expression<Func<T, bool>> whereLamdba, string orderName, bool isAsc)
         {
             totalRecord = 0;
-            var list = MContext.Set<T>().Where<T>(whereLamdba);
+            var list = Include().Where<T>(whereLamdba);
             if (EntityFilterEvent != null)
                 list = EntityFilterEvent(this, new FileterEventArgs(list)) as IQueryable<T>;
             if (list == null) return null;

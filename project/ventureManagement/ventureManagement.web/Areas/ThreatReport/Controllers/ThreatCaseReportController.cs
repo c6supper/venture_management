@@ -164,11 +164,9 @@ namespace VentureManagement.Web.Areas.ThreatReport.Controllers
                 {
                     case ThreatCaseReport.THREATCASE_DEPARTMENTNAME:
                         typeValueList.Add(threatcase.Project.Organization.OrganizationName);
-                        //typeValueList.AddRange(_orgrService.GetParentOrgList(threatcase.Project.Organization.OrganizationName));
                         break;
                     case ThreatCaseReport.THREATCASE_PROJECTNAME:
                         typeValueList.Add(threatcase.Project.ProjectName);
-                        //typeValueList.AddRange(_projectRelationService.GetParentProjectList(threatcase.Project.ProjectId));
                         break;
                     case ThreatCaseReport.THREATCASE_LOCATION:
                         typeValueList.Add(threatcase.ThreatCaseLocation);

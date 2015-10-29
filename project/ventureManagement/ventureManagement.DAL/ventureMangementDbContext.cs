@@ -30,6 +30,7 @@ namespace VentureManagement.DAL
             : base("DefaultConnection")
         {
             base.Configuration.LazyLoadingEnabled = true;
+            base.Configuration.ProxyCreationEnabled = false;
             try
             {
                 Database.CreateIfNotExists();
