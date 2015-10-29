@@ -123,20 +123,12 @@ namespace VentureManagement.Web.Areas.Project.Controllers
         private NodeCollection GetProject()
         {
             var nodes = new NodeCollection(false);
-            //var node = new Node
-            //{
-            //    Text = VMProject.PROJECT_ROOT,
-            //    NodeID = VMProject.PROJECT_ROOT
-            //};
 
-            foreach (var prj in _projectRelationService.FindList(r=>r.SuperProjectId == VMProject.INVALID_PROJECT 
-                && r.SubProject.ProjectStatus == VMProject.STATUS_CONSTRUCTING,"ProjectRelationId",false)
-                .Select(r=>r.SubProject))
+            foreach (var prj in _projectService.FindList(p => p.AsSubProjectRelation.Any(r => r.SuperProjectId == VMProject.INVALID_PROJECT)  
+                && p.ProjectStatus == VMProject.STATUS_CONSTRUCTING,"ProjectId",false))
             {
                 nodes.Add(RecursiveAddNode(prj));
             }
-            //if (node.Children.Count <= 0)
-            //    node.EmptyChildren = true;
 
             return nodes;
         }
