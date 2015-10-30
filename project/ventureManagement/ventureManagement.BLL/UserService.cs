@@ -21,12 +21,12 @@ namespace VentureManagement.BLL
     /// </summary>
     public class UserService : BaseService<User>, InterfaceUserService
     {
-        private readonly List<int> _currentOrgList;
-        public UserService(List<int> currentOrgList)
+        private readonly HashSet<int> _orgHash;
+        public UserService(HashSet<int> orgHash)
             : base(RepositoryFactory.UserRepository)
         {
-            _currentOrgList = currentOrgList;
-            if (currentOrgList != null)
+            _orgHash = orgHash;
+            if (_orgHash != null)
             {
                 CurrentRepository.EntityFilterEvent += UserFilterEvent;                
             }
@@ -40,15 +40,7 @@ namespace VentureManagement.BLL
         private object UserFilterEvent(object sender, FileterEventArgs e)
         {
             var users = e.EventArg as IQueryable<User>;
-            Debug.Assert(users != null, "users != null");
-
-            var filteredUsers = new List<User>();
-            foreach (var orgId in _currentOrgList)
-            {
-                filteredUsers.AddRange(users.Where(u=>u.UserOrganizationRelations.Any(uorgr=>uorgr.OrganizationId == orgId)));
-            }
-
-            return filteredUsers.AsQueryable();
+            return users != null ? users.Where(u => _orgHash.Contains(u.OrganizationId)) : null;
         }
 
         public override bool Initilization()
@@ -65,7 +57,8 @@ namespace VentureManagement.BLL
                     Email = "xxx@163.com",
                     DisplayName = User.USER_ADMIN,
                     Mobile = "17608007325",
-                    RegistrationTime = DateTime.Now
+                    RegistrationTime = DateTime.Now,
+                    OrganizationId = 1
                 };
                 Add(user);
 
@@ -78,7 +71,8 @@ namespace VentureManagement.BLL
                     Email = "xxx@163.com",
                     DisplayName = "reporter",
                     Mobile = "17608007325",
-                    RegistrationTime = DateTime.Now
+                    RegistrationTime = DateTime.Now,
+                    OrganizationId = 3
                 };
                 Add(user);
                 user = new User
@@ -89,7 +83,8 @@ namespace VentureManagement.BLL
                     Email = "xxx@163.com",
                     DisplayName = "projectOwner",
                     Mobile = "17608007325",
-                    RegistrationTime = DateTime.Now
+                    RegistrationTime = DateTime.Now,
+                    OrganizationId = 4
                 };
                 Add(user);
                 user = new User
@@ -100,7 +95,8 @@ namespace VentureManagement.BLL
                     Email = "xxx@163.com",
                     DisplayName = "confirmer",
                     Mobile = "17608007325",
-                    RegistrationTime = DateTime.Now
+                    RegistrationTime = DateTime.Now,
+                    OrganizationId = 3
                 };
                 Add(user);
                 user = new User
@@ -111,7 +107,8 @@ namespace VentureManagement.BLL
                     Email = "xxx@163.com",
                     DisplayName = "reviewer",
                     Mobile = "17608007325",
-                    RegistrationTime = DateTime.Now
+                    RegistrationTime = DateTime.Now,
+                    OrganizationId = 3
                 };
                 Add(user);
 #endif
@@ -130,11 +127,6 @@ namespace VentureManagement.BLL
         public User Find(int userId) { return CurrentRepository.Find(u => u.UserId == userId); }
 
         public User Find(string userName) { return CurrentRepository.Find(u => u.UserName == userName); }
-
-        public int Count()
-        {
-            return CurrentRepository.Count(u => true);
-        }
 
         public IQueryable<User> FindPageList(int pageIndex, int pageSize, out int totalRecord, int order)
         {
@@ -178,14 +170,13 @@ namespace VentureManagement.BLL
             return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
         }
 
-        public bool Add(User user,int roleId,int orgId)
+        public bool Add(User user,int roleId)
         {
             using (var transaction = CurrentRepository.BeginTransaction())
             {
                 try
                 {
                     var userRoleRelationService = new UserRoleRelationService();
-                    var userOrgRelationService = new UserOrganizationRelationService();
                     if (Add(user) != null)
                     {
                         var urr = new UserRoleRelation
@@ -195,16 +186,8 @@ namespace VentureManagement.BLL
                         };
                         if (userRoleRelationService.Add(urr) != null)
                         {
-                            var uor = new UserOrganizationRelation
-                            {
-                                UserId = user.UserId,
-                                OrganizationId = orgId
-                            };
-                            if (userOrgRelationService.Add(uor) != null)
-                            {
-                                transaction.Commit();
-                                return true;
-                            }
+                            transaction.Commit();
+                            return true;
                         }
                     }
                     transaction.Rollback();

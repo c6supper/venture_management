@@ -13,33 +13,17 @@ namespace VentureManagement.BLL
     public class ProjectRelationService : BaseService<ProjectRelation>, InterfaceProjectRelationService
     {
         private readonly InterfaceProjectService _projectService = new ProjectService();
-        private readonly List<int> _currentOrgList;
-        public ProjectRelationService(List<int> currentOrgList)
+        private readonly HashSet<int> _orgHash;
+        public ProjectRelationService(HashSet<int> orgHash)
             : base(RepositoryFactory.ProjectRelationRepository)
         {
-            _currentOrgList = currentOrgList;
-            //CurrentRepository.EntityFilterEvent += ProjectRelationFilterEvent;
+            _orgHash = orgHash;
         }
 
         public ProjectRelationService()
             : base(RepositoryFactory.ProjectRelationRepository)
         {
         }
-        
-        //private object ProjectRelationFilterEvent(object sender, FileterEventArgs e)
-        //{
-        //    var prs = e.EventArg as IQueryable<ProjectRelation>;
-        //    Debug.Assert(prs != null, "prs != null");
-
-        //    var filteredProjectRelation = new List<ProjectRelation>();
-        //    foreach (var orgId in _currentOrgList)
-        //    {
-        //        filteredProjectRelation.AddRange(prs.Where(pr => pr.SuperProject.OrganizationId == orgId || 
-        //            pr.SubProject.OrganizationId == orgId));
-        //    }
-
-        //    return filteredProjectRelation.AsQueryable();
-        //}
 
         public IQueryable<ProjectRelation> FindList(Expression<Func<ProjectRelation, bool>> whereLamdba, string orderName, bool isAsc)
         {

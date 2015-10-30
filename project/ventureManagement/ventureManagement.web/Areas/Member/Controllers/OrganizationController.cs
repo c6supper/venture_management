@@ -88,14 +88,11 @@ namespace VentureManagement.Web.Areas.Member.Controllers
 
         private Node GetOrganization()
         {
-            var orgs = Session["Organization"] as List<Organization>;
+            var org = Session["Organization"] as Organization;
             var root = new Node();
 
-            if (orgs == null) return root;
-            foreach (var org in orgs)
-            {
-                root.Children.Add(RecursiveAddNode(org));
-            }
+            if (org == null) return root;
+            root.Children.Add(RecursiveAddNode(org));
 
             return root;
         }
@@ -164,6 +161,12 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             if (org.Projects.Any())
             {
                 X.Msg.Alert("提示", "该部门拥有施工项目，无法删除.").Show();
+                return this.Direct();
+            }
+
+            if (org.Users.Any())
+            {
+                X.Msg.Alert("提示", "该部门含有用户，无法删除.").Show();
                 return this.Direct();
             }
 

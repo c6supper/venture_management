@@ -20,7 +20,6 @@ namespace VentureManagement.DAL
         public DbSet<UserConfig> UserConfig { get; set; }
         public DbSet<OrganizationRelation> OrganizationRelation { get; set; }
         public DbSet<Organization> Organization { get; set; }
-        public DbSet<UserOrganizationRelation> UserOrganizationRelation { get; set; }
         public DbSet<VMProject> Project { get; set; }
         public DbSet<ProjectRelation> ProjectRelation { get; set; }
         public DbSet<ThreatCase> ThreatCase { get; set; }

@@ -18,6 +18,9 @@ namespace VentureManagement.Models
         [Key]
         public int UserId { get; set; }
 
+        [Required]
+        public int OrganizationId { get; set; }
+
         /// <summary>
         /// 用户名
         /// </summary>
@@ -97,8 +100,8 @@ namespace VentureManagement.Models
         [DefaultValue(STATUS_INVALID)]
         public string Status { get; set; }
 
+        public virtual Organization Organization { get; set; }
         public virtual ICollection<UserRoleRelation> UserRoleRelations { get; set; }
-        public virtual ICollection<UserOrganizationRelation> UserOrganizationRelations { get; set; }
 
         // ReSharper disable InconsistentNaming
         public const string USER_ADMIN = "master";

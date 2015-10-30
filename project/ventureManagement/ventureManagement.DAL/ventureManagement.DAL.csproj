@@ -65,7 +65,6 @@
     <Compile Include="SmsRepository.cs" />
     <Compile Include="ThreatCaseAttachmentRepository.cs" />
     <Compile Include="ThreatCaseRepository.cs" />
-    <Compile Include="UserOrganizationRelationRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="UserRoleRelationRepository.cs" />
     <Compile Include="ventureMangementDbContext.cs" />

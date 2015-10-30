@@ -33,6 +33,9 @@ namespace VentureManagement.Models
         [InverseProperty("Organization")]
         public virtual ICollection<VMProject> Projects { get; set; }
 
+        [InverseProperty("Organization")]
+        public virtual ICollection<User> Users { get; set; }
+
         // ReSharper disable once InconsistentNaming
         public const string ORGANIZATION_STSTEM = "系统管理部门";
     }

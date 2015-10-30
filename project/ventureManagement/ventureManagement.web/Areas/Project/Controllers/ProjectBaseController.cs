@@ -13,8 +13,8 @@ namespace VentureManagement.Web.Areas.Project.Controllers
 
         protected ProjectBaseController()
         {
-            _projectService = new ProjectService(_currentOrgList);
-            _projectRelationService = new ProjectRelationService(_currentOrgList);
+            _projectService = new ProjectService(_orgHash);
+            _projectRelationService = new ProjectRelationService(_orgHash);
         }
     }
 }

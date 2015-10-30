@@ -22,7 +22,6 @@ namespace VentureManagement.Web.Controllers
         readonly InterfaceUserService _userService = new UserService();
         readonly InterfaceOrganizationService _orgService = new OrganizationService();
         readonly InterfaceOrganizationRelationService _orgrService = new OrganizationRelationService();
-        readonly InterfaceUserOrganizationRelationService _uorgService = new UserOrganizationRelationService();
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -67,15 +66,12 @@ namespace VentureManagement.Web.Controllers
                 }
                 Session["UserId"] = currentUser.UserId;
 
-                var orgs = _uorgService.FindList(txtUsername).Select(uorg=>uorg.Organization).ToList();
-                Session["Organization"] = orgs;
+                var org = currentUser.Organization;
+                Session["Organization"] = org;
                 var currentOrgList = new List<int>();
-                foreach (var org in orgs)
-                {
-                    currentOrgList.Add(org.OrganizationId);
-                    currentOrgList.AddRange(_orgrService.GetChildrenOrgList(org.OrganizationName));
-                }
-                Session["currentOrgList"] = currentOrgList;
+                currentOrgList.Add(org.OrganizationId);
+                currentOrgList.AddRange(_orgrService.GetChildrenOrgList(org.OrganizationName));
+                Session["orgHash"] = new HashSet<int>(currentOrgList);
 
                 //login time/ip
                 currentUser.LoginTime = DateTime.Now;

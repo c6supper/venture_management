@@ -16,7 +16,7 @@ namespace VentureManagement.Web.Areas.ThreatReport.Controllers
 
         protected ThreatCaseReportBaseController()
         {
-            _threatCaseService = new ThreatCaseService(_currentOrgList);
+            _threatCaseService = new ThreatCaseService(_orgHash);
         }
     }
 }

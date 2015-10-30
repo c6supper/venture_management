@@ -61,7 +61,6 @@
     <Compile Include="InterfaceSmsRepository.cs" />
     <Compile Include="InterfaceThreatCaseAttachmentRepository.cs" />
     <Compile Include="InterfaceThreatCaseRepository.cs" />
-    <Compile Include="InterfaceUserOrganizationRelationRepository.cs" />
     <Compile Include="InterfaceUserRepository.cs" />
     <Compile Include="InterfaceUserRoleRelatioRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

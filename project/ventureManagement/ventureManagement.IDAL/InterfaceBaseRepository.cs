@@ -22,13 +22,6 @@ namespace VentureManagement.IDAL
         T Add(T entity);
 
         /// <summary>
-        /// 查询记录数
-        /// </summary>
-        /// <param name="predicate">条件表达式</param>
-        /// <returns>记录数</returns>
-        int Count(Expression<Func<T, bool>> predicate);
-
-        /// <summary>
         /// 更新
         /// </summary>
         /// <param name="entity">数据实体</param>

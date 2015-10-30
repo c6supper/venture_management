@@ -12,12 +12,12 @@ namespace VentureManagement.BLL
 {
     public class OrganizationService : BaseService<Organization>, InterfaceOrganizationService
     {
-        private readonly List<int> _currentOrgList;
-        public OrganizationService(List<int> currentOrgList)
+        private readonly HashSet<int> _orgHash;
+        public OrganizationService(HashSet<int> orgHash)
             : base(RepositoryFactory.OrganizationRepository)
         {
-            _currentOrgList = currentOrgList;
-            if (currentOrgList != null)
+            _orgHash = orgHash;
+            if (_orgHash != null)
             {
                 CurrentRepository.EntityFilterEvent += OrganizationFilterEvent;                
             }
@@ -31,15 +31,8 @@ namespace VentureManagement.BLL
         private object OrganizationFilterEvent(object sender, FileterEventArgs e)
         {
             var orgs = e.EventArg as IQueryable<Organization>;
-            Debug.Assert(orgs != null, "orgs != null");
 
-            var filteredOrganization = new List<Organization>();
-            foreach (var orgId in _currentOrgList)
-            {
-                filteredOrganization.AddRange(orgs.Where(org => org.OrganizationId == orgId));
-            }
-
-            return filteredOrganization.AsQueryable();
+            return orgs != null ? orgs.Where(o => _orgHash.Contains(o.OrganizationId)) : null;
         }
 
         public override bool Initilization()
@@ -135,9 +128,9 @@ namespace VentureManagement.BLL
                         return false;
                     }
 
-                    var uorgrService = new UserOrganizationRelationService();
-                    if (uorgrService.FindList(uorgr => uorgr.OrganizationId == orgId,
-                        "UserOrganizationRelationId", false).ToArray().Any(uorgr => !uorgrService.Delete(uorgr)))
+                    var userService = new UserService();
+                    if (userService.FindList(u => u.OrganizationId == orgId,
+                        "UserId", false).Any())
                     {
                         transaction.Rollback();
                         return false;

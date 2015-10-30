@@ -56,7 +56,6 @@
     <Compile Include="InterfaceThreatCaseAttachmentService.cs" />
     <Compile Include="InterfaceThreatCaseService.cs" />
     <Compile Include="InterfaceUserConfig.cs" />
-    <Compile Include="InterfaceUserOrganizationRelationService.cs" />
     <Compile Include="InterfaceUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

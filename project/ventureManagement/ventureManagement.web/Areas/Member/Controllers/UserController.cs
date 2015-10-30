@@ -36,25 +36,25 @@ namespace VentureManagement.Web.Areas.Member.Controllers
         {
             var pageIndex = start/limit + ((start%limit > 0) ? 1 : 0) + 1;
             var count = 0;
-            var users = _userService.FindPageList(pageIndex, limit, out count,0).ToList();
+            var users = _userService.FindPageList(pageIndex, limit, out count,0);
 
-            if (!string.IsNullOrEmpty(filter) && filter != "*")
-            {
-                users.RemoveAll(user => !user.DisplayName.ToLower().StartsWith(filter.ToLower()));
-            }
+            //if (!string.IsNullOrEmpty(filter) && filter != "*")
+            //{
+            //    users.RemoveAll(user => !user.DisplayName.ToLower().StartsWith(filter.ToLower()));
+            //}
 
-            if (!string.IsNullOrEmpty(sort))
-            {
-                users.Sort(delegate(User x, User y)
-                {
-                    var direction = dir == SortDirection.DESC ? -1 : 1;
+            //if (!string.IsNullOrEmpty(sort))
+            //{
+            //    users.Sort(delegate(User x, User y)
+            //    {
+            //        var direction = dir == SortDirection.DESC ? -1 : 1;
 
-                    var userA = x.GetType().GetProperty(sort).GetValue(x, null);
-                    var userB = y.GetType().GetProperty(sort).GetValue(y, null);
+            //        var userA = x.GetType().GetProperty(sort).GetValue(x, null);
+            //        var userB = y.GetType().GetProperty(sort).GetValue(y, null);
 
-                    return CaseInsensitiveComparer.Default.Compare(userA, userB) * direction;
-                });
-            }
+            //        return CaseInsensitiveComparer.Default.Compare(userA, userB) * direction;
+            //    });
+            //}
 
             return new Paging<User>(users, count);
         }
@@ -86,7 +86,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             }
             else
             {
-                users = _userService.FindList(u => u.UserOrganizationRelations.Any(uor => uor.OrganizationId == (int)organizationId),
+                users = _userService.FindList(u =>u.OrganizationId == (int)organizationId,
                     "UserId", false);
             }
             

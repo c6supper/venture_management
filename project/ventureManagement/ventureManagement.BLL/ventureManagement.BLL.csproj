@@ -69,7 +69,6 @@
     <Compile Include="SmsService.cs" />
     <Compile Include="ThreatCaseAttachmentService.cs" />
     <Compile Include="ThreatCaseService.cs" />
-    <Compile Include="UserOrganizationRelationService.cs" />
     <Compile Include="UserRoleRelationService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>

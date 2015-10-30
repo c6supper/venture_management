@@ -12,8 +12,7 @@ namespace VentureManagement.DAL
     {
         public UserRepository()
         {
-            RegisterProxyIncludePath("UserRoleRelations.Role");
-            RegisterProxyIncludePath("UserOrganizationRelations.Organization");   
+            RegisterProxyIncludePath("UserRoleRelations.Role"); 
         }
     }
 }

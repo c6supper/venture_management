@@ -12,11 +12,11 @@ namespace VentureManagement.BLL
 {
     public class ProjectService : BaseService<VMProject>, InterfaceProjectService
     {
-        private readonly List<int> _currentOrgList;
-        public ProjectService(List<int> currentOrgList)
+        private readonly HashSet<int> _orgHash;
+        public ProjectService(HashSet<int> orgHash)
             : base(RepositoryFactory.ProjectRepository)
         {
-            _currentOrgList = currentOrgList;
+            _orgHash = orgHash;
             CurrentRepository.EntityFilterEvent += ProjectFilterEvent;
         }
 
@@ -28,15 +28,7 @@ namespace VentureManagement.BLL
         private object ProjectFilterEvent(object sender, FileterEventArgs e)
         {
             var vmps = e.EventArg as IQueryable<VMProject>;
-            Debug.Assert(vmps != null, "vmps != null");
-
-            var filteredVmProject = new List<VMProject>();
-            foreach (var orgId in _currentOrgList)
-            {
-                filteredVmProject.AddRange(vmps.Where(vmp => vmp.OrganizationId == orgId));
-            }
-
-            return filteredVmProject.AsQueryable();
+            return vmps != null ? vmps.Where(p => _orgHash.Contains(p.OrganizationId)) : null;
         }
 
         public bool Exist(string project, int superProjectId)

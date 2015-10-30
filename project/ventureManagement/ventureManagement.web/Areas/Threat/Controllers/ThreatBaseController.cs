@@ -31,7 +31,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
 
         protected ThreatBaseController()
         {
-            _threatCaseService = new ThreatCaseService(_currentOrgList);
+            _threatCaseService = new ThreatCaseService(_orgHash);
             _threatCaseAttachmentService = new ThreatCaseAttachmentService();
         }
 

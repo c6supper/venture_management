@@ -39,15 +39,6 @@ namespace VentureManagement.Web.Providers
                         perimissionList.Add(permission);
                     }
                 }
-
-                //foreach (var userOrganizationRelation in _userOrganizationRelationService.FindList(username).ToArray())
-                //{
-                //    foreach (var orgRoleRelation in _orgRoleRelationService.FindList(userOrganizationRelation.Organization.OrganizationName).ToArray())
-                //    {
-                //        if (!roles.Contains(orgRoleRelation.Role.RoleName))
-                //            roles.Add(orgRoleRelation.Role.RoleName);
-                //    }
-                //}
             }
             catch (Exception ex)
             {

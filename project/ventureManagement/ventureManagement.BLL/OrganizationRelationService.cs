@@ -14,12 +14,12 @@ namespace VentureManagement.BLL
     {
         readonly OrganizationService _organizationService = new OrganizationService();
 
-        private readonly List<int> _currentOrgList;
-        public OrganizationRelationService(List<int> currentOrgList)
+        private readonly HashSet<int> _orgHash;
+        public OrganizationRelationService(HashSet<int> orgHash)
             : base(RepositoryFactory.OrganizationRelationRepository)
         {
-            _currentOrgList = currentOrgList;
-            //if (currentOrgList != null)
+            _orgHash = orgHash;
+            //if (_orgHash != null)
             //{
             //    CurrentRepository.EntityFilterEvent += OrganizationRelationFilterEvent;                
             //}
@@ -36,7 +36,7 @@ namespace VentureManagement.BLL
         //    Debug.Assert(orgrs != null, "orgrs != null");
 
         //    var filteredOrganizationRelations = new List<OrganizationRelation>();
-        //    foreach (var orgId in _currentOrgList)
+        //    foreach (var orgId in _orgHash)
         //    {
         //        filteredOrganizationRelations.AddRange(orgrs.Where(orgr => orgr.SuperiorDepartmentId == orgId ||
         //            orgr.SubordinateDepartmentId == orgId));

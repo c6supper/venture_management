@@ -28,11 +28,11 @@ namespace VentureManagement.Web.Controllers
         }
 
         // ReSharper disable once InconsistentNaming
-        protected List<int> _currentOrgList = null;
+        protected HashSet<int> _orgHash = null;
 
         public BaseController()
         {
-            _currentOrgList = System.Web.HttpContext.Current.Session["currentOrgList"] as List<int>;
+            _orgHash = System.Web.HttpContext.Current.Session["orgHash"] as HashSet<int>;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("zh-CN");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
         }
@@ -41,17 +41,13 @@ namespace VentureManagement.Web.Controllers
         {
             try
             {
-                var uorgService = new UserOrganizationRelationService();
+                var userService = new UserService();
+                var org = userService.Find(_currentUser.UserName).Organization;
+                System.Web.HttpContext.Current.Session["Organization"] = org;
+                var currentOrgList = new List<int> {org.OrganizationId};
                 var orgrService = new OrganizationRelationService();
-                var orgs = uorgService.FindList(_currentUser.UserName).Select(uorg => uorg.Organization).ToList();
-                System.Web.HttpContext.Current.Session["Organization"] = orgs;
-                var currentOrgList = new List<int>();
-                foreach (var org in orgs)
-                {
-                    currentOrgList.Add(org.OrganizationId);
-                    currentOrgList.AddRange(orgrService.GetChildrenOrgList(org.OrganizationName));
-                }
-                System.Web.HttpContext.Current.Session["currentOrgList"] = currentOrgList;
+                currentOrgList.AddRange(orgrService.GetChildrenOrgList(org.OrganizationName));
+                System.Web.HttpContext.Current.Session["orgHash"] = new HashSet<int>(currentOrgList);
             }
             catch (Exception ex)
             {

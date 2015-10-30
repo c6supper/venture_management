@@ -36,8 +36,6 @@ namespace VentureManagement.IBLL
         /// <returns></returns>
         User Find(string userName);
 
-        int Count();
-
         /// <summary>
         /// 用户列表
         /// </summary>
@@ -50,6 +48,6 @@ namespace VentureManagement.IBLL
 
         IQueryable<User> FindList(Expression<Func<User, bool>> whereLamdba, string orderName, bool isAsc);
 
-        bool Add(User user, int roleId, int orgId);
+        bool Add(User user, int roleId);
     }
 }
