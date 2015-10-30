@@ -106,15 +106,15 @@ namespace VentureManagement.BLL
             return true;
         }
 
-        public List<int> GetChildrenOrgList(string org)
+        public List<int> GetChildrenOrgList(int orgId)
         {
             var childrenList = new List<int>();
 
-            foreach (var orgr in CurrentRepository.FindList(orgr => orgr.SuperiorDepartment.OrganizationName == org,
+            foreach (var orgr in CurrentRepository.FindList(orgr => orgr.SuperiorDepartmentId == orgId,
                 "OrganizationRelationId", false).ToArray())
             {
                 if (orgr.SubordinateDepartment != null)
-                    childrenList.AddRange(GetChildrenOrgList(orgr.SubordinateDepartment.OrganizationName));
+                    childrenList.AddRange(GetChildrenOrgList(orgr.SubordinateDepartmentId));
 
                 childrenList.Add(orgr.SubordinateDepartmentId);
             }

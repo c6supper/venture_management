@@ -42,11 +42,10 @@ namespace VentureManagement.Web.Controllers
             try
             {
                 var userService = new UserService();
-                var org = userService.Find(_currentUser.UserName).Organization;
-                System.Web.HttpContext.Current.Session["Organization"] = org;
-                var currentOrgList = new List<int> {org.OrganizationId};
+                var user = userService.Find(_currentUser.UserName);
+                var currentOrgList = new List<int> { user.OrganizationId };
                 var orgrService = new OrganizationRelationService();
-                currentOrgList.AddRange(orgrService.GetChildrenOrgList(org.OrganizationName));
+                currentOrgList.AddRange(orgrService.GetChildrenOrgList(user.OrganizationId));
                 System.Web.HttpContext.Current.Session["orgHash"] = new HashSet<int>(currentOrgList);
             }
             catch (Exception ex)

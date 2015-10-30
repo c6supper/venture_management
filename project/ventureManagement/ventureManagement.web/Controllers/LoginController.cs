@@ -65,12 +65,8 @@ namespace VentureManagement.Web.Controllers
                     return this.Direct();
                 }
                 Session["UserId"] = currentUser.UserId;
-
-                var org = currentUser.Organization;
-                Session["Organization"] = org;
-                var currentOrgList = new List<int>();
-                currentOrgList.Add(org.OrganizationId);
-                currentOrgList.AddRange(_orgrService.GetChildrenOrgList(org.OrganizationName));
+                var currentOrgList = new List<int> {currentUser.OrganizationId};
+                currentOrgList.AddRange(_orgrService.GetChildrenOrgList(currentUser.OrganizationId));
                 Session["orgHash"] = new HashSet<int>(currentOrgList);
 
                 //login time/ip

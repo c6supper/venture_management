@@ -88,7 +88,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
 
         private Node GetOrganization()
         {
-            var org = Session["Organization"] as Organization;
+            var org = _orgSerivce.Find(_currentUser.OrganizationId);
             var root = new Node();
 
             if (org == null) return root;

@@ -12,7 +12,7 @@ namespace VentureManagement.IBLL
     {
         IQueryable<OrganizationRelation> FindList(Expression<Func<OrganizationRelation, bool>> whereLamdba, string orderName, bool isAsc);
         bool Exist(string superiorDepartment, string subordinateDepartment);
-        List<int> GetChildrenOrgList(string org);
+        List<int> GetChildrenOrgList(int orgId);
         List<string> GetParentOrgList(string org);
     }
 }
