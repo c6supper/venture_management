@@ -56,7 +56,7 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
                         var attachment = new ThreatCaseAttachment
                         {
                             ThreatCaseId = threatCaseId,
-                            AttachmentUrl = currentFilePath
+                            AttachmentUrl = "~\\" + currentFilePath.Replace(Server.MapPath("~\\"), "")
                         };
                         _threatCaseAttachmentService.Add(attachment);
 

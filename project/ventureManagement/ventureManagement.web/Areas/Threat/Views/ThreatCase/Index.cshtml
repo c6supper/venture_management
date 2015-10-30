@@ -29,7 +29,7 @@
                             Html.X().JsonReader().Root("data"))
                     )
                     .RemoteSort(true)
-                    .PageSize(15)
+                    .PageSize(5)
                     .Model(
                             Html.X().Model()
                                 .IDProperty("ThreatCaseGrid")
@@ -39,9 +39,9 @@
                                     Html.X().ModelField().Name("ThreatCaseLocation"),
                                     Html.X().ModelField().Name("ThreatCaseCategory"),
                                     Html.X().ModelField().Name("ThreatCaseType"),
-                                    Html.X().ModelField().Name("ThreatCaseSeverity"),
-                                    Html.X().ModelField().Name("ThreatCasePassibility"),
-                                    Html.X().ModelField().Name("ThreatCaseRisk"),
+                                    //Html.X().ModelField().Name("ThreatCaseSeverity"),
+                                    //Html.X().ModelField().Name("ThreatCasePassibility"),
+                                    //Html.X().ModelField().Name("ThreatCaseRisk"),
                                     Html.X().ModelField().Name("ThreatCaseLevel"),
                                     Html.X().ModelField().Name("ThreatCaseOwner.DisplayName"),
                                     Html.X().ModelField().Name("ThreatCaseReporter.DisplayName"),
@@ -61,9 +61,9 @@
                 Html.X().Column().DataIndex("ThreatCaseLocation").Text("隐患地点"),
                 Html.X().Column().DataIndex("ThreatCaseCategory").Text("隐患大类"),
                 Html.X().Column().DataIndex("ThreatCaseType").Text("隐患小类"),
-                Html.X().Column().DataIndex("ThreatCaseSeverity").Text("隐患严重等级"),
-                Html.X().Column().DataIndex("ThreatCasePassibility").Text("隐患可能性等级"),
-                Html.X().Column().DataIndex("ThreatCaseRisk").Text("隐患风险指数"),
+                //Html.X().Column().DataIndex("ThreatCaseSeverity").Text("隐患严重等级"),
+                //Html.X().Column().DataIndex("ThreatCasePassibility").Text("隐患可能性等级"),
+                //Html.X().Column().DataIndex("ThreatCaseRisk").Text("隐患风险指数"),
                 Html.X().Column().DataIndex("ThreatCaseLevel").Text("隐患分级"),
                 Html.X().Column().DataIndex("ThreatCaseOwner.DisplayName").Text("施工方责任人"),
                 Html.X().Column().DataIndex("ThreatCaseReporter.DisplayName").Text("隐患上报人"),

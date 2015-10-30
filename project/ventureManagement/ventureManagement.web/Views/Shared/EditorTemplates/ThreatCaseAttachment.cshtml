@@ -7,25 +7,28 @@
     var url = ViewData.ContainsKey("url") ? ViewData["url"].ToString() : "";
 }
 
-<div>asdfasdfasdfasdf</div>
-
-@*@(
-    Html.X().Viewport()
-        .LayoutConfig(new VBoxLayoutConfig { Align = VBoxAlign.Center, Pack = BoxPack.Center })
+@(    
+    Html.X().FormPanel()
+        .ItemID(itemId)
+        .Title(title)
+        .Collapsible(!detail)
+        .Collapsed(!detail)
+        .Url(url)
+        .DefaultAnchor("100%")
+        .StyleSpec("margin-bottom:5px;")
+        .Frame(true)
         .Items(
+            Html.X().HiddenFor(a=>a.ThreatCaseAttachmentId),
             Html.X().DrawComponent()
             .Items(i =>
             {
                 i.Add(Html.X().Sprite()
                     .SpriteID("img")
                     .Type(SpriteType.Image)
-                    .Src(Url.Content("~/resources/images/404.png"))
-                    .X(160)
-                    .Y(120)
+                    .Src(Url.Content(Model.AttachmentUrl))
                     .Width(320)
                     .Height(240)
-                    );
-            }
+                );
+            })
         )
-    )
-)*@
+)

@@ -29,7 +29,7 @@ namespace VentureManagement.DAL
         public VentureManagementDbContext()
             : base("DefaultConnection")
         {
-            base.Configuration.LazyLoadingEnabled = true;
+            base.Configuration.LazyLoadingEnabled = false;
             base.Configuration.ProxyCreationEnabled = false;
             try
             {
