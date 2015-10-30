@@ -41,6 +41,7 @@ namespace VentureManagement.Models
         public string Description { get; set; }
 
         [Required, DefaultValue(STATUS_CONSTRUCTING)]
+        [Display(Name = "项目状态")]
         public string ProjectStatus { get; set; }
 
         public virtual Organization Organization { get; set; }

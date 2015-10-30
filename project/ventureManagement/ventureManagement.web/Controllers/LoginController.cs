@@ -38,7 +38,10 @@ namespace VentureManagement.Web.Controllers
         {
 #if DEBUG
             if (string.IsNullOrEmpty(txtUsername))
-                txtUsername = txtPassword = "master";
+                txtUsername = "master";
+
+            var user = _userService.Find(txtUsername);
+            txtPassword = Common.Utility.DesDecrypt(user.Password);
 #endif
 
 #if DEBUG
