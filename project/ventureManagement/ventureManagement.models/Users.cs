@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -91,41 +92,10 @@ namespace VentureManagement.Models
         /// <summary>
         /// 用户状态<br />
         /// </summary>
-        private string _status = STATUS_INVALID;
-
         [Display(Name = "用户状态")]
-        public string Status
-        {
-            get
-            {
-                switch (_status)
-                {
-                    case STATUS_INVALID:
-                    case STATUS_VALID:
-                    case STATUS_LOCKED:
-                    case STATUS_UNAUTH:
-                        return _status;
-                    default:
-                        _status = STATUS_INVALID;
-                        return _status;
-                }
-            }
-            set
-            {
-                switch (value)
-                {
-                    case STATUS_INVALID:
-                    case STATUS_VALID:
-                    case STATUS_LOCKED:
-                    case STATUS_UNAUTH:
-                        _status = value;
-                        break;
-                    default:
-                        _status = STATUS_INVALID;
-                        break;
-                }
-            }
-        }
+        [StringLength(20)]
+        [DefaultValue(STATUS_INVALID)]
+        public string Status { get; set; }
 
         public virtual ICollection<UserRoleRelation> UserRoleRelations { get; set; }
         public virtual ICollection<UserOrganizationRelation> UserOrganizationRelations { get; set; }

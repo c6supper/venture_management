@@ -21,6 +21,7 @@ namespace VentureManagement.Models
         /// 说明
         /// </summary>
         [Display(Name = "说明")]
+        [StringLength(30, ErrorMessage = "不超过{1}个字符")]
         public string Description { get; set; }
 
         [InverseProperty("SubordinateDepartment")]

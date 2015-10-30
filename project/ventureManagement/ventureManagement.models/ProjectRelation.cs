@@ -18,6 +18,7 @@ namespace VentureManagement.Models
 
         public int SuperProjectId { get; set; }
 
+        [StringLength(30, ErrorMessage = "不超过{1}个字符")]
         public string Description { get; set; }
 
         [ForeignKey("SubProjectId")]

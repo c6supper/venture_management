@@ -27,6 +27,7 @@ namespace VentureManagement.Models
         public int  Type { get; set; }
 
         [Required]
+        [StringLength(30, ErrorMessage = "不超过{1}个字符")]
         public string TaskId { get; set; }
 
         [Required]

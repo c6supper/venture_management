@@ -120,7 +120,10 @@ namespace VentureManagement.BLL
                    ProjectLocation = "天府软件园",
                    ProjectName = "测试工程",
                    OrganizationId = 4,
-                   UserId = userService.Find("projectOwner").UserId
+                   UserId = userService.Find("projectOwner").UserId,
+                   ProjectStartTime = DateTime.Now,
+                   ProjectStatus = VMProject.STATUS_CONSTRUCTING,
+                   ProjectFinishTime = DateTime.MaxValue
                 };
                 Add(project);
             }

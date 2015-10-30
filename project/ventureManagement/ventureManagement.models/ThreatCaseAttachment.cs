@@ -17,8 +17,10 @@ namespace VentureManagement.Models
         public int ThreatCaseId { get; set; }
 
         [Required]
+        [StringLength(100, ErrorMessage = "不超过{1}个字符")]
         public string AttachmentUrl { get; set; }
 
+        [StringLength(30, ErrorMessage = "不超过{1}个字符")]
         public string AttachmentDisplayName { get; set; }
 
         public virtual ThreatCase ThreatCase { get; set; }

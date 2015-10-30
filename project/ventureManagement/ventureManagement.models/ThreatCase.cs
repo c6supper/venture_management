@@ -20,6 +20,7 @@ namespace VentureManagement.Models
         public int ProjectId { get; set;}
 
         [Required(ErrorMessage = "必填")]
+        [StringLength(30, ErrorMessage = "不超过{1}个字符")]
         [Display(Name = "隐患点")]
         public string ThreatCaseLocation { get; set; }
 
@@ -40,14 +41,17 @@ namespace VentureManagement.Models
 
         [Display(Name = "隐患大类")]
         [Required(ErrorMessage = "必填")]
+        [StringLength(20, ErrorMessage = "不超过{1}个字符")]
         public string ThreatCaseCategory { get; set; }
 
         [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患小类")]
+        [StringLength(20, ErrorMessage = "不超过{1}个字符")]
         public string ThreatCaseType { get; set; }
 
         [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患描述")]
+        [StringLength(200, ErrorMessage = "不超过{1}个字符")]
         public string ThreatCaseDescription { get; set; }
 
         [Required(ErrorMessage = "必填")]
@@ -64,27 +68,33 @@ namespace VentureManagement.Models
 
         [Required(ErrorMessage = "必填")]
         [Display(Name = "资格资质证件使用情况")]
+        [StringLength(200, ErrorMessage = "不超过{1}个字符")]
         public string ThreatCaseCertification { get; set; }
 
         [Required(ErrorMessage = "必填")]
         [Display(Name = "现有安全设施情况")]
+        [StringLength(200, ErrorMessage = "不超过{1}个字符")]
         public string ThreatCaseCurrentSecurity { get; set; }
 
         [Required(ErrorMessage = "必填")]
         [Display(Name = "可选择采取的措施")]
+        [StringLength(200, ErrorMessage = "不超过{1}个字符")]
         public string ThreatCaseSuggestion { get; set; }
 
         [Required(ErrorMessage = "必填")]
         [Display(Name = "隐患原因分析")]
+        [StringLength(200, ErrorMessage = "不超过{1}个字符")]
         public string ThreatCaseCause { get; set; }
 
         [Display(Name = "整改措施")]
+        [StringLength(200, ErrorMessage = "不超过{1}个字符")]
         public string ThreatCaseCorrection { get; set; }
 
         [Display(Name = "整改投入")]
         public int ThreatCaseCorrectionValue { get; set; }
 
         [Display(Name = "整改效果评估")]
+        [StringLength(200, ErrorMessage = "不超过{1}个字符")]
         public string ThreatCaseCorrectionResult { get; set; }
 
         [Required(ErrorMessage = "必填")]
@@ -101,6 +111,7 @@ namespace VentureManagement.Models
         public int ThreatCaseReviewerId { get; set; }
 
         [Display(Name = "状态")]
+        [StringLength(20, ErrorMessage = "不超过{1}个字符")]
         public string ThreatCaseStatus { get; set; }
 
         [InverseProperty("ThreatCase")]

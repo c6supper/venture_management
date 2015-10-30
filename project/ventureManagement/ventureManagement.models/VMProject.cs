@@ -18,10 +18,12 @@ namespace VentureManagement.Models
 
         [Required]
         [Display(Name = "施工地点")]
+        [StringLength(30, ErrorMessage = "不超过{1}个字符")]
         public string ProjectLocation { get; set; }
 
         [Required]
         [Display(Name = "施工项目名")]
+        [StringLength(30, ErrorMessage = "不超过{1}个字符")]
         public string ProjectName { get; set; }
 
         [Required]
@@ -38,10 +40,12 @@ namespace VentureManagement.Models
         [Display(Name = "施工项目结束时间")]
         public DateTime ProjectFinishTime { get; set; }
 
+        [StringLength(20, ErrorMessage = "不超过{1}个字符")]
         public string Description { get; set; }
 
         [Required, DefaultValue(STATUS_CONSTRUCTING)]
         [Display(Name = "项目状态")]
+        [StringLength(20, ErrorMessage = "不超过{1}个字符")]
         public string ProjectStatus { get; set; }
 
         public virtual Organization Organization { get; set; }
