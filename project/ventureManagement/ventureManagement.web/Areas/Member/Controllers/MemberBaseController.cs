@@ -22,7 +22,6 @@ namespace VentureManagement.Web.Areas.Member.Controllers
         protected readonly InterfaceOrganizationService _orgSerivce;
         protected readonly InterfaceRoleService _roleSerivce = new RoleService();
         protected readonly InterfaceOrganizationRelationService _orgrService;
-        protected readonly InterfaceRoleRelationService _userRoleRelationService = new UserRoleRelationService();
 
         protected MemberBaseController()
         {

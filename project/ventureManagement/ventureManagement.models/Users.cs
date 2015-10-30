@@ -20,6 +20,8 @@ namespace VentureManagement.Models
 
         [Required]
         public int OrganizationId { get; set; }
+        [Required]
+        public int RoleId { get; set; }
 
         /// <summary>
         /// 用户名
@@ -101,7 +103,7 @@ namespace VentureManagement.Models
         public string Status { get; set; }
 
         public virtual Organization Organization { get; set; }
-        public virtual ICollection<UserRoleRelation> UserRoleRelations { get; set; }
+        public virtual Role Role { get; set; }
 
         // ReSharper disable InconsistentNaming
         public const string USER_ADMIN = "master";

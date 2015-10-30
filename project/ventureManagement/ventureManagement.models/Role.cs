@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace VentureManagement.Models
@@ -38,7 +39,8 @@ namespace VentureManagement.Models
         [DefaultValue(0)]
         public long RoleValue { get; set; }
 
-        public virtual ICollection<UserRoleRelation> UserRoleRelations { get; set; }
+        [InverseProperty("Role")]
+        public virtual ICollection<User> Users { get; set; }
 
         public static string[] RoleValueToPermissions(long roleValue)
         {

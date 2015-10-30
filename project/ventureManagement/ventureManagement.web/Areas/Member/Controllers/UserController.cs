@@ -188,12 +188,9 @@ namespace VentureManagement.Web.Areas.Member.Controllers
                     continue;
                 }
 
-                if (_userRoleRelationService.DeleteByUser(deletedUser.UserName))
+                if (_userService.Delete(_userService.Find(deletedUser.UserName)))
                 {
-                    if (_userService.Delete(_userService.Find(deletedUser.UserName)))
-                    {
-                        store.CommitRemoving(deletedUser.UserId);
-                    }
+                    store.CommitRemoving(deletedUser.UserId);
                 }
             }
 

@@ -255,7 +255,7 @@
                                     Html.X().ModelField().Name("UserId"),
                                     Html.X().ModelField().Name("UserName"),
                                     Html.X().ModelField().Name("DisplayName"),
-                                    Html.X().ModelField().Name("UserRoleRelations[0].Role.RoleName"),
+                                    Html.X().ModelField().Name("Role.RoleName"),
                                     Html.X().ModelField().Name("Organization.OrganizationName"),
                                     Html.X().ModelField().Name("Email"),
                                     Html.X().ModelField().Name("Mobile"),
@@ -270,7 +270,7 @@
             .ColumnModel(
                 Html.X().Column().DataIndex("UserId").Text("Id").Hidden(true),
                 Html.X().Column().DataIndex("UserName").Text("用户名"),
-                Html.X().Column().DataIndex("UserRoleRelations[0].Role.RoleName").Text("权限"),
+                Html.X().Column().DataIndex("Role.RoleName").Text("权限"),
                 Html.X().Column().DataIndex("Organization.OrganizationName").Text("部门"),
                 Html.X().ComponentColumn().DataIndex("DisplayName").Text("实名")
                     .OverOnly(true).Editor(true).Component(Html.X().TextField()),

@@ -10,9 +10,5 @@ namespace VentureManagement.DAL
     /// </summary>
     class UserRepository : BaseRepository<User>, InterfaceUserRepository
     {
-        public UserRepository()
-        {
-            RegisterProxyIncludePath("UserRoleRelations.Role"); 
-        }
     }
 }

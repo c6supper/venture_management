@@ -7,15 +7,11 @@
             var organization = new OrganizationService();
             organization.Initilization();
 
-            var userService = new UserService();
-            userService.Initilization();
-
             var roleService = new RoleService();
             roleService.Initilization();
 
-
-            var userRoleRelation = new UserRoleRelationService();
-            userRoleRelation.Initilization();
+            var userService = new UserService();
+            userService.Initilization();
 
             var organizationRelation = new OrganizationRelationService();
             organizationRelation.Initilization();

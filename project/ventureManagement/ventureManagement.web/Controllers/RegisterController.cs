@@ -158,8 +158,9 @@ namespace VentureManagement.Web.Controllers
                 user.RegistrationTime = DateTime.Now;
                 user.Status = VentureManagement.Models.User.STATUS_INVALID;
                 user.OrganizationId = Convert.ToInt32(orgId);
+                user.RoleId = Convert.ToInt32(roleId);
 
-                if (!_userService.Add(user, Convert.ToInt32(roleId)))
+                if (null == _userService.Add(user))
                 {
                     X.Msg.Alert("", "用户注册失败，请检查输入参数").Show();
                     return this.FormPanel();

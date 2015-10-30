@@ -16,7 +16,6 @@ namespace VentureManagement.DAL
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRoleRelation> UserRoleRelations { get; set; }
         public DbSet<UserConfig> UserConfig { get; set; }
         public DbSet<OrganizationRelation> OrganizationRelation { get; set; }
         public DbSet<Organization> Organization { get; set; }

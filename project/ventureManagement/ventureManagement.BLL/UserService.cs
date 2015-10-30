@@ -58,7 +58,8 @@ namespace VentureManagement.BLL
                     DisplayName = User.USER_ADMIN,
                     Mobile = "17608007325",
                     RegistrationTime = DateTime.Now,
-                    OrganizationId = 1
+                    OrganizationId = 1,
+                    RoleId = 1
                 };
                 Add(user);
 
@@ -72,7 +73,8 @@ namespace VentureManagement.BLL
                     DisplayName = "reporter",
                     Mobile = "17608007325",
                     RegistrationTime = DateTime.Now,
-                    OrganizationId = 3
+                    OrganizationId = 3,
+                    RoleId = 2
                 };
                 Add(user);
                 user = new User
@@ -84,7 +86,8 @@ namespace VentureManagement.BLL
                     DisplayName = "projectOwner",
                     Mobile = "17608007325",
                     RegistrationTime = DateTime.Now,
-                    OrganizationId = 4
+                    OrganizationId = 4,
+                    RoleId = 5
                 };
                 Add(user);
                 user = new User
@@ -96,7 +99,8 @@ namespace VentureManagement.BLL
                     DisplayName = "confirmer",
                     Mobile = "17608007325",
                     RegistrationTime = DateTime.Now,
-                    OrganizationId = 3
+                    OrganizationId = 3,
+                    RoleId = 3
                 };
                 Add(user);
                 user = new User
@@ -108,7 +112,8 @@ namespace VentureManagement.BLL
                     DisplayName = "reviewer",
                     Mobile = "17608007325",
                     RegistrationTime = DateTime.Now,
-                    OrganizationId = 3
+                    OrganizationId = 3,
+                    RoleId = 2
                 };
                 Add(user);
 #endif
@@ -168,38 +173,6 @@ namespace VentureManagement.BLL
         public IQueryable<User> FindList(Expression<Func<User, bool>> whereLamdba, string orderName, bool isAsc)
         {
             return CurrentRepository.FindList(whereLamdba, orderName, isAsc);
-        }
-
-        public bool Add(User user,int roleId)
-        {
-            using (var transaction = CurrentRepository.BeginTransaction())
-            {
-                try
-                {
-                    var userRoleRelationService = new UserRoleRelationService();
-                    if (Add(user) != null)
-                    {
-                        var urr = new UserRoleRelation
-                        {
-                            UserId = user.UserId,
-                            RoleId = roleId
-                        };
-                        if (userRoleRelationService.Add(urr) != null)
-                        {
-                            transaction.Commit();
-                            return true;
-                        }
-                    }
-                    transaction.Rollback();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    Debug.Print(ex.Message);
-                    return false;
-                }
-            }
-            return false;
         }
     }
 }

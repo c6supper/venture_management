@@ -26,7 +26,6 @@ namespace VentureManagement.Web.Areas.Member.Controllers
         // GET: /Member/Permission/
 
         private readonly InterfaceRoleService _roleService = new VentureManagement.BLL.RoleService();
-        private readonly InterfaceRoleRelationService _userRoleRelationService = new UserRoleRelationService();
         public ActionResult Index()
         {
             return View(PermissionPaging());
@@ -144,18 +143,22 @@ namespace VentureManagement.Web.Areas.Member.Controllers
 
             foreach (var deletedRole in roles.Deleted)
             {
-                if (null == _roleService.Find(deletedRole.RoleId))
+                var role = _roleService.Find(deletedRole.RoleId);
+                if (null == role)
                 {
                     store.CommitRemoving(deletedRole.RoleId);
                     continue;
                 }
 
-                if (_userRoleRelationService.DeleteByRole(deletedRole.RoleId))
+                if (role.Users.Any())
                 {
-                    if (_roleService.Delete(_roleService.Find(deletedRole.RoleId)))
-                    {
-                        store.CommitRemoving(deletedRole.RoleId);
-                    }
+                    store.RejectRemoving(deletedRole.RoleId);
+                    continue;
+                }
+
+                if (_roleService.Delete(role))
+                {
+                    store.CommitRemoving(deletedRole.RoleId);
                 }
             }
 

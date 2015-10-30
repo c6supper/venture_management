@@ -6,19 +6,20 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Security;
 using VentureManagement.BLL;
+using VentureManagement.IBLL;
 using VentureManagement.Models;
 
 namespace VentureManagement.Web.Providers
 {
     public class VentureManagementRoleProvider : RoleProvider
     {
-        private readonly UserRoleRelationService _userRoleRelationService = new UserRoleRelationService();
-
+        readonly InterfaceUserService _userService = new UserService();
         public override bool IsUserInRole(string username, string roleName)
         {
             try
             {
-                return _userRoleRelationService.Exist(username, roleName) || _userRoleRelationService.IsAdmin(username);
+                var user = _userService.Find(username);
+                return (user.Role.RoleName == roleName) || username.Equals(User.USER_ADMIN);
             }
             catch (Exception ex)
             {
@@ -32,12 +33,10 @@ namespace VentureManagement.Web.Providers
             var perimissionList = new List<string>();
             try
             {
-                foreach (var userRoleRelation in _userRoleRelationService.FindListByUser(username).ToArray())
+                var user = _userService.Find(username);
+                foreach (var permission in Role.RoleValueToPermissions(user.Role.RoleValue).Where(permission => !perimissionList.Contains(permission)))
                 {
-                    foreach (var permission in Role.RoleValueToPermissions(userRoleRelation.Role.RoleValue).Where(permission => !perimissionList.Contains(permission)))
-                    {
-                        perimissionList.Add(permission);
-                    }
+                    perimissionList.Add(permission);
                 }
             }
             catch (Exception ex)
