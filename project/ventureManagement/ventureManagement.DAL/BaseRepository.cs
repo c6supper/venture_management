@@ -25,6 +25,12 @@ namespace VentureManagement.DAL
         protected VentureManagementDbContext MContext = ContextFactory.GetCurrentContext();
         protected List<string> IncludePaths = new List<string>();
 
+        protected void RegisterProxyIncludePath(string path)
+        {
+            if(!IncludePaths.Contains(path))
+                IncludePaths.Add(path);
+        }
+
         protected IQueryable<T> Include()
         {
             IQueryable<T> query = MContext.Set<T>();
