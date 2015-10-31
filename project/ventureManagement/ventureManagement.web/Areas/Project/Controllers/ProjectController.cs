@@ -104,10 +104,9 @@ namespace VentureManagement.Web.Areas.Project.Controllers
 
             foreach (var subProject in _projectRelationService.FindList(r => r.SuperProjectId == project.ProjectId 
                 && r.SubProject.ProjectStatus == VMProject.STATUS_CONSTRUCTING,"ProjectRelationId",false)
-                .Include(r => r.SubProject.Organization)
-                .Include(r => r.SubProject.User).ToArray())
+                .Select(r=>r.SubProject).ToArray())
             {
-                node.Children.Add(RecursiveAddNode(subProject.SubProject));
+                node.Children.Add(RecursiveAddNode(subProject));
             }
 
             if (node.Children.Count > 0)
@@ -128,7 +127,7 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             var nodes = new NodeCollection(false);
 
             foreach (var prj in _projectService.FindList(p => p.AsSubProjectRelation.Any(r => r.SuperProjectId == VMProject.INVALID_PROJECT)  
-                && p.ProjectStatus == VMProject.STATUS_CONSTRUCTING,"ProjectId",false))
+                && p.ProjectStatus == VMProject.STATUS_CONSTRUCTING,"ProjectId",false).ToArray())
             {
                 nodes.Add(RecursiveAddNode(prj));
             }

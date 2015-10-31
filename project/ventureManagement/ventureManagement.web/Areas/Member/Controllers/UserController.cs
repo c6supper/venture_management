@@ -27,16 +27,30 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             return this.Store(UsersPaging(parameters));
         }
 
-        private Paging<User> UsersPaging(StoreRequestParameters parameters)
+        private Paging<object> UsersPaging(StoreRequestParameters parameters)
         {
             return UserPaging(parameters.Start, parameters.Limit, parameters.SimpleSort, parameters.SimpleSortDirection, null);
         }
 
-        private Paging<User> UserPaging(int start, int limit, string sort, SortDirection dir, string filter)
+        private Paging<object> UserPaging(int start, int limit, string sort, SortDirection dir, string filter)
         {
             var pageIndex = start/limit + ((start%limit > 0) ? 1 : 0) + 1;
             var count = 0;
-            var users = _userService.FindPageList(pageIndex, limit, out count,0);
+            var users = _userService.FindPageList(pageIndex, limit, out count,0)
+                .Select(u=> new
+                {
+                    UserId = u.UserId,
+                    UserName = u.UserName,
+                    DisplayName = u.DisplayName,
+                    RoleRoleName = u.Role.RoleName,
+                    OrganizationOrganizationName = u.Organization.OrganizationName,
+                    Email = u.Email,
+                    Mobile = u.Mobile,
+                    RegistrationTime = u.RegistrationTime,
+                    LoginTime = u.LoginTime,
+                    LoginIP = u.LoginIP,
+                    Status = u.Status
+                });
 
             //if (!string.IsNullOrEmpty(filter) && filter != "*")
             //{
@@ -56,7 +70,7 @@ namespace VentureManagement.Web.Areas.Member.Controllers
             //    });
             //}
 
-            return new Paging<User>(users, count);
+            return new Paging<object>(users, count);
         }
 
         [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]

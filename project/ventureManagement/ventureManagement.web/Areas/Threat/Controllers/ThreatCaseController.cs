@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using Ext.Net;
@@ -28,36 +29,55 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return this.Store(ThreatCasesPaging(parameters));
         }
 
-        private Paging<ThreatCase> ThreatCasesPaging(StoreRequestParameters parameters)
+        private Paging<object> ThreatCasesPaging(StoreRequestParameters parameters)
         {
             return ThreatCasePaging(parameters.Start, parameters.Limit, parameters.SimpleSort, parameters.SimpleSortDirection, null);
         }
 
-        private Paging<ThreatCase> ThreatCasePaging(int start, int limit, string sort, SortDirection dir, string filter)
+        private Paging<object> ThreatCasePaging(int start, int limit, string sort, SortDirection dir, string filter)
         {
             var pageIndex = start / limit + ((start % limit > 0) ? 1 : 0) + 1;
             var count = 0;
-            var threatCases = _threatCaseService.FindPageList(pageIndex, limit, out count, u=>true).ToList();
+            //var threatCases = _threatCaseService.FindPageList(pageIndex, limit, out count, u=>true).ToList();
 
-            if (!string.IsNullOrEmpty(filter) && filter != "*")
-            {
-                threatCases.RemoveAll(t => !t.ThreatCaseStatus.ToLower().StartsWith(filter.ToLower()));
-            }
-
-            if (!string.IsNullOrEmpty(sort))
-            {
-                threatCases.Sort(delegate(ThreatCase x, ThreatCase y)
+            var threatCases = _threatCaseService.FindPageList(pageIndex, limit, out count, u => true)
+                .Select(t => new
                 {
-                    var direction = dir == SortDirection.DESC ? -1 : 1;
+                    ThreatCaseId = t.ThreatCaseId ,
+                    ProjectProjectName = t.Project.ProjectName,
+                    ThreatCaseLocation = t.ThreatCaseLocation,
+                    ThreatCaseCategory = t.ThreatCaseCategory,
+                    ThreatCaseType = t.ThreatCaseType,
+                    ThreatCaseLevel = t.ThreatCaseLevel,
+                    ThreatCaseOwnerDisplayName = t.ThreatCaseOwner.DisplayName,
+                    ThreatCaseReporterDisplayName = t.ThreatCaseReporter.DisplayName,
+                    ThreatCaseConfirmerDisplayName = t.ThreatCaseConfirmer.DisplayName,
+                    ThreatCaseReviewerDisplayName = t.ThreatCaseReviewer.DisplayName,
+                    ThreatCaseFoundTime = t.ThreatCaseFoundTime,
+                    ThreatCaseReportTime = t.ThreatCaseReportTime,
+                    ThreatCaseLimitTime = t.ThreatCaseLimitTime,
+                    ThreatCaseStatus = t.ThreatCaseStatus
+                }).ToArray();
 
-                    var userA = x.GetType().GetProperty(sort).GetValue(x, null);
-                    var userB = y.GetType().GetProperty(sort).GetValue(y, null);
+            //if (!string.IsNullOrEmpty(filter) && filter != "*")
+            //{
+            //    threatCases.RemoveAll(t => !t.ThreatCaseStatus.ToLower().StartsWith(filter.ToLower()));
+            //}
 
-                    return CaseInsensitiveComparer.Default.Compare(userA, userB) * direction;
-                });
-            }
+            //if (!string.IsNullOrEmpty(sort))
+            //{
+            //    threatCases.Sort(delegate(ThreatCase x, ThreatCase y)
+            //    {
+            //        var direction = dir == SortDirection.DESC ? -1 : 1;
 
-            return new Paging<ThreatCase>(threatCases, count);
+            //        var userA = x.GetType().GetProperty(sort).GetValue(x, null);
+            //        var userB = y.GetType().GetProperty(sort).GetValue(y, null);
+
+            //        return CaseInsensitiveComparer.Default.Compare(userA, userB) * direction;
+            //    });
+            //}
+
+            return new Paging<object>(threatCases, count);
         }
 
         [AccessDeniedAuthorize(Roles = Role.PERIMISSION_ORGANIZATION_WRITE)]

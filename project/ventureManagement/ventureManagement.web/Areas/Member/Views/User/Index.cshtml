@@ -255,8 +255,8 @@
                                     Html.X().ModelField().Name("UserId"),
                                     Html.X().ModelField().Name("UserName"),
                                     Html.X().ModelField().Name("DisplayName"),
-                                    Html.X().ModelField().Name("Role.RoleName"),
-                                    Html.X().ModelField().Name("Organization.OrganizationName"),
+                                    Html.X().ModelField().Name("RoleRoleName"),
+                                    Html.X().ModelField().Name("OrganizationOrganizationName"),
                                     Html.X().ModelField().Name("Email"),
                                     Html.X().ModelField().Name("Mobile"),
                                     Html.X().ModelField().Name("RegistrationTime").Type(ModelFieldType.Date),
@@ -270,8 +270,8 @@
             .ColumnModel(
                 Html.X().Column().DataIndex("UserId").Text("Id").Hidden(true),
                 Html.X().Column().DataIndex("UserName").Text("用户名"),
-                Html.X().Column().DataIndex("Role.RoleName").Text("权限"),
-                Html.X().Column().DataIndex("Organization.OrganizationName").Text("部门"),
+                Html.X().Column().DataIndex("RoleRoleName").Text("权限"),
+                Html.X().Column().DataIndex("OrganizationOrganizationName").Text("部门"),
                 Html.X().ComponentColumn().DataIndex("DisplayName").Text("实名")
                     .OverOnly(true).Editor(true).Component(Html.X().TextField()),
                     Html.X().ComponentColumn().DataIndex("Email").Text("Email").EmptyCellText("不能为空")
