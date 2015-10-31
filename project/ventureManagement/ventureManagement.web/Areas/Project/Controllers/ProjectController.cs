@@ -59,25 +59,22 @@ namespace VentureManagement.Web.Areas.Project.Controllers
             return this.Store(projects.Data, projects.TotalRecords);
         }
 
-        public Paging<VMProject> GetProjects(int start, int limit, int page, string filter)
+        public Paging<Object> GetProjects(int start, int limit, int page, string filter)
         {
             var pageIndex = start / limit + ((start % limit > 0) ? 1 : 0) + 1;
             var count = 0;
-            List<VMProject> projects;
-            if (!string.IsNullOrEmpty(filter) && filter != "*")
-            {
-                projects =
+            var projects =
                     _projectService.FindPageList(pageIndex, limit, out count,
-                        prj => prj.ProjectName.StartsWith(filter.ToLower()) && prj.ProjectStatus == VMProject.STATUS_CONSTRUCTING).ToList();
-            }
-            else
-            {
-                projects =
-                    _projectService.FindPageList(pageIndex, limit, out count,
-                        prj =>prj.ProjectStatus == VMProject.STATUS_CONSTRUCTING).ToList();
-            }
+                        prj => prj.ProjectStatus == VMProject.STATUS_CONSTRUCTING)
+                        .Select(p=>new
+                        {
+                            ProjectId = p.ProjectId,
+                            ProjectName = p.ProjectName,
+                            OrganizationId = p.OrganizationId,
+                            ProjectLocation = p.ProjectLocation
+                        });
 
-            return new Paging<VMProject>(projects, count);
+            return new Paging<Object>(projects, count);
         }
 
         private Node RecursiveAddNode(VMProject project)

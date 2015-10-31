@@ -93,18 +93,31 @@ namespace VentureManagement.Web.Areas.Member.Controllers
 
         public ActionResult GetUsers(int? organizationId, int start, int limit, int page, string query)
         {
-            IQueryable<User> users = null;
+            IQueryable<object> users = null;
             if (organizationId == null)
             {
-                users = _userService.FindList(u => true, "UserId", false);
+                users = _userService.FindList(u => true, "UserId", false)
+                    .Select(u=>new
+                    {
+                        UserId = u.UserId,
+                        Mobile = u.Mobile,
+                        DisplayName = u.DisplayName,
+                        UserName = u.UserName
+                    });
             }
             else
             {
                 users = _userService.FindList(u =>u.OrganizationId == (int)organizationId,
-                    "UserId", false);
+                    "UserId", false).Select(u => new
+                    {
+                        UserId = u.UserId,
+                        Mobile = u.Mobile,
+                        DisplayName = u.DisplayName,
+                        UserName = u.UserName
+                    });
             }
-            
-            var pagingUsers = new Paging<User>(users, users.Count());
+
+            var pagingUsers = new Paging<object>(users, users.Count());
             return this.Store(pagingUsers.Data, pagingUsers.TotalRecords);
         }
 

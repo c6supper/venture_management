@@ -60,30 +60,24 @@ namespace VentureManagement.Web.Areas.Member.Controllers
 
         public ActionResult GetAllOrganizations(int start, int limit, int page, string query)
         {
-            var orgController = new OrganizationController();
-            var orgs = orgController.GetOrganizations(start, limit, page, query);
+            var orgs = GetOrganizations(start, limit, page, query);
             return this.Store(orgs.Data, orgs.TotalRecords);
         }
 
-        public Paging<Organization> GetOrganizations(int start, int limit, int page,string filter)
+        public Paging<Object> GetOrganizations(int start, int limit, int page,string filter)
         {
             var pageIndex = start / limit + ((start % limit > 0) ? 1 : 0) + 1;
             var count = 0;
-            List<Organization> orgs;
-            if (!string.IsNullOrEmpty(filter) && filter != "*")
-            {
-                orgs =
-                    _orgSerivce.FindPageList(pageIndex, limit, out count,
-                        org => org.OrganizationName.StartsWith(filter.ToLower())).ToList();
-            }
-            else
-            {
-                orgs =
-                    _orgSerivce.FindPageList(pageIndex, limit, out count,
-                        org => true).ToList();
-            }
+            var orgs = _orgSerivce.FindPageList(pageIndex, limit, out count,
+                            org => true)
+                            .Select(o => new
+                            {
+                                OrganizationName = o.OrganizationName,
+                                OrganizationId = o.OrganizationId,
+                                Description = o.Description
+                            });
 
-            return new Paging<Organization>(orgs, count);
+            return new Paging<Object>(orgs, count);
         }
 
         private Node GetOrganization()

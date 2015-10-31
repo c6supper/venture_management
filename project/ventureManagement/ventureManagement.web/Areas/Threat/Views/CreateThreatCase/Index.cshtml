@@ -194,16 +194,16 @@
                               .Store(Html.X().Store()
                                   .AutoLoad(true)
                                   .Proxy(Html.X().AjaxProxy()
-                                      .Url(Url.Action("GetAllProjects"))
+                                      .Url(Url.Action("GetAllProjects","Project",new { Area = "Project" }))
                                       .ActionMethods(am => am.Read = HttpMethod.POST)
                                       .Reader(Html.X().JsonReader().Root("data"))
                                   )
                                   .Model(Html.X().Model()
                                       .Fields(
-                                          Html.X().ModelField().Name("ProjectId"),
-                                          Html.X().ModelField().Name("ProjectName"),
-                                          Html.X().ModelField().Name("ProjectLocation"),
-                                          Html.X().ModelField().Name("OrganizationId")
+                                              Html.X().ModelField().Name("ProjectId"),
+                                              Html.X().ModelField().Name("ProjectName"),
+                                              Html.X().ModelField().Name("ProjectLocation"),
+                                              Html.X().ModelField().Name("OrganizationId")
                                           )
                                       )
                                   )

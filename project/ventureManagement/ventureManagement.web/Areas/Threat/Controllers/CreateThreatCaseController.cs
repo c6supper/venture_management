@@ -53,13 +53,6 @@ namespace VentureManagement.Web.Areas.Threat.Controllers
             return this.Direct(threatCase);
         }
 
-        public ActionResult GetAllProjects(int start, int limit, int page, string query)
-        {
-            var projectController = new ProjectController();
-            var projects = projectController.GetProjects(start, limit, page, query);
-            return this.Store(projects.Data, projects.TotalRecords);
-        }
-
         public ActionResult Submit(ThreatCase threatCase)
         {
             ModelState.Clear();
