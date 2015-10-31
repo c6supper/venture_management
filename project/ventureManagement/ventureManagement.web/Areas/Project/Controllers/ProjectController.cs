@@ -101,7 +101,7 @@ namespace VentureManagement.Web.Areas.Project.Controllers
 
             foreach (var subProject in _projectRelationService.FindList(r => r.SuperProjectId == project.ProjectId 
                 && r.SubProject.ProjectStatus == VMProject.STATUS_CONSTRUCTING,"ProjectRelationId",false)
-                .Select(r=>r.SubProject).ToArray())
+                .Select(r=>r.SubProject).Include(p=>p.Organization).Include(p=>p.User).ToArray())
             {
                 node.Children.Add(RecursiveAddNode(subProject));
             }
