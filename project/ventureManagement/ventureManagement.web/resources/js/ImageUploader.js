@@ -22,7 +22,14 @@ var ImageUploader = function(config) {
             return;
         }
 
+        var fileRxp = (/\.jpg$|\.jpeg$|\.png$|\.bmp$/i);
         for (; cursor < This.config.inputElement.files.length; ++cursor) {
+            if (!fileRxp.test(This.config.inputElement.files[cursor].name)) {
+                alert("图片文件格式必须为JPG/PNG/BMP");
+                This.config.inputElement.value = "";
+                fileArray.clear();
+                return;
+            }
             fileArray.push(This.config.inputElement.files[cursor]);
         }
         This.progressObject = {

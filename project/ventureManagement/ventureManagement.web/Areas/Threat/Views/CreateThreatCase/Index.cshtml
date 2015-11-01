@@ -21,15 +21,17 @@
                 inputElement: document.getElementById('fileInputElement'),
                 uploadUrl: 'HandleImageUpload',
                 onProgress: function(event) {
-                    //$('#progress').text('Completed ' + event.done + ' files of ' + event.total + ' total.');
-                    //$('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
+                    $('#progress').text('完成上传 ' + event.total + '个图片中的' + event.done + '个.');
+                    $('#progressLabel').text((event.done / event.total) * 100 + "%");
+                    //if(event.done <= 0)
+                    //    $('#fileProgress').text('已完成上传:');
                 },
                 onFileComplete: function(event, file) {
-                    //$('#fileProgress').append('Finished file ' + file.fileName + ' with response from server ' + event.target.status + '<br />');
+                    //$('#fileProgress').append(file.name+ '        ');
                 },
                 onComplete: function(event) {
-                    //$('#progress').text('Completed all ' + event.done + ' files!');
-                    //$('#progressbar').progressbar({ value: (event.done / event.total) * 100 });
+                    $('#progress').text('完成' + event.done + '个图片上传!');
+                    $('#progressLabel').text((event.done / event.total) * 100 + "%");
                 },
                 maxWidth: 1024,
                 quality: 0.90,
@@ -488,13 +490,16 @@
                               X.TextAreaFor(t => t.ThreatCaseSuggestion).ID("ThreatCaseSuggestionId").FieldLabel("可选择采取的措施").Height(60),
 
                               X.Container()
-                                  .MinHeight(200)
+                                  .MinHeight(220)
                                   .ID("UploadContainer")
                                   .Content(
                                       @<text>
                                           <h3>请选择你要上传的图片:</h3>
                                           <div id="fileInputContainer"><input id="fileInputElement" type="file" multiple/></div>
                                           <div id="imgContainer"></div>
+                                          @*<div id="fileProgress"></div>*@
+                                          <div id="progress"></div>
+                                          <div id="progressLabel"></div>
                                        </text>)
                                   .Listeners(ls => ls.AfterRender.Handler = "initUploader();")
                           )
