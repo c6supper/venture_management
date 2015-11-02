@@ -9,6 +9,7 @@ namespace VentureManagement.DAL
             :base()
         {
             RegisterProxyIncludePath("Project.Organization");
+            IncludePaths.Clear();
         }
     }
 }

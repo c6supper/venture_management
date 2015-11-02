@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Common;
 using Ext.Net;
 using Ext.Net.MVC;
@@ -65,12 +66,14 @@ namespace VentureManagement.Web.Areas.Member.Controllers
 
                 user.Password = Utility.DesEncrypt(newPassword);
                 _userService.Update(user);
-
+                System.Web.HttpContext.Current.Cache.Remove(User.Identity.Name);
+                // Delete the authentication ticket and sign out.
+                FormsAuthentication.SignOut();
                 X.Msg.Confirm("提示", "密码修改成功，请重新登录", new MessageBoxButtonsConfig
                 {
                     Yes = new MessageBoxButtonConfig
                     {
-                        //Handler = "ChangePassword.Member.LogOff()",
+                        Handler = "window.parent.document.location.reload();",
                         Text = "确定"
                     }
                 }).Show();

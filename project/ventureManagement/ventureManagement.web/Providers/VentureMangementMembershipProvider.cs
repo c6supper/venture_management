@@ -148,9 +148,6 @@ namespace VentureManagement.Web.Providers
 
         #endregion
 
-
-        private readonly InterfaceUserService _userService = new UserService();
-
         /// <summary>
         /// Authenticates the user.
         /// </summary>
@@ -159,7 +156,8 @@ namespace VentureManagement.Web.Providers
         /// <returns>bool</returns>
         public override bool ValidateUser(string username, string password)
         {
-            User user = _userService.Find(username);
+            InterfaceUserService userService = new UserService();
+            var user = userService.Find(username);
             if (user != null && user.Password.Equals(Utility.DesEncrypt(password)))
             {
                 // Simulate a user id.
@@ -185,7 +183,7 @@ namespace VentureManagement.Web.Providers
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
             // Retrieve the user details from cache.
-            VentureMangementMembershipUser membershipUser = (VentureMangementMembershipUser)HttpContext.Current.Cache.Get(username);
+            var membershipUser = (VentureMangementMembershipUser)HttpContext.Current.Cache.Get(username);
 
             return membershipUser;
         }
