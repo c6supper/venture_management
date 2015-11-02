@@ -13,12 +13,12 @@ namespace VentureManagement.Web.Providers
 {
     public class VentureManagementRoleProvider : RoleProvider
     {
-        readonly InterfaceUserService _userService = new UserService();
         public override bool IsUserInRole(string username, string roleName)
         {
             try
             {
-                var user = _userService.Find(username);
+                InterfaceUserService userService = new UserService();
+                var user = userService.Find(username);
                 return (user.Role.RoleName == roleName) || username.Equals(User.USER_ADMIN);
             }
             catch (Exception ex)
@@ -33,7 +33,8 @@ namespace VentureManagement.Web.Providers
             var perimissionList = new List<string>();
             try
             {
-                var user = _userService.Find(username);
+                InterfaceUserService userService = new UserService();
+                var user = userService.Find(username);
                 foreach (var permission in Role.RoleValueToPermissions(user.Role.RoleValue).Where(permission => !perimissionList.Contains(permission)))
                 {
                     perimissionList.Add(permission);
